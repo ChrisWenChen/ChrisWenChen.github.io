@@ -5,4 +5,10 @@ author:
 description: > # this means to ignore newlines until "show_excerpts:"
   This is Wen Chen's Homepage.
 
+header_pages:
+  - Home.md
+  - About Me.md
+  - Publication.md
+  - Note.md
+
 theme: minima
