@@ -1,3 +1,6 @@
+<center>[Home](./Readme.md)&emsp;&emsp;&emsp;[About me](./aboutme.md)&emsp;&emsp;&emsp;[Publication](./publication.md)&emsp;&emsp;&emsp;[Research](./research.md)&emsp;&emsp;&emsp;[Note](./note.md)</center>
+&nbsp;
+
 <body>
 <img src = "chen.jpg" align = "left" width = "250px" height = "250px" hspace = "50px">
 <p>
@@ -18,4 +21,3 @@
 </body>
 
 &nbsp;
-&emsp;&emsp;&emsp;[Home](./Readme.md)&emsp;&emsp;&emsp;[About me](./aboutme.md)&emsp;&emsp;&emsp;[Publication](./publication.md)&emsp;&emsp;&emsp;[Research](./research.md)&emsp;&emsp;&emsp;[Note](./note.md)
