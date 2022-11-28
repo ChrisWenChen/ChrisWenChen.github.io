@@ -1,6 +1,6 @@
 [Home](./Readme.md)&emsp;&emsp;&emsp;[About me](./aboutme.md)&emsp;&emsp;&emsp;[Publication](./publication.md)&emsp;&emsp;&emsp;[Research](./research.md)&emsp;&emsp;&emsp;[Note](./note.md)
 
-<center>[Home](./Readme.md)&emsp;&emsp;&emsp;[About me](./aboutme.md)&emsp;&emsp;&emsp;[Publication](./publication.md)&emsp;&emsp;&emsp;[Research](./research.md)&emsp;&emsp;&emsp;[Note](./note.md)</center>
+
 &nbsp;
 
 <body>
