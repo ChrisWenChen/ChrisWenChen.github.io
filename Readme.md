@@ -4,7 +4,10 @@
   Hello! Welcome to my homepage!
 </p>
 <p>
-   Name: Wen Chen
+   Wen Chen
+</p>
+<p>
+   Ph.D candidate for physics.
 </p>
 <p>
   Beijing Computational Science Research Center
