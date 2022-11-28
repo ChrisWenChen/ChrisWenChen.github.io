@@ -4,9 +4,6 @@
   Hello! Welcome to my homepage!
 </p>
 <p>
-   Wen Chen
-</p>
-<p>
    Ph.D candidate for physics.
 </p>
 <p>
