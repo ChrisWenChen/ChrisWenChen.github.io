@@ -1,1 +1,8 @@
+title: Wen Chen's Homepage
+author:
+  name: Wen Chen
+  email: wenchen@csrc.ac.cn
+description: > # this means to ignore newlines until "show_excerpts:"
+  This is Wen Chen's Homepage.
+
 theme: minima
