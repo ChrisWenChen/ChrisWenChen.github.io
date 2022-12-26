@@ -12,6 +12,9 @@
 - 参加讨论会，讨论上述问题。
 - 在讨论会上讨论习题的可能解法，然后分工在overleaf共同完成习题解答。
 
+[Overleaf 链接](https://www.overleaf.com/1769827128msfcknhsbjbb)
+
+
 ## 多体物理
 主要阅读书目：[Coleman, Introduction to many-body physics](/Coleman.pdf)
 
@@ -20,4 +23,11 @@
 - [Pathria, 统计力学，第三版中文版](https://libgen.rocks/ads.php?md5=7ff2ed0a7242e75ee7287a85eb25ed12)
 - [Pathria, 统计力学，第四版英文版](/Pathria_en.pdf)
 
+## 日程安排
 
+腾讯会议链接：[Wen Chen's group meeting](https://meeting.tencent.com/dm/7CERRTqjP87G)
+
+- 第一次讨论
+  - 日期：2023年1月7日
+  - 多体物理：第一、二章。
+  - 统计物理：第一、二、三章。
