@@ -13,7 +13,11 @@
 - 在讨论会上讨论习题的可能解法，然后分工在overleaf共同完成习题解答。
 
 ## 多体物理
-主要阅读书目：
+主要阅读书目：[Coleman, Introduction to many-body physics](/Coleman.pdf)
 
 ## 统计物理
+主要阅读书目：
+- [Pathria, 统计力学，第三版中文版](https://libgen.rocks/ads.php?md5=7ff2ed0a7242e75ee7287a85eb25ed12)
+- [Pathria, 统计力学，第四版英文版](/Pathria_en.pdf)
+
 
