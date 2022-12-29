@@ -12,6 +12,8 @@
 - 参加讨论会，讨论上述问题。
 - 在讨论会上讨论习题的可能解法，然后分工在overleaf共同完成习题解答。
 
+讨论会时间为每周五下午14：00
+
 [Overleaf 链接](https://www.overleaf.com/1769827128msfcknhsbjbb)
 
 
@@ -28,6 +30,6 @@
 腾讯会议链接：[Wen Chen's group meeting](https://meeting.tencent.com/dm/7CERRTqjP87G)
 
 - 第一次讨论
-  - 日期：2023年1月7日
+  - 日期：2023年1月6日
   - 多体物理：第一、二章。
-  - 统计物理：第一、二、三章。
+  - 统计物理：第一章。
