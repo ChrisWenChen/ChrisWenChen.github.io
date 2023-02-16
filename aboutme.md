@@ -1,4 +1,7 @@
 # About me
+
+You can check my CV on [English](CV_EN.pdf) or [Chinese](CV_CN.pdf).
+
 ## Education
 - Visiting Student, 2018.09 - 2019.06, Kuangyaming Honors School, Nanjing University, China.
 - Bs.C, 2018.09 - 2022.06, Department of Physics, Zhejiang Normal University, China.
