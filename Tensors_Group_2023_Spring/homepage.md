@@ -14,7 +14,7 @@ Homework DDL: 19:00 on Saturday
 
 ## References
 
-Nadir Jeevanjee, [Introduction to Tensors and Group Theory for Physicists](/Nadir Jeevanjee - An introduction to tensors and group theory for physicists - 2015.pdf).
+Nadir Jeevanjee, [Introduction to Tensors and Group Theory for Physicists](/Jeevanjee_2015.pdf).
 
 李新征, 群论及其在凝聚态物理中的应用. [前六章](/group_1_6.pdf). [前七章](/group_7.pdf).
 
