@@ -20,8 +20,7 @@ Nadir Jeevanjee, [Introduction to Tensors and Group Theory for Physicists](/jeev
 
 ## Lecture Notes
 
-
-## 
+1、引言：回答比提问更多。[note](/TG1.pdf)
 
 
 [Go back](/Readme.md)
