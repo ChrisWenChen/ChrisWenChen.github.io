@@ -1,8 +1,7 @@
 # 个人知识库
 
-## 物理学基础
-
-### 数学
+## 数学
+### 代数
 - [Alexander Altland and Jan von Delft, *Mathematics for Physicists Introductory Concepts and Methods*.](https://book.douban.com/subject/34941269/)
   - 推荐度：★★★★★
   - 包含线性代数，积分，向量积分，比较基础，排版美观。适合快速学习一遍，补课，查阅。
@@ -15,6 +14,9 @@
 - [Sheldon Axler, *线性代数应该这样学*.](https://book.douban.com/subject/26886299/)
   - 推荐度：★
   - 有个性，从向量空间讲起的线性代数。有中文版。 适合增进理解。
+- []
+## 物理学基础
+
 
 ## 凝聚态物理
 
