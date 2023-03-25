@@ -2,7 +2,7 @@
 
 ## About me
 
-I am a PhD candidate at Beijing Computational Science Research Center (CSRC). I received my bachelor's degree in pedagogic specialty of physics from Zhejiang Normal University (ZJNU). This is CV in 中文 and English.
+I am a PhD candidate at Beijing Computational Science Research Center (CSRC). I received my bachelor's degree in pedagogic specialty of physics from Zhejiang Normal University (ZJNU). You can check my CV in 中文 and English.
 
 ## Contact me
 
