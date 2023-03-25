@@ -1,3 +1,0 @@
-
-
-[Go back](Readme.md)
