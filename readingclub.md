@@ -4,7 +4,7 @@
 
 正在读的书目 ：[银、剑、石：拉丁美洲的三重烙印， [美] 玛丽· 阿拉纳， 中信出版集团.](https://book.douban.com/subject/35388636/)（2023年5月27日-）
 
-时间：两周一次，周日 19:00
+时间：两周一次，周六 19:00
 
 腾讯会议：468-1650-3003
 
@@ -14,6 +14,8 @@
 
 1. [林肯传，[美]戴尔·卡耐基，云南人民出版社.](https://book.douban.com/subject/26800827/)（完成日期：2023年4月29日-2023年5月13日。）
 2. [平原上的摩西，双雪涛， 百花文艺出版社.](https://book.douban.com/subject/26803179/) （完成日期：2023年5月13日-2023年5月27日。）
+3. [银、剑、石：拉丁美洲的三重烙印， [美] 玛丽· 阿拉纳， 中信出版集团.](https://book.douban.com/subject/35388636/)（2023年5月27日-2023年7月29日）
+4. [一桩事先张扬的凶杀案，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/24382569/)（2023年7月15日-2023年7月29日）
 
 ## 候选书单
 
@@ -30,10 +32,15 @@
 11. [江村经济，费孝通，北京大学出版社.](https://book.douban.com/subject/20395460/)
 12. [跨越边界的社区：北京“浙江村”的生活史，项飙，生活·读书·新知三联书店.](https://book.douban.com/subject/30116399/)
 13. [在细雨中呼喊，余华，作家出版社.](https://book.douban.com/subject/20421947/)
-14. [一桩事先张扬的凶杀案，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/24382569/)
-15. [朗朗 千里之行：我的故事，郎朗，广西师范大学出版社.](https://book.douban.com/subject/3042990/)
-16. [公正：该如何做是好？，[美]迈克尔·桑德尔，中信出版社.](https://book.douban.com/subject/20366368/)
-17. [西窗法雨，刘星，法律出版社.](https://book.douban.com/subject/35860236/)
-18. [邓稼先传，许鹿希，邓志典，邓志平，邓昱友，中国青年出版社.](https://book.douban.com/subject/26759191/)
-19. [规范与对称之美：杨振宁传，广东经济出版社.](https://book.douban.com/subject/6101367/)
-20. [普林斯顿计算机公开课，[美]Brian W. Kernighan，机械工业出版社.](https://book.douban.com/subject/30200248/)
+14. [朗朗 千里之行：我的故事，郎朗，广西师范大学出版社.](https://book.douban.com/subject/3042990/)
+15. [公正：该如何做是好？，[美]迈克尔·桑德尔，中信出版社.](https://book.douban.com/subject/20366368/)
+16. [西窗法雨，刘星，法律出版社.](https://book.douban.com/subject/35860236/)
+17. [邓稼先传，许鹿希，邓志典，邓志平，邓昱友，中国青年出版社.](https://book.douban.com/subject/26759191/)
+18. [规范与对称之美：杨振宁传，广东经济出版社.](https://book.douban.com/subject/6101367/)
+19. [普林斯顿计算机公开课，[美]Brian W. Kernighan，机械工业出版社.](https://book.douban.com/subject/30200248/)
+20. [枪炮、病菌与钢铁，[美]贾雷德·戴蒙德，上海译文出版社.](https://book.douban.com/subject/1813841/)
+21. [置身事内，兰小欢，上海人民出版社.](https://book.douban.com/subject/35546622/)
+22. [彷徨，鲁迅，人民文学出版社.](https://book.douban.com/subject/1449348/)
+23. [南方高速，[阿根廷]胡里奥·科塔萨尔，南海出版公司.](https://book.douban.com/subject/27079479/)
+24. [霍乱时期的爱情，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/10594787/)
+25. [世界上最美的溺水者，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/26628811/)
