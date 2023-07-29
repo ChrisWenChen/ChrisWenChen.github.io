@@ -44,3 +44,4 @@
 23. [南方高速，[阿根廷]胡里奥·科塔萨尔，南海出版公司.](https://book.douban.com/subject/27079479/)
 24. [霍乱时期的爱情，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/10594787/)
 25. [世界上最美的溺水者，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/26628811/)
+26. [翦商，李硕，广西师范大学出版社.](https://book.douban.com/subject/36096304/)
