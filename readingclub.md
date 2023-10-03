@@ -5,6 +5,7 @@
 正在读的书目 ：
 1. [霍乱时期的爱情，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/10594787/)（2023年10月4日-2023年10月28日）
 2. [在细雨中呼喊，余华，作家出版社.](https://book.douban.com/subject/20421947/)（2023年10月28日-2023年11月11日）
+
 时间：两周一次，周六 19:00
 
 具体计划：分别由选定的人讲述写作逻辑，尔后讨论具体的问题。
@@ -42,3 +43,20 @@
 21. [南方高速，[阿根廷]胡里奥·科塔萨尔，南海出版公司.](https://book.douban.com/subject/27079479/)
 22. [世界上最美的溺水者，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/26628811/)
 23. [翦商，李硕，广西师范大学出版社.](https://book.douban.com/subject/36096304/)
+24. [酒吧畅谈, [秘鲁]马里奥·巴尔加斯·略萨，人民文学出版社.](https://book.douban.com/subject/34933180/)
+25. [漫长的余生，罗新，北京日报出版社.](https://book.douban.com/subject/35909188/?source=2022_annual_book)
+26. [卡拉马佐夫兄弟, [俄]陀思妥耶夫斯基，上海译文出版社.](https://book.douban.com/subject/25887924/)
+27. [远大前程，[英]狄更斯, 人民文学出版社.](https://book.douban.com/subject/26771729/)
+28. [晚熟的人，莫言，人民文学出版社.](https://book.douban.com/subject/35141940/)
+29. [红与黑，[法]司汤达，人民文学出版社.](https://book.douban.com/subject/25897692/)
+30. [生死场，萧红，中国青年出版社.](https://book.douban.com/subject/26161267/)
+31. [人生，路遥，北京十月文艺出版社.](https://book.douban.com/subject/3803820/)
+32. [叫魂：1768年中国妖术大恐慌，[美]孔飞力，生活·读书·新知三联书店.](https://book.douban.com/subject/25912076/)
+33. [圣巴托罗缪大屠杀：16世纪一桩国家罪行的谜团, [法]阿莱特·茹阿纳，民主与建设出版社.](https://book.douban.com/subject/36201385/)
+34. [德国：一个国家的记忆，[英]尼尔·麦格雷戈，重庆大学出版社.](https://book.douban.com/subject/30354900/)
+35. [从莫卧儿帝国到英属印度，[日]佐藤正哲，民主与建设出版社.](https://book.douban.com/subject/36242843/)
+36. [发现东极, [德]绿山, 中国友谊出版公司.](https://book.douban.com/subject/36115458/)
+37. [把自己作为方法, 项飙，吴琦，上海文艺出版社.](https://book.douban.com/subject/35092383/)
+38. [史蒂夫·乔布斯传，[美]沃尔特·艾萨克森, 中信出版社.](https://book.douban.com/subject/36284266/)
+39. [通往权力之路：叶卡捷琳娜大帝，[美]罗伯特·K·迈锡，北京时代华文书局.](https://book.douban.com/subject/30141455/)
+40. [论中国, [美]亨利·基辛格，中信出版社.](https://book.douban.com/subject/26607419/)
