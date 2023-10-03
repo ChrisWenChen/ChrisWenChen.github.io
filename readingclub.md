@@ -2,8 +2,9 @@
 
 ## 安排
 
-正在读的书目 ：[枪炮、病菌与钢铁，[美]贾雷德·戴蒙德，上海译文出版社.](https://book.douban.com/subject/1813841/)（2023年7月29日-）
-
+正在读的书目 ：
+1. [霍乱时期的爱情，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/10594787/)（2023年10月4日-2023年10月28日）
+2. [在细雨中呼喊，余华，作家出版社.](https://book.douban.com/subject/20421947/)（2023年10月28日-2023年11月11日）
 时间：两周一次，周六 19:00
 
 具体计划：分别由选定的人讲述写作逻辑，尔后讨论具体的问题。
@@ -14,6 +15,7 @@
 2. [平原上的摩西，双雪涛， 百花文艺出版社.](https://book.douban.com/subject/26803179/) （2023年5月13日-2023年5月27日）
 3. [银、剑、石：拉丁美洲的三重烙印， [美] 玛丽· 阿拉纳， 中信出版集团.](https://book.douban.com/subject/35388636/)（2023年5月27日-2023年7月29日）
 4. [一桩事先张扬的凶杀案，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/24382569/)（2023年7月15日-2023年7月29日）
+5. [枪炮、病菌与钢铁，[美]贾雷德·戴蒙德，上海译文出版社.](https://book.douban.com/subject/1813841/)（2023年7月29日-2023年10月4日）
 
 ## 候选书单
 
@@ -29,16 +31,14 @@
 10. [切·格瓦拉传，[美]乔恩·李·安德森，长江文艺出版社.](https://book.douban.com/subject/3669394/)
 11. [江村经济，费孝通，北京大学出版社.](https://book.douban.com/subject/20395460/)
 12. [跨越边界的社区：北京“浙江村”的生活史，项飙，生活·读书·新知三联书店.](https://book.douban.com/subject/30116399/)
-13. [在细雨中呼喊，余华，作家出版社.](https://book.douban.com/subject/20421947/)
-14. [朗朗 千里之行：我的故事，郎朗，广西师范大学出版社.](https://book.douban.com/subject/3042990/)
-15. [公正：该如何做是好？，[美]迈克尔·桑德尔，中信出版社.](https://book.douban.com/subject/20366368/)
-16. [西窗法雨，刘星，法律出版社.](https://book.douban.com/subject/35860236/)
-17. [邓稼先传，许鹿希，邓志典，邓志平，邓昱友，中国青年出版社.](https://book.douban.com/subject/26759191/)
-18. [规范与对称之美：杨振宁传，广东经济出版社.](https://book.douban.com/subject/6101367/)
-19. [普林斯顿计算机公开课，[美]Brian W. Kernighan，机械工业出版社.](https://book.douban.com/subject/30200248/)
-20. [置身事内，兰小欢，上海人民出版社.](https://book.douban.com/subject/35546622/)
-21. [彷徨，鲁迅，人民文学出版社.](https://book.douban.com/subject/1449348/)
-22. [南方高速，[阿根廷]胡里奥·科塔萨尔，南海出版公司.](https://book.douban.com/subject/27079479/)
-23. [霍乱时期的爱情，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/10594787/)
-24. [世界上最美的溺水者，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/26628811/)
-25. [翦商，李硕，广西师范大学出版社.](https://book.douban.com/subject/36096304/)
+13. [朗朗 千里之行：我的故事，郎朗，广西师范大学出版社.](https://book.douban.com/subject/3042990/)
+14. [公正：该如何做是好？，[美]迈克尔·桑德尔，中信出版社.](https://book.douban.com/subject/20366368/)
+15. [西窗法雨，刘星，法律出版社.](https://book.douban.com/subject/35860236/)
+16. [邓稼先传，许鹿希，邓志典，邓志平，邓昱友，中国青年出版社.](https://book.douban.com/subject/26759191/)
+17. [规范与对称之美：杨振宁传，广东经济出版社.](https://book.douban.com/subject/6101367/)
+18. [普林斯顿计算机公开课，[美]Brian W. Kernighan，机械工业出版社.](https://book.douban.com/subject/30200248/)
+19. [置身事内，兰小欢，上海人民出版社.](https://book.douban.com/subject/35546622/)
+20. [彷徨，鲁迅，人民文学出版社.](https://book.douban.com/subject/1449348/)
+21. [南方高速，[阿根廷]胡里奥·科塔萨尔，南海出版公司.](https://book.douban.com/subject/27079479/)
+22. [世界上最美的溺水者，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/26628811/)
+23. [翦商，李硕，广西师范大学出版社.](https://book.douban.com/subject/36096304/)
