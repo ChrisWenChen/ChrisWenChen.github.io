@@ -71,6 +71,6 @@
 45. [在路上, [美]杰克·凯鲁亚克, 上海译文出版社.](https://book.douban.com/subject/1917972/)
 46. [洛阳大火：公元23-220年的后汉史，[澳]张磊夫，北京大学出版社.](https://book.douban.com/subject/36384743/)
 47. [不平等的童年：阶级、种族与家庭生活，[美]安妮特·拉鲁，北京大学出版社.](https://book.douban.com/subject/27664289/)
-48. [波峰与波谷：秦汉魏晋南北朝的政治文明，阎步克，北京大学出版社.](https://book.douban.com/subject/26992823/)
+48. [中国历代政治得失，钱穆，生活·读书·新知三联书店.](https://book.douban.com/subject/30206893/)
 49. [忧郁的热带, [法]克洛德·列维-斯特劳斯，生活·读书·新知三联书店.](https://book.douban.com/subject/1393447/)
 50. [小镇喧嚣：一个乡镇政治运作的演绎与阐释，吴毅，生活·读书·新知三联书店.](https://book.douban.com/subject/30122152/)
