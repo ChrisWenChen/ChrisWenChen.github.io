@@ -3,9 +3,9 @@
 ## 安排
 
 正在读的书目 ：
-1. [波峰与波谷：秦汉魏晋南北朝的政治文明，阎步克，北京大学出版社.](https://book.douban.com/subject/26992823/)(2024年1月13日-)
+1. [置身事内，兰小欢，上海人民出版社.](https://book.douban.com/subject/35546622/)(2024年1月13日-)
 
-时间：两周一次，周六 19:00
+时间：两周一次，周日 19:00
 
 具体计划：分别由选定的人讲述写作逻辑，尔后讨论具体的问题。
 
@@ -21,6 +21,8 @@
 8. [把自己作为方法, 项飙，吴琦，上海文艺出版社.](https://book.douban.com/subject/35092383/) （2023年11月11日-2023年11月25日）
 9. [人生，路遥，北京十月文艺出版社.](https://book.douban.com/subject/3803820/)（2023年11月25日-12月17日）
 10. [漫长的余生，罗新，北京日报出版社.](https://book.douban.com/subject/35909188/?source=2022_annual_book)(2023年12月17日-2024年1月13日)
+11. [波峰与波谷：秦汉魏晋南北朝的政治文明，阎步克，北京大学出版社.](https://book.douban.com/subject/26992823/)(2024年1月13日-2024年3月24日)
+12. [世界上最美的溺水者，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/26628811/)(2024年3月24日-2024年4月7日)
 ## 候选书单
 
 1. [我在北京送快递，胡安焉，湖南文艺出版社.](https://book.douban.com/subject/36150423/)
@@ -41,10 +43,10 @@
 16. [邓稼先传，许鹿希，邓志典，邓志平，邓昱友，中国青年出版社.](https://book.douban.com/subject/26759191/)
 17. [规范与对称之美：杨振宁传，广东经济出版社.](https://book.douban.com/subject/6101367/)
 18. [计算机：一部历史，[英]彼得·本特利，东西文库.](https://book.douban.com/subject/25802176/)
-19. [置身事内，兰小欢，上海人民出版社.](https://book.douban.com/subject/35546622/)
+19. [人类简史, [以色列] 尤瓦尔·赫拉利,中信出版社.](https://book.douban.com/subject/25985021/)
 20. [彷徨，鲁迅，人民文学出版社.](https://book.douban.com/subject/1449348/)
 21. [南方高速，[阿根廷]胡里奥·科塔萨尔，南海出版公司.](https://book.douban.com/subject/27079479/)
-22. [世界上最美的溺水者，[哥伦比亚]加西亚·马尔克斯，南海出版公司.](https://book.douban.com/subject/26628811/)
+22. [西线无战事, [德] 埃里希·玛丽亚·雷马克, 上海文艺出版社.](https://book.douban.com/subject/35272817/)
 23. [翦商，李硕，广西师范大学出版社.](https://book.douban.com/subject/36096304/)
 24. [酒吧长谈, [秘鲁]马里奥·巴尔加斯·略萨，人民文学出版社.](https://book.douban.com/subject/34933180/)
 25. [门阀，南朝，台海出版社.](https://book.douban.com/subject/36462704/)
