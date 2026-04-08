@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>nanoED | Wen Chen</title>
+  <link rel="stylesheet" href="../style.css">
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Wen Chen</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about" class="lang-en">About</a><a href="../index.html#about" class="lang-zh">关于</a></li>
+      <li><a href="../index.html#publications" class="lang-en">Publications</a><a href="../index.html#publications" class="lang-zh">论文</a></li>
+      <li><a href="../blog.html" class="lang-en" style="color:var(--accent);font-weight:600">Blog</a><a href="../blog.html" class="lang-zh" style="color:var(--accent);font-weight:600">博客</a></li>
+      <li><button class="lang-toggle" onclick="toggleLang()">中文</button></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+<div class="card blog-article" style="margin-top:0.5rem;">
+  <a href="../blog.html" class="back-link">&larr; <span class="lang-en">Back to Blog</span><span class="lang-zh">返回博客</span></a>
+
+  <h1>
+    <span class="lang-en">nanoED: Exact Diagonalization in ~60 Lines of Python</span>
+    <span class="lang-zh">nanoED：用不到 60 行 Python 做精确对角化</span>
+  </h1>
+  <div class="meta">April 2026</div>
+
+  <div class="content">
+
+    <!-- Intro -->
+    <p class="lang-en">
+      Exact diagonalization (ED) is the most direct numerical method in quantum many-body physics: write the Hamiltonian as a matrix, diagonalize it, and obtain exact eigenvalues and eigenstates. It involves no physical approximations &mdash; the only limitation is that the matrix size grows exponentially with the number of sites, known as the &ldquo;exponential wall.&rdquo;
+    </p>
+    <p class="lang-zh">
+      精确对角化（Exact Diagonalization, ED）是量子多体物理中最直接的数值方法：把哈密顿量写成矩阵，对角化，得到精确的本征值和本征态。它没有任何物理近似——唯一的限制是矩阵的大小随格点数指数增长，这被称为"指数墙"（exponential wall）。
+    </p>
+
+    <p class="lang-en">
+      This article implements a complete ED program <strong>nanoED</strong> in ~60 lines of Python, covering the full pipeline from Hilbert space construction to finite-size scaling. After running the code, the reader should obtain numerical results consistent with the Bethe ansatz exact solution, and gain an intuitive sense of the exponential wall's impact.
+    </p>
+    <p class="lang-zh">
+      本文用不到 60 行 Python 实现一个完整的 ED 程序 <strong>nanoED</strong>，覆盖从 Hilbert 空间构造到有限尺寸标度的全部流程。读者运行代码后应能得到与 Bethe ansatz 精确解一致的数值结果，并直观感受到指数墙的威力。
+    </p>
+
+    <hr>
+
+    <!-- 1.1 -->
+    <h2>
+      <span class="lang-en">1.1 Model: The Antiferromagnetic Heisenberg Chain</span>
+      <span class="lang-zh">1.1 模型：反铁磁 Heisenberg 链</span>
+    </h2>
+
+    <p class="lang-en">
+      We choose the classic benchmark model for ED: the one-dimensional spin-1/2 antiferromagnetic Heisenberg chain with periodic boundary conditions (PBC):
+    </p>
+    <p class="lang-zh">
+      我们选择最经典的 ED 基准模型：一维 spin-1/2 反铁磁 Heisenberg 链，周期边界条件（PBC）：
+    </p>
+
+    <p>$$H = J \sum_{i=0}^{L-1} \mathbf{S}_i \cdot \mathbf{S}_{i+1} = J \sum_{i=0}^{L-1} \left[ S_i^z S_{i+1}^z + \frac{1}{2}\left(S_i^+ S_{i+1}^- + S_i^- S_{i+1}^+\right) \right]$$</p>
+
+    <p class="lang-en">
+      where $S_{L} \equiv S_0$ (periodic boundary) and $J = 1$ (antiferromagnetic).
+    </p>
+    <p class="lang-zh">
+      其中 $S_{L} \equiv S_0$（周期边界），$J = 1$（反铁磁）。
+    </p>
+
+    <p class="lang-en">Why this model:</p>
+    <p class="lang-zh">选择它的理由：</p>
+    <ul class="lang-en">
+      <li>It is one of the most fundamental quantum many-body models in condensed matter physics</li>
+      <li>Bethe (1931) provided the exact solution; the ground-state energy density in the thermodynamic limit is $E_0/L = 1/4 - \ln 2 \approx -0.4431$</li>
+      <li>The natural correspondence between spin states and bits makes it ideally suited to bitwise operations and keeps the implementation especially compact</li>
+    </ul>
+    <ul class="lang-zh">
+      <li>它是凝聚态物理最基本的量子多体模型之一</li>
+      <li>Bethe (1931) 给出了精确解，基态能量密度在热力学极限为 $E_0/L = 1/4 - \ln 2 \approx -0.4431$</li>
+      <li>自旋态与比特的对应关系天然适合位操作，编程最简洁</li>
+    </ul>
+
+    <hr>
+
+    <!-- 1.2 -->
+    <h2>
+      <span class="lang-en">1.2 Binary Encoding: Spins as Bits</span>
+      <span class="lang-zh">1.2 二进制编码：自旋即比特</span>
+    </h2>
+
+    <p class="lang-en">
+      A spin-1/2 system on $L$ sites has two states per site, $|\uparrow\rangle$ and $|\downarrow\rangle$. A many-body state is a tensor product of all $L$ sites, giving $2^L$ configurations in total. We label each configuration with an $L$-bit integer:
+    </p>
+    <p class="lang-zh">
+      一个 $L$ 格点的 spin-1/2 系统，每个格点有两个状态 $|\uparrow\rangle$ 和 $|\downarrow\rangle$。一个多体态是 $L$ 个格点的直积，共 $2^L$ 种。我们用一个 $L$-bit 整数来标记它：
+    </p>
+
+    <p>$$|s\rangle = |s_{L-1}, \ldots, s_1, s_0\rangle, \quad s_i \in \{0, 1\}$$</p>
+
+    <p class="lang-en">
+      Bit $i$ being 1 means spin-up $|\uparrow\rangle$ at site $i$; 0 means spin-down $|\downarrow\rangle$. Note the distinction between the <strong>bit variable</strong> $s_i \in \{0, 1\}$ (used for encoding) and the <strong>physical spin eigenvalue</strong> $S_i^z = s_i - 1/2 \in \{-1/2, +1/2\}$ &mdash; both appear in the formulas below. For example, with $L=4$, the integer $10 = 1010_2$ represents spins up at sites 1 and 3, and down at sites 0 and 2.
+    </p>
+    <p class="lang-zh">
+      bit $i$ 为 1 代表第 $i$ 个格点自旋向上 $|\uparrow\rangle$，为 0 代表向下 $|\downarrow\rangle$。注意区分<strong>位变量</strong> $s_i \in \{0, 1\}$（编码用）和<strong>物理自旋本征值</strong> $S_i^z = s_i - 1/2 \in \{-1/2, +1/2\}$——后文公式中两者都会出现。例如 $L=4$ 时，整数 $10 = 1010_2$ 表示第 1、3 格点向上，第 0、2 格点向下。
+    </p>
+
+    <p class="lang-en">
+      The advantage of this encoding: physical operators map directly to bit operations &mdash; $S_i^z$ reads bit $i$, $S_i^+ S_j^-$ flips two bits &mdash; no additional data structures needed.
+    </p>
+    <p class="lang-zh">
+      这个编码的好处是：物理算符直接对应位操作——$S_i^z$ 读第 $i$ 位，$S_i^+ S_j^-$ 翻转两位，不需要任何额外数据结构。
+    </p>
+
+    <p class="lang-en">
+      <strong>Reducing the dimension with conserved quantities.</strong> The Heisenberg Hamiltonian conserves the total magnetization $S^z_\text{tot} = \sum_i S_i^z$. Why is it conserved? We can check term by term:
+    </p>
+    <p class="lang-zh">
+      <strong>用守恒量压缩维数。</strong> Heisenberg 哈密顿量守恒总磁化 $S^z_\text{tot} = \sum_i S_i^z$。为什么守恒？逐项检查：
+    </p>
+
+    <ul class="lang-en">
+      <li><strong>Diagonal term</strong> $S_i^z S_{i+1}^z$: this only measures the spins without changing any site's $S^z$ value, so it naturally commutes with $S^z_\text{tot}$.</li>
+      <li><strong>Flip term</strong> $S_i^+ S_{i+1}^-$: this flips site $i$ from down to up ($+1/2$) while simultaneously flipping site $i+1$ from up to down ($-1/2$), giving a net change of zero.</li>
+    </ul>
+    <ul class="lang-zh">
+      <li><strong>对角项</strong> $S_i^z S_{i+1}^z$：只测量自旋，不改变任何格点的 $S^z$ 值，自然与 $S^z_\text{tot}$ 对易。</li>
+      <li><strong>翻转项</strong> $S_i^+ S_{i+1}^-$：把格点 $i$ 的自旋从下翻到上（$+1/2$），同时把格点 $i+1$ 的自旋从上翻到下（$-1/2$），净变化为零。</li>
+    </ul>
+
+    <p class="lang-en">More compactly, using the commutation relation $[S^z, S^\pm] = \pm S^\pm$:</p>
+    <p class="lang-zh">用对易关系写得更紧凑。利用 $[S^z, S^\pm] = \pm S^\pm$：</p>
+
+    <p>$$[S_i^+ S_{i+1}^-,\, S^z_\text{tot}]
+= S_i^+ \underbrace{[S_{i+1}^-,\, S^z_{i+1}]}_{+S_{i+1}^-}
++ \underbrace{[S_i^+,\, S^z_i]}_{-S_i^+} S_{i+1}^-
+= S_i^+ S_{i+1}^- - S_i^+ S_{i+1}^- = 0$$</p>
+
+    <p class="lang-en">
+      Therefore $[H, S^z_\text{tot}] = 0$: the Hamiltonian is block-diagonal, with <strong>identically zero matrix elements</strong> between different $S^z_\text{tot}$ sectors. We only need to diagonalize the submatrix within each sector, without dealing with the full Hilbert space.
+    </p>
+    <p class="lang-zh">
+      因此 $[H, S^z_\text{tot}] = 0$：哈密顿量是块对角的，不同 $S^z_\text{tot}$ 扇区之间<strong>矩阵元恒为零</strong>。我们只需对角化各扇区的子矩阵，无需处理全 Hilbert 空间。
+    </p>
+
+    <p class="lang-en">
+      For the even-$L$, zero-field, antiferromagnetic Heisenberg chain considered here, the ground state lies in the $S^z_\text{tot} = 0$ sector (exactly $L/2$ spins up) [Lieb &amp; Mattis 1962]. The dimension of this sector is
+    </p>
+    <p class="lang-zh">
+      对本文考虑的偶数 $L$、无外场、反铁磁 Heisenberg 链，基态位于 $S^z_\text{tot} = 0$ 扇区（恰好 $L/2$ 个自旋向上）[Lieb &amp; Mattis 1962]。该扇区维数为
+    </p>
+
+    <p>$$D = \binom{L}{L/2}$$</p>
+
+    <p class="lang-en">
+      This is much smaller than the full Hilbert space $2^L$: for $L=16$, $2^{16} = 65536$ while $\binom{16}{8} = 12870$, a reduction of about 5-fold; for $L=24$, $2^{24} \approx 1.7 \times 10^7$ while $\binom{24}{12} \approx 2.7 \times 10^6$, a reduction of about 6-fold.
+    </p>
+    <p class="lang-zh">
+      这比全 Hilbert 空间 $2^L$ 小得多：$L=16$ 时 $2^{16} = 65536$，$\binom{16}{8} = 12870$，降低约 5 倍；$L=24$ 时 $2^{24} \approx 1.7 \times 10^7$，$\binom{24}{12} \approx 2.7 \times 10^6$，降低约 6 倍。
+    </p>
+
+    <p class="lang-en">
+      <strong>Constructing the basis states</strong>: We use an $L$-bit integer <code>s</code> to encode a single configuration (basis state) of the spin chain. By convention, bit $i$ (counting from the least significant bit) represents the spin at site $i$: bit 1 means &ldquo;up,&rdquo; bit 0 means &ldquo;down.&rdquo; The number of up-spins is then the number of 1s in the binary representation of this integer (also called the popcount).
+    </p>
+    <p class="lang-zh">
+      <strong>构造基矢</strong>：用一个 $L$ 位二进制整数 <code>s</code> 来编码一条自旋链的一个构型（basis state）。约定第 $i$ 位（从低位开始数）表示格点 $i$ 的自旋：位为 1 表示"向上"，位为 0 表示"向下"。那么"向上自旋数"就是这个整数的二进制展开里 1 的个数（也叫 popcount）。
+    </p>
+
+    <p class="lang-en">
+      The following function scans all $2^L$ possible $L$-bit integers and selects those whose popcount equals <code>nup</code> (i.e., the basis states of a fixed $S^z_\text{tot}$ sector), collecting them into a NumPy array:
+    </p>
+    <p class="lang-zh">
+      下面这段函数做的事是：在所有 $2^L$ 个 $L$ 位整数里，筛选出 popcount 恰好等于 <code>nup</code> 的那些（也就是固定 $S^z_\text{tot}$ 扇区的基矢），并把它们放进一个 NumPy 数组里：
+    </p>
+
+<pre><code>def build_basis(L, nup):
+    """All L-bit integers with popcount == nup (Sz sector basis)."""
+    return np.array([s for s in range(1 &lt;&lt; L)
+                     if bin(s).count("1") == nup],
+                    dtype=np.int64)</code></pre>
+
+    <p class="lang-en">A few supplementary notes (for readers encountering these Python/NumPy constructs for the first time):</p>
+    <p class="lang-zh">几点补充说明（面向第一次见到这些 Python/NumPy 语法的读者）：</p>
+
+    <ul class="lang-en">
+      <li><strong>What is <code>1 &lt;&lt; L</code></strong>: <code>&lt;&lt;</code> is the bitwise left shift operator. <code>1 &lt;&lt; L</code> shifts the binary <code>1</code> left by $L$ positions, yielding $2^L$. Thus <code>range(1 &lt;&lt; L)</code> enumerates all integers corresponding to $L$-bit binary strings (from <code>0</code> to <code>2^L-1</code>).</li>
+      <li><strong>What is <code>bin(s)</code></strong>: <code>bin</code> is a Python built-in that converts an integer to its binary string representation with the prefix <code>"0b"</code>. For example, <code>bin(6)</code> returns <code>"0b110"</code>.</li>
+      <li><strong>What is <code>.count("1")</code></strong>: This is a string method that counts occurrences of a substring; for <code>"0b110"</code>, <code>count("1") == 2</code>. Therefore <code>bin(s).count("1")</code> gives the popcount.</li>
+      <li><strong>List comprehension <code>[s for s in ... if ...]</code></strong>: Read as &ldquo;iterate over each <code>s</code> in <code>...</code>, and collect it if the <code>if</code> condition is satisfied.&rdquo;</li>
+      <li><strong><code>np.array(..., dtype=np.int64)</code></strong>: Converts a Python list to a NumPy array; <code>dtype=np.int64</code> specifies 64-bit integer storage.</li>
+    </ul>
+    <ul class="lang-zh">
+      <li><strong><code>1 &lt;&lt; L</code> 是什么</strong>：<code>&lt;&lt;</code> 是按位左移运算，<code>1 &lt;&lt; L</code> 表示把二进制的 <code>1</code> 向左移动 $L$ 位，结果就是 $2^L$。因此 <code>range(1 &lt;&lt; L)</code> 正好枚举所有 $L$ 位二进制串对应的整数（从 <code>0</code> 到 <code>2^L-1</code>）。</li>
+      <li><strong><code>bin(s)</code> 是什么</strong>：<code>bin</code> 是 Python 内置函数，把整数转成二进制的"字符串表示"，并带前缀 <code>"0b"</code>。例如 <code>bin(6)</code> 得到 <code>"0b110"</code>。</li>
+      <li><strong><code>.count("1")</code> 是什么</strong>：这是字符串的方法，统计某个子串出现次数；对 <code>"0b110"</code> 来说，<code>count("1") == 2</code>。因此 <code>bin(s).count("1")</code> 就是 popcount。</li>
+      <li><strong>列表推导式 <code>[s for s in ... if ...]</code></strong>：读作"遍历 <code>...</code> 里的每个 <code>s</code>，只要满足 <code>if</code> 条件就收集起来"。</li>
+      <li><strong><code>np.array(..., dtype=np.int64)</code></strong>：把 Python 列表转成 NumPy 数组；<code>dtype=np.int64</code> 指定用 64 位整数存储。</li>
+    </ul>
+
+    <p class="lang-en">
+      The return value is a <strong>sorted</strong> integer array: since <code>range(1&lt;&lt;L)</code> itself iterates in ascending order, the filtered values of <code>s</code> remain in ascending order. This ordering is crucial &mdash; it enables binary search to quickly map &ldquo;state (integer) &rarr; index in <code>basis</code>&rdquo; later on.
+    </p>
+    <p class="lang-zh">
+      返回值是<strong>排好序的</strong>整数数组：因为 <code>range(1&lt;&lt;L)</code> 本身就是从小到大遍历，筛选后保留下来的 <code>s</code> 仍然保持升序。这个"有序性"很重要，后面才能用二分查找把"态（整数）→ 在 <code>basis</code> 里的下标"快速定位到。
+    </p>
+
+    <hr>
+
+    <!-- 1.3 -->
+    <h2>
+      <span class="lang-en">1.3 Binary Search: State to Index</span>
+      <span class="lang-zh">1.3 二分查找：态 → 索引</span>
+    </h2>
+
+    <p class="lang-en">
+      When constructing the Hamiltonian matrix, we frequently need to answer this question: the Hamiltonian transforms basis state $|s\rangle$ into another state $|s'\rangle$ &mdash; which column of the matrix does $|s'\rangle$ correspond to?
+    </p>
+    <p class="lang-zh">
+      构建 Hamiltonian 矩阵时，我们需要频繁回答这样一个问题：哈密顿量把基矢 $|s\rangle$ 变换到另一个态 $|s'\rangle$，$|s'\rangle$ 对应矩阵的哪一列？
+    </p>
+
+    <p class="lang-en">
+      The answer is simple: look up its position in the basis array. Since the basis is a sorted integer array, this is a standard <strong>binary search</strong>: compare with the middle element each time, eliminate half the candidates, with time complexity $O(\log D)$:
+    </p>
+    <p class="lang-zh">
+      答案很简单：查它在基矢数组中的位置。由于基矢是排序整数数组，这是标准的<strong>二分查找</strong>（binary search）：每次比较中间元素，排除一半候选，时间复杂度 $O(\log D)$：
+    </p>
+
+<pre><code>from bisect import bisect_left
+
+def find_state(basis, state):
+    """Binary search: index of state in sorted basis array."""
+    return bisect_left(basis, state)</code></pre>
+
+    <p class="lang-en">
+      For the system sizes in this chapter ($D \lesssim 10^6$), binary search is fast enough. Later we will introduce the combinatorial number system, which reduces the lookup time to $O(1)$, but that is an optimization issue &mdash; for now, let us get the entire pipeline running first.
+    </p>
+    <p class="lang-zh">
+      对于本章的规模（$D \lesssim 10^6$），二分查找已经足够快。以后会介绍组合数系统，可以把查找时间降到 $O(1)$，但那是优化问题，现在先把整个流程跑通。
+    </p>
+
+    <hr>
+
+    <!-- 1.4 -->
+    <h2>
+      <span class="lang-en">1.4 Constructing the Sparse Hamiltonian</span>
+      <span class="lang-zh">1.4 构造稀疏 Hamiltonian</span>
+    </h2>
+
+    <h3>
+      <span class="lang-en">Dense vs. Sparse Matrices</span>
+      <span class="lang-zh">稠密矩阵与稀疏矩阵</span>
+    </h3>
+
+    <p class="lang-en">First, a basic question: how do we store the matrix?</p>
+    <p class="lang-zh">先解释一个基本问题：矩阵怎么存？</p>
+
+    <p class="lang-en">
+      <strong>Dense matrix</strong>: allocate a $D \times D$ two-dimensional array where every entry occupies memory, regardless of whether it is nonzero. For $D = 12870$ ($L=16$), a dense matrix requires $12870^2 \times 8$ bytes $\approx 1.3$ GB; for $D = 2.7 \times 10^6$ ($L=24$), it would require about $58$ TB &mdash; impossible to fit in memory.
+    </p>
+    <p class="lang-zh">
+      <strong>稠密矩阵</strong>（dense matrix）：开一个 $D \times D$ 的二维数组，不管有没有非零元，每个位置都占内存。$D = 12870$（$L=16$）时，稠密矩阵需要 $12870^2 \times 8$ 字节 $\approx 1.3$ GB，$D = 2.7 \times 10^6$（$L=24$）时需要约 $58$ TB——根本放不进内存。
+    </p>
+
+    <p class="lang-en"><strong>Sparse matrix</strong>: store only the nonzero entries. The two most common formats are:</p>
+    <p class="lang-zh"><strong>稀疏矩阵</strong>（sparse matrix）：只存非零元。最常用的两种格式是：</p>
+
+    <p class="lang-en">
+      <strong>COO (Coordinate format)</strong>: three arrays store the row indices, column indices, and values respectively. During construction, one simply <code>append</code>s &mdash; very convenient.
+    </p>
+    <p class="lang-zh">
+      <strong>COO（Coordinate format）</strong>：用三个数组分别存行下标、列下标、数值。构建时只需 <code>append</code>，非常方便。
+    </p>
+
+    <p class="lang-en">
+      <strong>CSR (Compressed Sparse Row)</strong>: groups the nonzero entries of each row together in contiguous storage, making matrix-vector multiplication efficient (the inner loop of the Lanczos algorithm is a matrix-vector multiplication). A small 4&times;4 example:
+    </p>
+    <p class="lang-zh">
+      <strong>CSR（Compressed Sparse Row）</strong>：把同一行的非零元压缩在一起，存储连续，矩阵-向量乘法效率高（Lanczos 算法的内层循环就是矩阵-向量乘法）。举个 4&times;4 的小例子：
+    </p>
+
+    <p>$$A=\begin{pmatrix}
+10 & 0 & 0 & 2\\
+3  & 9 & 0 & 0\\
+0  & 7 & 8 & 0\\
+0  & 0 & 0 & 4
+\end{pmatrix}$$</p>
+
+    <div class="lang-en">
+    <p>CSR represents it with three one-dimensional arrays:</p>
+    <ul>
+      <li><code>data  = [10, 2, 3, 9, 7, 8, 4]</code> (nonzero values in row-major order)</li>
+      <li><code>indices = [0, 3, 0, 1, 1, 2, 3]</code> (column index for each nonzero value)</li>
+      <li><code>indptr = [0, 2, 4, 6, 7]</code> (the nonzero entries of row $i$ are the slice <code>data[indptr[i]:indptr[i+1]]</code>)</li>
+    </ul>
+    <p>For matrix-vector multiplication $y=Ax$, one can scan row by row:</p>
+    </div>
+    <div class="lang-zh">
+    <p>CSR 用三个一维数组表示它：</p>
+    <ul>
+      <li><code>data  = [10, 2, 3, 9, 7, 8, 4]</code>（按"行优先"依次存非零值）</li>
+      <li><code>indices = [0, 3, 0, 1, 1, 2, 3]</code>（每个非零值对应的列号）</li>
+      <li><code>indptr = [0, 2, 4, 6, 7]</code>（第 $i$ 行的非零元在 <code>data</code> 里的切片范围是 <code>data[indptr[i]:indptr[i+1]]</code>）</li>
+    </ul>
+    <p>这样做矩阵-向量乘法 $y=Ax$ 时，可以逐行扫：</p>
+    </div>
+
+    <p>$$y_i=\sum_{k=\text{indptr}[i]}^{\text{indptr}[i+1]-1} \text{data}[k]\; x_{\text{indices}[k]}$$</p>
+
+    <p class="lang-en">
+      The nonzero entries of each row are contiguous in memory, so CPU access is more sequential &mdash; this makes CSR better suited than COO or dense matrices for repeated multiplications.
+    </p>
+    <p class="lang-zh">
+      每一行的非零元在内存里是连续的（<code>data/indices</code> 连续切片），CPU 访问更"顺"，因此比 COO/稠密矩阵更适合反复做乘法。
+    </p>
+
+    <p class="lang-en">
+      <strong>Why COO first, then convert to CSR?</strong> During Hamiltonian construction, we iterate over basis states and <code>append</code> new nonzero entries on the fly &mdash; COO's list operations are simple and efficient. After construction, we convert to CSR in one pass, for the Lanczos solver to use repeatedly.
+    </p>
+    <p class="lang-zh">
+      <strong>为什么先 COO 再转 CSR？</strong> 构建哈密顿量时，我们逐个遍历基矢，随时 <code>append</code> 新的非零元——COO 的列表操作简单高效。构建完成后一次性转为 CSR，供 Lanczos 求解器反复使用。
+    </p>
+
+    <p class="lang-en">
+      How sparse is the Heisenberg matrix? Each basis state $|s\rangle$ produces at most $L$ flip terms plus one diagonal entry, giving roughly $L+1$ nonzero entries. For $L=16$, the matrix has $12870^2 \approx 1.7 \times 10^8$ entries in total, but only about $12870 \times 17 \approx 2 \times 10^5$ nonzero entries &mdash; a <strong>nonzero density of about $0.1\%$</strong>.
+    </p>
+    <p class="lang-zh">
+      Heisenberg 矩阵有多稀疏？每个基矢 $|s\rangle$ 最多产生 $L$ 个翻转（每对相邻反平行格点贡献一个非零元），加上一个对角元，共约 $L+1$ 个非零元。$L=16$ 时矩阵共 $12870^2 \approx 1.7 \times 10^8$ 个位置，但非零元只有约 $12870 \times 17 \approx 2 \times 10^5$，<strong>稀疏度约 $0.1\%$</strong>。
+    </p>
+
+    <h3>
+      <span class="lang-en">Computing Matrix Elements</span>
+      <span class="lang-zh">矩阵元的计算</span>
+    </h3>
+
+    <p class="lang-en">The Heisenberg Hamiltonian has two types of terms:</p>
+    <p class="lang-zh">Heisenberg 哈密顿量分两类项：</p>
+
+    <p class="lang-en">
+      <strong>Diagonal term</strong> $S_i^z S_{i+1}^z$: depends only on the current state, changes no bits, and contributes only to the diagonal matrix element. The spin value at site $i$ is $s_i = (s \gg i)\ \&amp;\ 1$ (read bit $i$), giving
+    </p>
+    <p class="lang-zh">
+      <strong>对角项</strong> $S_i^z S_{i+1}^z$：只依赖当前态，不改变任何比特，只贡献对角矩阵元。格点 $i$ 的自旋值 $s_i = (s \gg i)\ \&amp;\ 1$（读第 $i$ 位），则
+    </p>
+
+    <p>$$\langle s | S_i^z S_{i+1}^z | s \rangle = \left(s_i - \tfrac{1}{2}\right)\left(s_{i+1} - \tfrac{1}{2}\right) = \begin{cases} +1/4 & s_i = s_{i+1} \\ -1/4 & s_i \neq s_{i+1} \end{cases}$$</p>
+
+    <p class="lang-en">
+      <strong>Off-diagonal term</strong> $\frac{1}{2}(S_i^+ S_{i+1}^- + S_i^- S_{i+1}^+)$: acts only on <strong>antiparallel</strong> spin pairs. For an antiparallel pair, the operator <strong>swaps</strong> the spins at these two sites. In the integer encoding, this amounts to simultaneously flipping bits $i$ and $j=(i+1)\bmod L$:
+    </p>
+    <p class="lang-zh">
+      <strong>非对角项</strong> $\frac{1}{2}(S_i^+ S_{i+1}^- + S_i^- S_{i+1}^+)$：只对<strong>反平行</strong>自旋对起作用。对反平行的一对，算符把这两个格点的自旋<strong>互换</strong>。在"整数编码"的语言里，这等价于同时翻转第 $i$ 位与第 $j=(i+1)\bmod L$ 位：
+    </p>
+
+    <p class="lang-en">
+      The standard way to implement &ldquo;flip two bits simultaneously&rdquo; is to first construct a <strong>mask</strong> that has 1s at positions $i$ and $j$ and 0s elsewhere:
+    </p>
+    <p class="lang-zh">
+      实现"同时翻转两位"的标准做法是先构造一个<strong>掩码</strong> <code>mask</code>，让它在第 $i$ 位和第 $j$ 位为 1，其余位为 0：
+    </p>
+
+    <p>$$\text{mask} = 2^i \,|\, 2^j$$</p>
+
+    <p class="lang-en">Then use bitwise XOR to flip these two bits:</p>
+    <p class="lang-zh">然后用按位异或（XOR）把这两位翻转：</p>
+
+    <p>$$|s'\rangle = \bigl|s \oplus \underbrace{(2^i \,|\, 2^j)}_{\text{mask}}\bigr\rangle$$</p>
+
+    <p class="lang-en">
+      <strong>Example</strong>: Take $L=4$ and flip the adjacent sites $i=1$ and $j=2$. Then $2^1 = 0010_2$, $2^2 = 0100_2$, $\text{mask} = 0110_2$. Suppose $s = 0101_2$ (bit 1 is 0, bit 2 is 1 &mdash; antiparallel). Flipping: $s' = 0101_2 \oplus 0110_2 = 0011_2$. The off-diagonal matrix element has coefficient $1/2$ (times $J$).
+    </p>
+    <p class="lang-zh">
+      <strong>例子</strong>：取 $L=4$，翻转相邻的 $i=1$ 和 $j=2$ 两个格点。此时 $2^1 = 0010_2$，$2^2 = 0100_2$，$\text{mask} = 0110_2$。假设 $s = 0101_2$（第 1 位是 0、第 2 位是 1，正好反平行）。翻转：$s' = 0101_2 \oplus 0110_2 = 0011_2$。对于反平行对，非对角矩阵元的系数是 $1/2$（再乘 $J$）。
+    </p>
+
+    <h3>
+      <span class="lang-en">Complete Code</span>
+      <span class="lang-zh">完整代码</span>
+    </h3>
+
+<pre><code>def build_hamiltonian(L, basis, J=1.0):
+    """Sparse Heisenberg Hamiltonian in the given Sz sector."""
+    D = len(basis)
+    rows, cols, vals = [], [], []
+
+    for a, s in enumerate(basis):
+        diag = 0.0
+        for i in range(L):
+            j = (i + 1) % L
+            si = (s &gt;&gt; i) &amp; 1
+            sj = (s &gt;&gt; j) &amp; 1
+
+            diag += J * (si - 0.5) * (sj - 0.5)
+
+            if si != sj:
+                t = s ^ ((1 &lt;&lt; i) | (1 &lt;&lt; j))
+                b = find_state(basis, t)
+                rows.append(a); cols.append(b); vals.append(0.5 * J)
+
+        rows.append(a); cols.append(a); vals.append(diag)
+
+    return csr_matrix((vals, (rows, cols)), shape=(D, D))</code></pre>
+
+    <hr>
+
+    <!-- 1.5 -->
+    <h2>
+      <span class="lang-en">1.5 Diagonalization: Full Matrix vs. Lanczos</span>
+      <span class="lang-zh">1.5 对角化：全矩阵 vs Lanczos</span>
+    </h2>
+
+    <p class="lang-en">With the sparse matrix in hand, the next step is to find the lowest eigenvalue. nanoED automatically selects the method based on the matrix dimension $D$:</p>
+    <p class="lang-zh">有了稀疏矩阵，下一步是求最低本征值。nanoED 根据矩阵维数 $D$ 自动选择方法：</p>
+
+<pre><code>FULL_DIAG_MAX = 500
+
+def solve(H, k=1):
+    """Lowest k eigenvalues/vectors."""
+    D = H.shape[0]
+    if D &lt;= FULL_DIAG_MAX:
+        vals, vecs = np.linalg.eigh(H.toarray())
+        return vals[:k], vecs[:, :k], "full"
+    vals, vecs = eigsh(H, k=k, which="SA")
+    return vals, vecs, "lanczos"</code></pre>
+
+    <p class="lang-en">
+      <strong>Full diagonalization</strong> (<code>np.linalg.eigh</code>): <code>np</code> refers to <strong>NumPy</strong>. Under the hood it typically calls <strong>LAPACK</strong>. The approach converts the sparse matrix to a dense matrix, then uses an $O(D^3)$ algorithm to obtain <strong>all</strong> $D$ eigenvalues and eigenvectors at once. Suitable for small systems ($D \lesssim 500$).
+    </p>
+    <p class="lang-zh">
+      <strong>全对角化</strong>（<code>np.linalg.eigh</code>）：<code>np</code> 指 <strong>NumPy</strong>。底层通常调用 <strong>LAPACK</strong>。做法是先把稀疏矩阵转成稠密矩阵，再用 $O(D^3)$ 的算法一次性得到<strong>所有</strong> $D$ 个本征值和本征向量。适合小系统（$D \lesssim 500$）。
+    </p>
+
+    <p class="lang-en">
+      <strong>Lanczos algorithm</strong> (<code>scipy.sparse.linalg.eigsh</code>): Lanczos is an <strong>iterative eigenvalue algorithm</strong> for large sparse matrices. It progressively approximates eigenstates within a Krylov subspace, where the main cost of each step is a single matrix-vector multiplication $H|\psi\rangle$. In SciPy, <code>eigsh</code> is typically implemented using <strong>ARPACK</strong>.
+    </p>
+    <p class="lang-zh">
+      <strong>Lanczos 算法</strong>（<code>scipy.sparse.linalg.eigsh</code>）：Lanczos 是求解大型稀疏矩阵的<strong>迭代特征值算法</strong>：它在 Krylov 子空间里逐步逼近本征态，每一步的主要开销就是一次矩阵-向量乘法 $H|\psi\rangle$。在 SciPy 里，<code>eigsh</code> 的实现通常基于 <strong>ARPACK</strong>。
+    </p>
+
+    <p class="lang-en">
+      For a sparse matrix, a single matrix-vector multiplication costs $O(\text{nnz}) \approx O(LD)$; after roughly $m = 50$&ndash;$200$ iterations the lowest few eigenvalues converge, giving a total cost of $O(mLD)$, far faster than $O(D^3)$.
+    </p>
+    <p class="lang-zh">
+      对稀疏矩阵，一次矩阵-向量乘法的代价为 $O(\text{nnz}) \approx O(LD)$；经过约 $m = 50\text{–}200$ 步迭代后收敛到最低几个本征值，总代价 $O(mLD)$，远快于 $O(D^3)$。
+    </p>
+
+    <p class="lang-en">For $L=16$, $D = 12870 &gt; 500$, so Lanczos is used. Ground-state results:</p>
+    <p class="lang-zh">$L=16$ 时，$D = 12870 > 500$，使用 Lanczos。基态结果：</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th><span class="lang-en">Quantity</span><span class="lang-zh">量</span></th>
+          <th><span class="lang-en">Value</span><span class="lang-zh">数值</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>$D$</td><td>12870</td></tr>
+        <tr><td>$E_0$</td><td>$-7.14230$</td></tr>
+        <tr><td>$E_0/L$</td><td>$-0.44639$</td></tr>
+        <tr><td>Bethe ansatz $E_0/L\big|_{L \to \infty}$</td><td>$-0.4432$</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <!-- 1.6 -->
+    <h2>
+      <span class="lang-en">1.6 Finite-Size Scaling</span>
+      <span class="lang-zh">1.6 有限尺寸标度</span>
+    </h2>
+
+    <p class="lang-en">ED works on finite systems; one must use <strong>finite-size scaling</strong> to extrapolate to the thermodynamic limit. For the Heisenberg chain, the ground-state energy is known to satisfy</p>
+    <p class="lang-zh">ED 在有限系统上工作，必须通过<strong>有限尺寸标度</strong>（finite-size scaling）外推到热力学极限。对 Heisenberg 链，已知基态能量满足</p>
+
+    <p>$$\frac{E_0}{L} = e_\infty + \frac{a}{L^2} + \cdots$$</p>
+
+    <p class="lang-en">
+      The leading correction is $1/L^2$, arising from the quantum zero-point energy of long-wavelength spin fluctuations; a rigorous derivation requires conformal field theory &mdash; the low-energy effective theory of the Heisenberg chain is the SU(2)$_1$ WZW model with central charge $c=1$ [Bl&ouml;te, Cardy &amp; Nightingale 1986; Affleck 1986].
+    </p>
+    <p class="lang-zh">
+      主导修正为 $1/L^2$，来自长波自旋涨落的量子零点能；严格推导需要共形场论——Heisenberg 链的低能有效理论是中心荷 $c=1$ 的 SU(2)₁ WZW 模型 [Bl&ouml;te, Cardy &amp; Nightingale 1986; Affleck 1986]。
+    </p>
+
+    <h3>
+      <span class="lang-en">Extrapolation Results</span>
+      <span class="lang-zh">外推结果</span>
+    </h3>
+
+    <p class="lang-en">Plotting $E_0/L$ versus $1/L^2$ and performing a linear fit, the intercept gives the thermodynamic limit. Figure 1 shows results for $L = 8, 10, \ldots, 24$:</p>
+    <p class="lang-zh">将 $E_0/L$ 对 $1/L^2$ 作图，做线性拟合，截距即为热力学极限。图 1 展示了 $L = 8, 10, \ldots, 24$ 的结果：</p>
+
+    <img src="https://raw.githubusercontent.com/ChrisWenChen/nanoED/main/figures/fig1_energy_scaling.png" alt="Figure 1: Finite-size scaling">
+
+    <p class="lang-en">
+      <strong>Figure 1</strong>: $E_0/L$ varies linearly with $1/L^2$. The intercept $\approx -0.4431$ agrees with the Bethe ansatz exact value to four decimal places.
+    </p>
+    <p class="lang-zh">
+      <strong>图 1</strong>：$E_0/L$ 随 $1/L^2$ 线性变化。截距 $\approx -0.4431$，与 Bethe ansatz 精确值吻合至小数点后第四位。
+    </p>
+
+    <hr>
+
+    <!-- 1.7 -->
+    <h2>
+      <span class="lang-en">1.7 Where Is the Bottleneck?</span>
+      <span class="lang-zh">1.7 瓶颈在哪里？</span>
+    </h2>
+
+    <p class="lang-en">Running <code>benchmark.py</code> scans $L = 8, 10, \ldots, 24$, decomposing the runtime at each system size into three phases: <code>build_basis</code>, <code>build_hamiltonian</code>, and <code>solve</code>. Figure 2 shows the results.</p>
+    <p class="lang-zh">运行 <code>benchmark.py</code> 扫描 $L = 8, 10, \ldots, 24$，将每个系统尺寸的运行时间分解为三个阶段：<code>build_basis</code>、<code>build_hamiltonian</code>、<code>solve</code>。图 2 展示了结果。</p>
+
+    <img src="https://raw.githubusercontent.com/ChrisWenChen/nanoED/main/figures/fig2_timing.png" alt="Figure 2: Runtime breakdown">
+
+    <p class="lang-en">Several key observations:</p>
+    <p class="lang-zh">几个关键观察：</p>
+
+    <p class="lang-en">
+      <strong>Hamiltonian construction is the bottleneck.</strong> Although <code>solve</code> is the theoretically most complex step, in the actual code <code>build_hamiltonian</code>'s pure Python double loop ($D \times L$ iterations) is the slowest part. At $L=24$, <code>build_hamiltonian</code> accounts for about 92% of the total time, while Lanczos <code>solve</code> takes only about 7%.
+    </p>
+    <p class="lang-zh">
+      <strong>构建 Hamiltonian 是瓶颈。</strong> 虽然 <code>solve</code> 是理论上最复杂的步骤，但在实际代码中，<code>build_hamiltonian</code> 的纯 Python 双重循环（$D \times L$ 次迭代）才是最慢的部分。$L=24$ 时 <code>build_hamiltonian</code> 占总时间的约 92%，而 Lanczos <code>solve</code> 只占约 7%。
+    </p>
+
+    <p class="lang-en">
+      <strong>Full diagonalization vs. Lanczos.</strong> $L = 8$ ($D = 70$) and $L = 10$ ($D = 252$) use full diagonalization since $D \leq 500$; $L \geq 12$ switches to Lanczos. Notably, the solve time for $L=10$ is actually higher than for $L=12$: full diagonalization requires all $D$ eigenvalues ($O(D^3)$), while Lanczos needs only $k=1$, converging in roughly 50 sparse matrix-vector multiplications.
+    </p>
+    <p class="lang-zh">
+      <strong>全对角化 vs Lanczos。</strong> $L = 8$（$D = 70$）和 $L = 10$（$D = 252$）因 $D \leq 500$ 使用全对角化；$L \geq 12$ 切换到 Lanczos。值得注意的是 $L=10$ 的 solve 时间反而高于 $L=12$：全对角化要求全部 $D$ 个本征值（$O(D^3)$），而 Lanczos 只求 $k=1$ 个，仅需约 50 次稀疏矩阵-向量乘法即可收敛。
+    </p>
+
+    <p class="lang-en">
+      <strong>The exponential wall.</strong> Every increase of $L$ by 2 multiplies $D$ by roughly 5&ndash;10, and the total time explodes accordingly: $L=20$ takes about 6s, $L=22$ about 28s, $L=24$ about 121s.
+    </p>
+    <p class="lang-zh">
+      <strong>指数墙。</strong> $L$ 每增加 2，$D$ 约增加 5–10 倍，总时间也随之爆炸式增长：$L=20$ 约 6s，$L=22$ 约 28s，$L=24$ 约 121s。
+    </p>
+
+    <hr>
+
+    <!-- 1.8 -->
+    <h2>
+      <span class="lang-en">1.8 Complete Code</span>
+      <span class="lang-zh">1.8 完整代码</span>
+    </h2>
+
+    <p class="lang-en">The full code is available at the <a href="https://github.com/ChrisWenChen/nanoED" target="_blank">nanoED repository</a>. The core file <code>nanoed.py</code> is about 60 lines long and contains:</p>
+    <p class="lang-zh">完整代码见 <a href="https://github.com/ChrisWenChen/nanoED" target="_blank">nanoED 仓库</a>。核心文件 <code>nanoed.py</code> 约 60 行，包含：</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th><span class="lang-en">Function</span><span class="lang-zh">函数</span></th>
+          <th><span class="lang-en">Purpose</span><span class="lang-zh">功能</span></th>
+          <th><span class="lang-en">Key Idea</span><span class="lang-zh">核心思想</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>build_basis</code></td><td><span class="lang-en">Construct $S^z$-conserved basis</span><span class="lang-zh">构造 $S^z$ 守恒基矢</span></td><td><span class="lang-en">popcount filtering</span><span class="lang-zh">popcount 筛选</span></td></tr>
+        <tr><td><code>find_state</code></td><td><span class="lang-en">Basis state &rarr; index</span><span class="lang-zh">基矢 → 索引</span></td><td><span class="lang-en">Binary search $O(\log D)$</span><span class="lang-zh">二分查找 $O(\log D)$</span></td></tr>
+        <tr><td><code>build_hamiltonian</code></td><td><span class="lang-en">Sparse Hamiltonian</span><span class="lang-zh">稀疏 Hamiltonian</span></td><td><span class="lang-en">COO list &rarr; CSR</span><span class="lang-zh">COO 列表 → CSR</span></td></tr>
+        <tr><td><code>solve</code></td><td><span class="lang-en">Diagonalization</span><span class="lang-zh">对角化</span></td><td><span class="lang-en">Auto-select full/Lanczos</span><span class="lang-zh">自动选择全矩阵/Lanczos</span></td></tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en">This is the complete skeleton of ED: <strong>encode &rarr; filter &rarr; build &rarr; diagonalize</strong>.</p>
+    <p class="lang-zh">这就是 ED 的完整骨架：<strong>编码 → 筛选 → 构建 → 对角化</strong>。</p>
+
+    <hr>
+
+    <!-- Summary -->
+    <h2>
+      <span class="lang-en">Summary</span>
+      <span class="lang-zh">小结</span>
+    </h2>
+
+    <p class="lang-en">This chapter presented the minimal complete implementation of ED. Four key design decisions:</p>
+    <p class="lang-zh">本章展示了 ED 的最小完整实现。四个关键设计决策：</p>
+
+    <ol class="lang-en">
+      <li><strong>Binary encoding</strong>: spin state = integer, bit operations = physical operators, with virtually zero overhead</li>
+      <li><strong>$S^z$ conservation</strong>: popcount filtering reduces the dimension from $2^L$ to $\binom{L}{L/2}$, a compression of about 6-fold ($L=24$)</li>
+      <li><strong>Sparse storage</strong>: only $O(L)$ nonzero entries per row, reducing memory from $O(D^2)$ to $O(LD)$</li>
+      <li><strong>Lanczos</strong>: $O(mLD)$ instead of $O(D^3)$; at $L=24$ the solve takes only about 10s</li>
+    </ol>
+    <ol class="lang-zh">
+      <li><strong>二进制编码</strong>：自旋态 = 整数，位操作 = 物理算符，几乎零额外开销</li>
+      <li><strong>$S^z$ 守恒</strong>：popcount 筛选，维数从 $2^L$ 降到 $\binom{L}{L/2}$，约压缩 6 倍（$L=24$）</li>
+      <li><strong>稀疏存储</strong>：每行只有 $O(L)$ 个非零元，内存从 $O(D^2)$ 降到 $O(LD)$</li>
+      <li><strong>Lanczos</strong>：$O(mLD)$ 而非 $O(D^3)$，$L=24$ 时 solve 只需约 10s</li>
+    </ol>
+
+    <p class="lang-en">The performance analysis also points toward next steps:</p>
+    <p class="lang-zh">性能分析也揭示了下一步的方向：</p>
+
+    <ul class="lang-en">
+      <li><strong>Python loops</strong> are the real bottleneck; Cython/Numba can provide 100x speedup</li>
+      <li><strong>Symmetries</strong> (translation, reflection) can further reduce the dimension by roughly $2L$-fold</li>
+      <li><strong>Basis indexing</strong>: the $O(\log D)$ binary search can be reduced to $O(1)$ using the combinatorial number system</li>
+    </ul>
+    <ul class="lang-zh">
+      <li><strong>Python 循环</strong>是真正的瓶颈，以后介绍 Cython/Numba 可加速 100 倍</li>
+      <li><strong>对称性</strong>（平移、反射）可将维数再降约 $2L$ 倍，以后介绍</li>
+      <li><strong>基矢索引</strong>：二分查找的 $O(\log D)$ 可用组合数系统降到 $O(1)$，以后介绍</li>
+    </ul>
+
+    <hr>
+
+    <!-- References -->
+    <h2>
+      <span class="lang-en">References</span>
+      <span class="lang-zh">参考文献</span>
+    </h2>
+
+    <ol>
+      <li>H. Bethe, <em>Zur Theorie der Metalle. I. Eigenwerte und Eigenfunktionen der linearen Atomkette</em>, Z. Phys. <strong>71</strong>, 205 (1931).</li>
+      <li>E. Lieb and D. Mattis, <em>Ordering Energy Levels of Interacting Spin Systems</em>, J. Math. Phys. <strong>3</strong>, 749 (1962).</li>
+      <li>H. W. J. Bl&ouml;te, J. L. Cardy, and M. P. Nightingale, <em>Conformal Invariance, the Central Charge, and Universal Finite-Size Amplitudes at Criticality</em>, Phys. Rev. Lett. <strong>56</strong>, 742 (1986).</li>
+      <li>I. Affleck, <em>Universal Term in the Free Energy at a Critical Point and the Conformal Anomaly</em>, Phys. Rev. Lett. <strong>56</strong>, 746 (1986).</li>
+    </ol>
+
+  </div>
+</div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Wen Chen.</p>
+</footer>
+
+<script>
+function toggleLang() {
+  const body = document.body;
+  const btn = document.querySelector('.lang-toggle');
+  body.classList.toggle('zh');
+  btn.textContent = body.classList.contains('zh') ? 'EN' : '中文';
+}
+</script>
+
+</body>
+</html>
