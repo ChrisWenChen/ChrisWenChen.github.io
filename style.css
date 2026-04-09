@@ -515,6 +515,11 @@ main {
 .heatmap-scroll {
   overflow-x: auto;
   overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+
+.heatmap-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .heatmap-grid {
@@ -526,6 +531,8 @@ main {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  width: 12px;
+  flex: none;
 }
 
 .heatmap-cell {
