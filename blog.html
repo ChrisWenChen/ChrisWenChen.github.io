@@ -89,7 +89,7 @@ function toggleLang() {
   btn.textContent = body.classList.contains('zh') ? 'EN' : '中文';
 }
 
-// Generate heatmap (past 52 weeks)
+// Generate heatmap (full current year, page-wide)
 (function() {
   const grid = document.getElementById('heatmap');
   const monthsRow = document.getElementById('heatmap-months');
@@ -101,18 +101,27 @@ function toggleLang() {
     '2026-04-07': 4,  // nanoED post published
   };
 
+  const year = new Date().getFullYear();
+  // Start: Sunday of the week containing Jan 1
+  const jan1 = new Date(year, 0, 1);
+  const startDate = new Date(jan1);
+  startDate.setDate(jan1.getDate() - jan1.getDay());
+  // End: Saturday of the week containing Dec 31
+  const dec31 = new Date(year, 11, 31);
+  const endDate = new Date(dec31);
+  endDate.setDate(dec31.getDate() + (6 - dec31.getDay()));
+  // Total weeks
+  const numWeeks = Math.round((endDate - startDate) / (7 * 86400000)) + 1;
+
   const today = new Date();
-  const dayOfWeek = today.getDay(); // 0=Sun
-  // Start from 52 weeks ago, aligned to Sunday
-  const startDate = new Date(today);
-  startDate.setDate(today.getDate() - (52 * 7 + dayOfWeek));
+  const todayKey = today.toISOString().slice(0, 10);
 
   let lastMonth = -1;
-  for (let week = 0; week < 53; week++) {
+  for (let week = 0; week < numWeeks; week++) {
     const col = document.createElement('div');
     col.className = 'heatmap-col';
 
-    // Month label: check the first day of this week column
+    // Month label: first day of this week column
     const weekStart = new Date(startDate);
     weekStart.setDate(startDate.getDate() + week * 7);
     const m = weekStart.getMonth();
@@ -125,10 +134,11 @@ function toggleLang() {
 
     for (let day = 0; day < 7; day++) {
       const cell = document.createElement('div');
-      cell.className = 'heatmap-cell';
       const d = new Date(startDate);
       d.setDate(startDate.getDate() + week * 7 + day);
       const key = d.toISOString().slice(0, 10);
+      const isFuture = key > todayKey;
+      cell.className = 'heatmap-cell' + (isFuture ? ' heatmap-future' : '');
       const level = activity[key] || 0;
       cell.setAttribute('data-level', level);
       cell.title = key + (level ? ` (level ${level})` : '');
