@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entanglement Entropy | Wen Chen</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/python.min.js"></script>
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Wen Chen</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about" class="lang-en">About</a><a href="../index.html#about" class="lang-zh">关于</a></li>
+      <li><a href="../index.html#education" class="lang-en">Education</a><a href="../index.html#education" class="lang-zh">教育</a></li>
+      <li><a href="../index.html#publications" class="lang-en">Publications</a><a href="../index.html#publications" class="lang-zh">论文</a></li>
+      <li><a href="../index.html#talks" class="lang-en">Talks</a><a href="../index.html#talks" class="lang-zh">报告</a></li>
+      <li><a href="../index.html#teaching" class="lang-en">Teaching</a><a href="../index.html#teaching" class="lang-zh">教学</a></li>
+      <li><a href="../blog.html" class="lang-en" style="color:var(--accent);font-weight:600">Blog</a><a href="../blog.html" class="lang-zh" style="color:var(--accent);font-weight:600">博客</a></li>
+      <li><button class="lang-toggle" onclick="toggleLang()">中文</button></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+<div class="blog-article-wrapper" style="margin-top:0.5rem;">
+<div class="card blog-article">
+  <a href="../blog.html" class="back-link">&larr; <span class="lang-en">Back to Blog</span><span class="lang-zh">返回博客</span></a>
+
+  <h1>
+    <span class="lang-en">Computing Entanglement Entropy: From Partial Trace to Efficient Algorithms and 2D Extensions</span>
+    <span class="lang-zh">纠缠熵的计算：从偏迹到高效算法与二维推广</span>
+  </h1>
+  <div class="meta">
+    <span class="blog-author">
+      <img src="../assets/profile.png" alt="Wen Chen" class="blog-author-avatar">
+      <span class="blog-author-name">Wen Chen</span>
+    </span>
+    <span class="meta-separator">|</span>
+    <span>Apr 9, 2026</span>
+    <span class="meta-separator">|</span>
+    <span id="reading-stats"></span>
+  </div>
+
+  <div class="content">
+
+    <!-- Intro -->
+    <p class="lang-en">
+      Entanglement entropy (EE) is one of the most fundamental diagnostic quantities in quantum many-body physics. It answers a simple question: how strong are the quantum correlations between subsystems? This quantity can distinguish thermalized phases from localized phases, pinpoint quantum phase transitions, and detect topological order &mdash; and computing it requires just one linear algebra operation: the singular value decomposition (SVD).
+    </p>
+    <p class="lang-zh">
+      纠缠熵（entanglement entropy, EE）是量子多体物理中最核心的诊断量之一。它回答一个简单的问题：子系统之间具有多强的量子关联？这个量可以区分热化相与局域化相、标定量子相变、判定拓扑序——而计算它只需要一个线性代数操作：奇异值分解（SVD）。
+    </p>
+
+    <p class="lang-en">
+      The goal of this article is to take entanglement entropy from definition to code. After reading through the entire text, the reader should be able to:
+    </p>
+    <p class="lang-zh">
+      本文的目标是把纠缠熵从定义落实到代码。读者跟完全文后，应能：
+    </p>
+
+    <ol class="lang-en">
+      <li>Hand-calculate the entanglement entropy of any small state</li>
+      <li>Understand the numerical computation strategies for EE and choose the appropriate implementation based on problem size</li>
+      <li>Use concise Python code to compute entanglement entropy for 1D and 2D lattice systems, and compare results with theoretical predictions</li>
+    </ol>
+    <ol class="lang-zh">
+      <li>手算任何小态的纠缠熵</li>
+      <li>理解纠缠熵的数值计算思路，并能根据问题规模选择合适实现</li>
+      <li>用简洁的Python 计算一维、二维格点系统的纠缠熵，并与理论预言对比</li>
+    </ol>
+
+    <p class="lang-en">
+      The complete code is available at <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial"><code>entanglement-entropy-tutorial</code></a>, including the core module <code>ee/</code> (general methods + correlation matrix method), lattice construction <code>lattices/</code> (1D chain, 2D square, honeycomb), and demo scripts in <code>demos/</code>.
+    </p>
+    <p class="lang-zh">
+      完整代码见 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial"><code>entanglement-entropy-tutorial</code></a>，包含核心模块 <code>ee/</code>（通用方法 + 关联矩阵方法）、格点构造 <code>lattices/</code>（1D 链、2D 方格子、蜂窝格点），以及 <code>demos/</code> 下的演示脚本。
+    </p>
+
+    <hr>
+
+    <!-- Section 1 -->
+    <h2 id="sec-1">
+      <span class="lang-en">1. Why Compute Entanglement Entropy</span>
+      <span class="lang-zh">1. 为什么要计算纠缠熵</span>
+    </h2>
+
+    <p class="lang-en">
+      Take a pure state $|\psi\rangle$ of a quantum system and divide it into parts $A$ and $B$. The entanglement entropy $S_A$ quantifies the strength of quantum correlations between $A$ and $B$. Different physical phases obey distinctly different scaling laws for entanglement entropy &mdash; this is precisely the source of its power as a diagnostic:
+    </p>
+    <p class="lang-zh">
+      取一个量子系统的纯态 $|\psi\rangle$，把它分成 $A$ 和 $B$ 两部分。纠缠熵 $S_A$ 量化的是 $A$ 与 $B$ 之间的量子关联强度。不同物理相的纠缠熵遵循截然不同的标度律，这正是它作为诊断量的威力所在：
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th><span class="lang-en">Physical Phase</span><span class="lang-zh">物理相</span></th>
+          <th><span class="lang-en">Typical EE Scaling</span><span class="lang-zh">典型纠缠熵标度</span></th>
+          <th><span class="lang-en">Key References</span><span class="lang-zh">代表文献</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="lang-en">1D gapped ground state</span><span class="lang-zh">一维有隙基态</span></td>
+          <td>$S = O(1)$ (<span class="lang-en">area law</span><span class="lang-zh">面积律</span>)</td>
+          <td><span class="lang-en">Review: [1]; rigorous proof: Hastings, J. Stat. Mech. (2007) P08024</span><span class="lang-zh">综述参见 [1]；严格证明见 Hastings, J. Stat. Mech. (2007) P08024</span></td>
+        </tr>
+        <tr>
+          <td><span class="lang-en">1D critical state (CFT, central charge $c$)</span><span class="lang-zh">一维临界态（CFT，中心荷 $c$）</span></td>
+          <td>$S = \frac{c}{3}\ln L$</td>
+          <td>Calabrese &amp; Cardy [2]</td>
+        </tr>
+        <tr>
+          <td><span class="lang-en">Thermalized eigenstate (ETH)</span><span class="lang-zh">热化本征态（ETH）</span></td>
+          <td>$S \sim \frac{V}{2}\ln 2$ (<span class="lang-en">volume law</span><span class="lang-zh">体积律</span>)</td>
+          <td>Deutsch [12], Srednicki [13], Rigol [14]</td>
+        </tr>
+        <tr>
+          <td><span class="lang-en">MBL eigenstate</span><span class="lang-zh">MBL 本征态</span></td>
+          <td>$S = O(1)$ (<span class="lang-en">area law</span><span class="lang-zh">面积律</span>)</td>
+          <td>Bauer &amp; Nayak [4]</td>
+        </tr>
+        <tr>
+          <td><span class="lang-en">Many-body scar state</span><span class="lang-zh">多体疤痕态</span></td>
+          <td><span class="lang-en">Specific few eigenstates deviate from ETH (weak ergodicity breaking)</span><span class="lang-zh">特定少数本征态纠缠显著偏离 ETH 预言（weak ergodicity breaking）</span></td>
+          <td>Turner et al. [5]</td>
+        </tr>
+        <tr>
+          <td><span class="lang-en">2D Dirac semimetal (corner subregion)</span><span class="lang-zh">二维 Dirac 半金属（尖角子区）</span></td>
+          <td>$S = \alpha |\partial A| + a_2(\theta) \ln |\partial A| + \cdots$</td>
+          <td>D'Emidio et al. [6] ($a_2(\pi/3) \approx 0.0331$)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en">
+      This table shows that efficiently computing entanglement entropy helps us identify phases of matter.
+    </p>
+    <p class="lang-zh">
+      这张表说明：高效计算纠缠熵，能帮助我们识别物质相。
+    </p>
+
+    <p class="lang-en">
+      The rest of the article is organized as follows: first we establish the mathematical framework of partial trace and Schmidt decomposition (&sect;2&ndash;3), then practice with minimal examples (&sect;4), discuss four general numerical algorithms and their trade-offs (&sect;5), introduce the correlation matrix method specific to free fermions (&sect;6), verify CFT predictions on 1D free fermion chains with code (&sect;7), and finally extend to 2D square and honeycomb lattices with comparison to literature benchmarks (&sect;8).
+    </p>
+    <p class="lang-zh">
+      下文的组织方式是：先建立偏迹和 Schmidt 分解的数学框架（&sect;2&ndash;3），再用最小例子练手（&sect;4），然后讨论四种通用数值算法及其优劣（&sect;5），接着介绍自由费米子专属的关联矩阵方法（&sect;6），再用代码在一维自由费米子链上验证 CFT 预言（&sect;7），最后推广到二维方格子和蜂窝格点并与文献基准对比（&sect;8）。
+    </p>
+
+    <hr>
+
+    <!-- Section 2 -->
+    <h2 id="sec-2">
+      <span class="lang-en">2. Partial Trace and Reduced Density Matrix</span>
+      <span class="lang-zh">2. 偏迹与约化密度矩阵</span>
+    </h2>
+
+    <p class="lang-en">
+      The first step in computing entanglement entropy is constructing the <strong>reduced density matrix</strong> $\rho_A$, which is defined through the <strong>partial trace</strong> operation. This section covers the partial trace from definition to component formula to matrix form.
+    </p>
+    <p class="lang-zh">
+      计算纠缠熵的第一步是构造<strong>约化密度矩阵</strong> $\rho_A$，而它的定义依赖<strong>偏迹</strong>（partial trace）运算。这一节把偏迹从定义到分量公式再到矩阵形式完整讲一遍。
+    </p>
+
+    <h3 id="sec-2-1">
+      <span class="lang-en">2.1 Definition of the Partial Trace</span>
+      <span class="lang-zh">2.1 偏迹的定义</span>
+    </h3>
+
+    <p class="lang-en">
+      <strong>Intuition</strong>: We only care about subsystem $A$ and are not interested in the details of $B$, so we sum over all degrees of freedom of $B$ to obtain an effective state describing only $A$. This "summing over $B$" operation is called the <strong>partial trace</strong>.
+    </p>
+    <p class="lang-zh">
+      <strong>直觉</strong>：我们只关心子系统 $A$，而对 $B$ 的细节不感兴趣，所以把 $B$ 的所有自由度求和掉，得到一个只描述 $A$ 的有效状态。这个"对 $B$ 求和"的操作就叫<strong>偏迹</strong>（partial trace）。
+    </p>
+
+    <p class="lang-en">
+      <strong>Formal definition</strong>: Let the total Hilbert space be $\mathcal{H} = \mathcal{H}_A \otimes \mathcal{H}_B$, with dimensions $d_A$ and $d_B$ respectively. For a density matrix $\rho$, the <strong>partial trace over $B$</strong> is defined as
+    </p>
+    <p class="lang-zh">
+      <strong>正式定义</strong>：设总系统的 Hilbert 空间是 $\mathcal{H} = \mathcal{H}_A \otimes \mathcal{H}_B$，维度分别为 $d_A$ 和 $d_B$。对密度矩阵 $\rho$，<strong>对 $B$ 求偏迹</strong>定义为
+    </p>
+
+    <p>$$\rho_A \equiv \operatorname{Tr}_B \rho = \sum_{j=1}^{d_B} \langle j|_B\, \rho\, |j\rangle_B,$$</p>
+
+    <p class="lang-en">
+      where $\{|j\rangle_B\}$ is any complete orthonormal basis of $\mathcal{H}_B$, and the result $\rho_A$ is an operator acting only on $\mathcal{H}_A$. Similarly, $\rho_B = \operatorname{Tr}_A \rho$.
+    </p>
+    <p class="lang-zh">
+      其中 $\{|j\rangle_B\}$ 是 $\mathcal{H}_B$ 的任意一组完备正交归一基，结果 $\rho_A$ 是一个只作用在 $\mathcal{H}_A$ 上的算符。类似地，$\rho_B = \operatorname{Tr}_A \rho$。
+    </p>
+
+    <img src="../assets/ee/ee-fig-ptrace.png" alt="Partial trace visualization" style="max-width:100%">
+
+    <p class="lang-en">
+      <strong>From Dirac notation to matrix elements</strong>: To turn the above definition into a computable formula, write out the matrix elements in the product basis $|a\rangle_A|b\rangle_B$:
+    </p>
+    <p class="lang-zh">
+      <strong>从 Dirac 符号到矩阵元</strong>：为了把上述定义变成可计算的公式，用积基 $|a\rangle_A|b\rangle_B$ 写出矩阵元
+    </p>
+
+    <p>$$\rho_{ab;\,a'b'} \equiv \langle a,b|\rho|a',b'\rangle,$$</p>
+
+    <p class="lang-en">and substituting into the definition, the partial trace is equivalent to</p>
+    <p class="lang-zh">代入定义，偏迹等价于</p>
+
+    <p>$$(\rho_A)_{a,a'} = \sum_{b=1}^{d_B} \rho_{ab;\,a'b}.$$</p>
+
+    <p class="lang-en">
+      The essence of this step is: set the two $B$ indices equal ($b'=b$) and sum over $b$ (index contraction), leaving only $a,a'$. The output is naturally a $d_A \times d_A$ matrix.
+    </p>
+    <p class="lang-zh">
+      这一步的本质是：令 $B$ 的两个索引相等（$b'=b$）并对 $b$ 求和（索引收缩），只留下 $a,a'$，输出自然是 $d_A \times d_A$ 的矩阵。
+    </p>
+
+    <p class="lang-en">
+      <strong>Block-trace matrix perspective</strong>: For two qubits ($d_A=d_B=2$), the basis in lexicographic order is $|00\rangle, |01\rangle, |10\rangle, |11\rangle$, with the outer index $a$ first and the inner index $b$ second. Partition the $4\times4$ matrix by outer indices $a,a'$ into four $2\times2$ blocks:
+    </p>
+    <p class="lang-zh">
+      <strong>分块取迹的矩阵视角</strong>：对两比特（$d_A=d_B=2$）来说，基底按字典序排列为 $|00\rangle, |01\rangle, |10\rangle, |11\rangle$，即外层指标 $a$ 在前、内层指标 $b$ 在后。将 $4\times4$ 矩阵按外层指标 $a,a'$ 切成四个 $2\times2$ 子块：
+    </p>
+
+    <p>$$\rho=\begin{bmatrix}M_{00} & M_{01}\\M_{10} & M_{11}\end{bmatrix},\qquad M_{aa'}\in\mathbb{C}^{2\times2},$$</p>
+
+    <p class="lang-en">
+      where each block $M_{aa'}$ has row and column indices corresponding to $B$'s indices $b,b'$. Therefore summing over $b$ (setting $b'=b$) is equivalent to taking the ordinary trace of each block:
+    </p>
+    <p class="lang-zh">
+      每个子块 $M_{aa'}$ 的行列指标恰好是 $B$ 的指标 $b,b'$。因此对 $b$ 求和（令 $b'=b$）就等于对每个子块取普通迹：
+    </p>
+
+    <p>$$\rho_A=\begin{bmatrix}\operatorname{tr}(M_{00}) & \operatorname{tr}(M_{01})\\\operatorname{tr}(M_{10}) & \operatorname{tr}(M_{11})\end{bmatrix}.$$</p>
+
+    <p class="lang-en"><strong>Physical example: Bell state</strong></p>
+    <p class="lang-zh"><strong>物理例子：Bell 态</strong></p>
+
+    <p class="lang-en">Take the maximally entangled state</p>
+    <p class="lang-zh">取最大纠缠态</p>
+
+    <p>$$|\Phi^+\rangle = \frac{1}{\sqrt{2}}\bigl(|00\rangle + |11\rangle\bigr),$$</p>
+
+    <p class="lang-en">whose density matrix (in the $|00\rangle,|01\rangle,|10\rangle,|11\rangle$ basis) is</p>
+    <p class="lang-zh">其密度矩阵（按 $|00\rangle,|01\rangle,|10\rangle,|11\rangle$ 排列）为</p>
+
+    <p>$$\rho = |\Phi^+\rangle\langle\Phi^+| =\frac{1}{2}\begin{bmatrix}1 & 0 & 0 & 1\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\1 & 0 & 0 & 1\end{bmatrix}=\frac{1}{2}\begin{bmatrix}M_{00} & M_{01}\\M_{10} & M_{11}\end{bmatrix},$$</p>
+
+    <p class="lang-en">where</p>
+    <p class="lang-zh">其中</p>
+
+    <p>$$M_{00}=\begin{bmatrix}1&0\\0&0\end{bmatrix},\quad M_{01}=\begin{bmatrix}0&1\\0&0\end{bmatrix},\quad M_{10}=\begin{bmatrix}0&0\\1&0\end{bmatrix},\quad M_{11}=\begin{bmatrix}0&0\\0&1\end{bmatrix}.$$</p>
+
+    <p class="lang-en">Taking the trace of each block:</p>
+    <p class="lang-zh">对每个子块取迹：</p>
+
+    <p>$$\operatorname{tr}(M_{00})=1,\quad\operatorname{tr}(M_{01})=0,\quad\operatorname{tr}(M_{10})=0,\quad\operatorname{tr}(M_{11})=1.$$</p>
+
+    <p class="lang-en">Therefore</p>
+    <p class="lang-zh">因此</p>
+
+    <p>$$\rho_A = \frac{1}{2}\begin{bmatrix}1 & 0\\0 & 1\end{bmatrix}= \frac{I}{2}.$$</p>
+
+    <p class="lang-en">
+      This is exactly the expected result: a Bell state is maximally entangled, so from $A$'s perspective it appears completely mixed (equal-weight superposition). The same steps verified with the index formula:
+    </p>
+    <p class="lang-zh">
+      这正是我们期待的结果：Bell 态是最大纠缠态，从 $A$ 的视角看完全是混态（等权叠加）。同样的步骤用索引公式验证：
+    </p>
+
+    <p>$$(\rho_A)_{00}=\rho_{00;00}+\rho_{01;01}=\tfrac{1}{2}+0=\tfrac{1}{2},\quad(\rho_A)_{11}=\rho_{10;10}+\rho_{11;11}=0+\tfrac{1}{2}=\tfrac{1}{2},$$</p>
+
+    <p>$$(\rho_A)_{01}=\rho_{00;10}+\rho_{01;11}=0+0=0,\quad(\rho_A)_{10}=\rho_{10;00}+\rho_{11;01}=0+0=0.$$</p>
+
+    <p class="lang-en">And once more directly from the Dirac definition:</p>
+    <p class="lang-zh">再按 Dirac 定义直接算一遍，由</p>
+
+    <p>$$\rho_A=\sum_{j=0}^1 \langle j|_B\,\rho\,|j\rangle_B=\langle0|_B\rho|0\rangle_B+\langle1|_B\rho|1\rangle_B,$$</p>
+
+    <p class="lang-en">with</p>
+    <p class="lang-zh">以及</p>
+
+    <p>$$\rho=\frac12\Bigl(|00\rangle\langle00|+|00\rangle\langle11|+|11\rangle\langle00|+|11\rangle\langle11|\Bigr),$$</p>
+
+    <p class="lang-en">projecting term by term gives</p>
+    <p class="lang-zh">逐项投影可得</p>
+
+    <p>$$\langle0|_B\rho|0\rangle_B=\frac12|0\rangle_A\langle0|_A,\qquad\langle1|_B\rho|1\rangle_B=\frac12|1\rangle_A\langle1|_A.$$</p>
+
+    <p class="lang-en">Therefore</p>
+    <p class="lang-zh">因此</p>
+
+    <p>$$\rho_A=\frac12|0\rangle\langle0|+\frac12|1\rangle\langle1|=\frac12\begin{bmatrix}1&0\\0&1\end{bmatrix}.$$</p>
+
+    <p class="lang-en">
+      This is fully consistent with both the block-trace and index-contraction results, showing that the "Dirac definition," "index contraction formula," and "block-trace algorithm" are simply different ways of writing the same operation.
+    </p>
+    <p class="lang-zh">
+      这与上面的分块取迹和索引收缩结果完全一致，说明 "Dirac 定义"、"索引收缩公式"、"分块取迹算法" 三者只是同一运算的不同写法。
+    </p>
+
+    <h3 id="sec-2-2">
+      <span class="lang-en">2.2 Coefficient Matrix and Reduced Density Matrix</span>
+      <span class="lang-zh">2.2 系数矩阵与约化密度矩阵</span>
+    </h3>
+
+    <p class="lang-en">
+      The previous section computed the same partial trace from three perspectives: blocks, indices, and Dirac notation. Now we compress this machinery into a more compact form applicable to any pure state.
+    </p>
+    <p class="lang-zh">
+      上一节用分块、索引、Dirac 三种视角计算了同一个偏迹。现在把这套操作压缩成一个更紧凑的形式，适用于任意纯态。
+    </p>
+
+    <p class="lang-en">Expand a pure state in the product basis $|i\rangle_A \otimes |j\rangle_B$:</p>
+    <p class="lang-zh">在积基 $|i\rangle_A \otimes |j\rangle_B$ 下展开纯态：</p>
+
+    <p>$$|\psi\rangle = \sum_{i=1}^{d_A} \sum_{j=1}^{d_B} c_{ij}\, |i\rangle_A |j\rangle_B$$</p>
+
+    <p class="lang-en">
+      Arrange all coefficients $c_{ij}$ into a $d_A \times d_B$ matrix $C$: row $i$ corresponds to basis vector $|i\rangle_A$ of subsystem $A$, column $j$ corresponds to basis vector $|j\rangle_B$ of subsystem $B$.
+    </p>
+    <p class="lang-zh">
+      把所有系数 $c_{ij}$ 排成一个 $d_A \times d_B$ 的矩阵 $C$：第 $i$ 行对应子系统 $A$ 的基矢 $|i\rangle_A$，第 $j$ 列对应子系统 $B$ 的基矢 $|j\rangle_B$。
+    </p>
+
+    <p class="lang-en">Each element of the reduced density matrix can be understood as follows: fixing a pair $(i,i')$,</p>
+    <p class="lang-zh">约化密度矩阵的每个元素可以这样理解：固定一对 $(i,i')$ 后，</p>
+
+    <p>$$(\rho_A)_{ii'} = \langle i|_A \rho_A |i'\rangle_A = \sum_{j=1}^{d_B} c_{ij}\, c_{i'j}^*$$</p>
+
+    <p class="lang-en">
+      This is precisely the conjugate inner product of row $i$ and row $i'$ of $C$ &mdash; element-wise multiplication along the column index $j$ followed by summation. Similarly,
+    </p>
+    <p class="lang-zh">
+      这正是 $C$ 的第 $i$ 行与第 $i'$ 行的共轭内积——按列指标 $j$ 逐元素相乘再求和。类似地，
+    </p>
+
+    <p>$$(\rho_B)_{jj'} = \sum_{i=1}^{d_A} c_{ij}\, c_{ij'}^*$$</p>
+
+    <p class="lang-en">is the conjugate inner product of column $j$ and column $j'$ of $C$.</p>
+    <p class="lang-zh">是 $C$ 的第 $j$ 列与第 $j'$ 列的共轭内积。</p>
+
+    <p class="lang-en">The component formula immediately becomes a matrix expression:</p>
+    <p class="lang-zh">于是分量公式立刻变成矩阵形式：</p>
+
+    <p>$$\rho_A = C C^\dagger, \qquad \rho_B = C^\dagger C$$</p>
+
+    <p class="lang-en">
+      These two matrices share <strong>the same nonzero eigenvalues</strong> (this is a standard result in linear algebra: $AB$ and $BA$ have the same nonzero eigenvalues). Therefore $S_A = S_B$ &mdash; the entanglement entropy of a pure state is the same for both subsystems.
+    </p>
+    <p class="lang-zh">
+      这两个矩阵有<strong>相同的非零本征值</strong>（这是线性代数的标准结论：$AB$ 和 $BA$ 的非零特征值相同）。因此 $S_A = S_B$——纯态的纠缠熵对两个子系统是一样的。
+    </p>
+
+    <p class="lang-en">Furthermore, the fact that entanglement entropy "reduces to finding singular values" can be seen directly from the SVD. Let</p>
+    <p class="lang-zh">更进一步，纠缠熵之所以"等同于求奇异值"，可以直接从 SVD 看出来。设</p>
+
+    <p>$$C = U\Sigma V^\dagger,$$</p>
+
+    <p class="lang-en">then taking the conjugate transpose gives</p>
+    <p class="lang-zh">两边取厄米共轭可得</p>
+
+    <p>$$C^\dagger = (U\Sigma V^\dagger)^\dagger = V\Sigma^\dagger U^\dagger.$$</p>
+
+    <p class="lang-en">Therefore</p>
+    <p class="lang-zh">则</p>
+
+    <p>$$\rho_A = CC^\dagger = U\Sigma\Sigma^\dagger U^\dagger,\qquad\rho_B = C^\dagger C = V\Sigma^\dagger\Sigma V^\dagger.$$</p>
+
+    <p class="lang-en">
+      The nonzero diagonal entries of both $\Sigma\Sigma^\dagger$ and $\Sigma^\dagger\Sigma$ are $\sigma_k^2$ (where $\sigma_k$ are the singular values of $C$). Therefore the nonzero eigenvalues of $\rho_A$ and $\rho_B$ are both
+    </p>
+    <p class="lang-zh">
+      其中 $\Sigma\Sigma^\dagger$ 与 $\Sigma^\dagger\Sigma$ 的非零对角元都是 $\sigma_k^2$（$\sigma_k$ 为 $C$ 的奇异值）。因此 $\rho_A,\rho_B$ 的非零本征值都是
+    </p>
+
+    <p>$$\lambda_k=\sigma_k^2.$$</p>
+
+    <p class="lang-en">Substituting into the von Neumann entropy:</p>
+    <p class="lang-zh">代入冯诺依曼熵：</p>
+
+    <p>$$S_A = -\sum_k \lambda_k\ln\lambda_k = -\sum_k \sigma_k^2 \ln \sigma_k^2.$$</p>
+
+    <p class="lang-en">
+      So algorithmically there is no need to explicitly construct and diagonalize $\rho_A$; one only needs to find the singular values of $C$ to obtain the entanglement entropy.
+    </p>
+    <p class="lang-zh">
+      所以算法上无需先显式构造并对角化 $\rho_A$；只要求出 $C$ 的奇异值即可得到纠缠熵。
+    </p>
+
+    <p class="lang-en">First consider the general case: one element of $\rho_A$ is the conjugate inner product of two rows of $C$; arranging all such inner products gives $\rho_A = CC^\dagger$.</p>
+    <p class="lang-zh">先看一般情形：$\rho_A$ 的一个矩阵元，就是 $C$ 的两行做共轭内积；把所有这样的内积排起来，就得到 $\rho_A = CC^\dagger$。</p>
+
+    <img src="../assets/ee/ee-fig-row-inner.png" alt="From row inner products to rho_A" style="max-width:100%">
+
+    <p class="lang-en">Now consider the simplest concrete example: the Bell state. Its two row coefficient vectors are mutually orthogonal, and each row has squared norm $1/2$, so we immediately get $\rho_A = \mathrm{diag}(1/2,1/2)$.</p>
+    <p class="lang-zh">再看 Bell 态这个最简单的具体例子。它的两行系数向量彼此正交，而且每一行的范数平方都是 $1/2$，所以立刻得到 $\rho_A = \mathrm{diag}(1/2,1/2)$。</p>
+
+    <img src="../assets/ee/ee-fig-bell-rho.png" alt="rho_A of the Bell state" style="max-width:100%">
+
+    <p class="lang-en"><strong>Key point</strong>: The entire mathematical problem of computing entanglement entropy reduces to &mdash; obtaining the coefficient matrix $C$, then finding its singular values.</p>
+    <p class="lang-zh"><strong>要点</strong>：计算纠缠熵的全部数学问题归结为——拿到系数矩阵 $C$，然后求它的奇异值。</p>
+
+    <hr>
+
+    <!-- Section 3 -->
+    <h2 id="sec-3">
+      <span class="lang-en">3. Schmidt Decomposition</span>
+      <span class="lang-zh">3. Schmidt 分解</span>
+    </h2>
+
+    <h3 id="sec-3-1">
+      <span class="lang-en">3.1 What Is the Schmidt Decomposition</span>
+      <span class="lang-zh">3.1 什么是 Schmidt 分解</span>
+    </h3>
+
+    <p class="lang-en">The Schmidt decomposition theorem states: any pure state $|\psi\rangle \in \mathcal{H}_A \otimes \mathcal{H}_B$ can be written as</p>
+    <p class="lang-zh">Schmidt 分解定理说的是：任意纯态 $|\psi\rangle \in \mathcal{H}_A \otimes \mathcal{H}_B$ 都可以写成</p>
+
+    <p>$$|\psi\rangle = \sum_{k=1}^{\chi} \sigma_k\, |u_k\rangle_A |v_k\rangle_B$$</p>
+
+    <p class="lang-en">
+      where $\sigma_k > 0$, $\sum_k \sigma_k^2 = 1$, $\{|u_k\rangle_A\}$ and $\{|v_k\rangle_B\}$ are orthonormal sets in $\mathcal{H}_A$ and $\mathcal{H}_B$ respectively. $\chi \leq \min(d_A, d_B)$ is called the <strong>Schmidt rank</strong>.
+    </p>
+    <p class="lang-zh">
+      其中 $\sigma_k > 0$、$\sum_k \sigma_k^2 = 1$，$\{|u_k\rangle_A\}$ 和 $\{|v_k\rangle_B\}$ 分别是 $\mathcal{H}_A$ 和 $\mathcal{H}_B$ 中的正交归一集。$\chi \leq \min(d_A, d_B)$ 称为 <strong>Schmidt 秩</strong>。
+    </p>
+
+    <p class="lang-en">Compared to the general product-basis expansion $|\psi\rangle = \sum_{ij} c_{ij}|i\rangle_A|j\rangle_B$, the Schmidt decomposition has two key differences:</p>
+    <p class="lang-zh">和一般的积基展开 $|\psi\rangle = \sum_{ij} c_{ij}|i\rangle_A|j\rangle_B$ 相比，Schmidt 分解有两个关键区别：</p>
+
+    <ul class="lang-en">
+      <li><strong>Single sum</strong>: There is only one summation index $k$, not double indices $i,j$. This means $A$ and $B$ basis vectors are paired one-to-one.</li>
+      <li><strong>State-dependent basis</strong>: $\{|u_k\rangle\}$ and $\{|v_k\rangle\}$ are not a pre-chosen computational basis, but determined by $|\psi\rangle$ itself &mdash; a different state gives a different basis.</li>
+    </ul>
+    <ul class="lang-zh">
+      <li><strong>单求和</strong>：只有一个求和指标 $k$，而不是双指标 $i,j$。这意味着 $A$ 和 $B$ 的基矢一一配对。</li>
+      <li><strong>基是态依赖的</strong>：$\{|u_k\rangle\}$ 和 $\{|v_k\rangle\}$ 不是事先选好的计算基，而是由 $|\psi\rangle$ 本身决定的——换一个态就换一组基。</li>
+    </ul>
+
+    <h3 id="sec-3-2">
+      <span class="lang-en">3.2 Schmidt Decomposition Is SVD</span>
+      <span class="lang-zh">3.2 Schmidt 分解就是 SVD</span>
+    </h3>
+
+    <p class="lang-en">The Schmidt decomposition is nothing mysterious: perform SVD on the coefficient matrix $C$ (the $d_A \times d_B$ matrix defined in &sect;2),</p>
+    <p class="lang-zh">Schmidt 分解并不神秘：把系数矩阵 $C$（第2节定义的 $d_A \times d_B$ 矩阵）做 SVD，</p>
+
+    <p>$$C = U \Sigma V^\dagger,$$</p>
+
+    <p class="lang-en">then let $|u_k\rangle_A$ be the expansion of the $k$-th column of $U$ in the computational basis, and $|v_k\rangle_B$ be the expansion of the $k$-th column of $V$ in the computational basis:</p>
+    <p class="lang-zh">然后令 $|u_k\rangle_A$ 为 $U$ 的第 $k$ 列在计算基下的展开，$|v_k\rangle_B$ 为 $V$ 的第 $k$ 列在计算基下的展开：</p>
+
+    <p>$$|u_k\rangle_A = \sum_i U_{ik}\,|i\rangle_A,\qquad|v_k\rangle_B = \sum_j V_{jk}^*\,|j\rangle_B,$$</p>
+
+    <p class="lang-en">and you get the Schmidt decomposition. In other words, SVD simultaneously does two things: finds the optimal basis (columns of $U$ and $V$), and reads off the weight of each basis pair (singular values $\sigma_k$).</p>
+    <p class="lang-zh">就得到了 Schmidt 分解。换句话说，SVD 同时做了两件事：找到最优基（$U$ 和 $V$ 的列），以及读出每对基矢的权重（奇异值 $\sigma_k$）。</p>
+
+    <img src="../assets/ee/ee-fig-svd.png" alt="SVD block diagram" style="max-width:100%">
+
+    <h3 id="sec-3-3">
+      <span class="lang-en">3.3 Why Introduce It Here</span>
+      <span class="lang-zh">3.3 为什么在这里讲</span>
+    </h3>
+
+    <p class="lang-en">&sect;2 already gave a complete computational method: perform SVD on $C$ to get the entanglement entropy. So why introduce the Schmidt decomposition? Because it provides a language and intuition widely used in quantum information:</p>
+    <p class="lang-zh">第2节已经给出了完整的计算方法：对 $C$ 做 SVD 就能得到纠缠熵。那为什么还要引入 Schmidt 分解？因为它提供了一套在量子信息中广泛使用的语言和直觉：</p>
+
+    <ul class="lang-en">
+      <li><strong>Schmidt rank $\chi$</strong> directly reflects the "dimension" of entanglement: $\chi = 1$ is equivalent to a product state (zero entanglement), $\chi = \min(d_A, d_B)$ means maximal possible entanglement.</li>
+      <li><strong>Schmidt coefficients</strong> $\{\sigma_k\}$ characterize the structure of entanglement: all $\sigma_k$ equal means maximal entanglement; one much larger than the rest means weak entanglement.</li>
+      <li>In subsequent discussions of MBL and quantum scars, the growth pattern of the Schmidt rank (polynomial vs exponential) is a key criterion for distinguishing different phases.</li>
+    </ul>
+    <ul class="lang-zh">
+      <li><strong>Schmidt 秩 $\chi$</strong> 直接反映纠缠的"维度"：$\chi = 1$ 等价于直积态（零纠缠），$\chi = \min(d_A, d_B)$ 意味着最大可能的纠缠。</li>
+      <li><strong>Schmidt 系数</strong> $\{\sigma_k\}$ 的分布刻画纠缠的结构：所有 $\sigma_k$ 相等时纠缠最大，一个远大于其余时纠缠很弱。</li>
+      <li>后续的 MBL 和量子疤痕讨论中，Schmidt 秩的增长方式（多项式 vs 指数）是区分不同物态的关键判据。</li>
+    </ul>
+
+    <h3 id="sec-3-4">
+      <span class="lang-en">3.4 Connection to Entanglement Entropy</span>
+      <span class="lang-zh">3.4 与纠缠熵的对应</span>
+    </h3>
+
+    <p class="lang-en">Rewriting the results of &sect;2 in Schmidt language:</p>
+    <p class="lang-zh">用 Schmidt 语言重写第2节的结果：</p>
+
+    <p>$$\lambda_k = \sigma_k^2,\qquad\rho_A = \sum_k \lambda_k\, |u_k\rangle\langle u_k|,\qquad S = -\sum_k \lambda_k \ln \lambda_k.$$</p>
+
+    <p class="lang-en">The Schmidt decomposition directly writes $\rho_A$ in diagonal form &mdash; $\{|u_k\rangle\}$ is the eigenbasis of $\rho_A$, and $\lambda_k$ are the eigenvalues. No further diagonalization is needed.</p>
+    <p class="lang-zh">Schmidt 分解直接把 $\rho_A$ 写成了对角形式——$\{|u_k\rangle\}$ 就是 $\rho_A$ 的本征基，$\lambda_k$ 就是本征值。不需要再做任何对角化。</p>
+
+    <hr>
+
+    <!-- Section 4 -->
+    <h2 id="sec-4">
+      <span class="lang-en">4. Worked Examples</span>
+      <span class="lang-zh">4. 手算练习</span>
+    </h2>
+
+    <h3 id="sec-4-1">
+      <span class="lang-en">4.1 Product State: $S = 0$</span>
+      <span class="lang-zh">4.1 直积态：$S = 0$</span>
+    </h3>
+
+    <p>$$|\psi\rangle = |\uparrow\rangle_A \otimes |\downarrow\rangle_B$$</p>
+
+    <p class="lang-en">Taking the basis $\{|\uparrow\rangle, |\downarrow\rangle\}$ for both $A$ and $B$, arrange the coefficients into a <strong>$d_A$-row $\times$ $d_B$-column</strong> matrix $C$: row $i$ corresponds to $A$'s basis vector $|i\rangle_A$, column $j$ corresponds to $B$'s basis vector $|j\rangle_B$, i.e.,</p>
+    <p class="lang-zh">取 $A$、$B$ 的基均为 $\{|\uparrow\rangle, |\downarrow\rangle\}$，把系数排成 <strong>$d_A$ 行 $\times$ $d_B$ 列</strong> 的矩阵 $C$：第 $i$ 行对应 $A$ 的基矢 $|i\rangle_A$，第 $j$ 列对应 $B$ 的基矢 $|j\rangle_B$，即</p>
+
+    <p>$$|\psi\rangle = \sum_{i,j} c_{ij}\, |i\rangle_A \otimes |j\rangle_B .$$</p>
+
+    <p class="lang-en">Writing the product basis as $|\uparrow\uparrow\rangle \equiv |\uparrow\rangle_A|\uparrow\rangle_B$ etc., we have $|\psi\rangle = |\uparrow\downarrow\rangle$ with only $c_{\uparrow,\downarrow} = 1$ and all other $c_{ij} = 0$. Therefore</p>
+    <p class="lang-zh">将积基简记为 $|\uparrow\uparrow\rangle \equiv |\uparrow\rangle_A|\uparrow\rangle_B$ 等，则 $|\psi\rangle = |\uparrow\downarrow\rangle$，只有 $c_{\uparrow,\downarrow} = 1$，其余 $c_{ij} = 0$。因此</p>
+
+    <p>$$C = \begin{pmatrix} c_{\uparrow,\uparrow} & c_{\uparrow,\downarrow} \\ c_{\downarrow,\uparrow} & c_{\downarrow,\downarrow} \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}.$$</p>
+
+    <p class="lang-en">
+      <strong>Reduced density matrix and singular values.</strong> By the formulas of &sect;3, $\rho_A = CC^\dagger = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}$, with eigenvalues $\lambda_1 = 1$, $\lambda_2 = 0$. Equivalently, the singular values of $C$ are $\sigma_1 = 1$ (plus one zero singular value), consistent with $\lambda_k = \sigma_k^2$. The Schmidt rank is $\chi = 1$.
+    </p>
+    <p class="lang-zh">
+      <strong>约化密度矩阵与奇异值。</strong> 按 &sect;3 的公式，$\rho_A = CC^\dagger = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}$，本征值为 $\lambda_1 = 1$，$\lambda_2 = 0$。等价地，$C$ 的奇异值为 $\sigma_1 = 1$（另有一零奇异值），$\lambda_k = \sigma_k^2$ 一致。Schmidt 秩 $\chi = 1$。
+    </p>
+
+    <p class="lang-en"><strong>Entanglement entropy.</strong></p>
+    <p class="lang-zh"><strong>纠缠熵。</strong></p>
+
+    <p>$$S = -\sum_k \lambda_k \ln \lambda_k = -1\cdot \ln 1 = 0.$$</p>
+
+    <p class="lang-en"><strong>Intuition</strong>: A product state has no entanglement; $A$ and $B$ are completely independent.</p>
+    <p class="lang-zh"><strong>直觉</strong>：直积态没有纠缠，$A$ 和 $B$ 完全独立。</p>
+
+    <h3 id="sec-4-2">
+      <span class="lang-en">4.2 Bell State: $S = \ln 2$</span>
+      <span class="lang-zh">4.2 Bell 态：$S = \ln 2$</span>
+    </h3>
+
+    <p>$$|\Phi^+\rangle = \frac{1}{\sqrt{2}}\bigl(|\uparrow\uparrow\rangle + |\downarrow\downarrow\rangle\bigr)$$</p>
+
+    <p class="lang-en">Coefficient matrix:</p>
+    <p class="lang-zh">系数矩阵：</p>
+
+    <p>$$C = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$$</p>
+
+    <p class="lang-en">Singular values $\sigma_1 = \sigma_2 = 1/\sqrt{2}$, Schmidt weights $\lambda_1 = \lambda_2 = 1/2$:</p>
+    <p class="lang-zh">奇异值 $\sigma_1 = \sigma_2 = 1/\sqrt{2}$，Schmidt 权重 $\lambda_1 = \lambda_2 = 1/2$：</p>
+
+    <p>$$S = -\frac{1}{2}\ln\frac{1}{2} - \frac{1}{2}\ln\frac{1}{2} = \ln 2 \approx 0.693$$</p>
+
+    <p class="lang-en">This is the <strong>maximum entanglement</strong> achievable by two qubits.</p>
+    <p class="lang-zh">这是两个量子比特能达到的<strong>最大纠缠</strong>。</p>
+
+    <h3 id="sec-4-3">
+      <span class="lang-en">4.3 Partially Entangled State</span>
+      <span class="lang-zh">4.3 部分纠缠态</span>
+    </h3>
+
+    <p>$$|\psi(\theta)\rangle = \cos\theta\,|\uparrow\uparrow\rangle + \sin\theta\,|\downarrow\downarrow\rangle$$</p>
+
+    <p class="lang-en">Coefficient matrix $C = \text{diag}(\cos\theta, \sin\theta)$, singular values $\sigma_1 = |\cos\theta|$, $\sigma_2 = |\sin\theta|$:</p>
+    <p class="lang-zh">系数矩阵 $C = \text{diag}(\cos\theta, \sin\theta)$，奇异值 $\sigma_1 = |\cos\theta|$、$\sigma_2 = |\sin\theta|$：</p>
+
+    <p>$$S(\theta) = -\cos^2\theta\,\ln\cos^2\theta - \sin^2\theta\,\ln\sin^2\theta$$</p>
+
+    <p class="lang-en">Over $\theta \in [0, \pi/2]$, $S$ increases continuously from $0$ to $\ln 2$ (reaching its maximum at $\theta = \pi/4$), then falls back to $0$: at the endpoints ($\theta = 0$ and $\pi/2$) we have product states, and at the midpoint the Bell state.</p>
+    <p class="lang-zh">在 $\theta \in [0, \pi/2]$ 上，$S$ 从 $0$ 连续增加到 $\ln 2$（在 $\theta = \pi/4$ 取最大值），再回落到 $0$：两端（$\theta = 0$ 和 $\pi/2$）是直积态，中点是 Bell 态。</p>
+
+    <h3 id="sec-4-4">
+      <span class="lang-en">4.4 Three-Qubit GHZ State</span>
+      <span class="lang-zh">4.4 三量子比特 GHZ 态</span>
+    </h3>
+
+    <p>$$|\text{GHZ}\rangle = \frac{1}{\sqrt{2}}\bigl(|000\rangle + |111\rangle\bigr)$$</p>
+
+    <p class="lang-en">Take $A = \{0\}$, $B = \{1,2\}$. The basis for $A$ is $\{|0\rangle, |1\rangle\}$ ($d_A = 2$), for $B$ is $\{|00\rangle, |01\rangle, |10\rangle, |11\rangle\}$ ($d_B = 4$). Coefficient matrix:</p>
+    <p class="lang-zh">取 $A = \{0\}$，$B = \{1,2\}$。$A$ 的基 $\{|0\rangle, |1\rangle\}$（$d_A = 2$），$B$ 的基 $\{|00\rangle, |01\rangle, |10\rangle, |11\rangle\}$（$d_B = 4$）。系数矩阵：</p>
+
+    <p>$$C = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$</p>
+
+    <p class="lang-en">Reduced density matrix $\rho_A = CC^\dagger = \frac{1}{2}I_2$, Schmidt weights $\lambda_1 = \lambda_2 = 1/2$ (equivalently, singular values $\sigma_1 = \sigma_2 = 1/\sqrt{2}$), so $S = \ln 2$.</p>
+    <p class="lang-zh">约化密度矩阵 $\rho_A = CC^\dagger = \frac{1}{2}I_2$，Schmidt 权重 $\lambda_1 = \lambda_2 = 1/2$（等价地，奇异值 $\sigma_1 = \sigma_2 = 1/\sqrt{2}$），因此 $S = \ln 2$。</p>
+
+    <h3 id="sec-4-5">
+      <span class="lang-en">4.5 Three-Qubit W State</span>
+      <span class="lang-zh">4.5 三量子比特 W 态</span>
+    </h3>
+
+    <p>$$|W\rangle = \frac{1}{\sqrt{3}}\bigl(|100\rangle + |010\rangle + |001\rangle\bigr)$$</p>
+
+    <p class="lang-en">Again take $A = \{0\}$, $B = \{1,2\}$. Splitting the three basis vectors by $A|B$:</p>
+    <p class="lang-zh">同样取 $A = \{0\}$，$B = \{1,2\}$。把三个基矢按 $A|B$ 分拆：</p>
+
+    <ul class="lang-en">
+      <li>$|100\rangle = |1\rangle_A |00\rangle_B$, coefficient $1/\sqrt{3}$</li>
+      <li>$|010\rangle = |0\rangle_A |10\rangle_B$, coefficient $1/\sqrt{3}$</li>
+      <li>$|001\rangle = |0\rangle_A |01\rangle_B$, coefficient $1/\sqrt{3}$</li>
+    </ul>
+    <ul class="lang-zh">
+      <li>$|100\rangle = |1\rangle_A |00\rangle_B$，系数 $1/\sqrt{3}$</li>
+      <li>$|010\rangle = |0\rangle_A |10\rangle_B$，系数 $1/\sqrt{3}$</li>
+      <li>$|001\rangle = |0\rangle_A |01\rangle_B$，系数 $1/\sqrt{3}$</li>
+    </ul>
+
+    <p class="lang-en">Coefficient matrix (row labels $A$: $|0\rangle,|1\rangle$; column labels $B$: $|00\rangle,|01\rangle,|10\rangle,|11\rangle$):</p>
+    <p class="lang-zh">系数矩阵（行标 $A$：$|0\rangle,|1\rangle$；列标 $B$：$|00\rangle,|01\rangle,|10\rangle,|11\rangle$）：</p>
+
+    <p>$$C = \frac{1}{\sqrt{3}}\begin{pmatrix} 0 & 1 & 1 & 0 \\ 1 & 0 & 0 & 0 \end{pmatrix}$$</p>
+
+    <p class="lang-en">Computing $CC^\dagger$:</p>
+    <p class="lang-zh">计算 $CC^\dagger$：</p>
+
+    <p>$$CC^\dagger = \frac{1}{3}\begin{pmatrix} 2 & 0 \\ 0 & 1 \end{pmatrix}$$</p>
+
+    <p class="lang-en">Eigenvalues $\lambda_1 = 2/3$, $\lambda_2 = 1/3$ (or equivalently, singular values $\sigma_1 = \sqrt{2/3}$, $\sigma_2 = \sqrt{1/3}$):</p>
+    <p class="lang-zh">本征值 $\lambda_1 = 2/3$，$\lambda_2 = 1/3$（或等价地，奇异值 $\sigma_1 = \sqrt{2/3}$，$\sigma_2 = \sqrt{1/3}$）：</p>
+
+    <p>$$S_W = -\frac{1}{3}\ln\frac{1}{3} - \frac{2}{3}\ln\frac{2}{3} = \ln 3 - \frac{2}{3}\ln 2 \approx 0.637$$</p>
+
+    <p class="lang-en">The W state's entanglement entropy is lower than the GHZ state's ($0.637 &lt; 0.693$), because the Schmidt weights are non-uniform.</p>
+    <p class="lang-zh">W 态的纠缠熵低于 GHZ 态（$0.637 &lt; 0.693$），因为 Schmidt 权重不均匀。</p>
+
+    <hr>
+
+    <!-- Section 5 -->
+    <h2 id="sec-5">
+      <span class="lang-en">5. Numerical Algorithms</span>
+      <span class="lang-zh">5. 数值算法</span>
+    </h2>
+
+    <p class="lang-en">Hand calculation can only handle a few qubits. For actual many-body systems ($N \geq 10$), we need computers. This section introduces four methods, all operating on the full $2^N$-dimensional wavefunction:</p>
+    <p class="lang-zh">手算只能处理几个量子比特。对于实际的多体系统（$N \geq 10$），我们需要计算机。本节介绍四种方法，均作用于完整的 $2^N$ 维波函数：</p>
+
+    <table>
+      <thead><tr>
+        <th><span class="lang-en">Method</span><span class="lang-zh">方法</span></th>
+        <th><span class="lang-en">Core Operation</span><span class="lang-zh">核心操作</span></th>
+        <th><span class="lang-en">Section</span><span class="lang-zh">小节</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="lang-en">Method 1</span><span class="lang-zh">方法一</span></td><td>$\rho_A = CC^\dagger$ <span class="lang-en">eigendecomposition</span><span class="lang-zh">本征分解</span></td><td>&sect;5.1</td></tr>
+        <tr><td><span class="lang-en">Method 2</span><span class="lang-zh">方法二</span></td><td><span class="lang-en">Full SVD of $C$ (<strong>recommended</strong>)</span><span class="lang-zh">$C$ 的完整 SVD（<strong>推荐</strong>）</span></td><td>&sect;5.2</td></tr>
+        <tr><td><span class="lang-en">Method 3</span><span class="lang-zh">方法三</span></td><td><span class="lang-en">Hand-written randomized SVD</span><span class="lang-zh">手写随机化 SVD</span></td><td>&sect;5.4</td></tr>
+        <tr><td><span class="lang-en">Method 4</span><span class="lang-zh">方法四</span></td><td><code>sklearn</code> <span class="lang-en">randomized SVD</span><span class="lang-zh">随机化 SVD</span></td><td>&sect;5.4</td></tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en">Methods 3 and 4 implement the same algorithm (Halko et al. 2011 [8]); the former is our minimal hand-written implementation, the latter calls <code>sklearn.utils.extmath.randomized_svd</code> with more engineering optimizations. The differences are discussed in &sect;5.4.</p>
+    <p class="lang-zh">方法三和方法四实现的是同一算法（Halko et al. 2011 [8]）；前者是我们手写的最小实现，后者调用 <code>sklearn.utils.extmath.randomized_svd</code>，有更多工程优化。区别在 &sect;5.4 讨论。</p>
+
+    <blockquote>
+      <p class="lang-en">All four methods above require storing the full $2^N$-dimensional wavefunction. For <strong>free fermions</strong> (Slater determinant states), there exists a fundamentally different efficient route &mdash; the correlation matrix method, requiring only an $N \times N$ matrix with $O(N^3)$ complexity. See &sect;6.</p>
+      <p class="lang-zh">上述四种方法都需要存储完整的 $2^N$ 维波函数。对<strong>自由费米子</strong>（Slater 行列式态），存在一条完全不同的高效路线——关联矩阵方法，只需 $N \times N$ 矩阵，复杂度 $O(N^3)$。详见 &sect;6。</p>
+    </blockquote>
+
+    <p class="lang-en">The first step for all four methods is to "reshape" the wavefunction from a 1D array into a 2D matrix. This step is worth explaining carefully.</p>
+    <p class="lang-zh">四种方法的第一步都是把波函数从一维数组"重塑"为二维矩阵，这一步值得仔细解释。</p>
+
+    <h3 id="sec-5-0">
+      <span class="lang-en">5.0 Reshape: From 1D Amplitudes to 2D Coefficient Matrix</span>
+      <span class="lang-zh">5.0 Reshape：从一维振幅到二维系数矩阵</span>
+    </h3>
+
+    <p class="lang-en"><strong>Goal</strong>: We want to view the wavefunction $|\psi\rangle$ as a $d_A \times d_B$ coefficient matrix $C$, so that $C_{ij}$ is exactly the expansion coefficient $c_{ij}$ from &sect;3. Once we have this matrix, everything that follows &mdash; $\rho_A = CC^\dagger$, SVD &mdash; can be done directly with linear algebra libraries.</p>
+    <p class="lang-zh"><strong>目标</strong>：我们要把波函数 $|\psi\rangle$ 看成一个 $d_A \times d_B$ 的系数矩阵 $C$，使得 $C_{ij}$ 就是 &sect;3 中的展开系数 $c_{ij}$。一旦拿到这个矩阵，后面的一切——$\rho_A = CC^\dagger$、SVD——都可以直接用线性代数库完成。</p>
+
+    <p class="lang-en"><strong>How is the wavefunction stored in a computer?</strong> For a system of $N$ qubits, there are $2^N$ computational basis states. Arranging these in order of their binary number, the wavefunction becomes a 1D array of length $2^N$:</p>
+    <p class="lang-zh"><strong>波函数在计算机里怎么存？</strong> 对 $N$ 个量子比特的系统，计算基底共 $2^N$ 个。把这些基底按二进制数从小到大排成一列，波函数就是一个长度 $2^N$ 的一维数组：</p>
+
+    <p>$$\texttt{psi}[\alpha] = \langle\alpha|\psi\rangle, \qquad \alpha = 0, 1, \ldots, 2^N - 1$$</p>
+
+    <p class="lang-en"><strong>From single index to double index.</strong> Now partition the $N$ qubits into two groups: the first $N_A$ belong to subsystem $A$, the remaining $N_B$ to subsystem $B$ ($N_A + N_B = N$). Each global basis vector $|\alpha\rangle$ can be split as</p>
+    <p class="lang-zh"><strong>从单索引到双索引。</strong> 现在把 $N$ 个比特分成两组：前 $N_A$ 个归子系统 $A$，后 $N_B$ 个归子系统 $B$（$N_A + N_B = N$）。每个全局基矢 $|\alpha\rangle$ 可以拆成</p>
+
+    <p>$$|\alpha\rangle = |a\rangle_A \otimes |b\rangle_B$$</p>
+
+    <p class="lang-en">where $a$ is the number formed by the first $N_A$ bits, and $b$ the number formed by the last $N_B$ bits. Since $\alpha$ is the concatenation of these two bit strings, the relationship is</p>
+    <p class="lang-zh">其中 $a$ 是前 $N_A$ 位组成的数，$b$ 是后 $N_B$ 位组成的数。既然 $\alpha$ 是把两段比特串拼起来的结果，二者的关系就是</p>
+
+    <p>$$\alpha = a \times 2^{N_B} + b$$</p>
+
+    <p class="lang-en">This is exactly row-major addressing with $a$ as the row index and $b$ as the column index. This is what <code>C = psi.reshape(d_A, d_B)</code> does: <strong>no data is moved; the same block of memory is simply reinterpreted from single index $\alpha$ to double index $(a, b)$</strong>.</p>
+    <p class="lang-zh">这恰好是"把 $a$ 当行号、$b$ 当列号"的行优先编址。这就是 <code>C = psi.reshape(d_A, d_B)</code> 做的事：<strong>不移动任何数据，只是把同一段内存从单索引 $\alpha$ 重新解读为双索引 $(a, b)$</strong>。</p>
+
+    <img src="../assets/ee/ee-fig-reshape.png" alt="Reshape operation diagram" style="max-width:100%">
+
+    <p class="lang-en"><strong>Why is this step crucial?</strong> With the coefficient matrix $C = (c_{ab})$, all formulas from &sect;3&ndash;4 immediately become standard matrix operations:</p>
+    <p class="lang-zh"><strong>为什么这一步是关键？</strong> 有了系数矩阵 $C = (c_{ab})$，&sect;3&ndash;4 的所有公式立刻变成标准矩阵运算：</p>
+
+    <ul>
+      <li>$\rho_A = CC^\dagger$ (<span class="lang-en">summing over $B$'s index $b$</span><span class="lang-zh">对 $B$ 的指标 $b$ 求和</span>)</li>
+      <li>SVD $C = U\Sigma V^\dagger$ <span class="lang-en">directly gives the Schmidt decomposition</span><span class="lang-zh">直接给出 Schmidt 分解</span></li>
+    </ul>
+
+    <p class="lang-en">In other words, <code>reshape</code> is <strong>the bridge between the physical decomposition and numerical linear algebra</strong>.</p>
+    <p class="lang-zh">换句话说，<code>reshape</code> 是<strong>物理分解与数值线性代数之间的桥梁</strong>。</p>
+
+    <blockquote>
+      <p class="lang-en"><strong>Convention note</strong>: NumPy's <code>reshape</code> defaults to C-order (row-major), where the last index varies fastest. This matches the "$b$ varies fastest" convention above, so <code>reshape(d_A, d_B)</code> works correctly without additional parameters.</p>
+      <p class="lang-zh"><strong>约定提醒</strong>：NumPy 的 <code>reshape</code> 默认使用 C-order（行优先），最后一个索引变化最快。这与上面"$b$ 跑得最快"的约定一致，所以 <code>reshape(d_A, d_B)</code> 无需额外参数即可正确工作。</p>
+    </blockquote>
+
+    <p class="lang-en"><strong>Column-major languages</strong> (Fortran / MATLAB / Julia etc.) default to column-major. If you use Fortran-style <code>reshape</code>, the resulting $C_{ab}$ may not match this article's convention. <strong>This entire article, all code, and all figures use NumPy's default C-order (row-major).</strong></p>
+    <p class="lang-zh"><strong>列优先语言</strong>（Fortran / MATLAB / Julia 等）默认列优先。若使用 Fortran 风格的 <code>reshape</code>，得到的 $C_{ab}$ 可能与本文约定不一致。<strong>全文、代码与图均按 NumPy 默认的 C-order（行优先）。</strong></p>
+
+    <h3 id="sec-5-1">
+      <span class="lang-en">5.1 Method 1: Density Matrix Eigendecomposition</span>
+      <span class="lang-zh">5.1 方法一：密度矩阵本征分解</span>
+    </h3>
+
+    <p class="lang-en">The most straightforward implementation: first construct $\rho_A$, then find its eigenvalues.</p>
+    <p class="lang-zh">最直接的实现：先构建 $\rho_A$，再求本征值。</p>
+
+    <p class="lang-en"><strong>Code</strong> (see <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/core.py"><code>ee/core.py</code></a>):</p>
+    <p class="lang-zh"><strong>代码</strong>（见 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/core.py"><code>ee/core.py</code></a>）：</p>
+
+<pre><code class="language-python">def ee_method1(psi, N, NA=None):
+    C = psi.reshape(2 ** (N // 2), -1)       # Step 1
+    rho_A = C @ C.conj().T                    # Step 2
+    evals = np.linalg.eigvalsh(rho_A)         # Step 3
+    evals = evals[evals > 1e-14]              # Remove numerical zeros
+    return -np.dot(evals, np.log(evals))      # Step 4</code></pre>
+
+    <p class="lang-en"><strong>Complexity</strong>: Step 2 matrix multiplication $O(d_A^2 d_B)$, step 3 eigendecomposition $O(d_A^3)$. Total $O(2^{3N/2})$.</p>
+    <p class="lang-zh"><strong>复杂度</strong>：步骤 2 的矩阵乘法 $O(d_A^2 d_B)$，步骤 3 的本征分解 $O(d_A^3)$。总计 $O(2^{3N/2})$。</p>
+
+    <h3 id="sec-5-2">
+      <span class="lang-en">5.2 Method 2: Direct SVD (Recommended)</span>
+      <span class="lang-zh">5.2 方法二：直接 SVD（推荐）</span>
+    </h3>
+
+    <p class="lang-en">Skip the explicit construction of $\rho_A$ and directly perform SVD on $C$.</p>
+    <p class="lang-zh">跳过 $\rho_A$ 的显式构建，直接对 $C$ 做 SVD。</p>
+
+    <p class="lang-en"><strong>Code</strong> (see <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/core.py"><code>ee/core.py</code></a>):</p>
+    <p class="lang-zh"><strong>代码</strong>（见 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/core.py"><code>ee/core.py</code></a>）：</p>
+
+<pre><code class="language-python">def ee_method2(psi, N, NA=None):
+    C = psi.reshape(2 ** (N // 2), -1)
+    sv = np.linalg.svd(C, compute_uv=False)   # Only singular values
+    lam = sv ** 2
+    lam = lam[lam > 1e-14]
+    return -np.dot(lam, np.log(lam))</code></pre>
+
+    <p class="lang-en"><strong>Complexity</strong>: SVD complexity is $O(d_A^2 d_B)$ (assuming $d_A \leq d_B$), comparable to Method 1, but with a smaller constant factor (<code>compute_uv=False</code> only computes singular values).</p>
+    <p class="lang-zh"><strong>复杂度</strong>：SVD 的复杂度为 $O(d_A^2 d_B)$（假设 $d_A \leq d_B$），与方法一相当，但常数因子更小（<code>compute_uv=False</code> 只计算奇异值）。</p>
+
+    <h3 id="sec-5-3">
+      <span class="lang-en">5.3 Why Method 2 Is Better</span>
+      <span class="lang-zh">5.3 方法二为什么更好</span>
+    </h3>
+
+    <p class="lang-en">Method 2 is superior to Method 1 in both numerical stability and speed.</p>
+    <p class="lang-zh">方法二在数值稳定性和速度上都优于方法一。</p>
+
+    <p class="lang-en"><strong>Stability.</strong> Method 1 performs the matrix multiplication $\rho_A = CC^\dagger$ in step 2, which squares the condition number of $C$. If $\sigma_{\min} = 10^{-8}$, then Method 1 gives $\lambda_{\min} = 10^{-16}$, already at the edge of float64 machine precision ($\epsilon \approx 2.2 \times 10^{-16}$). Method 2 directly reads $\sigma_{\min} = 10^{-8}$ from the SVD of $C$, well above machine precision.</p>
+    <p class="lang-zh"><strong>稳定性</strong>。方法一在步骤 2 中做矩阵乘法 $\rho_A = CC^\dagger$，这会把 $C$ 的条件数平方。如果 $\sigma_{\min} = 10^{-8}$，方法一得 $\lambda_{\min} = 10^{-16}$，已经到 float64 机器精度（$\epsilon \approx 2.2 \times 10^{-16}$）的边缘。方法二直接从 $C$ 的 SVD 读出 $\sigma_{\min} = 10^{-8}$，远在机器精度之上。</p>
+
+    <p class="lang-en"><strong>Speed.</strong> Method 1 requires one matrix multiplication and one eigendecomposition. Method 2's SVD uses LAPACK's divide-and-conquer algorithm, and <code>compute_uv=False</code> only computes singular values.</p>
+    <p class="lang-zh"><strong>速度</strong>。方法一需要一次矩阵乘法和一次本征分解。方法二的 SVD 采用 LAPACK 的分治算法，<code>compute_uv=False</code> 只计算奇异值。</p>
+
+    <p class="lang-en"><strong>Conclusion</strong>: Method 2 is the default choice for computing entanglement entropy.</p>
+    <p class="lang-zh"><strong>结论</strong>：方法二是精确对角化计算纠缠熵的默认选择。</p>
+
+    <h3 id="sec-5-4">
+      <span class="lang-en">5.4 Method 3 &amp; 4: Randomized SVD</span>
+      <span class="lang-zh">5.4 方法三与方法四：随机化 SVD</span>
+    </h3>
+
+    <p class="lang-en">Methods 1 and 2 both have time complexity $O(2^{3N/2})$, because they compute <strong>all</strong> singular values. But many physical states (area-law ground states, MBL eigenstates) have rapidly decaying Schmidt spectra, with only the first $\chi$ singular values being significant. If we know (or can estimate) $\chi$, we can use randomized SVD [8] for major speedup: compute only the top $k$ singular values. For an $m \times n$ matrix ($m \leq n$), full SVD requires $O(m^2 n)$; randomized SVD totals $O((2q+3)\, mn\ell)$, where $\ell = k + p$ ($p \approx 5$ is oversampling). When $\ell \ll m$, there is significant speedup.</p>
+    <p class="lang-zh">方法一和方法二的时间复杂度都是 $O(2^{3N/2})$，因为它们计算<strong>所有</strong>奇异值。但很多物理态（面积律基态、MBL 本征态）的 Schmidt 谱衰减很快，只有前 $\chi$ 个奇异值是显著的。如果我们知道（或能估计）$\chi$，就可以用随机化 SVD [8] 大幅加速：只计算前 $k$ 个奇异值。对 $m \times n$ 矩阵（$m \leq n$），完整 SVD 需要 $O(m^2 n)$；随机化 SVD 总计 $O((2q+3)\, mn\ell)$，其中 $\ell = k + p$（$p \approx 5$ 为过采样）。当 $\ell \ll m$ 时有显著加速。</p>
+
+    <h4><span class="lang-en">Core Idea: Finding a "Just Big Enough" Subspace</span><span class="lang-zh">核心思想：找到一个"刚好够大"的子空间</span></h4>
+
+    <p class="lang-en">The strategy has two steps:</p>
+    <p class="lang-zh">策略分两步：</p>
+
+    <ol class="lang-en">
+      <li><strong>Probe</strong>: Find an $m \times \ell$ orthogonal matrix $Q$ such that the columns of $Q$ approximately span the space of $C$'s top $k$ left singular vectors.</li>
+      <li><strong>Compress</strong>: Project $C$ onto this small subspace $B = Q^T C$, yielding a small $\ell \times n$ matrix. A full SVD of $B$ is cheap.</li>
+    </ol>
+    <ol class="lang-zh">
+      <li><strong>探测</strong>：找到一个 $m \times \ell$ 的正交矩阵 $Q$，使得 $Q$ 的列近似张成 $C$ 的前 $k$ 个左奇异向量的空间。</li>
+      <li><strong>压缩</strong>：把 $C$ 投影到这个小子空间 $B = Q^T C$，得到一个 $\ell \times n$ 的小矩阵。对 $B$ 做完整 SVD 很便宜。</li>
+    </ol>
+
+    <h4><span class="lang-en">Why Random Projection Can "Probe" the Column Space</span><span class="lang-zh">随机投影为什么能"探测"列空间？</span></h4>
+
+    <p class="lang-en">The answer is surprisingly simple: <strong>multiply $C$ by random vectors</strong>. Generate an $n \times \ell$ random Gaussian matrix $\Omega$ and compute</p>
+    <p class="lang-zh">答案出人意料地简单：<strong>用 $C$ 乘随机向量</strong>。生成一个 $n \times \ell$ 的随机高斯矩阵 $\Omega$，计算</p>
+
+    <p>$$Y = C\,\Omega \qquad (m \times \ell)$$</p>
+
+    <p class="lang-en">Let $C$'s SVD be $C = U\Sigma V^T$, then $C\Omega = U\,\Sigma\,(V^T\Omega)$. Since $G \equiv V^T\Omega$ is still a random Gaussian matrix:</p>
+    <p class="lang-zh">设 $C$ 的 SVD 为 $C = U\Sigma V^T$，那么 $C\Omega = U\,\Sigma\,(V^T\Omega)$。由于 $G \equiv V^T\Omega$ 仍然是随机高斯矩阵：</p>
+
+    <p>$$Y = U\,\Sigma\,G = \sum_{i=1}^{m} \sigma_i\, \mathbf{u}_i\, \mathbf{g}_i^T$$</p>
+
+    <p class="lang-en">Large singular value directions dominate $Y$, while small singular value directions are suppressed. Therefore $Y$'s column space is naturally dominated by the top $k$ left singular vectors.</p>
+    <p class="lang-zh">大奇异值方向在 $Y$ 中占主导，小奇异值方向被压制。因此 $Y$ 的列空间自然而然地由前 $k$ 个左奇异向量主导。</p>
+
+    <blockquote>
+      <p class="lang-en"><strong>Intuition</strong>: Think of $C$ as a filter &mdash; random vectors go in, low-rank structure comes out.</p>
+      <p class="lang-zh"><strong>直觉</strong>：把 $C$ 想象成一个滤波器——随机向量进去，低秩结构出来。</p>
+    </blockquote>
+
+    <details>
+      <summary><strong><span class="lang-en">Why does orthogonal transformation preserve the Gaussian distribution?</span><span class="lang-zh">为什么正交变换保持高斯分布？</span></strong> (<span class="lang-en">click to expand proof</span><span class="lang-zh">点击展开证明</span>)</summary>
+
+      <p class="lang-en"><strong>Proposition</strong>: If $\Omega$ is a random Gaussian matrix ($\Omega_{ij} \overset{\text{i.i.d.}}{\sim} N(0,1)$) and $V$ is an orthogonal matrix, then $G = V^T\Omega$ has the same distribution as $\Omega$.</p>
+      <p class="lang-zh"><strong>命题</strong>：若 $\Omega$ 是随机高斯矩阵（$\Omega_{ij} \overset{\text{i.i.d.}}{\sim} N(0,1)$），$V$ 是正交矩阵，则 $G = V^T\Omega$ 与 $\Omega$ 同分布。</p>
+
+      <p class="lang-en">Verify three things: (1) $G_{ij}$ is normally distributed. (2) Zero mean. (3) Same covariance:</p>
+      <p class="lang-zh">验证三件事：（1）$G_{ij}$ 是正态分布。（2）均值为零。（3）协方差相同：</p>
+
+      <p>$$\text{Cov}(G_{ij},\, G_{i'j'}) = \delta_{jj'}\,(V^TV)_{ii'} = \delta_{ii'}\delta_{jj'}$$</p>
+
+      <p class="lang-en"><strong>In one sentence</strong>: The standard Gaussian distribution is spherically symmetric; an orthogonal transformation is just a rotation.</p>
+      <p class="lang-zh"><strong>一句话</strong>：标准高斯分布是球对称的，正交变换只是旋转，不改变球的形状。</p>
+    </details>
+
+    <h4><span class="lang-en">Power Iteration: When the Spectral Decay Isn't Fast Enough</span><span class="lang-zh">功率迭代：当谱衰减不够快时</span></h4>
+
+    <p class="lang-en">The solution is <strong>power iteration</strong>: instead of directly using $Y = C\Omega$, repeatedly "filter" with $C$ and $C^T$:</p>
+    <p class="lang-zh">解决办法是<strong>功率迭代</strong>（power iteration）：不直接用 $Y = C\Omega$，而是反复用 $C$ 和 $C^T$ "过滤"：</p>
+
+    <p>$$Y = (CC^T)^q\, C\,\Omega$$</p>
+
+    <p class="lang-en">This is equivalent to performing random projection on a matrix with singular values $\sigma_i^{2q+1}$. The ratio of adjacent singular values becomes $\left(\frac{\sigma_k}{\sigma_{k+1}}\right)^{2q+1}$.</p>
+    <p class="lang-zh">这等价于对一个奇异值为 $\sigma_i^{2q+1}$ 的矩阵做随机投影。相邻奇异值的比值变成 $\left(\frac{\sigma_k}{\sigma_{k+1}}\right)^{2q+1}$。</p>
+
+    <img src="../assets/ee/ee-fig-rsvd-spectrum.png" alt="Power iteration amplification of spectral gap" style="max-width:100%">
+
+    <p class="lang-en">In practice $q = 1$ or $2$ suffices.</p>
+    <p class="lang-zh">实际中 $q = 1$ 或 $2$ 就够了。</p>
+
+    <h4><span class="lang-en">Complete Algorithm</span><span class="lang-zh">完整算法</span></h4>
+
+    <img src="../assets/ee/ee-fig-rsvd-pipeline.png" alt="Randomized SVD algorithm pipeline" style="max-width:100%">
+
+    <p class="lang-en"><strong>Method 3 (hand-written implementation)</strong> (see <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/core.py"><code>ee/core.py</code></a>):</p>
+    <p class="lang-zh"><strong>方法三（手写实现）</strong>（见 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/core.py"><code>ee/core.py</code></a>）：</p>
+
+<pre><code class="language-python">def rsvd(C, k, p=5, n_iter=2):
+    m, n = C.shape
+    Omega = np.random.randn(n, k + p)
+    Y = C @ Omega
+    for _ in range(n_iter):               # Power iteration
+        Y = C @ (C.conj().T @ Y)
+    Q, _ = np.linalg.qr(Y)               # Orthogonal basis
+    B = Q.conj().T @ C                    # Project to small subspace
+    _, s, _ = np.linalg.svd(B, full_matrices=False)
+    return s[:k]</code></pre>
+
+    <p class="lang-en"><strong>Method 4 (sklearn implementation)</strong> (see <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/core.py"><code>ee/core.py</code></a>):</p>
+    <p class="lang-zh"><strong>方法四（sklearn 实现）</strong>（见 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/core.py"><code>ee/core.py</code></a>）：</p>
+
+<pre><code class="language-python">from sklearn.utils.extmath import randomized_svd
+
+_, s, _ = randomized_svd(C, n_components=k,
+                         n_oversamples=5,   # oversampling p
+                         n_iter=2,          # power iterations q
+                         power_iteration_normalizer='QR')</code></pre>
+
+    <h4><span class="lang-en">When to Use Randomized SVD</span><span class="lang-zh">什么时候用随机化 SVD？</span></h4>
+
+    <table>
+      <thead><tr>
+        <th><span class="lang-en">State Type</span><span class="lang-zh">态类型</span></th>
+        <th>$\chi$</th>
+        <th><span class="lang-en">Is rSVD Suitable?</span><span class="lang-zh">随机化 SVD 适合吗？</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="lang-en">Area law (1D ground state, MBL)</span><span class="lang-zh">面积律（一维基态、MBL）</span></td><td>$O(1)$</td><td><span class="lang-en">Very suitable: $k = O(1)$ suffices</span><span class="lang-zh">非常适合：$k = O(1)$ 即可</span></td></tr>
+        <tr><td><span class="lang-en">Logarithmic law (1D critical)</span><span class="lang-zh">对数律（一维临界）</span></td><td>$O(L^\alpha)$</td><td><span class="lang-en">Suitable: $k \ll 2^{N/2}$</span><span class="lang-zh">适合：$k \ll 2^{N/2}$</span></td></tr>
+        <tr><td><span class="lang-en">Volume law (thermalized state)</span><span class="lang-zh">体积律（热化态）</span></td><td>$O(2^{N/2})$</td><td><span class="lang-en">Not suitable: needs $k \approx d$, no speedup</span><span class="lang-zh">不适合：需要 $k \approx d$，没有加速</span></td></tr>
+      </tbody>
+    </table>
+
+    <h4><span class="lang-en">Numerical Verification</span><span class="lang-zh">数值验证：精度与 $S_A = S_B$</span></h4>
+
+    <img src="../assets/ee/ee_verify_fig.png" alt="Timing comparison and rSVD convergence for four methods" style="max-width:100%">
+
+    <p class="lang-en">(a) Wall-clock time vs system size $N$ for four methods (random state, $k = 8$). Methods 1 and 2 grow exponentially; Methods 3 and 4 grow significantly slower when $k$ is fixed. (b) rSVD convergence ($N = 16$, $d_A = 256$): area-law state converges at $k = 4$; volume-law state requires $k \approx d_A$. Data source: <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/demos/bench_methods.py"><code>demos/bench_methods.py</code></a>.</p>
+    <p class="lang-zh">(a) 四种方法的计算时间随系统尺寸 $N$ 的变化（随机态，$k = 8$）。方法 1 和方法 2 呈指数增长；方法 3 和方法 4 在 $k$ 固定时增长显著放缓。(b) rSVD 收敛性（$N = 16$，$d_A = 256$）：面积律态在 $k = 4$ 即收敛；体积律态需 $k \approx d_A$。数据来源：<a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/demos/bench_methods.py"><code>demos/bench_methods.py</code></a>。</p>
+
+    <table>
+      <thead><tr><th>$N$</th><th>$S_A$</th><th>$S_B$</th><th>$\|S_A - S_B\|$</th><th>$S_1$</th><th>$S_2$</th><th>$S_3$</th><th>$S_4$</th></tr></thead>
+      <tbody>
+        <tr><td>8</td><td>2.2368</td><td>2.2368</td><td>0</td><td>2.2368</td><td>2.2368</td><td>2.2368</td><td>2.2368</td></tr>
+        <tr><td>10</td><td>3.0062</td><td>3.0062</td><td>0</td><td>3.0062</td><td>3.0062</td><td>3.0062</td><td>3.0062</td></tr>
+        <tr><td>12</td><td>3.6547</td><td>3.6547</td><td>0</td><td>3.6547</td><td>3.6547</td><td>3.6547</td><td>3.6547</td></tr>
+        <tr><td>14</td><td>4.3620</td><td>4.3620</td><td>0</td><td>4.3620</td><td>4.3620</td><td>4.3620</td><td>4.3620</td></tr>
+      </tbody>
+    </table>
+
+    <h4><span class="lang-en">Numerical Stability: Condition Number Test</span><span class="lang-zh">数值稳定性：条件数测试</span></h4>
+
+    <table>
+      <thead><tr><th>$\alpha$</th><th>$\kappa(C)$</th><th>$S_{\mathrm{exact}}$</th><th>$\|S_1 - S_{\mathrm{exact}}\|$</th><th>$\|S_2 - S_{\mathrm{exact}}\|$</th></tr></thead>
+      <tbody>
+        <tr><td>0.01</td><td>$1.3 \times 10^1$</td><td>4.875</td><td>$0$</td><td>$0$</td></tr>
+        <tr><td>0.05</td><td>$3.4 \times 10^5$</td><td>3.303</td><td>$4 \times 10^{-16}$</td><td>$4 \times 10^{-16}$</td></tr>
+        <tr><td>0.10</td><td>$1.2 \times 10^{11}$</td><td>2.611</td><td>$2 \times 10^{-12}$</td><td>$2 \times 10^{-12}$</td></tr>
+        <tr><td>0.20</td><td>$4.8 \times 10^{14}$</td><td>1.923</td><td>$9 \times 10^{-13}$</td><td>$9 \times 10^{-13}$</td></tr>
+        <tr><td>0.50</td><td>$5.8 \times 10^{14}$</td><td>1.041</td><td>$4 \times 10^{-13}$</td><td>$4 \times 10^{-13}$</td></tr>
+        <tr><td>1.00</td><td>$5.8 \times 10^{14}$</td><td>0.458</td><td>$6 \times 10^{-14}$</td><td>$6 \times 10^{-14}$</td></tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en"><strong>When does Method 1 have problems?</strong> The danger of condition number squaring is more pronounced when eigenvalues themselves are needed (entanglement spectrum analysis), for higher-order Renyi entropy, or for larger systems.</p>
+    <p class="lang-zh"><strong>何时方法一会出问题？</strong> 条件数平方的危害在需要本征值本身（纠缠谱分析）、高阶 Renyi 熵、或更大系统时更明显。</p>
+
+    <h4><span class="lang-en">Summary</span><span class="lang-zh">总结</span></h4>
+
+    <table>
+      <thead><tr>
+        <th><span class="lang-en">Method</span><span class="lang-zh">方法</span></th>
+        <th><span class="lang-en">Time</span><span class="lang-zh">时间</span></th>
+        <th><span class="lang-en">Space</span><span class="lang-zh">空间</span></th>
+        <th><span class="lang-en">Stability</span><span class="lang-zh">稳定性</span></th>
+        <th><span class="lang-en">Use Case</span><span class="lang-zh">适用场景</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="lang-en">Method 1 ($\rho_A$ eigenvalues)</span><span class="lang-zh">方法一（$\rho_A$ 本征值）</span></td><td>$O(d_A^3)$</td><td>$O(d_A^2)$</td><td><span class="lang-en">Poor (condition number squared)</span><span class="lang-zh">差（条件数平方）</span></td><td><span class="lang-en">When $\rho_A$ is needed</span><span class="lang-zh">需要 $\rho_A$ 时</span></td></tr>
+        <tr><td><span class="lang-en">Method 2 (direct SVD)</span><span class="lang-zh">方法二（直接 SVD）</span></td><td>$O(d_A^2 d_B)$</td><td>$O(d_A d_B)$</td><td><span class="lang-en">Good</span><span class="lang-zh">好</span></td><td><strong><span class="lang-en">General default choice</span><span class="lang-zh">通用默认选择</span></strong></td></tr>
+        <tr><td><span class="lang-en">Method 3 (hand-written rSVD)</span><span class="lang-zh">方法三（手写 rSVD）</span></td><td>$O(d_A d_B k)$</td><td>$O(d_A k)$</td><td><span class="lang-en">Good</span><span class="lang-zh">好</span></td><td><span class="lang-en">Area-law states; understanding the algorithm</span><span class="lang-zh">面积律态；理解算法</span></td></tr>
+        <tr><td><span class="lang-en">Method 4 (sklearn rSVD)</span><span class="lang-zh">方法四（sklearn rSVD）</span></td><td>$O(d_A d_B k)$</td><td>$O(d_A k)$</td><td><span class="lang-en">Good</span><span class="lang-zh">好</span></td><td><strong><span class="lang-en">Area-law states (production recommended)</span><span class="lang-zh">面积律态（生产推荐）</span></strong></td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Section 6 -->
+    <h2 id="sec-6">
+      <span class="lang-en">6. Correlation Matrix Method for Free Fermions</span>
+      <span class="lang-zh">6. 自由费米子的关联矩阵方法</span>
+    </h2>
+
+    <p class="lang-en">The four methods of &sect;5 apply to any quantum state, but at the cost of handling a $2^N$-dimensional coefficient vector. For free (non-interacting) fermions, there is a fundamentally different shortcut: <strong>the entanglement information is entirely compressed into an $|A| \times |A|$ single-particle matrix</strong>. For interacting systems, this method does not apply.</p>
+    <p class="lang-zh">&sect;5 的四种方法适用于任意量子态，但代价是必须处理 $2^N$ 维的系数向量。对自由（非相互作用）费米子，有一条根本性的捷径：<strong>纠缠信息已经完全压缩在一个 $|A| \times |A|$ 的单粒子矩阵里了</strong>。对于有相互作用的系统，这个方法不适用。</p>
+
+    <h3 id="sec-6-1">
+      <span class="lang-en">6.1 Intuition: Why the Many-Body Wavefunction Is Not Needed</span>
+      <span class="lang-zh">6.1 直觉：为什么不需要多体波函数？</span>
+    </h3>
+
+    <p class="lang-en">Free fermions have a special property: <strong>all many-body information is completely determined by the two-point correlator $\langle c_i^\dagger c_j \rangle$</strong>. This is a consequence of Wick's theorem. Therefore, we only need the $N \times N$ correlation matrix $G$, not the $2^N$-dimensional wavefunction.</p>
+    <p class="lang-zh">自由费米子有一个特殊性质：<strong>所有多体信息都由二点关联函数 $\langle c_i^\dagger c_j \rangle$ 完全决定</strong>。这是 Wick 定理的推论。因此，我们只需要 $N \times N$ 的关联矩阵 $G$，而不是 $2^N$ 维的波函数。</p>
+
+    <h3 id="sec-6-2">
+      <span class="lang-en">6.2 Theorem and Derivation</span>
+      <span class="lang-zh">6.2 定理与推导</span>
+    </h3>
+
+    <p class="lang-en"><strong>Theorem</strong> (Peschel 2003 [9]): For a particle-number-conserving free fermion ground state (Slater determinant), the entanglement entropy can be computed solely from the eigenvalues $\xi_k \in [0, 1]$ of the <strong>single-particle correlation matrix</strong> restricted to subsystem $A$:</p>
+    <p class="lang-zh"><strong>定理</strong>（Peschel 2003 [9]）：对保粒子数的自由费米子基态（Slater 行列式），纠缠熵可以仅从子系统 $A$ 上的<strong>单粒子关联矩阵</strong>的本征值 $\xi_k \in [0, 1]$ 计算：</p>
+
+    <p>$$G_{ij} = \langle c_i^\dagger c_j \rangle, \qquad i, j \in A$$</p>
+
+    <p>$$S = -\sum_k \bigl[\xi_k \ln \xi_k + (1 - \xi_k)\ln(1 - \xi_k)\bigr]$$</p>
+
+    <blockquote>
+      <p class="lang-en"><strong>Scope of applicability</strong>: Here we assume particle number conservation. For free fermions with pairing (BCS/BdG states), anomalous correlators $F_{ij} = \langle c_i c_j\rangle$ are also required.</p>
+      <p class="lang-zh"><strong>适用范围</strong>：这里假设粒子数守恒。对有配对的自由费米子（BCS/BdG 态），还需要异常关联 $F_{ij} = \langle c_i c_j\rangle$。</p>
+    </blockquote>
+
+    <p class="lang-en"><strong>Why do the $\xi_k$ directly give the entanglement entropy?</strong> The key insight has three steps:</p>
+    <p class="lang-zh"><strong>为什么 $\xi_k$ 直接给出纠缠熵？</strong> 关键洞察分三步：</p>
+
+    <ol class="lang-en">
+      <li><strong>Partial trace preserves free-fermion structure.</strong> $\rho_A$ can be written as $\rho_A = Z^{-1}\exp(-\sum_{ij} h_{ij} c_i^\dagger c_j)$, where $h$ is an $|A| \times |A|$ Hermitian matrix (the "entanglement Hamiltonian").</li>
+      <li><strong>Diagonalize $G_A$ to find independent modes.</strong> In the eigenbasis, all modes are completely decoupled. $\rho_A = \bigotimes_k \operatorname{diag}(1-\xi_k,\, \xi_k)$.</li>
+      <li><strong>Entropy of a product state is the sum of individual entropies.</strong> Each two-level system contributes $-\xi_k \ln\xi_k - (1-\xi_k)\ln(1-\xi_k)$.</li>
+    </ol>
+    <ol class="lang-zh">
+      <li><strong>偏迹保持自由费米子结构。</strong> $\rho_A$ 可以写成 $\rho_A = Z^{-1}\exp(-\sum_{ij} h_{ij} c_i^\dagger c_j)$ 的形式，其中 $h$ 是"纠缠哈密顿量"。</li>
+      <li><strong>对角化 $G_A$ 找到独立模式。</strong> 在本征基下各模式完全解耦。$\rho_A = \bigotimes_k \operatorname{diag}(1-\xi_k,\, \xi_k)$。</li>
+      <li><strong>直积态的熵是各部分熵之和。</strong> 每个二能级系统贡献 $-\xi_k \ln\xi_k - (1-\xi_k)\ln(1-\xi_k)$。</li>
+    </ol>
+
+    <h3 id="sec-6-3">
+      <span class="lang-en">6.3 Complexity Comparison</span>
+      <span class="lang-zh">6.3 复杂度对比</span>
+    </h3>
+
+    <table>
+      <thead><tr>
+        <th><span class="lang-en">Method</span><span class="lang-zh">方法</span></th>
+        <th><span class="lang-en">Complexity</span><span class="lang-zh">复杂度</span></th>
+        <th>$|A| = 100$</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="lang-en">General SVD (&sect;5)</span><span class="lang-zh">通用 SVD（&sect;5）</span></td><td>$O(2^{N_A} \cdot 2^{N_B} \cdot 2^{N_A})$</td><td><span class="lang-en">Exponential blowup</span><span class="lang-zh">随总粒子数指数爆炸</span></td></tr>
+        <tr><td><span class="lang-en">Correlation matrix (this section)</span><span class="lang-zh">关联矩阵（本节）</span></td><td>$O(|A|^3)$</td><td>$100^3 = 10^6$</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="sec-6-4">
+      <span class="lang-en">6.4 Constructing the Correlation Matrix</span>
+      <span class="lang-zh">6.4 构建关联矩阵</span>
+    </h3>
+
+    <p class="lang-en">For a tight-binding Hamiltonian $H = -t \sum_{\langle i,j \rangle} c_i^\dagger c_j$, first diagonalize the $N \times N$ single-particle Hamiltonian matrix. At half-filling, occupy the lowest $N/2$ single-particle states; the correlation matrix is</p>
+    <p class="lang-zh">对 tight-binding 哈密顿量 $H = -t \sum_{\langle i,j \rangle} c_i^\dagger c_j$，先对角化 $N \times N$ 的单粒子哈密顿矩阵。半满时占据最低的 $N/2$ 个单粒子态，关联矩阵为</p>
+
+    <p>$$G_{ij} = \sum_{k \in \text{occupied}} \phi_k(i)^* \phi_k(j)$$</p>
+
+    <p class="lang-en"><strong>Code</strong> (see <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/free_fermion.py"><code>ee/free_fermion.py</code></a> and <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/lattices/chain_1d.py"><code>lattices/chain_1d.py</code></a>):</p>
+    <p class="lang-zh"><strong>代码</strong>（见 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/ee/free_fermion.py"><code>ee/free_fermion.py</code></a> 和 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/lattices/chain_1d.py"><code>lattices/chain_1d.py</code></a>）：</p>
+
+<pre><code class="language-python">def ee_corr_matrix(G, subsystem):
+    G_A = G[np.ix_(subsystem, subsystem)]          # Restrict to subsystem A
+    xi = np.linalg.eigvalsh(G_A)
+    xi = np.clip(xi, 1e-14, 1 - 1e-14)             # Avoid log(0)
+    return -np.sum(xi * np.log(xi) + (1 - xi) * np.log(1 - xi))</code></pre>
+
+    <hr>
+
+    <!-- Section 7 -->
+    <h2 id="sec-7">
+      <span class="lang-en">7. Code in Action: 1D Chain and CFT Verification</span>
+      <span class="lang-zh">7. 代码实战：一维链与 CFT 验证</span>
+    </h2>
+
+    <h3 id="sec-7-1">
+      <span class="lang-en">7.1 Project Structure</span>
+      <span class="lang-zh">7.1 项目结构</span>
+    </h3>
+
+<pre><code>entanglement-entropy-tutorial/
+├── ee/                    Core module
+│   ├── core.py            Four general EE methods (§5)
+│   └── free_fermion.py    Correlation matrix method (§6)
+├── lattices/              Lattice construction
+│   ├── chain_1d.py        1D chain
+│   ├── square_2d.py       2D square lattice
+│   ├── honeycomb_2d.py    Honeycomb lattice
+│   └── subsystems.py      Subsystem selection
+├── demos/
+│   ├── demo_1d_cft.py     1D CFT verification (this section)
+│   ├── demo_2d_area_law.py   2D area law (§8)
+│   ├── demo_compare_methods.py  Method comparison
+│   └── bench_methods.py   Performance benchmark (§5 data source)
+├── tests/                 Unit tests
+└── data/                  Output data</code></pre>
+
+    <p class="lang-en">Full source: <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial">github.com/ChrisWenChen/entanglement-entropy-tutorial</a></p>
+    <p class="lang-zh">完整源码：<a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial">github.com/ChrisWenChen/entanglement-entropy-tutorial</a></p>
+
+    <h3 id="sec-7-2">
+      <span class="lang-en">7.2 Why Half-Chain</span>
+      <span class="lang-zh">7.2 为什么看半链</span>
+    </h3>
+
+    <p class="lang-en">To verify the CFT prediction with the fewest parameters, we fix the subsystem to be the <strong>half-chain</strong> ($\ell = L/2$). This eliminates the $\sin(\pi\ell/L)$ factor in the CFT formula, making the result depend only on $\ln L$.</p>
+    <p class="lang-zh">为了用最少的参数验证 CFT 预言，我们固定只看<strong>半链</strong>（$\ell = L/2$）的纠缠熵。这样可以消除 CFT 公式中的 $\sin(\pi\ell/L)$ 因子，使结果只依赖 $\ln L$。</p>
+
+    <h3 id="sec-7-3">
+      <span class="lang-en">7.3 CFT Prediction for the 1D Free Fermion</span>
+      <span class="lang-zh">7.3 一维自由费米子的 CFT 预言</span>
+    </h3>
+
+    <p class="lang-en">The 1D XX model (free fermion) at half-filling is a gapless critical system, with low-energy effective theory given by a $c = 1$ free boson CFT.</p>
+    <p class="lang-zh">一维 XX 模型（自由费米子）在半满时是无隙的临界系统，低能有效理论是 $c = 1$ 的自由玻色 CFT。</p>
+
+    <img src="../assets/ee/ee_chain_bipartition.png" alt="1D chain bipartition" style="max-width:100%">
+
+    <p class="lang-en">For <strong>open boundary conditions</strong> (OBC) on a chain of length $L$, taking the first $\ell$ sites from the left end as subsystem $A$:</p>
+    <p class="lang-zh">对于<strong>开边界</strong>（OBC）长度为 $L$ 的链，取从左端开始的 $\ell$ 个格点为子系统 $A$：</p>
+
+    <p>$$S = \frac{c}{6}\ln\left(\frac{2L}{\pi a}\sin\frac{\pi\ell}{L}\right) + c_1'$$</p>
+
+    <p class="lang-en">For the half-chain $\ell = L/2$, since $\sin(\pi/2) = 1$:</p>
+    <p class="lang-zh">取半链 $\ell = L/2$，由于 $\sin(\pi/2) = 1$：</p>
+
+    <p>$$S_{\text{half}} = \frac{c}{6}\ln\frac{2L}{\pi} + c_1' = \frac{1}{6}\ln L + \text{const}$$</p>
+
+    <p class="lang-en">The key prediction is the <strong>coefficient $1/6$</strong>.</p>
+    <p class="lang-zh">关键预言是<strong>系数 $1/6$</strong>。</p>
+
+    <blockquote>
+      <p class="lang-en"><strong>OBC vs PBC coefficient differs by a factor of two.</strong> Under PBC a connected interval has two entangling points, while under OBC an interval starting from the boundary has only one. Therefore the OBC logarithmic coefficient $c/6$ is half the PBC value of $c/3$ [2].</p>
+      <p class="lang-zh"><strong>OBC vs PBC 系数差一倍</strong>。PBC 下一个连续区间有两个 entangling point，而 OBC 下从边界起算的区间只有一个。因此 OBC 的对数项系数 $c/6$ 是 PBC 的 $c/3$ 的一半 [2]。</p>
+    </blockquote>
+
+    <h3 id="sec-7-4">
+      <span class="lang-en">7.4 Numerical Verification</span>
+      <span class="lang-zh">7.4 数值验证</span>
+    </h3>
+
+    <p class="lang-en">Run <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/demos/demo_1d_cft.py"><code>demos/demo_1d_cft.py</code></a> to compute the half-chain entanglement entropy for open chains from $L = 10$ to $800$:</p>
+    <p class="lang-zh">运行 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/demos/demo_1d_cft.py"><code>demos/demo_1d_cft.py</code></a>，对 $L = 10$ 到 $800$ 的开链计算半链纠缠熵：</p>
+
+<pre><code class="language-python">from ee import ee_corr_matrix
+from lattices import chain_1d
+
+for L in [10, 14, 20, 30, 50, 80, 100, 200, 400, 800]:
+    G = chain_1d(L, pbc=False)
+    S = ee_corr_matrix(G, list(range(L // 2)))</code></pre>
+
+    <p class="lang-en">Results:</p>
+    <p class="lang-zh">结果：</p>
+
+    <table>
+      <thead><tr><th>$L$</th><th>$S_{\text{half}}$</th><th>$(1/6)\ln(2L/\pi)$</th><th><span class="lang-en">Difference</span><span class="lang-zh">差值</span></th></tr></thead>
+      <tbody>
+        <tr><td>10</td><td>0.7578</td><td>0.3085</td><td>0.449</td></tr>
+        <tr><td>20</td><td>0.7581</td><td>0.4240</td><td>0.334</td></tr>
+        <tr><td>50</td><td>0.9585</td><td>0.5767</td><td>0.382</td></tr>
+        <tr><td>100</td><td>1.0492</td><td>0.6923</td><td>0.357</td></tr>
+        <tr><td>200</td><td>1.1677</td><td>0.8078</td><td>0.360</td></tr>
+        <tr><td>400</td><td>1.2848</td><td>0.9233</td><td>0.361</td></tr>
+        <tr><td>800</td><td>1.4011</td><td>1.0388</td><td>0.362</td></tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en">Linear fit $S = a \ln L + b$ for $L \geq 50$:</p>
+    <p class="lang-zh">对 $L \geq 50$ 的数据做线性拟合 $S = a \ln L + b$：</p>
+
+    <p>$$a = 0.1636, \qquad \frac{c}{6} = \frac{1}{6} = 0.1667$$</p>
+
+    <p class="lang-en">Relative error <strong>1.8%</strong>. The deviation mainly comes from finite-size, boundary, and lattice corrections.</p>
+    <p class="lang-zh">相对误差 <strong>1.8%</strong>。偏差主要来自有限尺寸、边界和格点修正。</p>
+
+    <img src="../assets/ee/ee_1d_cft_fig.png" alt="1D CFT verification" style="max-width:100%">
+
+    <hr>
+
+    <!-- Section 8 -->
+    <h2 id="sec-8">
+      <span class="lang-en">8. Extension to Two Dimensions</span>
+      <span class="lang-zh">8. 推广到二维</span>
+    </h2>
+
+    <h3 id="sec-8-1">
+      <span class="lang-en">8.1 Choice of Bipartition</span>
+      <span class="lang-zh">8.1 二分的选取</span>
+    </h3>
+
+    <p class="lang-en">The entanglement entropy of a 2D system depends on how subsystem $A$ is chosen. Common cuts include:</p>
+    <p class="lang-zh">二维系统的纠缠熵依赖于子系统 $A$ 的选取方式。常见的切法有：</p>
+
+    <ul class="lang-en">
+      <li><strong>Cylindrical cut</strong>: $A$ is the left half of the rectangle; the boundary is a straight line along the $y$-direction of length $L_y$</li>
+      <li><strong>Strip cut</strong>: $A$ is the top half of rows</li>
+      <li><strong>Circular cut</strong>: $A$ is a central disk &mdash; often used with Kitaev-Preskill or Levin-Wen multi-region combinations to extract topological entanglement entropy</li>
+    </ul>
+    <ul class="lang-zh">
+      <li><strong>柱形切割</strong>：$A$ 是左半矩形，边界是一条沿 $y$ 方向的直线，长度为 $L_y$</li>
+      <li><strong>条形切割</strong>：$A$ 是上半行</li>
+      <li><strong>圆形切割</strong>：$A$ 是中心圆盘——常与 Kitaev-Preskill 或 Levin-Wen 多区域组合一起用于提取拓扑纠缠熵</li>
+    </ul>
+
+    <p class="lang-en">This article uses the cylindrical cut (most common), taking all sites with $x &lt; L_x/2$ as $A$. The cut area (boundary length) is $|\partial A| = L_y$.</p>
+    <p class="lang-zh">本文使用柱形切割（最常见），即取 $x &lt; L_x/2$ 的所有格点为 $A$。此时切口面积（边界长度）$|\partial A| = L_y$。</p>
+
+    <h3 id="sec-8-2">
+      <span class="lang-en">8.2 Area Law</span>
+      <span class="lang-zh">8.2 面积律</span>
+    </h3>
+
+    <p class="lang-en">The ground state entanglement entropy of gapped systems obeys the <strong>area law</strong> [1, 7]:</p>
+    <p class="lang-zh">有隙系统基态的纠缠熵满足<strong>面积律</strong> [1, 7]：</p>
+
+    <p>$$S \sim \alpha\, |\partial A|$$</p>
+
+    <p class="lang-en">However, there are two important classes of corrections:</p>
+    <p class="lang-zh">但面积律有两类重要的修正：</p>
+
+    <ol class="lang-en">
+      <li><strong>Logarithmic correction (Fermi surface)</strong>: If the system has an extended Fermi surface, Gioev and Klich [11] showed that $S \sim \alpha\, L_y \ln L_y$.</li>
+      <li><strong>Topological entanglement entropy</strong>: Topologically ordered states satisfy $S = \alpha\, |\partial A| - \gamma$, where $\gamma = \ln \mathcal{D}$.</li>
+    </ol>
+    <ol class="lang-zh">
+      <li><strong>对数修正（Fermi 面）</strong>：如果系统有延展的 Fermi 面，Gioev 和 Klich [11] 给出 $S \sim \alpha\, L_y \ln L_y$。</li>
+      <li><strong>拓扑纠缠熵</strong>：拓扑有序态满足 $S = \alpha\, |\partial A| - \gamma$，其中 $\gamma = \ln \mathcal{D}$。</li>
+    </ol>
+
+    <h3 id="sec-8-3">
+      <span class="lang-en">8.3 Free Fermions on the Square Lattice</span>
+      <span class="lang-zh">8.3 方格子自由费米子</span>
+    </h3>
+
+    <p class="lang-en">On an $L \times L$ square lattice, the tight-binding Hamiltonian at half-filling has a square Fermi surface. Therefore we expect $S/L_y$ to grow logarithmically with $L_y$.</p>
+    <p class="lang-zh">在 $L \times L$ 的方格子上，tight-binding 哈密顿量半满时存在一个正方形 Fermi 面。因此预期 $S/L_y$ 随 $L_y$ 对数增长。</p>
+
+    <p class="lang-en"><strong>Code</strong> (see <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/demos/demo_2d_area_law.py"><code>demos/demo_2d_area_law.py</code></a>):</p>
+    <p class="lang-zh"><strong>代码</strong>（见 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/demos/demo_2d_area_law.py"><code>demos/demo_2d_area_law.py</code></a>）：</p>
+
+<pre><code class="language-python">from lattices import square_2d, subsystem_left_half
+from ee import ee_corr_matrix
+
+for L in [4, 6, 8, 10, 12, 16, 20]:
+    G = square_2d(L, L, pbc=False)
+    sub = subsystem_left_half(L, L, sites_per_cell=1)
+    S = ee_corr_matrix(G, sub)</code></pre>
+
+    <p class="lang-en">Results:</p>
+    <p class="lang-zh">结果：</p>
+
+    <table>
+      <thead><tr><th>$L$</th><th>$N = L^2$</th><th>$S$</th><th>$S/L$</th></tr></thead>
+      <tbody>
+        <tr><td>4</td><td>16</td><td>1.81</td><td>0.452</td></tr>
+        <tr><td>6</td><td>36</td><td>3.44</td><td>0.573</td></tr>
+        <tr><td>8</td><td>64</td><td>4.39</td><td>0.549</td></tr>
+        <tr><td>10</td><td>100</td><td>5.87</td><td>0.587</td></tr>
+        <tr><td>12</td><td>144</td><td>7.77</td><td>0.648</td></tr>
+        <tr><td>16</td><td>256</td><td>10.43</td><td>0.652</td></tr>
+        <tr><td>20</td><td>400</td><td>13.87</td><td>0.693</td></tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en">$S/L$ does not converge to a constant but grows slowly &mdash; consistent with the Widom conjecture's $\ln L$ behavior.</p>
+    <p class="lang-zh">$S/L$ 没有收敛到常数，而是缓慢增长——与 Widom 猜想的 $\ln L$ 行为一致。</p>
+
+    <h3 id="sec-8-4">
+      <span class="lang-en">8.4 Free Fermions on the Honeycomb Lattice</span>
+      <span class="lang-zh">8.4 蜂窝格点自由费米子</span>
+    </h3>
+
+    <p class="lang-en">The honeycomb lattice presents a fundamentally different situation. Each unit cell has two sites (A and B sublattices), and the band structure yields two Dirac cones. At half-filling, the Fermi "surface" degenerates to two points &mdash; there is no extended Fermi surface. Therefore the leading $L\ln L$ enhancement <strong>does not appear</strong>.</p>
+    <p class="lang-zh">蜂窝格点（honeycomb lattice）的情况截然不同。每个单胞有两个格点（A、B 子格），能带结构给出两个 Dirac 锥。半满时 Fermi "面"退化为两个点——没有延展的 Fermi 面。因此<strong>不出现</strong> $L\ln L$ 的主导增强。</p>
+
+    <p class="lang-en">Logarithmic terms can appear as <strong>subleading corrections</strong>. If the subregion boundary has corners, a universal corner logarithmic correction appears:</p>
+    <p class="lang-zh">对数项可以作为<strong>次领先修正</strong>出现。如果子区域边界有尖角，会出现普适的角点对数修正：</p>
+
+    <p>$$S = \alpha\, L_y + a_2 \ln L_y + \text{const}$$</p>
+
+    <p class="lang-en"><strong>Code</strong> (see <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/demos/demo_2d_area_law.py"><code>demos/demo_2d_area_law.py</code></a>):</p>
+    <p class="lang-zh"><strong>代码</strong>（见 <a href="https://github.com/ChrisWenChen/entanglement-entropy-tutorial/blob/main/demos/demo_2d_area_law.py"><code>demos/demo_2d_area_law.py</code></a>）：</p>
+
+<pre><code class="language-python">from lattices import honeycomb_2d, subsystem_left_half
+from ee import ee_corr_matrix
+
+for L in [4, 6, 8, 10, 12, 16, 20]:
+    G = honeycomb_2d(L, L, pbc=False)
+    sub = subsystem_left_half(L, L, sites_per_cell=2)
+    S = ee_corr_matrix(G, sub)</code></pre>
+
+    <p class="lang-en">Results:</p>
+    <p class="lang-zh">结果：</p>
+
+    <table>
+      <thead><tr><th>$L$</th><th>$N = 2L^2$</th><th>$S$</th><th>$S/L$</th></tr></thead>
+      <tbody>
+        <tr><td>4</td><td>32</td><td>2.34</td><td>0.585</td></tr>
+        <tr><td>6</td><td>72</td><td>3.77</td><td>0.628</td></tr>
+        <tr><td>8</td><td>128</td><td>5.17</td><td>0.646</td></tr>
+        <tr><td>10</td><td>200</td><td>6.55</td><td>0.655</td></tr>
+        <tr><td>12</td><td>288</td><td>7.93</td><td>0.661</td></tr>
+        <tr><td>16</td><td>512</td><td>10.66</td><td>0.666</td></tr>
+        <tr><td>20</td><td>800</td><td>13.39</td><td>0.669</td></tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en">Compared to the square lattice, the honeycomb lattice's $S/L$ converges much faster &mdash; this is precisely the difference between a "point Fermi surface" (Dirac points) and a "line Fermi surface".</p>
+    <p class="lang-zh">与方格子对比，蜂窝格点的 $S/L$ 收敛更快——这正是"点 Fermi 面"（Dirac 点）vs"线 Fermi 面"的区别。</p>
+
+    <h3 id="sec-8-5">
+      <span class="lang-en">8.5 Literature Benchmark Comparison</span>
+      <span class="lang-zh">8.5 文献基准对比</span>
+    </h3>
+
+    <table>
+      <thead><tr>
+        <th><span class="lang-en">System</span><span class="lang-zh">系统</span></th>
+        <th><span class="lang-en">Prediction</span><span class="lang-zh">预言</span></th>
+        <th><span class="lang-en">This Work</span><span class="lang-zh">本文数值</span></th>
+        <th><span class="lang-en">Literature Benchmark</span><span class="lang-zh">文献基准</span></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>1D XX <span class="lang-en">chain</span><span class="lang-zh">链</span> (OBC)</td>
+          <td>$S \sim \frac{1}{6}\ln L$</td>
+          <td><span class="lang-en">Coefficient</span><span class="lang-zh">系数</span> $0.164 \pm 0.003$</td>
+          <td>Vidal et al. [3]: $1/6 = 0.167$</td>
+        </tr>
+        <tr>
+          <td><span class="lang-en">2D square lattice, half-filling</span><span class="lang-zh">2D 方格子半满</span></td>
+          <td>$S/L$ <span class="lang-en">diverges logarithmically</span><span class="lang-zh">对数发散</span></td>
+          <td>$S/L$: 0.45 &rarr; 0.69 ($L$: 4 &rarr; 20)</td>
+          <td>Gioev &amp; Klich [11]: $S \sim L \ln L$</td>
+        </tr>
+        <tr>
+          <td>Honeycomb, <span class="lang-en">half-filling</span><span class="lang-zh">半满</span></td>
+          <td>$S \sim \alpha L$ (<span class="lang-en">area law dominant</span><span class="lang-zh">面积律主导</span>)</td>
+          <td>$S/L$ &rarr; $\approx 0.67$</td>
+          <td>D'Emidio et al. [6]</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <img src="../assets/ee/ee_2d_lattice_fig.png" alt="2D lattice entanglement entropy comparison" style="max-width:100%">
+
+    <hr>
+
+    <!-- Section 9 -->
+    <h2 id="sec-9">
+      <span class="lang-en">9. Summary</span>
+      <span class="lang-zh">9. 总结</span>
+    </h2>
+
+    <p class="lang-en">Core takeaways of this article:</p>
+    <p class="lang-zh">本文的核心要点：</p>
+
+    <ol class="lang-en">
+      <li><strong>For general pure states</strong>, computing entanglement entropy reduces to performing SVD on the coefficient matrix (partial trace &rarr; reshape &rarr; SVD); <strong>for free fermions</strong>, there is an even more efficient correlation matrix method</li>
+      <li><strong>Method 2 (direct SVD) is the general default choice</strong>: more stable than Method 1 because it avoids squaring the condition number</li>
+      <li><strong>Randomized SVD</strong> provides significant speedup for states with low effective rank (area law, MBL), but is ineffective for volume-law states</li>
+      <li><strong>The correlation matrix method for free fermions</strong> reduces complexity from exponential in Hilbert space dimension to $O(|A|^3)$</li>
+      <li><strong>1D CFT prediction</strong> $S = \frac{c}{6}\ln L$ (OBC) is numerically verified, with fitted coefficient within &lt; 2% of the theoretical value $1/6$</li>
+      <li><strong>Free fermions on the 2D square lattice</strong> (extended Fermi surface): $S/L$ diverges logarithmically (Widom conjecture); <strong>free fermions on the honeycomb lattice</strong> (Dirac points): $S/L$ tends to a constant (area law dominant)</li>
+    </ol>
+    <ol class="lang-zh">
+      <li><strong>对一般纯态</strong>，纠缠熵计算可归结为对系数矩阵做一次 SVD（偏迹 &rarr; reshape &rarr; SVD）；<strong>对自由费米子</strong>，还有更高效的关联矩阵方法</li>
+      <li><strong>方法二（直接 SVD）是通用默认选择</strong>：比方法一更稳定，因为避免了条件数平方</li>
+      <li><strong>随机化 SVD</strong> 对低有效秩的态（面积律、MBL）有显著加速，但对体积律态无效</li>
+      <li><strong>自由费米子的关联矩阵方法</strong>将复杂度从随 Hilbert 空间维数指数增长降到 $O(|A|^3)$</li>
+      <li><strong>一维 CFT 预言</strong> $S = \frac{c}{6}\ln L$（OBC）被数值验证，拟合系数与理论值 $1/6$ 相差 &lt; 2%</li>
+      <li><strong>自由费米子二维方格子</strong>（有延展 Fermi 面）的 $S/L$ 对数发散（Widom 猜想）；<strong>自由费米子蜂窝格点</strong>（Dirac 点）的 $S/L$ 趋于常数（面积律主导）</li>
+    </ol>
+
+    <hr>
+
+    <!-- References -->
+    <h2 id="sec-references">
+      <span class="lang-en">References</span>
+      <span class="lang-zh">参考文献</span>
+    </h2>
+
+    <ol>
+      <li>J. Eisert, M. Cramer, and M. B. Plenio, <em>Area laws for the entanglement entropy</em>, Rev. Mod. Phys. <strong>82</strong>, 277 (2010). <a href="https://doi.org/10.1103/RevModPhys.82.277">doi:10.1103/RevModPhys.82.277</a></li>
+      <li>P. Calabrese and J. Cardy, <em>Entanglement entropy and conformal field theory</em>, J. Phys. A <strong>42</strong>, 504005 (2009). <a href="https://doi.org/10.1088/1751-8113/42/50/504005">doi:10.1088/1751-8113/42/50/504005</a></li>
+      <li>G. Vidal, J. I. Latorre, E. Rico, and A. Kitaev, <em>Entanglement in quantum critical phenomena</em>, Phys. Rev. Lett. <strong>90</strong>, 227902 (2003). <a href="https://doi.org/10.1103/PhysRevLett.90.227902">doi:10.1103/PhysRevLett.90.227902</a></li>
+      <li>B. Bauer and C. Nayak, <em>Area laws in a many-body localized state and its implications for topological order</em>, J. Stat. Mech. (2013) P09005. <a href="https://doi.org/10.1088/1742-5468/2013/09/P09005">doi:10.1088/1742-5468/2013/09/P09005</a></li>
+      <li>C. J. Turner, A. A. Michailidis, D. A. Abanin, M. Serbyn, and Z. Papi&#263;, <em>Weak ergodicity breaking from quantum many-body scars</em>, Nature Phys. <strong>14</strong>, 745 (2018). <a href="https://doi.org/10.1038/s41567-018-0137-5">doi:10.1038/s41567-018-0137-5</a></li>
+      <li>J. D'Emidio, R. Or&#250;s, N. Laflorencie, and F. de Juan, <em>Universal features of entanglement entropy in the honeycomb Hubbard model</em>, Phys. Rev. Lett. <strong>132</strong>, 076502 (2024). <a href="https://doi.org/10.1103/PhysRevLett.132.076502">doi:10.1103/PhysRevLett.132.076502</a></li>
+      <li>N. Laflorencie, <em>Quantum entanglement in condensed matter systems</em>, Phys. Rep. <strong>646</strong>, 1 (2016). <a href="https://doi.org/10.1016/j.physrep.2016.06.008">doi:10.1016/j.physrep.2016.06.008</a></li>
+      <li>N. Halko, P. G. Martinsson, and J. A. Tropp, <em>Finding structure with randomness: probabilistic algorithms for constructing approximate matrix decompositions</em>, SIAM Rev. <strong>53</strong>, 217 (2011). <a href="https://doi.org/10.1137/090771806">doi:10.1137/090771806</a></li>
+      <li>I. Peschel, <em>Calculation of reduced density matrices from correlation functions</em>, J. Phys. A <strong>36</strong>, L205 (2003). <a href="https://doi.org/10.1088/0305-4470/36/14/101">doi:10.1088/0305-4470/36/14/101</a></li>
+      <li>P. Calabrese and J. Cardy, <em>Entanglement entropy and quantum field theory</em>, J. Stat. Mech. (2004) P06002. <a href="https://doi.org/10.1088/1742-5468/2004/06/P06002">doi:10.1088/1742-5468/2004/06/P06002</a></li>
+      <li>D. Gioev and I. Klich, <em>Entanglement entropy of fermions in any dimension and the Widom conjecture</em>, Phys. Rev. Lett. <strong>96</strong>, 100503 (2006). <a href="https://doi.org/10.1103/PhysRevLett.96.100503">doi:10.1103/PhysRevLett.96.100503</a></li>
+      <li>J. M. Deutsch, <em>Quantum statistical mechanics in a closed system</em>, Phys. Rev. A <strong>43</strong>, 2046 (1991). <a href="https://doi.org/10.1103/PhysRevA.43.2046">doi:10.1103/PhysRevA.43.2046</a></li>
+      <li>M. Srednicki, <em>Chaos and quantum thermalization</em>, Phys. Rev. E <strong>50</strong>, 888 (1994). <a href="https://doi.org/10.1103/PhysRevE.50.888">doi:10.1103/PhysRevE.50.888</a></li>
+      <li>M. Rigol, V. Dunjko, and M. Olshanii, <em>Thermalization and its mechanism for generic isolated quantum systems</em>, Nature <strong>452</strong>, 854 (2008). <a href="https://doi.org/10.1038/nature06838">doi:10.1038/nature06838</a></li>
+    </ol>
+
+  </div>
+</div>
+
+<!-- Table of Contents sidebar -->
+<aside class="blog-toc" id="toc">
+  <div class="blog-toc-title">
+    <span class="lang-en">Contents</span>
+    <span class="lang-zh">目录</span>
+  </div>
+  <ul>
+    <li><a href="#sec-1"><span class="lang-en">1. Why Compute EE</span><span class="lang-zh">1. 为什么计算纠缠熵</span></a></li>
+    <li><a href="#sec-2"><span class="lang-en">2. Partial Trace</span><span class="lang-zh">2. 偏迹与约化密度矩阵</span></a></li>
+    <li class="toc-h3"><a href="#sec-2-1"><span class="lang-en">2.1 Definition</span><span class="lang-zh">2.1 偏迹的定义</span></a></li>
+    <li class="toc-h3"><a href="#sec-2-2"><span class="lang-en">2.2 Coefficient Matrix</span><span class="lang-zh">2.2 系数矩阵</span></a></li>
+    <li><a href="#sec-3"><span class="lang-en">3. Schmidt Decomposition</span><span class="lang-zh">3. Schmidt 分解</span></a></li>
+    <li class="toc-h3"><a href="#sec-3-1"><span class="lang-en">3.1 What Is It</span><span class="lang-zh">3.1 什么是 Schmidt 分解</span></a></li>
+    <li class="toc-h3"><a href="#sec-3-2"><span class="lang-en">3.2 Schmidt = SVD</span><span class="lang-zh">3.2 Schmidt = SVD</span></a></li>
+    <li class="toc-h3"><a href="#sec-3-3"><span class="lang-en">3.3 Why Introduce It</span><span class="lang-zh">3.3 为什么在这里讲</span></a></li>
+    <li class="toc-h3"><a href="#sec-3-4"><span class="lang-en">3.4 Connection to EE</span><span class="lang-zh">3.4 与纠缠熵的对应</span></a></li>
+    <li><a href="#sec-4"><span class="lang-en">4. Worked Examples</span><span class="lang-zh">4. 手算练习</span></a></li>
+    <li class="toc-h3"><a href="#sec-4-1"><span class="lang-en">4.1 Product State</span><span class="lang-zh">4.1 直积态</span></a></li>
+    <li class="toc-h3"><a href="#sec-4-2"><span class="lang-en">4.2 Bell State</span><span class="lang-zh">4.2 Bell 态</span></a></li>
+    <li class="toc-h3"><a href="#sec-4-3"><span class="lang-en">4.3 Partial Entanglement</span><span class="lang-zh">4.3 部分纠缠态</span></a></li>
+    <li class="toc-h3"><a href="#sec-4-4"><span class="lang-en">4.4 GHZ State</span><span class="lang-zh">4.4 GHZ 态</span></a></li>
+    <li class="toc-h3"><a href="#sec-4-5"><span class="lang-en">4.5 W State</span><span class="lang-zh">4.5 W 态</span></a></li>
+    <li><a href="#sec-5"><span class="lang-en">5. Numerical Algorithms</span><span class="lang-zh">5. 数值算法</span></a></li>
+    <li class="toc-h3"><a href="#sec-5-0"><span class="lang-en">5.0 Reshape</span><span class="lang-zh">5.0 Reshape</span></a></li>
+    <li class="toc-h3"><a href="#sec-5-1"><span class="lang-en">5.1 Method 1</span><span class="lang-zh">5.1 方法一</span></a></li>
+    <li class="toc-h3"><a href="#sec-5-2"><span class="lang-en">5.2 Method 2 (SVD)</span><span class="lang-zh">5.2 方法二 (SVD)</span></a></li>
+    <li class="toc-h3"><a href="#sec-5-3"><span class="lang-en">5.3 Why Method 2</span><span class="lang-zh">5.3 为什么方法二更好</span></a></li>
+    <li class="toc-h3"><a href="#sec-5-4"><span class="lang-en">5.4 Randomized SVD</span><span class="lang-zh">5.4 随机化 SVD</span></a></li>
+    <li><a href="#sec-6"><span class="lang-en">6. Correlation Matrix</span><span class="lang-zh">6. 关联矩阵方法</span></a></li>
+    <li class="toc-h3"><a href="#sec-6-1"><span class="lang-en">6.1 Intuition</span><span class="lang-zh">6.1 直觉</span></a></li>
+    <li class="toc-h3"><a href="#sec-6-2"><span class="lang-en">6.2 Theorem</span><span class="lang-zh">6.2 定理</span></a></li>
+    <li class="toc-h3"><a href="#sec-6-3"><span class="lang-en">6.3 Complexity</span><span class="lang-zh">6.3 复杂度</span></a></li>
+    <li class="toc-h3"><a href="#sec-6-4"><span class="lang-en">6.4 Construction</span><span class="lang-zh">6.4 构建</span></a></li>
+    <li><a href="#sec-7"><span class="lang-en">7. 1D CFT Verification</span><span class="lang-zh">7. 一维 CFT 验证</span></a></li>
+    <li class="toc-h3"><a href="#sec-7-1"><span class="lang-en">7.1 Project Structure</span><span class="lang-zh">7.1 项目结构</span></a></li>
+    <li class="toc-h3"><a href="#sec-7-2"><span class="lang-en">7.2 Why Half-Chain</span><span class="lang-zh">7.2 为什么看半链</span></a></li>
+    <li class="toc-h3"><a href="#sec-7-3"><span class="lang-en">7.3 CFT Prediction</span><span class="lang-zh">7.3 CFT 预言</span></a></li>
+    <li class="toc-h3"><a href="#sec-7-4"><span class="lang-en">7.4 Verification</span><span class="lang-zh">7.4 数值验证</span></a></li>
+    <li><a href="#sec-8"><span class="lang-en">8. Extension to 2D</span><span class="lang-zh">8. 推广到二维</span></a></li>
+    <li class="toc-h3"><a href="#sec-8-1"><span class="lang-en">8.1 Bipartition</span><span class="lang-zh">8.1 二分的选取</span></a></li>
+    <li class="toc-h3"><a href="#sec-8-2"><span class="lang-en">8.2 Area Law</span><span class="lang-zh">8.2 面积律</span></a></li>
+    <li class="toc-h3"><a href="#sec-8-3"><span class="lang-en">8.3 Square Lattice</span><span class="lang-zh">8.3 方格子</span></a></li>
+    <li class="toc-h3"><a href="#sec-8-4"><span class="lang-en">8.4 Honeycomb</span><span class="lang-zh">8.4 蜂窝格点</span></a></li>
+    <li class="toc-h3"><a href="#sec-8-5"><span class="lang-en">8.5 Benchmarks</span><span class="lang-zh">8.5 文献对比</span></a></li>
+    <li><a href="#sec-9"><span class="lang-en">9. Summary</span><span class="lang-zh">9. 总结</span></a></li>
+    <li><a href="#sec-references"><span class="lang-en">References</span><span class="lang-zh">参考文献</span></a></li>
+  </ul>
+</aside>
+
+</div><!-- end blog-article-wrapper -->
+</main>
+
+<footer>
+  <p>&copy; 2025 Wen Chen.</p>
+</footer>
+
+<script>
+function toggleLang() {
+  const body = document.body;
+  const btn = document.querySelector('.lang-toggle');
+  body.classList.toggle('zh');
+  btn.textContent = body.classList.contains('zh') ? 'EN' : '中文';
+}
+
+// Syntax highlighting
+hljs.highlightAll();
+
+// Word count & reading time
+(function() {
+  const content = document.querySelector('.blog-article .content');
+  if (!content) return;
+  const text = content.textContent || '';
+  // Count Chinese chars + English words
+  const chineseChars = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+  const englishWords = text.replace(/[\u4e00-\u9fff]/g, '').split(/\s+/).filter(w => w.length > 0).length;
+  const totalWords = chineseChars + englishWords;
+  const minutes = Math.max(1, Math.ceil(totalWords / 300));
+  const stats = document.getElementById('reading-stats');
+  if (stats) {
+    const enSpan = document.createElement('span');
+    enSpan.className = 'lang-en';
+    enSpan.textContent = `~${totalWords} words \u00B7 ${minutes} min read`;
+    const zhSpan = document.createElement('span');
+    zhSpan.className = 'lang-zh';
+    zhSpan.textContent = `\u7EA6 ${totalWords} \u5B57 \u00B7 ${minutes} \u5206\u949F\u9605\u8BFB`;
+    stats.appendChild(enSpan);
+    stats.appendChild(zhSpan);
+  }
+})();
+
+// TOC active state on scroll
+(function() {
+  const tocLinks = document.querySelectorAll('.blog-toc a');
+  const headings = [];
+  tocLinks.forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) headings.push({ id, el, link });
+  });
+
+  function updateActive() {
+    let current = headings[0];
+    for (const h of headings) {
+      if (h.el.getBoundingClientRect().top <= 100) current = h;
+    }
+    tocLinks.forEach(l => l.classList.remove('active'));
+    if (current) current.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+</script>
+
+</body>
+</html>
