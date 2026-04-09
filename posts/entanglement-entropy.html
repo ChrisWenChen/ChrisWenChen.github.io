@@ -48,6 +48,8 @@
     </span>
     <span class="meta-separator">|</span>
     <span>Apr 9, 2026</span>
+    <span class="meta-separator">|</span>
+    <span id="reading-stats"></span>
   </div>
 
   <div class="content">
@@ -1422,6 +1424,33 @@ function toggleLang() {
 
 // Syntax highlighting
 hljs.highlightAll();
+
+// Word count
+(function() {
+  const content = document.querySelector('.blog-article .content');
+  if (!content) return;
+  // English: count words from lang-en elements
+  const enEls = content.querySelectorAll('.lang-en');
+  let enText = '';
+  enEls.forEach(el => enText += ' ' + el.textContent);
+  const enWords = enText.split(/\s+/).filter(w => w.length > 0).length;
+  // Chinese: count characters from lang-zh elements
+  const zhEls = content.querySelectorAll('.lang-zh');
+  let zhText = '';
+  zhEls.forEach(el => zhText += el.textContent);
+  const zhChars = (zhText.match(/[\u4e00-\u9fff]/g) || []).length;
+  const stats = document.getElementById('reading-stats');
+  if (stats) {
+    const enSpan = document.createElement('span');
+    enSpan.className = 'lang-en';
+    enSpan.textContent = '~' + enWords + ' words';
+    const zhSpan = document.createElement('span');
+    zhSpan.className = 'lang-zh';
+    zhSpan.textContent = '~' + zhChars + ' 字';
+    stats.appendChild(enSpan);
+    stats.appendChild(zhSpan);
+  }
+})();
 
 // TOC active state on scroll
 (function() {
