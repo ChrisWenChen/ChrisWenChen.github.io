@@ -512,11 +512,14 @@ main {
   margin-bottom: 0.5rem;
 }
 
+.heatmap-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .heatmap-grid {
   display: flex;
   gap: 3px;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
 }
 
 .heatmap-col {
@@ -544,7 +547,6 @@ main {
   font-size: 0.7rem;
   color: var(--text-light);
   margin-bottom: 0.25rem;
-  overflow-x: auto;
 }
 
 .heatmap-months span {
