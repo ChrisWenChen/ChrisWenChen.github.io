@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>nanoED | Wen Chen</title>
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/python.min.js"></script>
   <script>
     MathJax = {
       tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] }
@@ -27,14 +30,24 @@
 </nav>
 
 <main>
-<div class="card blog-article" style="margin-top:0.5rem;">
+<div class="blog-article-wrapper" style="margin-top:0.5rem;">
+<div class="card blog-article">
   <a href="../blog.html" class="back-link">&larr; <span class="lang-en">Back to Blog</span><span class="lang-zh">返回博客</span></a>
 
   <h1>
     <span class="lang-en">nanoED: Exact Diagonalization in ~60 Lines of Python</span>
     <span class="lang-zh">nanoED：用不到 60 行 Python 做精确对角化</span>
   </h1>
-  <div class="meta">April 2026</div>
+  <div class="meta">
+    <span class="blog-author">
+      <img src="../assets/profile.png" alt="Wen Chen" class="blog-author-avatar">
+      <span class="blog-author-name">Wen Chen</span>
+    </span>
+    <span class="meta-separator">|</span>
+    <span>Apr 7, 2026</span>
+    <span class="meta-separator">|</span>
+    <span id="reading-stats"></span>
+  </div>
 
   <div class="content">
 
@@ -56,7 +69,7 @@
     <hr>
 
     <!-- 1.1 -->
-    <h2>
+    <h2 id="sec-1-1">
       <span class="lang-en">1.1 Model: The Antiferromagnetic Heisenberg Chain</span>
       <span class="lang-zh">1.1 模型：反铁磁 Heisenberg 链</span>
     </h2>
@@ -93,7 +106,7 @@
     <hr>
 
     <!-- 1.2 -->
-    <h2>
+    <h2 id="sec-1-2">
       <span class="lang-en">1.2 Binary Encoding: Spins as Bits</span>
       <span class="lang-zh">1.2 二进制编码：自旋即比特</span>
     </h2>
@@ -182,7 +195,7 @@
       下面这段函数做的事是：在所有 $2^L$ 个 $L$ 位整数里，筛选出 popcount 恰好等于 <code>nup</code> 的那些（也就是固定 $S^z_\text{tot}$ 扇区的基矢），并把它们放进一个 NumPy 数组里：
     </p>
 
-<pre><code>def build_basis(L, nup):
+<pre><code class="language-python">def build_basis(L, nup):
     """All L-bit integers with popcount == nup (Sz sector basis)."""
     return np.array([s for s in range(1 &lt;&lt; L)
                      if bin(s).count("1") == nup],
@@ -216,7 +229,7 @@
     <hr>
 
     <!-- 1.3 -->
-    <h2>
+    <h2 id="sec-1-3">
       <span class="lang-en">1.3 Binary Search: State to Index</span>
       <span class="lang-zh">1.3 二分查找：态 → 索引</span>
     </h2>
@@ -235,7 +248,7 @@
       答案很简单：查它在基矢数组中的位置。由于基矢是排序整数数组，这是标准的<strong>二分查找</strong>（binary search）：每次比较中间元素，排除一半候选，时间复杂度 $O(\log D)$：
     </p>
 
-<pre><code>from bisect import bisect_left
+<pre><code class="language-python">from bisect import bisect_left
 
 def find_state(basis, state):
     """Binary search: index of state in sorted basis array."""
@@ -251,12 +264,12 @@ def find_state(basis, state):
     <hr>
 
     <!-- 1.4 -->
-    <h2>
+    <h2 id="sec-1-4">
       <span class="lang-en">1.4 Constructing the Sparse Hamiltonian</span>
       <span class="lang-zh">1.4 构造稀疏 Hamiltonian</span>
     </h2>
 
-    <h3>
+    <h3 id="sec-dense-sparse">
       <span class="lang-en">Dense vs. Sparse Matrices</span>
       <span class="lang-zh">稠密矩阵与稀疏矩阵</span>
     </h3>
@@ -337,7 +350,7 @@ def find_state(basis, state):
       Heisenberg 矩阵有多稀疏？每个基矢 $|s\rangle$ 最多产生 $L$ 个翻转（每对相邻反平行格点贡献一个非零元），加上一个对角元，共约 $L+1$ 个非零元。$L=16$ 时矩阵共 $12870^2 \approx 1.7 \times 10^8$ 个位置，但非零元只有约 $12870 \times 17 \approx 2 \times 10^5$，<strong>稀疏度约 $0.1\%$</strong>。
     </p>
 
-    <h3>
+    <h3 id="sec-matrix-elements">
       <span class="lang-en">Computing Matrix Elements</span>
       <span class="lang-zh">矩阵元的计算</span>
     </h3>
@@ -382,12 +395,12 @@ def find_state(basis, state):
       <strong>例子</strong>：取 $L=4$，翻转相邻的 $i=1$ 和 $j=2$ 两个格点。此时 $2^1 = 0010_2$，$2^2 = 0100_2$，$\text{mask} = 0110_2$。假设 $s = 0101_2$（第 1 位是 0、第 2 位是 1，正好反平行）。翻转：$s' = 0101_2 \oplus 0110_2 = 0011_2$。对于反平行对，非对角矩阵元的系数是 $1/2$（再乘 $J$）。
     </p>
 
-    <h3>
+    <h3 id="sec-complete-code-1">
       <span class="lang-en">Complete Code</span>
       <span class="lang-zh">完整代码</span>
     </h3>
 
-<pre><code>def build_hamiltonian(L, basis, J=1.0):
+<pre><code class="language-python">def build_hamiltonian(L, basis, J=1.0):
     """Sparse Heisenberg Hamiltonian in the given Sz sector."""
     D = len(basis)
     rows, cols, vals = [], [], []
@@ -413,7 +426,7 @@ def find_state(basis, state):
     <hr>
 
     <!-- 1.5 -->
-    <h2>
+    <h2 id="sec-1-5">
       <span class="lang-en">1.5 Diagonalization: Full Matrix vs. Lanczos</span>
       <span class="lang-zh">1.5 对角化：全矩阵 vs Lanczos</span>
     </h2>
@@ -421,7 +434,7 @@ def find_state(basis, state):
     <p class="lang-en">With the sparse matrix in hand, the next step is to find the lowest eigenvalue. nanoED automatically selects the method based on the matrix dimension $D$:</p>
     <p class="lang-zh">有了稀疏矩阵，下一步是求最低本征值。nanoED 根据矩阵维数 $D$ 自动选择方法：</p>
 
-<pre><code>FULL_DIAG_MAX = 500
+<pre><code class="language-python">FULL_DIAG_MAX = 500
 
 def solve(H, k=1):
     """Lowest k eigenvalues/vectors."""
@@ -474,7 +487,7 @@ def solve(H, k=1):
     <hr>
 
     <!-- 1.6 -->
-    <h2>
+    <h2 id="sec-1-6">
       <span class="lang-en">1.6 Finite-Size Scaling</span>
       <span class="lang-zh">1.6 有限尺寸标度</span>
     </h2>
@@ -491,7 +504,7 @@ def solve(H, k=1):
       主导修正为 $1/L^2$，来自长波自旋涨落的量子零点能；严格推导需要共形场论——Heisenberg 链的低能有效理论是中心荷 $c=1$ 的 SU(2)₁ WZW 模型 [Bl&ouml;te, Cardy &amp; Nightingale 1986; Affleck 1986]。
     </p>
 
-    <h3>
+    <h3 id="sec-extrapolation">
       <span class="lang-en">Extrapolation Results</span>
       <span class="lang-zh">外推结果</span>
     </h3>
@@ -511,7 +524,7 @@ def solve(H, k=1):
     <hr>
 
     <!-- 1.7 -->
-    <h2>
+    <h2 id="sec-1-7">
       <span class="lang-en">1.7 Where Is the Bottleneck?</span>
       <span class="lang-zh">1.7 瓶颈在哪里？</span>
     </h2>
@@ -548,7 +561,7 @@ def solve(H, k=1):
     <hr>
 
     <!-- 1.8 -->
-    <h2>
+    <h2 id="sec-1-8">
       <span class="lang-en">1.8 Complete Code</span>
       <span class="lang-zh">1.8 完整代码</span>
     </h2>
@@ -578,7 +591,7 @@ def solve(H, k=1):
     <hr>
 
     <!-- Summary -->
-    <h2>
+    <h2 id="sec-summary">
       <span class="lang-en">Summary</span>
       <span class="lang-zh">小结</span>
     </h2>
@@ -616,7 +629,7 @@ def solve(H, k=1):
     <hr>
 
     <!-- References -->
-    <h2>
+    <h2 id="sec-references">
       <span class="lang-en">References</span>
       <span class="lang-zh">参考文献</span>
     </h2>
@@ -630,6 +643,32 @@ def solve(H, k=1):
 
   </div>
 </div>
+
+<!-- Table of Contents sidebar -->
+<aside class="blog-toc" id="toc">
+  <div class="blog-toc-title">
+    <span class="lang-en">Contents</span>
+    <span class="lang-zh">目录</span>
+  </div>
+  <ul>
+    <li><a href="#sec-1-1"><span class="lang-en">1.1 Model</span><span class="lang-zh">1.1 模型</span></a></li>
+    <li><a href="#sec-1-2"><span class="lang-en">1.2 Binary Encoding</span><span class="lang-zh">1.2 二进制编码</span></a></li>
+    <li><a href="#sec-1-3"><span class="lang-en">1.3 Binary Search</span><span class="lang-zh">1.3 二分查找</span></a></li>
+    <li><a href="#sec-1-4"><span class="lang-en">1.4 Sparse Hamiltonian</span><span class="lang-zh">1.4 稀疏 Hamiltonian</span></a></li>
+    <li class="toc-h3"><a href="#sec-dense-sparse"><span class="lang-en">Dense vs. Sparse</span><span class="lang-zh">稠密 vs 稀疏</span></a></li>
+    <li class="toc-h3"><a href="#sec-matrix-elements"><span class="lang-en">Matrix Elements</span><span class="lang-zh">矩阵元</span></a></li>
+    <li class="toc-h3"><a href="#sec-complete-code-1"><span class="lang-en">Complete Code</span><span class="lang-zh">完整代码</span></a></li>
+    <li><a href="#sec-1-5"><span class="lang-en">1.5 Diagonalization</span><span class="lang-zh">1.5 对角化</span></a></li>
+    <li><a href="#sec-1-6"><span class="lang-en">1.6 Finite-Size Scaling</span><span class="lang-zh">1.6 有限尺寸标度</span></a></li>
+    <li class="toc-h3"><a href="#sec-extrapolation"><span class="lang-en">Extrapolation</span><span class="lang-zh">外推结果</span></a></li>
+    <li><a href="#sec-1-7"><span class="lang-en">1.7 Bottleneck</span><span class="lang-zh">1.7 瓶颈</span></a></li>
+    <li><a href="#sec-1-8"><span class="lang-en">1.8 Complete Code</span><span class="lang-zh">1.8 完整代码</span></a></li>
+    <li><a href="#sec-summary"><span class="lang-en">Summary</span><span class="lang-zh">小结</span></a></li>
+    <li><a href="#sec-references"><span class="lang-en">References</span><span class="lang-zh">参考文献</span></a></li>
+  </ul>
+</aside>
+
+</div><!-- end blog-article-wrapper -->
 </main>
 
 <footer>
@@ -643,6 +682,55 @@ function toggleLang() {
   body.classList.toggle('zh');
   btn.textContent = body.classList.contains('zh') ? 'EN' : '中文';
 }
+
+// Syntax highlighting
+hljs.highlightAll();
+
+// Word count & reading time
+(function() {
+  const content = document.querySelector('.blog-article .content');
+  if (!content) return;
+  const text = content.textContent || '';
+  // Count Chinese chars + English words
+  const chineseChars = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+  const englishWords = text.replace(/[\u4e00-\u9fff]/g, '').split(/\s+/).filter(w => w.length > 0).length;
+  const totalWords = chineseChars + englishWords;
+  const minutes = Math.max(1, Math.ceil(totalWords / 300));
+  const stats = document.getElementById('reading-stats');
+  if (stats) {
+    const enSpan = document.createElement('span');
+    enSpan.className = 'lang-en';
+    enSpan.textContent = `~${totalWords} words \u00B7 ${minutes} min read`;
+    const zhSpan = document.createElement('span');
+    zhSpan.className = 'lang-zh';
+    zhSpan.textContent = `\u7EA6 ${totalWords} \u5B57 \u00B7 ${minutes} \u5206\u949F\u9605\u8BFB`;
+    stats.appendChild(enSpan);
+    stats.appendChild(zhSpan);
+  }
+})();
+
+// TOC active state on scroll
+(function() {
+  const tocLinks = document.querySelectorAll('.blog-toc a');
+  const headings = [];
+  tocLinks.forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) headings.push({ id, el, link });
+  });
+
+  function updateActive() {
+    let current = headings[0];
+    for (const h of headings) {
+      if (h.el.getBoundingClientRect().top <= 100) current = h;
+    }
+    tocLinks.forEach(l => l.classList.remove('active'));
+    if (current) current.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
 </script>
 
 </body>

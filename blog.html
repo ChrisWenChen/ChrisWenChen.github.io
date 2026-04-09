@@ -37,6 +37,25 @@
     <span class="lang-zh">关于物理、计算和科研生活的思考。也欢迎关注我的<a href="https://www.zhihu.com/people/wen-sao-28" target="_blank">知乎</a>。</span>
   </p>
 
+  <!-- Activity Heatmap -->
+  <div class="blog-heatmap">
+    <div class="blog-heatmap-label">
+      <span class="lang-en">Update activity</span>
+      <span class="lang-zh">更新频率</span>
+    </div>
+    <div class="heatmap-months" id="heatmap-months"></div>
+    <div class="heatmap-grid" id="heatmap"></div>
+    <div class="heatmap-legend">
+      <span class="lang-en">Less</span><span class="lang-zh">少</span>
+      <div class="heatmap-cell" data-level="0"></div>
+      <div class="heatmap-cell" data-level="1"></div>
+      <div class="heatmap-cell" data-level="2"></div>
+      <div class="heatmap-cell" data-level="3"></div>
+      <div class="heatmap-cell" data-level="4"></div>
+      <span class="lang-en">More</span><span class="lang-zh">多</span>
+    </div>
+  </div>
+
   <ul class="blog-post-list">
     <!-- ===== nanoED post ===== -->
     <li class="blog-post-item">
@@ -44,7 +63,7 @@
         <span class="lang-en">nanoED: Exact Diagonalization in ~60 Lines of Python</span>
         <span class="lang-zh">nanoED：用不到 60 行 Python 做精确对角化</span>
       </a>
-      <div class="blog-post-meta">April 2026</div>
+      <div class="blog-post-meta">Apr 7, 2026</div>
       <div class="blog-post-excerpt">
         <span class="lang-en">A complete exact diagonalization program for the antiferromagnetic Heisenberg chain, from Hilbert space construction to finite-size scaling.</span>
         <span class="lang-zh">一个完整的精确对角化程序，用于反铁磁 Heisenberg 链，覆盖从 Hilbert 空间构造到有限尺寸标度的全部流程。</span>
@@ -67,6 +86,55 @@ function toggleLang() {
   body.classList.toggle('zh');
   btn.textContent = body.classList.contains('zh') ? 'EN' : '中文';
 }
+
+// Generate heatmap (past 52 weeks)
+(function() {
+  const grid = document.getElementById('heatmap');
+  const monthsRow = document.getElementById('heatmap-months');
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // Activity data: map of 'YYYY-MM-DD' -> level (1-4)
+  // Update this when new posts are added
+  const activity = {
+    '2026-04-07': 4,  // nanoED post published
+  };
+
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0=Sun
+  // Start from 52 weeks ago, aligned to Sunday
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() - (52 * 7 + dayOfWeek));
+
+  let lastMonth = -1;
+  for (let week = 0; week < 53; week++) {
+    const col = document.createElement('div');
+    col.className = 'heatmap-col';
+
+    // Month label: check the first day of this week column
+    const weekStart = new Date(startDate);
+    weekStart.setDate(startDate.getDate() + week * 7);
+    const m = weekStart.getMonth();
+    const label = document.createElement('span');
+    if (m !== lastMonth) {
+      label.textContent = monthNames[m];
+      lastMonth = m;
+    }
+    monthsRow.appendChild(label);
+
+    for (let day = 0; day < 7; day++) {
+      const cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      const d = new Date(startDate);
+      d.setDate(startDate.getDate() + week * 7 + day);
+      const key = d.toISOString().slice(0, 10);
+      const level = activity[key] || 0;
+      cell.setAttribute('data-level', level);
+      cell.title = key + (level ? ` (level ${level})` : '');
+      col.appendChild(cell);
+    }
+    grid.appendChild(col);
+  }
+})();
 </script>
 
 </body>
