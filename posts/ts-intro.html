@@ -287,6 +287,14 @@ config.timeout = 10000;        // OK: same
       这跟 C++ 的 <code>const</code> 不同。类比层面：TS 的 <code>const</code> 禁止重新绑定变量名，C++ 的 <code>const</code> 通常用于禁止通过该名字修改对象内容。
     </p>
 
+    <figure style="text-align:center;margin:1.5rem 0;">
+      <img src="../assets/ts-intro/const-ts-vs-cpp.png" alt="const in TS vs C++" style="max-width:100%;border-radius:6px;">
+      <figcaption style="font-size:0.85rem;color:var(--text-light);margin-top:0.5rem;">
+        <span class="lang-en">TS <code>const</code> freezes the binding (arrow), not the object; C++ <code>const</code> freezes both.</span>
+        <span class="lang-zh">TS 的 <code>const</code> 冻结的是绑定（箭头），不是对象本身；C++ 的 <code>const</code> 两者都冻结。</span>
+      </figcaption>
+    </figure>
+
     <p class="lang-en">
       In Python terms, all Python variables are like <code>let</code>&mdash;any name can be reassigned at any time. Python's mutability/immutability is at the object level (<code>list</code> is mutable, <code>tuple</code> is immutable), unrelated to variable declaration.
     </p>
