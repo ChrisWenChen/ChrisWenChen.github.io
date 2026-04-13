@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeScript Intro | Wen Chen</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/cpp.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/bash.min.js"></script>
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Wen Chen</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about" class="lang-en">About</a><a href="../index.html#about" class="lang-zh">关于</a></li>
+      <li><a href="../index.html#education" class="lang-en">Education</a><a href="../index.html#education" class="lang-zh">教育</a></li>
+      <li><a href="../index.html#publications" class="lang-en">Publications</a><a href="../index.html#publications" class="lang-zh">论文</a></li>
+      <li><a href="../index.html#talks" class="lang-en">Talks</a><a href="../index.html#talks" class="lang-zh">报告</a></li>
+      <li><a href="../index.html#teaching" class="lang-en">Teaching</a><a href="../index.html#teaching" class="lang-zh">教学</a></li>
+      <li><a href="../blog.html" class="lang-en" style="color:var(--accent);font-weight:600">Blog</a><a href="../blog.html" class="lang-zh" style="color:var(--accent);font-weight:600">博客</a></li>
+      <li><button class="lang-toggle" onclick="toggleLang()">中文</button></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+<div class="blog-article-wrapper" style="margin-top:0.5rem;">
+<div class="card blog-article">
+  <a href="../blog.html" class="back-link">&larr; <span class="lang-en">Back to Blog</span><span class="lang-zh">返回博客</span></a>
+
+  <h1>
+    <span class="lang-en">TypeScript Intro: From Scientific Computing to Reading OpenClaw Source Code</span>
+    <span class="lang-zh">TypeScript 入门：从科学计算到读懂 OpenClaw 源码片段</span>
+  </h1>
+  <div class="meta">
+    <span class="blog-author">
+      <img src="../assets/profile.png" alt="Wen Chen" class="blog-author-avatar">
+      <span class="blog-author-name">Wen Chen</span>
+    </span>
+    <span class="meta-separator">|</span>
+    <span>Apr 12, 2026</span>
+    <span class="meta-separator">|</span>
+    <span id="reading-stats"></span>
+  </div>
+
+  <div class="content">
+
+    <!-- Introduction -->
+    <p class="lang-en">
+      As a computational physics researcher, I've used many programming languages. When extreme performance is needed, Fortran, C, and C++ are the go-to choices; for quickly testing an idea or learning an algorithm, Python is the tool you reach for; and Julia, which balances performance with readability and maintainability, has a rapidly growing community. Each language has its strengths and occupies its niche.
+    </p>
+    <p class="lang-zh">
+      作为一个计算物理的研究者，我使用过很多编程语言开发。需要极致性能的时候，Fortran、C、C++ 是不二之选；想快速验证一个想法、学习一个算法，Python 拿来就写；而兼具性能与可读性、易维护性的 Julia 社区也在迅速壮大。每种语言各有所长，也各安其位。
+    </p>
+
+    <p class="lang-en">
+      But things have changed recently. The rise of large language models and agents has opened a new possibility: building automated tools for your own research&mdash;letting agents run experiments, organize data, and even draft papers. When you explore the open-source community with this idea in mind, you'll notice something surprising: the most active AI agent frameworks like OpenClaw and OpenCode are almost all written in TypeScript.
+    </p>
+    <p class="lang-zh">
+      但最近的情况有些不同。大语言模型和智能体的发展打开了一个新的可能：为自己的研究写一套自动化工具——让 agent 帮忙跑实验、整理数据、甚至起草论文。带着这个想法去看开源社区，会发现一件意外的事：OpenClaw、OpenCode 这些最活跃的 AI agent 框架，几乎都是用 TypeScript 写的。
+    </p>
+
+    <p class="lang-en">
+      This is no coincidence. An AI agent's workflow consists of constantly sending requests, waiting for responses, calling external tools, and deciding what to do next&mdash;essentially massive amounts of async I/O and service orchestration. TypeScript runs on Node.js, whose event-driven architecture has been optimized for exactly this kind of scenario for over a decade. Compared to C++, TS doesn't require manual memory management and offers much higher development efficiency; compared to Python, TS has a complete static type system that catches many errors at compile time in large projects, giving more confidence when refactoring. TS sits at the "glue layer" sweet spot, balancing development speed with engineering maintainability.
+    </p>
+    <p class="lang-zh">
+      这不是巧合。AI agent 的工作模式是不停地发请求、等响应、调用外部工具、再决定下一步——本质上是大量异步 I/O 和服务编排。TypeScript 跑在 Node.js 上，而 Node.js 的事件驱动架构恰恰为这类场景优化了十几年。和 C++ 相比，TS 不需要手动管理内存，开发效率高得多；和 Python 相比，TS 有完整的静态类型系统，在大型项目里能在编译期就捕获大量错误，重构也更有信心。可以说，TS 在"胶水层"的位置上，兼顾了开发速度和工程可维护性。
+    </p>
+
+    <p class="lang-en">
+      This article takes a shortest-path approach. Part 1 covers environment setup and Hello World. Part 2 does a three-way comparison of TS/Python/C++ on variables, functions, and control flow&mdash;things every language has&mdash;to build basic syntax intuition. Part 3 focuses on TS-specific features: structural typing, union types, <code>async/await</code>, and generics&mdash;the things that actually trip you up when reading source code. Part 4 reads through the core loop of a real open-source AI agent project (NanoClaw) to tie everything together in an engineering context.
+    </p>
+    <p class="lang-zh">
+      这篇文章尝试走一条最短路径。第一部分搞定环境安装和 Hello World。第二部分把变量、函数、控制流这些所有语言都有的东西用 TS/Python/C++ 三向对照快速过一遍，建立基本的语法直觉。第三部分重点讨论 TS 独有的特性——结构化类型、联合类型、<code>async/await</code>、泛型——这些才是读源码时真正会卡住的地方。第四部分拿一个真实的开源 AI agent 项目（NanoClaw）的核心循环来读，把前面学的东西在工程上下文里串起来。
+    </p>
+
+    <hr>
+
+    <!-- Part 1 -->
+    <h2 id="sec-1">
+      <span class="lang-en">Part 1: Quick Start &mdash; Installation &amp; Hello World</span>
+      <span class="lang-zh">第一部分：Quick Start——安装与 Hello World</span>
+    </h2>
+
+    <h3 id="sec-1-1">
+      <span class="lang-en">Installing Node.js</span>
+      <span class="lang-zh">安装 Node.js</span>
+    </h3>
+
+    <p class="lang-en">
+      TypeScript is a compiled language&mdash;TS source code is compiled into JavaScript, and then JS runs on Node.js. Node.js is to JS what CPython is to Python&mdash;it's the runtime environment. The TS compiler and toolchain themselves also run on Node.js. Installing Node.js also installs the package manager <code>npm</code> (analogous to Python's <code>pip</code>).
+    </p>
+    <p class="lang-zh">
+      TypeScript 本身是一门编译型语言——TS 源码先编译成 JavaScript，然后 JS 跑在 Node.js 上。Node.js 之于 JS，就像 CPython 之于 Python——它是运行时环境。TS 的编译器和工具链本身也运行在 Node.js 上。安装 Node.js 会同时装好包管理器 <code>npm</code>（相当于 Python 的 <code>pip</code>）。
+    </p>
+
+<pre><code class="language-bash"># Ubuntu / Debian
+sudo apt update && sudo apt install -y nodejs npm
+
+# macOS (with Homebrew)
+brew install node
+
+# Verify
+node --version   # v18.x or higher (v20+ preferred)
+npm --version</code></pre>
+
+    <p class="lang-en">
+      Note: The Node.js version in Ubuntu/Debian system repositories is often outdated (e.g., Ubuntu 22.04 defaults to v12). If <code>node --version</code> shows less than 18, use <a href="https://github.com/nvm-sh/nvm">nvm</a> (Node Version Manager, similar to Python's pyenv) to install a newer version:
+    </p>
+    <p class="lang-zh">
+      注意：Ubuntu/Debian 系统源里的 Node.js 版本经常偏旧（比如 Ubuntu 22.04 默认只有 v12）。如果 <code>node --version</code> 低于 18，用 <a href="https://github.com/nvm-sh/nvm">nvm</a>（Node Version Manager，类似 Python 的 pyenv）安装新版：
+    </p>
+
+<pre><code class="language-bash">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+nvm install 22    # Install Node.js 22
+nvm use 22</code></pre>
+
+    <h3 id="sec-1-2">
+      <span class="lang-en">Running TypeScript</span>
+      <span class="lang-zh">运行 TypeScript</span>
+    </h3>
+
+    <p class="lang-en">
+      TS code can't be executed directly by Node.js&mdash;it needs to be compiled to JavaScript first. But for day-to-day development you don't need to manually run the compiler then run the output. The tool <code>tsx</code> does it in one step&mdash;it compiles TS to JS in memory and immediately executes it. You never see intermediate files; the experience is like running <code>.ts</code> directly:
+    </p>
+    <p class="lang-zh">
+      TS 代码不能直接被 Node.js 执行——需要先编译成 JavaScript。但日常开发不需要手动跑编译器再跑产物，用 <code>tsx</code> 这个工具可以一步到位——它在内存里把 TS 编译成 JS 然后立刻执行，你看不到中间文件，体验上就像直接运行 <code>.ts</code>：
+    </p>
+
+<pre><code class="language-bash"># Run any .ts file directly (npx auto-downloads and caches tsx, no install needed)
+npx tsx hello.ts</code></pre>
+
+    <h3 id="sec-1-3">
+      <span class="lang-en">Hello World</span>
+      <span class="lang-zh">Hello World</span>
+    </h3>
+
+    <p class="lang-en">
+      Create <code>hello.ts</code>:
+    </p>
+    <p class="lang-zh">
+      创建 <code>hello.ts</code>：
+    </p>
+
+<pre><code class="language-typescript">const greeting: string = "Hello from TypeScript!";
+console.log(greeting);   // console.log is like Python's print
+
+const xs = [1, 2, 3];
+const doubled = xs.map((x) => x * 2);
+console.log(doubled);    // [2, 4, 6]</code></pre>
+
+    <p class="lang-en">Run it:</p>
+    <p class="lang-zh">运行：</p>
+
+<pre><code class="language-bash">npx tsx hello.ts
+# Hello from TypeScript!
+# [ 2, 4, 6 ]</code></pre>
+
+    <p class="lang-en">
+      That's it&mdash;write a <code>.ts</code> file, run it with <code>npx tsx</code>, no configuration needed. All examples in this article can be run this way.
+    </p>
+    <p class="lang-zh">
+      就这么简单——写 <code>.ts</code> 文件，<code>npx tsx</code> 运行，不需要配置任何东西。后面文章里所有示例都可以这样跑。
+    </p>
+
+    <hr>
+
+    <!-- Part 2 -->
+    <h2 id="sec-2">
+      <span class="lang-en">Part 2: Quick Reference for Features Shared by TS, Python, and C++</span>
+      <span class="lang-zh">第二部分：TS、Python、C++ 共有特性速查</span>
+    </h2>
+
+    <!-- 2.1 Variables -->
+    <h3 id="sec-2-1">
+      <span class="lang-en">2.1 Variables and Type Declarations</span>
+      <span class="lang-zh">2.1 变量与类型声明</span>
+    </h3>
+
+    <h4 id="sec-2-1-1">
+      <span class="lang-en">Declaration Syntax</span>
+      <span class="lang-zh">声明方式</span>
+    </h4>
+
+    <p class="lang-en">
+      The three languages differ greatly in how you declare a variable, and the difference stems from their attitudes toward type checking.
+    </p>
+    <p class="lang-zh">
+      三种语言在"怎么声明一个变量"这件事上差异很大，差异的根源是它们对类型检查的态度。
+    </p>
+
+    <p class="lang-en">
+      <strong>C++</strong>'s core syntax has just one pattern: <code>type varname</code> (<code>auto</code> lets the compiler fill in the type). The type is determined at compile time and cannot change afterward.
+    </p>
+    <p class="lang-zh">
+      <strong>C++</strong> 的核心语法只有一种：<code>类型 变量名</code>（<code>auto</code> 让编译器帮你填类型）。类型在编译时确定，之后不能变。
+    </p>
+
+    <p class="lang-en">
+      <strong>Python</strong> goes further&mdash;there's not even a declaration keyword; you just assign. This isn't because Python's type inference is more powerful, but because Python doesn't check types before runtime at all. Python is <strong>dynamically typed</strong>: type information is attached to <strong>values</strong>, not variables. A variable is just a name tag that can be stuck on any object:
+    </p>
+    <p class="lang-zh">
+      <strong>Python</strong> 更极端——连声明关键字都没有，直接赋值就行。这不是因为 Python 的类型推导更厉害，而是因为 Python 根本不在运行前检查类型。Python 是<strong>动态类型</strong>：类型信息附在<strong>值</strong>上面，不在变量上面。变量只是一个名字标签，贴在哪个对象上都行：
+    </p>
+
+<pre><code class="language-python">x = 3        # x points to an int object
+x = "hello"  # x now points to a str object, perfectly legal
+x + 1        # TypeError only at runtime</code></pre>
+
+    <p class="lang-en">The cost: type errors hide deeper, and large projects become hard to maintain.</p>
+    <p class="lang-zh">代价是：类型错误藏得更深，大项目难以维护。</p>
+
+    <p class="lang-en">
+      <strong>TS</strong> sits between the two&mdash;variables are declared with <code>const</code> / <code>let</code>, and type annotations are optional. If you write an annotation, the compiler checks it; if you don't, the compiler <strong>infers the type at compile time</strong> from the right-hand side, and the inferred type is then fixed. This is similar to C++'s <code>auto</code>, but stronger than Python's type hints (<code>x: int = 3</code>)&mdash;Python's hints are completely ignored at runtime, while TS's inference actually enforces checks at compile time.
+    </p>
+    <p class="lang-zh">
+      <strong>TS</strong> 介于两者之间——用关键字 <code>const</code> / <code>let</code> 声明变量，类型标注可选。写了标注，编译器检查；不写，编译器根据右侧的值<strong>在编译时推导</strong>出类型，推导完就固定了。这和 C++ 的 <code>auto</code> 很像，但比 Python 的类型提示（<code>x: int = 3</code>）强——Python 的类型提示运行时完全不管，TS 的推导在编译期真正做检查。
+    </p>
+
+    <table>
+      <thead><tr><th>TS</th><th>Python</th><th>C++</th></tr></thead>
+      <tbody>
+        <tr><td><code>const n: number = 3;</code></td><td><code>n = 3</code></td><td><code>const int n = 3;</code></td></tr>
+        <tr><td><code>let name = "alice";</code></td><td><code>name = "alice"</code></td><td><code>auto name = std::string("alice");</code></td></tr>
+        <tr><td><code>let x: number; x = 1.2;</code></td><td><code>x = 1.2</code></td><td><code>double x; x = 1.2;</code></td></tr>
+      </tbody>
+    </table>
+
+    <h4 id="sec-2-1-2">
+      <span class="lang-en"><code>const</code> and <code>let</code>: Can a Variable Be Reassigned?</span>
+      <span class="lang-zh"><code>const</code> 和 <code>let</code>：变量能不能"换指向"</span>
+    </h4>
+
+    <p class="lang-en">
+      In day-to-day TS code, you only use two declaration keywords: <code>const</code> and <code>let</code>. The only difference: <strong><code>const</code> variables cannot be reassigned; <code>let</code> variables can.</strong>
+    </p>
+    <p class="lang-zh">
+      TS 日常只用两个声明关键字：<code>const</code> 和 <code>let</code>。区别只有一点：<strong><code>const</code> 声明的变量不能重新赋值，<code>let</code> 可以。</strong>
+    </p>
+
+    <p class="lang-en">The simple case&mdash;primitive types like numbers and strings:</p>
+    <p class="lang-zh">先看简单的情况——数字、字符串这些基本类型：</p>
+
+<pre><code class="language-typescript">const n = 3;
+// n = 4;    // Error: const doesn't allow reassignment
+
+let x = 1;
+x = 2;       // OK: let allows reassignment</code></pre>
+
+    <p class="lang-en">
+      This is identical to C++'s <code>const int n = 3</code>, no surprises.
+    </p>
+    <p class="lang-zh">
+      这和 C++ 的 <code>const int n = 3</code> 完全一致，没有任何意外。
+    </p>
+
+    <p class="lang-en">
+      Now objects. Here's a common misconception for people coming from C++. Think of a variable as an arrow: the variable name is the starting point, the value is the target. <code>const</code> means <strong>this arrow cannot point to a different target</strong>&mdash;but you can freely modify the contents of the object the arrow points to:
+    </p>
+    <p class="lang-zh">
+      再看对象。这里有一个从 C++ 过来容易误解的地方。把变量想象成一根箭头：变量名是箭头的起点，值是箭头指向的目标。<code>const</code> 的意思是<strong>这根箭头不能改指别的目标</strong>——但箭头指向的那个对象本身，你可以随便改它的内容：
+    </p>
+
+<pre><code class="language-typescript">const config = { retries: 3, timeout: 5000 };
+
+config.retries = 5;            // OK: modifying the object's internal fields
+config.timeout = 10000;        // OK: same
+
+// config = { retries: 1, timeout: 2000 };  // Error: can't point config to another object</code></pre>
+
+    <p class="lang-en">
+      This differs from C++'s <code>const</code>. By analogy: TS's <code>const</code> forbids rebinding the variable name; C++'s <code>const</code> typically forbids modifying the object's content through that name.
+    </p>
+    <p class="lang-zh">
+      这跟 C++ 的 <code>const</code> 不同。类比层面：TS 的 <code>const</code> 禁止重新绑定变量名，C++ 的 <code>const</code> 通常用于禁止通过该名字修改对象内容。
+    </p>
+
+    <p class="lang-en">
+      In Python terms, all Python variables are like <code>let</code>&mdash;any name can be reassigned at any time. Python's mutability/immutability is at the object level (<code>list</code> is mutable, <code>tuple</code> is immutable), unrelated to variable declaration.
+    </p>
+    <p class="lang-zh">
+      类比 Python 的话，Python 所有变量都像 <code>let</code>——任何名字都可以随时重新赋值，没有办法"锁住"一个名字。Python 的可变/不可变发生在对象层面（<code>list</code> 可变、<code>tuple</code> 不可变），跟变量声明无关。
+    </p>
+
+    <p class="lang-en">
+      Default to <code>const</code>, switch to <code>let</code> only when you need reassignment. This is the standard TS community convention.
+    </p>
+    <p class="lang-zh">
+      默认用 <code>const</code>，需要重新赋值时才换 <code>let</code>。这是 TS 社区的标准约定。
+    </p>
+
+    <h4 id="sec-2-1-3">
+      <span class="lang-en">Scope: Where Variables Are Visible</span>
+      <span class="lang-zh">作用域：变量在哪里可见</span>
+    </h4>
+
+    <p class="lang-en">
+      Scope determines where in the code a variable can be accessed.
+    </p>
+    <p class="lang-zh">
+      作用域决定一个变量在代码的哪个范围内可以访问。
+    </p>
+
+    <p class="lang-en">
+      <code>const</code> and <code>let</code> are <strong>block-scoped</strong>: variables are visible only within the nearest <code>{}</code> braces, and disappear once you leave them. This is identical to C++:
+    </p>
+    <p class="lang-zh">
+      <code>const</code> 和 <code>let</code> 是<strong>块作用域</strong>：变量只在最近的 <code>{}</code> 花括号内可见，出了花括号就消失。这和 C++ 完全一致：
+    </p>
+
+<pre><code class="language-typescript">if (true) {
+    const x = 1;
+    console.log(x);  // OK
+}
+// console.log(x);   // Error: x doesn't exist—already left the {} scope</code></pre>
+
+    <p class="lang-en">
+      TS also has a legacy <code>var</code> keyword with <strong>function scope</strong>: the variable is visible throughout the entire function, ignoring <code>{}</code>. This causes real bugs. Consider this example where you want to print 0, 1, 2 in sequence:
+    </p>
+    <p class="lang-zh">
+      TS 还有一个历史遗留的 <code>var</code> 关键字，它是<strong>函数作用域</strong>：变量在整个函数内都可见，无视 <code>{}</code>。这会造成真实的 bug。看这个例子——你想依次打印 0, 1, 2：
+    </p>
+
+<pre><code class="language-typescript">for (var i = 0; i &lt; 3; i++) {
+    setTimeout(() =&gt; console.log(i), 100);
+}
+// Expected: 0, 1, 2
+// Actual:   3, 3, 3</code></pre>
+
+    <p class="lang-en">
+      Why all 3s? Two steps to understand this bug.
+    </p>
+    <p class="lang-zh">
+      为什么全是 3？要理解这个 bug 需要两步。
+    </p>
+
+    <p class="lang-en">
+      Step 1: <code>setTimeout(() =&gt; console.log(i), 100)</code> means "execute <code>console.log(i)</code> after 100 milliseconds." It doesn't print immediately; it just puts the callback into a waiting queue. So the loop completes in an instant, pushing one callback per iteration, printing nothing yet.
+    </p>
+    <p class="lang-zh">
+      第一步：<code>setTimeout(() =&gt; console.log(i), 100)</code> 的意思是"100 毫秒之后再执行 <code>console.log(i)</code>"。它不会立刻打印，只是把回调函数放进一个等待队列。所以循环三轮瞬间跑完，每轮只是往队列里塞了一个回调，此时什么都没打印。
+    </p>
+
+    <p class="lang-en">
+      Step 2: What is <code>i</code>'s value when the callbacks execute? With <code>var</code>, there is only <strong>one</strong> <code>i</code> variable for the entire function. The callbacks don't capture <code>i</code>'s <strong>value</strong> at the time, but a <strong>reference</strong> to the variable <code>i</code> itself. All three callbacks point to the same <code>i</code>. By the time the callbacks execute 100ms later, the loop has finished and <code>i</code> is already 3.
+    </p>
+    <p class="lang-zh">
+      第二步：回调执行时 <code>i</code> 的值是多少？用 <code>var</code> 声明时，整个函数只有<strong>一个</strong> <code>i</code> 变量。注意回调里存的不是 <code>i</code> 当时的<strong>值</strong>，而是对变量 <code>i</code> 本身的<strong>引用</strong>。三个回调都指向同一个 <code>i</code>。等 100 毫秒后回调执行时，循环早跑完了，<code>i</code> 已经是 3，所以三个回调都打印 3。
+    </p>
+
+    <p class="lang-en">Switching to <code>let</code> fixes it:</p>
+    <p class="lang-zh">换成 <code>let</code> 就对了：</p>
+
+<pre><code class="language-typescript">for (let i = 0; i &lt; 3; i++) {
+    setTimeout(() =&gt; console.log(i), 100);
+}
+// Output: 0, 1, 2</code></pre>
+
+    <p class="lang-en">
+      <code>let</code> is block-scoped, so each iteration creates a <strong>new</strong> <code>i</code>&mdash;the three callbacks each capture a different variable, each retaining its own iteration's value.
+    </p>
+    <p class="lang-zh">
+      <code>let</code> 是块作用域，循环的每一轮创建一个<strong>新的</strong> <code>i</code>——三个回调各自捕获的是不同的变量，各自保留了自己那轮的值。
+    </p>
+
+    <p class="lang-en">Python has exactly the same pitfall:</p>
+    <p class="lang-zh">Python 也有完全一样的坑：</p>
+
+<pre><code class="language-python">funcs = []
+for i in range(3):
+    funcs.append(lambda: print(i))
+
+for f in funcs:
+    f()
+# Output: 2, 2, 2 (not 0, 1, 2)</code></pre>
+
+    <p class="lang-en">
+      Same reason&mdash;Python's <code>for</code> loop has only one <code>i</code>, and lambdas capture a reference to the variable, not its value.
+    </p>
+    <p class="lang-zh">
+      原因一样——Python 的 <code>for</code> 循环里 <code>i</code> 也只有一个，lambda 捕获的是变量的引用而非值。
+    </p>
+
+    <p class="lang-en">The conclusion is simple: <strong>never use <code>var</code></strong>. Modern TS/JS code uses only <code>const</code> and <code>let</code>.</p>
+    <p class="lang-zh">结论很简单：<strong>永远不要用 <code>var</code></strong>。现代 TS/JS 代码只用 <code>const</code> 和 <code>let</code>。</p>
+
+    <h4 id="sec-2-1-4">
+      <span class="lang-en">Data Types</span>
+      <span class="lang-zh">数据类型</span>
+    </h4>
+
+    <p class="lang-en">
+      What's more interesting is the number of primitive types. C++ ranges from <code>char</code> to <code>long long</code>, with <code>signed/unsigned</code> combinations, giving many primitive types&mdash;because you need precise control over how many bytes each variable occupies. Python simplifies dramatically: the common scalar types are just <code>int</code>, <code>float</code>, <code>complex</code>, <code>bool</code>, <code>str</code>, <code>bytes</code>, and <code>None</code>.
+    </p>
+    <p class="lang-zh">
+      更有意思的是基本类型的数量。C++ 从 <code>char</code> 到 <code>long long</code>，加上 <code>signed/unsigned</code> 排列组合，基本类型非常多——因为你需要精确控制每个变量占几个字节。Python 大幅简化：常用的标量类型就是 <code>int</code>、<code>float</code>、<code>complex</code>、<code>bool</code>、<code>str</code>、<code>bytes</code>、<code>None</code>。
+    </p>
+
+    <p class="lang-en">TS also has 7 primitive types, but the classification is completely different from Python:</p>
+    <p class="lang-zh">TS 的原始类型也是 7 种，但划分方式和 Python 完全不同：</p>
+
+    <table>
+      <thead><tr><th>TS Type</th><th>Description</th><th>Python Equivalent</th><th>C++ Equivalent</th></tr></thead>
+      <tbody>
+        <tr><td><code>number</code></td><td><span class="lang-en">All numbers (64-bit float)</span><span class="lang-zh">所有数字（64 位浮点）</span></td><td><code>int</code> + <code>float</code></td><td><code>double</code></td></tr>
+        <tr><td><code>string</code></td><td><span class="lang-en">Strings</span><span class="lang-zh">字符串</span></td><td><code>str</code></td><td><code>std::string</code></td></tr>
+        <tr><td><code>boolean</code></td><td><code>true</code> / <code>false</code></td><td><code>bool</code></td><td><code>bool</code></td></tr>
+        <tr><td><code>null</code></td><td><span class="lang-en">Explicit "empty"</span><span class="lang-zh">显式的"空"</span></td><td><code>None</code></td><td><code>nullptr</code></td></tr>
+        <tr><td><code>undefined</code></td><td><span class="lang-en">Unassigned / missing property / no return value</span><span class="lang-zh">未赋值 / 缺失属性 / 无返回值</span></td><td><span class="lang-en">(no equivalent)</span><span class="lang-zh">（无对应）</span></td><td><span class="lang-en">(no equivalent)</span><span class="lang-zh">（无对应）</span></td></tr>
+        <tr><td><code>bigint</code></td><td><span class="lang-en">Arbitrary precision integers</span><span class="lang-zh">任意精度整数</span></td><td><code>int</code></td><td><span class="lang-en">(no built-in)</span><span class="lang-zh">（无内置）</span></td></tr>
+        <tr><td><code>symbol</code></td><td><span class="lang-en">Unique identifiers</span><span class="lang-zh">唯一标识符</span></td><td><span class="lang-en">(no equivalent)</span><span class="lang-zh">（无对应）</span></td><td><span class="lang-en">(no equivalent)</span><span class="lang-zh">（无对应）</span></td></tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en">
+      The most notable point: <strong>TS doesn't distinguish between integers and floats</strong>. <code>1</code> and <code>1.5</code> are both <code>number</code>, uniformly represented as IEEE-754 double precision underneath. This takes some getting used to for people from a scientific computing background&mdash;no <code>int</code> vs. <code>double</code> distinction.
+    </p>
+    <p class="lang-zh">
+      最显眼的一点：<strong>TS 不区分整数和浮点</strong>。<code>1</code> 和 <code>1.5</code> 都是 <code>number</code>，底层统一用 IEEE-754 双精度浮点表示。这对科学计算背景的人来说需要适应——没有 <code>int</code> 和 <code>double</code> 的区分。
+    </p>
+
+    <p class="lang-en">
+      <code>number</code>'s range: as a 64-bit float, its maximum value is about $1.8 \times 10^{308}$ (<code>Number.MAX_VALUE</code>), but <strong>integer precision</strong> is only guaranteed within $\pm(2^{53}-1)$, roughly $\pm 9 \times 10^{15}$ (<code>Number.MAX_SAFE_INTEGER</code>). Beyond this range, the gap between adjacent integers exceeds 1, leading to "adding 1 equals nothing":
+    </p>
+    <p class="lang-zh">
+      <code>number</code> 的范围：作为 64 位浮点，它能表示的最大值约为 $1.8 \times 10^{308}$（<code>Number.MAX_VALUE</code>），但<strong>整数精度</strong>只在 $\pm(2^{53}-1)$ 范围内有保证，也就是大约 $\pm 9 \times 10^{15}$（<code>Number.MAX_SAFE_INTEGER</code>）。超过这个范围，相邻整数之间的间隔大于 1，就会出现"加 1 等于没加"的情况：
+    </p>
+
+<pre><code class="language-typescript">console.log(9007199254740992 === 9007199254740993);  // true! Two different numbers considered equal</code></pre>
+
+    <p class="lang-en">
+      That's why <code>bigint</code> exists: when you need integers beyond the safe range (e.g., 64-bit database primary keys, cryptographic calculations). The syntax uses an <code>n</code> suffix, and <code>bigint</code> cannot be mixed with <code>number</code> in arithmetic:
+    </p>
+    <p class="lang-zh">
+      这就是 <code>bigint</code> 存在的理由：当你需要处理超出安全范围的整数（比如数据库的 64 位主键、加密计算），就要用 <code>bigint</code>。写法是字面量加 <code>n</code> 后缀，而且 <code>bigint</code> 不能和 <code>number</code> 直接混算：
+    </p>
+
+<pre><code class="language-typescript">const big = 9007199254740993n;   // bigint literal
+// big + 1        // Error: can't mix bigint and number
+big + 1n          // OK: both are bigint</code></pre>
+
+    <p class="lang-en">
+      TS also has two "empty" values: <code>null</code> and <code>undefined</code>. <code>null</code> means "explicitly saying there's no value here"; <code>undefined</code> is broader&mdash;a declared but unassigned variable is <code>undefined</code>, accessing a nonexistent property returns <code>undefined</code>, and a function with no return value returns <code>undefined</code>. With <code>strictNullChecks</code> enabled (a TS compiler config that modern projects basically always enable), they can't be used interchangeably: a variable declared as <code>string</code> can't be assigned <code>null</code> or <code>undefined</code>&mdash;you must explicitly write <code>string | null</code> or <code>string | undefined</code>. The common <code>x?: T</code> syntax in source code is shorthand for <code>x: T | undefined</code>.
+    </p>
+    <p class="lang-zh">
+      TS 还有两个"空"值需要注意：<code>null</code> 和 <code>undefined</code>。<code>null</code> 表示"显式地说这里没有值"，<code>undefined</code> 则更宽泛——变量声明了没赋值是 <code>undefined</code>，访问对象上不存在的属性也是 <code>undefined</code>，函数没有返回值也是 <code>undefined</code>。在开启 <code>strictNullChecks</code>（这是 TS 编译器配置项，现代项目基本都开）的情况下，它们不能随意混用：一个声明为 <code>string</code> 的变量不能赋值 <code>null</code> 或 <code>undefined</code>，必须显式写成 <code>string | null</code> 或 <code>string | undefined</code>。读源码时常见的 <code>x?: T</code> 语法，实际上就是 <code>x: T | undefined</code> 的简写。
+    </p>
+
+    <!-- 2.2 Functions -->
+    <h3 id="sec-2-2">
+      <span class="lang-en">2.2 Functions</span>
+      <span class="lang-zh">2.2 函数</span>
+    </h3>
+
+    <h4 id="sec-2-2-1">
+      <span class="lang-en">Basic Syntax</span>
+      <span class="lang-zh">基本写法</span>
+    </h4>
+
+    <p class="lang-en">TS has two syntaxes for defining functions. The traditional one maps directly to C++ / Python:</p>
+    <p class="lang-zh">TS 有两种定义函数的语法。传统写法和 C++ / Python 的结构一一对应：</p>
+
+<pre><code class="language-typescript">// TS
+function square(x: number): number {
+    return x * x;
+}
+
+// With default parameters
+function add(x: number, y: number = 1): number {
+    return x + y;
+}</code></pre>
+
+<pre><code class="language-python"># Python equivalent
+def square(x: float) -> float:
+    return x * x
+
+def add(x: float, y: float = 1) -> float:
+    return x + y</code></pre>
+
+<pre><code class="language-cpp">// C++ equivalent
+double square(double x) { return x * x; }
+double add(double x, double y = 1) { return x + y; }</code></pre>
+
+    <p class="lang-en">
+      The second is the <strong>arrow function</strong> (<code>=&gt;</code>), which removes the <code>function</code> keyword and connects parameters to the body with <code>=&gt;</code>:
+    </p>
+    <p class="lang-zh">
+      第二种是<strong>箭头函数</strong>（<code>=&gt;</code>），把 <code>function</code> 关键字去掉，参数和函数体之间用 <code>=&gt;</code> 连接：
+    </p>
+
+<pre><code class="language-typescript">const square = (x: number): number => x * x;
+const add = (x: number, y: number = 1): number => x + y;</code></pre>
+
+    <p class="lang-en">
+      Arrow functions aren't a new concept&mdash;they're an enhanced version of Python's <code>lambda</code> and C++ lambdas. The difference is that Python's <code>lambda</code> can only be a single expression, while TS arrow functions can have full multi-line bodies:
+    </p>
+    <p class="lang-zh">
+      箭头函数不是新概念——它就是 Python 的 <code>lambda</code> 和 C++ 的 lambda 的加强版。区别在于 Python 的 <code>lambda</code> 只能写单行表达式，而 TS 的箭头函数可以写完整的多行函数体：
+    </p>
+
+<pre><code class="language-typescript">const describe = (x: number): string => {
+    if (x > 0) return "positive";
+    if (x &lt; 0) return "negative";
+    return "zero";
+};</code></pre>
+
+    <p class="lang-en">
+      Both syntaxes are functionally identical, but arrow functions are more common in practice. The reason is simple&mdash;brevity. Callbacks appear extremely frequently in code (<code>map</code>, <code>filter</code>, <code>setTimeout</code>, event listeners...), and arrow functions fit on one line:
+    </p>
+    <p class="lang-zh">
+      两种写法功能完全相同，但实际代码里箭头函数更常见。原因很简单——短。回调在代码里出现的频率极高（<code>map</code>、<code>filter</code>、<code>setTimeout</code>、事件监听……），用箭头函数一行就写完：
+    </p>
+
+<pre><code class="language-typescript">// Arrow function: one line
+xs.map((x) => x * 2);
+
+// function syntax: same thing, much more to type
+xs.map(function(x) { return x * 2; });</code></pre>
+
+    <p class="lang-en">
+      Beyond brevity, arrow functions have another important difference: they <strong>don't bind their own <code>this</code></strong>, instead inheriting <code>this</code> from the enclosing scope. Functions written with <code>function</code> get their own <code>this</code> (depending on how they're called), which is a classic source of bugs in class methods and event listeners. Arrow functions automatically avoid this problem.
+    </p>
+    <p class="lang-zh">
+      除了更短之外，箭头函数还有一个重要区别：它<strong>不绑定自己的 <code>this</code></strong>，而是继承外层作用域的 <code>this</code>。用 <code>function</code> 写的回调会拿到自己的 <code>this</code>（取决于调用方式），这在类方法和事件监听里是经典的坑源。箭头函数自动避开这个问题。
+    </p>
+
+    <p class="lang-en">So the community convention is: <strong>use arrow functions for callbacks, <code>function</code> for standalone named functions</strong>.</p>
+    <p class="lang-zh">所以社区形成了习惯：<strong>回调用箭头函数，独立的命名函数用 <code>function</code></strong>。</p>
+
+    <h4 id="sec-2-2-2">
+      <span class="lang-en">Callbacks</span>
+      <span class="lang-zh">回调</span>
+    </h4>
+
+    <p class="lang-en">
+      A callback is simply <strong>passing a function as an argument to another function</strong>. The passed-in function isn't executed immediately&mdash;the receiver decides when and how to call it.
+    </p>
+    <p class="lang-zh">
+      回调（callback）就是<strong>把一个函数当参数传给另一个函数</strong>。被传进去的那个函数不会立刻执行，而是由接收方决定什么时候、怎么调用它。
+    </p>
+
+    <p class="lang-en">
+      The most everyday usage is the array methods <code>map</code>, <code>filter</code>, and <code>reduce</code>. Taking <code>map</code> as an example&mdash;it calls your function on each element and collects the return values into a new array:
+    </p>
+    <p class="lang-zh">
+      更日常的用法是数组的 <code>map</code>、<code>filter</code>、<code>reduce</code> 方法。拿 <code>map</code> 举例——它对数组的每个元素调用你传入的函数，把返回值收集成一个新数组：
+    </p>
+
+<pre><code class="language-typescript">const xs = [1, 2, 3];
+const ys = xs.map((v) => v * 2);
+// map calls: (1) => 1*2, (2) => 2*2, (3) => 3*2
+console.log(ys); // [2, 4, 6]</code></pre>
+
+    <p class="lang-en">This does the same thing as Python's list comprehension: <code>ys = [v * 2 for v in xs]</code>.</p>
+    <p class="lang-zh">这和 Python 列表推导做的事一样：<code>ys = [v * 2 for v in xs]</code>。</p>
+
+    <p class="lang-en"><code>filter</code> selects&mdash;elements where the callback returns <code>true</code> are kept, <code>false</code> are discarded:</p>
+    <p class="lang-zh"><code>filter</code> 筛选——回调返回 <code>true</code> 的元素留下，<code>false</code> 的丢弃：</p>
+
+<pre><code class="language-typescript">const xs = [1, 2, 3, 4, 5];
+const evens = xs.filter((v) => v % 2 === 0);
+console.log(evens); // [2, 4]</code></pre>
+
+    <p class="lang-en">
+      <code>reduce</code> "folds" the entire array into a single value. It takes two arguments: an accumulator function and an initial value:
+    </p>
+    <p class="lang-zh">
+      <code>reduce</code> 把整个数组"折叠"成一个值。它接受两个参数：一个累积函数和一个初始值：
+    </p>
+
+<pre><code class="language-typescript">const xs = [1, 2, 3, 4, 5];
+const sum = xs.reduce((acc, v) => acc + v, 0);
+console.log(sum); // 15</code></pre>
+
+    <p class="lang-en">
+      Breaking down <code>xs.reduce((acc, v) =&gt; acc + v, 0)</code>&mdash;<code>0</code> is the initial value, each step adds the current element to the accumulator:
+    </p>
+    <p class="lang-zh">
+      拆开看 <code>xs.reduce((acc, v) =&gt; acc + v, 0)</code> 的执行过程——<code>0</code> 是初始值，每一步拿累积值加上当前元素：
+    </p>
+
+<pre><code class="language-plaintext">Step 1: acc=0,  v=1  → 0+1  = 1
+Step 2: acc=1,  v=2  → 1+2  = 3
+Step 3: acc=3,  v=3  → 3+3  = 6
+Step 4: acc=6,  v=4  → 6+4  = 10
+Step 5: acc=10, v=5  → 10+5 = 15  ← final result</code></pre>
+
+    <p class="lang-en">
+      Python equivalents: <code>evens = [v for v in xs if v % 2 == 0]</code>, <code>sum(xs)</code>.
+    </p>
+    <p class="lang-zh">
+      Python 对照：<code>evens = [v for v in xs if v % 2 == 0]</code>，<code>sum(xs)</code>。
+    </p>
+
+    <p class="lang-en">These methods appear extremely frequently in source code. Just remember <code>map</code> (transform), <code>filter</code> (select), and <code>reduce</code> (accumulate).</p>
+    <p class="lang-zh">这几个方法在源码里出现频率极高，认住 <code>map</code>（变换）、<code>filter</code>（筛选）、<code>reduce</code>（累积）这三个名字就够了。</p>
+
+    <!-- 2.3 Control Flow -->
+    <h3 id="sec-2-3">
+      <span class="lang-en">2.3 Control Flow and Loops</span>
+      <span class="lang-zh">2.3 控制流与循环</span>
+    </h3>
+
+    <p class="lang-en">
+      <code>if / else</code> and <code>while</code> syntax is almost identical to C++, except conditions must have parentheses (Python doesn't):
+    </p>
+    <p class="lang-zh">
+      <code>if / else</code> 和 <code>while</code> 的语法跟 C++ 几乎一样，只是条件必须加圆括号（Python 不用）：
+    </p>
+
+<pre><code class="language-typescript">const x = 3;
+if (x > 0) {
+    console.log("positive");
+} else if (x === 0) {
+    console.log("zero");
+} else {
+    console.log("negative");
+}</code></pre>
+
+    <p class="lang-en">
+      To iterate over arrays, use <code>for...of</code>, which gives you element values directly, just like Python's <code>for v in arr</code>:
+    </p>
+    <p class="lang-zh">
+      遍历数组用 <code>for...of</code>，直接拿到元素值，和 Python 的 <code>for v in arr</code> 一样直觉：
+    </p>
+
+<pre><code class="language-typescript">const names = ["alice", "bob", "carol"];
+for (const name of names) {
+    console.log(name);  // alice, bob, carol
+}</code></pre>
+
+<pre><code class="language-python"># Python equivalent
+for name in names:
+    print(name)</code></pre>
+
+<pre><code class="language-cpp">// C++ equivalent
+for (const auto& name : names) {
+    std::cout &lt;&lt; name &lt;&lt; "\n";
+}</code></pre>
+
+    <p class="lang-en">
+      Note: TS also has a similar-looking <code>for...in</code>&mdash;it iterates over <strong>enumerable property key names</strong> (including inherited ones), not values. Used on arrays, you get string indices, which is almost never what you want:
+    </p>
+    <p class="lang-zh">
+      注意 TS 还有一个长得很像的 <code>for...in</code>——它遍历的是<strong>可枚举属性的键名</strong>（包括从原型链继承来的），而非值。用在数组上会拿到字符串形式的索引，几乎不会是你想要的：
+    </p>
+
+<pre><code class="language-typescript">const arr = [10, 20, 30];
+for (const k in arr) {
+    console.log(k);    // "0", "1", "2" (string indices, not values!)
+}
+for (const v of arr) {
+    console.log(v);    // 10, 20, 30 (this is what you want)
+}</code></pre>
+
+    <p class="lang-en">Simple rule: <strong>always use <code>for...of</code> for arrays</strong>. For iterating over object properties, <code>Object.entries(obj)</code> returns <code>[key, value]</code> pairs that can be used with <code>for...of</code> directly.</p>
+    <p class="lang-zh">规则很简单：<strong>遍历数组永远用 <code>for...of</code></strong>。遍历对象属性则更常用 <code>Object.entries(obj)</code>，它返回 <code>[key, value]</code> 对的数组，可以直接 <code>for...of</code>。</p>
+
+    <!-- 2.4 Data Structures -->
+    <h3 id="sec-2-4">
+      <span class="lang-en">2.4 Data Structures</span>
+      <span class="lang-zh">2.4 数据结构</span>
+    </h3>
+
+    <p class="lang-en">TS's four core data structures map one-to-one with Python:</p>
+    <p class="lang-zh">TS 的四种核心数据结构和 Python 一一对应：</p>
+
+    <table>
+      <thead><tr><th>TS</th><th>Python</th><th>C++</th></tr></thead>
+      <tbody>
+        <tr><td><code>Array</code></td><td><code>list</code></td><td><code>std::vector</code></td></tr>
+        <tr><td><code>Map</code></td><td><code>dict</code></td><td><code>std::unordered_map</code></td></tr>
+        <tr><td><code>Set</code></td><td><code>set</code></td><td><code>std::set</code></td></tr>
+        <tr><td><span class="lang-en">Object literal <code>{}</code></span><span class="lang-zh">对象字面量 <code>{}</code></span></td><td><code>dict</code></td><td><code>struct</code></td></tr>
+      </tbody>
+    </table>
+
+    <p class="lang-en"><strong>Arrays</strong>:</p>
+    <p class="lang-zh"><strong>数组</strong>：</p>
+
+<pre><code class="language-typescript">const xs = [1, 2, 3];
+xs.push(4);           // append to end → [1, 2, 3, 4], like Python's append
+xs.pop();             // pop from end → [1, 2, 3]
+console.log(xs[0]);   // 1, index access same as Python/C++
+console.log(xs.length); // 3, like Python's len(xs)</code></pre>
+
+    <p class="lang-en"><strong>Map</strong> (dictionary)&mdash;note that TS's <code>Map</code> iterates in <strong>insertion order</strong>, more like Python 3.7+'s <code>dict</code> than C++'s <code>std::map</code> (sorted by key):</p>
+    <p class="lang-zh"><strong>Map</strong>（字典）——注意 TS 的 <code>Map</code> 按<strong>插入顺序</strong>迭代，更像 Python 3.7+ 的 <code>dict</code>，而不是 C++ 的 <code>std::map</code>（按键排序）：</p>
+
+<pre><code class="language-typescript">const scores = new Map&lt;string, number&gt;();
+scores.set("alice", 95);     // Python: scores["alice"] = 95
+scores.set("bob", 87);
+console.log(scores.get("alice")); // 95
+console.log(scores.has("carol")); // false
+
+for (const [name, score] of scores) {
+    console.log(name, score);     // Python: for name, score in scores.items()
+}</code></pre>
+
+    <p class="lang-en">
+      Note that <code>scores.get("alice")</code> returns <code>number | undefined</code>&mdash;if the key doesn't exist, it returns <code>undefined</code>. So the robust way is to add a fallback: <code>scores.get("alice") ?? 0</code> (<code>??</code> means "if the left side is <code>null</code>/<code>undefined</code>, use the right side").
+    </p>
+    <p class="lang-zh">
+      注意 <code>scores.get("alice")</code> 的返回类型是 <code>number | undefined</code>——如果键不存在就返回 <code>undefined</code>。所以严谨写法要先判空：<code>scores.get("alice") ?? 0</code>（<code>??</code> 是"如果左边是 <code>null</code>/<code>undefined</code> 就用右边的值"）。
+    </p>
+
+    <p class="lang-en">
+      <strong>Object literals</strong>&mdash;the most frequently appearing data structure in TS code. Essentially a fixed-structure dictionary. Note that object keys can only be <code>string</code> or <code>symbol</code>; if you need arbitrary types as keys (e.g., objects), use <code>Map</code>:
+    </p>
+    <p class="lang-zh">
+      <strong>对象字面量</strong>——这是 TS 代码里出现频率最高的数据结构，本质上就是一个固定结构的字典。注意对象的键只能是 <code>string</code> 或 <code>symbol</code>；如果你需要用任意类型当键（比如用对象做键），应该用 <code>Map</code>：
+    </p>
+
+<pre><code class="language-typescript">const msg = { jid: "tg:123", text: "hello", retry: 3 };
+console.log(msg.jid);    // "tg:123", dot notation
+console.log(msg["text"]); // "hello", bracket notation</code></pre>
+
+    <p class="lang-en">
+      TS has a very convenient syntax called <strong>destructuring assignment</strong>&mdash;extracting multiple fields from an object into independent variables at once:
+    </p>
+    <p class="lang-zh">
+      TS 还有一个很方便的语法叫<strong>解构赋值</strong>——一次把对象里的多个字段拆成独立变量：
+    </p>
+
+<pre><code class="language-typescript">const { jid, text, retry } = msg;
+// Equivalent to:
+// const jid = msg.jid;
+// const text = msg.text;
+// const retry = msg.retry;
+console.log(jid);   // "tg:123"
+
+// Arrays can be destructured too
+const [first, second] = [10, 20, 30];
+console.log(first);  // 10
+console.log(second); // 20</code></pre>
+
+    <p class="lang-en">Destructuring is everywhere in source code&mdash;just recognize the pattern.</p>
+    <p class="lang-zh">解构在源码里到处都是，认住这个模式就好。</p>
+
+    <!-- 2.5 Script Exercise -->
+    <h3 id="sec-2-5">
+      <span class="lang-en">2.5 Mini Script Exercise: Read File + Process Data + Output Result</span>
+      <span class="lang-zh">2.5 小脚本练习：读文件 + 处理数据 + 输出结果</span>
+    </h3>
+
+    <p class="lang-en">
+      The most common workflow in scientific computing&mdash;"read data, compute statistics, output result"&mdash;translates directly to TS. The only change is that file I/O uses Node.js's <code>fs</code> module. This code reads a CSV file, extracts the second column, and computes mean and standard deviation:
+    </p>
+    <p class="lang-zh">
+      科学计算里最常见的"读数据、算统计量、输出结果"这条流程，在 TS 里可以直接复用，只是文件 I/O 的 API 换成了 Node.js 的 <code>fs</code> 模块。下面这段代码读一个 CSV 文件，取第二列的数值，算均值和标准差：
+    </p>
+
+<pre><code class="language-typescript">import { readFileSync } from "node:fs";
+
+const csv = readFileSync("data.csv", "utf8").trim();
+const values = csv
+  .split(/\r?\n/)
+  .slice(1)
+  .map((line) => Number(line.split(",")[1]));
+
+const n = values.length;
+const mean = values.reduce((a, b) => a + b, 0) / n;
+const variance = values.reduce((s, x) => s + (x - mean) ** 2, 0) / n;
+const std = Math.sqrt(variance);
+
+console.log({ n, mean, std });</code></pre>
+
+    <p class="lang-en">Compare with the Python version&mdash;the logic is almost identical, just different API names:</p>
+    <p class="lang-zh">对照一下 Python 版本，你会发现思路几乎一模一样，只是 API 名字不同：</p>
+
+<pre><code class="language-python">import csv, math
+
+with open("data.csv", newline="", encoding="utf-8") as f:
+    rows = list(csv.reader(f))[1:]
+
+values = [float(r[1]) for r in rows]
+n = len(values)
+mean = sum(values) / n
+var = sum((x - mean) ** 2 for x in values) / n
+std = math.sqrt(var)
+
+print({"n": n, "mean": mean, "std": std})</code></pre>
+
+    <hr>
+
+    <!-- Part 3 -->
+    <h2 id="sec-3">
+      <span class="lang-en">Part 3: TypeScript-Specific Features</span>
+      <span class="lang-zh">第三部分：TypeScript 特有特性</span>
+    </h2>
+
+    <p class="lang-en">
+      By now you should have a feel for TS's basic syntax. What follows are the key features that distinguish TS from Python and C++. These appear frequently and understanding them is essential for reading code fluently.
+    </p>
+    <p class="lang-zh">
+      到这里，你应该对 TS 的基本语法有了感觉。下面要讲的是 TS 区别于 Python 和 C++ 的几个关键特性。这些特性高频出现，搞懂它们才能顺畅地读代码。
+    </p>
+
+    <p class="lang-en">Each subsection includes a minimal runnable example&mdash;running them yourself helps build intuition.</p>
+    <p class="lang-zh">每个小节都附了一个可运行的最小例子，建议实际跑一遍加深印象。</p>
+
+    <!-- 3.1 Type System -->
+    <h3 id="sec-3-1">
+      <span class="lang-en">3.1 Type System Basics</span>
+      <span class="lang-zh">3.1 类型系统基础</span>
+    </h3>
+
+    <p class="lang-en">
+      TS has a keyword <code>type</code> that lets you name a "shape of data." Similar to C++'s <code>typedef</code> or Python's <code>TypeAlias</code>, but TS goes further&mdash;it supports <strong>literal types</strong> that can restrict a variable's possible values to specific strings or numbers.
+    </p>
+    <p class="lang-zh">
+      TS 有一个关键字 <code>type</code>，可以给"数据的形状"起一个名字。这和 C++ 的 <code>typedef</code> 或 Python 的 <code>TypeAlias</code> 类似，但 TS 走得更远——它支持<strong>字面量类型</strong>，可以把一个变量的取值范围精确限制到几个具体的字符串或数字。
+    </p>
+
+<pre><code class="language-typescript">type Role = "user" | "assistant";
+type Message = {
+  role: Role;
+  content: string;
+};
+
+const m1: Message = { role: "user", content: "hello" };
+console.log(m1);
+
+// const m2: Message = { role: "system", content: "x" }; // Compile-time error</code></pre>
+
+    <p class="lang-en">
+      The <code>Role</code> type above only allows the values <code>"user"</code> and <code>"assistant"</code>. If you write <code>"system"</code>, the compiler reports an error immediately&mdash;no waiting until runtime.
+    </p>
+    <p class="lang-zh">
+      上面的 <code>Role</code> 类型只允许 <code>"user"</code> 和 <code>"assistant"</code> 两个值。如果你写了 <code>"system"</code>，编译器直接就会报错——不用等到运行时才发现问题。
+    </p>
+
+    <p class="lang-en">
+      Another important concept is <strong>structural typing</strong>: TS determines type compatibility by looking at field structure, not names. This is completely different from C++'s nominal typing (same name = same type), but somewhat similar to Python's duck typing&mdash;plus compile-time checking.
+    </p>
+    <p class="lang-zh">
+      另一个重要概念是<strong>结构化类型</strong>（structural typing）：TS 判断两个类型是否兼容，看的不是名字，而是字段结构是否匹配。这和 C++ 的 nominal typing（同名才算同类型）完全不同，倒是和 Python 的 duck typing 有几分神似，不过多了编译期检查。
+    </p>
+
+<pre><code class="language-typescript">type A = { x: number; y: number };
+type B = { x: number; y: number };
+
+const a: A = { x: 1, y: 2 };
+const b: B = a; // Same field shape, assignable
+console.log(b);</code></pre>
+
+    <p class="lang-en">
+      A common "gotcha": when assigning directly with an object literal, TS performs <strong>excess property checking</strong>&mdash;extra fields cause an error. But if you assign through a variable first, it doesn't:
+    </p>
+    <p class="lang-zh">
+      有一个常见的"坑"：直接用对象字面量赋值时，TS 会做<strong>多余属性检查</strong>（excess property check），多出来的字段会报错；但如果先赋给一个变量再传，就不报错了：
+    </p>
+
+<pre><code class="language-typescript">// const c: A = { x: 1, y: 2, z: 3 }; // Error: excess property z in literal
+const tmp = { x: 1, y: 2, z: 3 };
+const d: A = tmp;  // OK: no excess property check through variable</code></pre>
+
+    <p class="lang-en">
+      Why this design? The motivations differ for the two cases: a literal with extra fields is almost certainly a bug (e.g., a typo like <code>timoeut</code> instead of <code>timeout</code>); but a variable with extra fields is often legitimate&mdash;an object with <code>{ x, y, z }</code> passed to a function that only needs <code>{ x, y }</code> makes perfect sense.
+    </p>
+    <p class="lang-zh">
+      为什么要这样设计？两种情况动机不同：字面量多了字段，几乎肯定是 bug（比如把 <code>timeout</code> 拼成 <code>timoeut</code>）；变量多了字段，往往是合理的——一个带有 <code>{ x, y, z }</code> 的对象传给只需要 <code>{ x, y }</code> 的函数，完全说得通。
+    </p>
+
+    <!-- 3.2 Interfaces -->
+    <h3 id="sec-3-2">
+      <span class="lang-en">3.2 Interfaces</span>
+      <span class="lang-zh">3.2 接口（Interface）</span>
+    </h3>
+
+    <p class="lang-en">
+      Suppose you want to write a generic ODE solver framework where <code>runOnce</code> can accept Euler, RK4, or any future integration method without modifying <code>runOnce</code> itself. In C++, you'd typically define a pure virtual base class; in Python, you'd use <code>abc.ABC</code> or <code>Protocol</code>. TS uses <strong>interfaces</strong>&mdash;declaring "what fields and methods this object must have," with the compiler enforcing the contract:
+    </p>
+    <p class="lang-zh">
+      假设要写一个通用的 ODE 求解器框架，希望 <code>runOnce</code> 函数能接受 Euler、RK4 或任何将来新增的积分方法，而不需要改 <code>runOnce</code> 本身的代码。在 C++ 里，通常的做法是定义一个纯虚基类；Python 里可以用 <code>abc.ABC</code> 或 <code>Protocol</code>。TS 的做法是<strong>接口（interface）</strong>——声明"这个对象必须有哪些字段和方法"，编译器负责检查：
+    </p>
+
+<pre><code class="language-typescript">interface Integrator {
+  step(x: number, dt: number): number;
+}
+
+class Euler implements Integrator {
+  step(x: number, dt: number): number {
+    return x + dt * (-0.5 * x);
+  }
+}
+
+function runOnce(method: Integrator, x0: number): number {
+  return method.step(x0, 0.1);
+}
+
+console.log(runOnce(new Euler(), 1.0));
+// Add RK4 later—just implement Integrator, no changes to runOnce</code></pre>
+
+    <p class="lang-en">
+      Unlike C++ pure virtual base classes, TS interface matching is <strong>structural</strong>: any object with a matching <code>step</code> method signature satisfies <code>Integrator</code>, no need to explicitly write <code>implements</code> (writing it just adds an extra layer of compiler checking). This is the same idea as Python 3.8's <code>Protocol</code>&mdash;emphasizing "what it can do" rather than "what it inherits from."
+    </p>
+    <p class="lang-zh">
+      和 C++ 纯虚基类不同的是，TS 接口的匹配是<strong>按形状</strong>来的：任何对象只要有签名匹配的 <code>step</code> 方法就算满足 <code>Integrator</code>，不需要显式写 <code>implements</code>（写了只是让编译器多一层检查）。这和 Python 3.8 引入的 <code>Protocol</code> 是同一种思路——强调"能做什么"，而不是"继承自谁"。
+    </p>
+
+    <blockquote>
+      <p class="lang-en"><strong><code>interface</code> vs. <code>type</code>?</strong> Both can describe object shapes. Rule of thumb: <strong>prefer <code>interface</code> for describing object shapes</strong> (supports declaration merging, better error messages); use <code>type</code> when you need union types, mapped types, or other composition operations. When reading source code, treat them as interchangeable.</p>
+      <p class="lang-zh"><strong><code>interface</code> 和 <code>type</code> 怎么选？</strong> 两者都能描述对象形状。经验法则：<strong>描述对象形状优先用 <code>interface</code></strong>（支持声明合并、错误信息更友好）；需要联合类型、映射类型等组合操作时用 <code>type</code>。读源码时两者可以互换理解。</p>
+    </blockquote>
+
+    <!-- 3.3 Generics -->
+    <h3 id="sec-3-3">
+      <span class="lang-en">3.3 Generics</span>
+      <span class="lang-zh">3.3 泛型（Generics）</span>
+    </h3>
+
+    <p class="lang-en">
+      Generics are "passing types as parameters." If you've used C++ templates, the concept is the same&mdash;but TS's syntax is much lighter, without the complexity of template metaprogramming.
+    </p>
+    <p class="lang-zh">
+      泛型就是"把类型当参数传"。如果你用过 C++ 模板，概念是一样的，只是 TS 的语法轻量得多，不会出现模板元编程那种复杂度。
+    </p>
+
+<pre><code class="language-typescript">function last&lt;T&gt;(arr: T[]): T | undefined {
+  return arr[arr.length - 1];
+}
+
+interface Box&lt;T&gt; {
+  value: T;
+}
+
+const a: Box&lt;number&gt; = { value: 42 };
+const b: Box&lt;string&gt; = { value: "nanoclaw" };
+console.log(last([1, 2, 3]), a.value, b.value);</code></pre>
+
+    <p class="lang-en">
+      <code>last&lt;T&gt;</code> works on arrays of any type&mdash;pass <code>number[]</code> and it returns <code>number</code>; pass <code>string[]</code> and it returns <code>string</code>. The <code>T | undefined</code> in the return type means "returns <code>undefined</code> if the array is empty"&mdash;TS's standard approach to handling empty values.
+    </p>
+    <p class="lang-zh">
+      <code>last&lt;T&gt;</code> 这个函数可以作用于任意类型的数组——传 <code>number[]</code> 就返回 <code>number</code>，传 <code>string[]</code> 就返回 <code>string</code>。返回类型里的 <code>T | undefined</code> 表示"如果数组为空就返回 <code>undefined</code>"，这是 TS 处理空值的标准做法。
+    </p>
+
+    <p class="lang-en">
+      In practice you rarely need to write <code>&lt;T&gt;</code> explicitly&mdash;TS infers it from arguments: <code>last([1, 2, 3])</code> automatically deduces <code>T = number</code>. To constrain <code>T</code>'s range, use <code>extends</code>:
+    </p>
+    <p class="lang-zh">
+      实际调用时大多数情况不需要手写 <code>&lt;T&gt;</code>，TS 能从参数自动推导：<code>last([1, 2, 3])</code> 自动推出 <code>T = number</code>。需要限制 <code>T</code> 的范围时，用 <code>extends</code> 约束：
+    </p>
+
+<pre><code class="language-typescript">function getName&lt;T extends { name: string }&gt;(obj: T): string {
+  return obj.name;
+}
+getName({ name: "alice", age: 30 }); // OK
+// getName({ age: 30 });             // Error: missing name property</code></pre>
+
+    <!-- 3.4 Union Types -->
+    <h3 id="sec-3-4">
+      <span class="lang-en">3.4 Union Types and Type Guards</span>
+      <span class="lang-zh">3.4 联合类型与类型守卫</span>
+    </h3>
+
+    <p class="lang-en">
+      Sometimes a variable genuinely can be different types&mdash;e.g., a function that accepts both strings and numbers. TS uses <strong>union types</strong> (<code>string | number</code>) to express this, and <strong>type guards</strong> to automatically narrow types within branches.
+    </p>
+    <p class="lang-zh">
+      有时候一个变量确实可能是不同的类型——比如一个函数既接受字符串也接受数字。TS 用<strong>联合类型</strong>（<code>string | number</code>）来表达这种情况，用<strong>类型守卫</strong>来在分支中自动缩窄类型。
+    </p>
+
+<pre><code class="language-typescript">function normalize(x: string | number): number {
+  if (typeof x === "string") {
+    return Number(x.trim()); // x is narrowed to string here
+  }
+  return x; // x is narrowed to number here
+}
+
+console.log(normalize("3.14"), normalize(2));</code></pre>
+
+    <p class="lang-en">
+      <code>typeof x === "string"</code> serves as both a runtime condition check and a type guard for the compiler. Inside the <code>if</code> branch, the compiler knows <code>x</code> must be <code>string</code>, so you can safely call <code>.trim()</code>; in the <code>else</code> branch, <code>x</code> can only be <code>number</code>.
+    </p>
+    <p class="lang-zh">
+      <code>typeof x === "string"</code> 这行既是运行时的条件判断，也是给编译器看的类型守卫。进入 <code>if</code> 分支后，编译器知道 <code>x</code> 一定是 <code>string</code>，所以你可以安全地调用 <code>.trim()</code>；在 <code>else</code> 分支里，<code>x</code> 就只剩下 <code>number</code> 了。
+    </p>
+
+    <p class="lang-en">
+      More common in agent/messaging source code is the <strong>discriminated union</strong>&mdash;using a shared field (usually called <code>kind</code> or <code>type</code>) to distinguish different shapes:
+    </p>
+    <p class="lang-zh">
+      在 agent/消息系统源码里更常见的是<strong>判别联合</strong>（discriminated union）——用一个共同的字段（通常叫 <code>kind</code> 或 <code>type</code>）来区分不同形状：
+    </p>
+
+<pre><code class="language-typescript">type TextMsg = { kind: "text"; content: string };
+type ImageMsg = { kind: "image"; url: string; width: number };
+type Msg = TextMsg | ImageMsg;
+
+function handle(m: Msg) {
+  if (m.kind === "text") {
+    console.log(m.content);   // compiler knows this is TextMsg
+  } else {
+    console.log(m.url, m.width); // this is ImageMsg
+  }
+}</code></pre>
+
+    <p class="lang-en">This pattern is extremely common in source code&mdash;you'll see it repeatedly when reading NanoClaw.</p>
+    <p class="lang-zh">这个模式在源码里非常常见，后面读 NanoClaw 代码时你会反复看到。</p>
+
+    <!-- 3.5 async/await -->
+    <h3 id="sec-3-5">
+      <span class="lang-en">3.5 async/await and Promises</span>
+      <span class="lang-zh">3.5 async/await 与 Promise</span>
+    </h3>
+
+    <p class="lang-en">
+      Scientific computing code is usually <strong>synchronous</strong>: one line finishes before the next executes, the CPU stays busy. But an AI agent's workflow is completely different&mdash;it spends most of its time <strong>waiting</strong>: waiting for HTTP responses, database queries, user replies. If every wait blocked the entire program, an agent could only handle one thing at a time.
+    </p>
+    <p class="lang-zh">
+      科学计算代码通常是<strong>同步</strong>的：一行算完才执行下一行，CPU 始终在忙。但 AI agent 的工作模式完全不同——它大部分时间在<strong>等</strong>：等 HTTP 响应、等数据库查询、等用户回复。如果每次等待都让整个程序卡住，一个 agent 同时只能处理一件事。
+    </p>
+
+    <p class="lang-en">
+      <strong>Asynchronous</strong> programming solves this: after starting a time-consuming operation, the program doesn't wait idly but does other work first; when the result arrives, it comes back to handle it. Analogy: synchronous is waiting in line at the counter; asynchronous is ordering, getting a ticket number, finding a seat, and picking up your food when your number is called.
+    </p>
+    <p class="lang-zh">
+      <strong>异步</strong>就是解决这个问题的：发起一个耗时操作后，程序不傻等，而是先去做别的事；等结果回来了，再回头处理。打个比方：同步是在窗口排队等餐，异步是点完单拿个号码牌去找座位，叫号了再去取。
+    </p>
+
+    <p class="lang-en">
+      TS uses <code>async/await</code> syntax for asynchronous code, very similar to Python's <code>asyncio</code>: <code>async</code> marks asynchronous functions, <code>await</code> waits for async operations to complete. The underlying mechanisms differ&mdash;Python uses a coroutine scheduler, TS/Node.js uses an event loop with Promise chains&mdash;but for reading code day-to-day you don't need to understand these details. Just remember: <code>await</code> pauses the current function until the result is ready, while other code can continue executing in the meantime.
+    </p>
+    <p class="lang-zh">
+      TS 用 <code>async/await</code> 语法来写异步代码，写法上很接近 Python 的 <code>asyncio</code>：<code>async</code> 标记异步函数，<code>await</code> 等待异步操作完成。底层机制不同——Python 用协程调度器，TS/Node.js 用的是事件循环加 Promise 链——但在日常读代码时不需要深入了解这些细节，只要记住：<code>await</code> 会暂停当前函数直到结果就绪，其他代码在这期间可以继续执行。
+    </p>
+
+<pre><code class="language-typescript">function sleep(ms: number): Promise&lt;void&gt; {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function main(): Promise&lt;void&gt; {
+  console.log("start");
+  await sleep(300);
+  console.log("after 300ms");
+}
+
+main().catch((err) => {
+  console.error("unexpected error", err);
+});</code></pre>
+
+    <p class="lang-en">
+      The final <code>.catch(...)</code> is Promise's error handling mechanism, equivalent to wrapping everything in Python's <code>try/except</code>. NanoClaw's agent loop starts exactly like this&mdash;an <code>async</code> main function with a <code>.catch</code> wrapper for safety.
+    </p>
+    <p class="lang-zh">
+      最后一行的 <code>.catch(...)</code> 是 Promise 的错误处理机制，相当于 Python 里在最外层套一个 <code>try/except</code>。NanoClaw 的 agent loop 就是这样启动的——一个 <code>async</code> 主函数，外面套一个 <code>.catch</code> 兜底。
+    </p>
+
+    <p class="lang-en">
+      When reading source code, you'll encounter a common pattern: whether multiple async operations <strong>run sequentially</strong> or <strong>concurrently</strong>. Writing consecutive <code>await</code>s defaults to sequential (the previous one must complete before the next starts); to run multiple operations concurrently, use <code>Promise.all</code>:
+    </p>
+    <p class="lang-zh">
+      读源码时还会遇到一个常见模式：多个异步操作是<strong>顺序等待</strong>还是<strong>并发执行</strong>。默认连续写 <code>await</code> 是顺序的（前一个完成才开始下一个）；要并发执行多个操作，用 <code>Promise.all</code>：
+    </p>
+
+<pre><code class="language-typescript">// Sequential: total time = a + b
+const a = await fetchUser(1);
+const b = await fetchUser(2);
+
+// Concurrent: total time = max(a, b)
+const [a, b] = await Promise.all([fetchUser(1), fetchUser(2)]);</code></pre>
+
+    <!-- 3.6 Modules -->
+    <h3 id="sec-3-6">
+      <span class="lang-en">3.6 Module System (ES Modules)</span>
+      <span class="lang-zh">3.6 模块系统（ES Modules）</span>
+    </h3>
+
+    <p class="lang-en">
+      TS uses <code>import/export</code> to manage modules, similar to Python's <code>import</code> mechanism: <code>export</code> exposes functions or types, <code>import</code> brings them in from another file.
+    </p>
+    <p class="lang-zh">
+      TS 用 <code>import/export</code> 管理模块，和 Python 的 <code>import</code> 机制类似：<code>export</code> 把函数或类型暴露出去，<code>import</code> 从另一个文件引入。
+    </p>
+
+<pre><code class="language-typescript">// math-utils.ts
+export function dot(a: number[], b: number[]): number {
+  return a.reduce((s, x, i) => s + x * b[i], 0);
+}</code></pre>
+
+<pre><code class="language-typescript">// main.ts
+import { dot } from "./math-utils";
+
+console.log(dot([1, 2, 3], [4, 5, 6])); // 32</code></pre>
+
+    <p class="lang-en">
+      The <code>{ dot }</code> in braces is a <strong>named import</strong>, importing only what you need. This is exactly the same as Python's <code>from math_utils import dot</code>.
+    </p>
+    <p class="lang-zh">
+      花括号里的 <code>{ dot }</code> 是<strong>具名导入</strong>，只引入需要的东西。这和 Python 的 <code>from math_utils import dot</code> 完全是一个意思。
+    </p>
+
+    <hr>
+
+    <!-- Part 4 -->
+    <h2 id="sec-4">
+      <span class="lang-en">Part 4: Practical &mdash; Reading NanoClaw's Agent Loop</span>
+      <span class="lang-zh">第四部分：实战——读懂 NanoClaw 的 Agent Loop</span>
+    </h2>
+
+    <p class="lang-en">
+      With the groundwork laid, let's read some real project code. The following snippet is from <a href="https://github.com/qwibitai/nanoclaw">NanoClaw</a>'s <a href="https://github.com/qwibitai/nanoclaw/blob/main/src/index.ts"><code>src/index.ts</code></a> (message polling main loop, lines 467&ndash;516)&mdash;just 50 lines that use most of the features we've covered.
+    </p>
+    <p class="lang-zh">
+      有了前面的铺垫，现在来读一段真实的项目代码。下面的片段来自 <a href="https://github.com/qwibitai/nanoclaw">NanoClaw</a> 的 <a href="https://github.com/qwibitai/nanoclaw/blob/main/src/index.ts"><code>src/index.ts</code></a>（消息轮询主循环，行 467-516），短短 50 行用到了前面讲过的大部分特性。
+    </p>
+
+    <p class="lang-en">First, the key types used in the code, so you don't have to guess each variable's shape:</p>
+    <p class="lang-zh">先看代码里用到的几个关键类型，这样读代码时就不用猜每个变量长什么样了：</p>
+
+<pre><code class="language-typescript">// From src/types.ts — an incoming message
+interface NewMessage {
+  id: string;
+  chat_jid: string;        // group identifier, e.g. "tg:123"
+  sender: string;
+  content: string;
+  is_from_me?: boolean;    // ?: optional field, actual type is boolean | undefined
+  // ... also timestamp, sender_name, etc., omitted here
+}
+
+// From src/types.ts — a registered group's config
+interface RegisteredGroup {
+  name: string;
+  trigger: string;
+  isMain?: boolean;           // tri-state: true / false / undefined
+  requiresTrigger?: boolean;  // tri-state: true / false / undefined
+  // ...
+}
+
+// From src/index.ts top — group records indexed by JID
+let registeredGroups: Record&lt;string, RegisteredGroup&gt; = {};
+// Record&lt;string, T&gt; is equivalent to Python's dict[str, T]</code></pre>
+
+    <!-- 4.1 -->
+    <h3 id="sec-4-1">
+      <span class="lang-en">4.1 Grouping Messages by Chat</span>
+      <span class="lang-zh">4.1 按群组归类消息</span>
+    </h3>
+
+<pre><code class="language-typescript">const messagesByGroup = new Map&lt;string, NewMessage[]&gt;();
+for (const msg of messages) {
+  const existing = messagesByGroup.get(msg.chat_jid);
+  if (existing) {
+    existing.push(msg);
+  } else {
+    messagesByGroup.set(msg.chat_jid, [msg]);
+  }
+}</code></pre>
+
+    <p class="lang-en">
+      The first <code>for...of</code> loop buckets all received messages by group JID into a <code>Map&lt;string, NewMessage[]&gt;</code>. The generic parameters explicitly tell the compiler: keys are group identifiers, values are message arrays. <code>messagesByGroup.get(...)</code> may return <code>undefined</code> (if the group has no entry yet), so <code>if (existing)</code> does a check&mdash;after this check, the compiler knows <code>existing</code> is definitely an array, so <code>.push()</code> is safe.
+    </p>
+    <p class="lang-zh">
+      第一个 <code>for...of</code> 循环把收到的所有消息按群组 JID 分桶，存进一个 <code>Map&lt;string, NewMessage[]&gt;</code>。泛型参数明确告诉编译器：键是群组标识符，值是消息数组。<code>messagesByGroup.get(...)</code> 返回的可能是 <code>undefined</code>（如果这个群还没有条目），所以用 <code>if (existing)</code> 做了一次判断——通过这个判断后，编译器就知道 <code>existing</code> 一定是数组，可以安全调用 <code>.push()</code>。
+    </p>
+
+    <p class="lang-en">
+      Note: <code>if (existing)</code> is a truthy check&mdash;fine for arrays, but if the value could be <code>0</code> or empty string <code>""</code>, truthy would incorrectly evaluate to false. The safer approach is <code>existing !== undefined</code>. Watch for this when reading source code.
+    </p>
+    <p class="lang-zh">
+      注意：<code>if (existing)</code> 是 truthy 判定——对数组来说没问题，但如果值可能是 <code>0</code> 或空字符串 <code>""</code>，truthy 会误判为假。更稳的写法是 <code>existing !== undefined</code>。读源码时留意这个区别。
+    </p>
+
+    <!-- 4.2 -->
+    <h3 id="sec-4-2">
+      <span class="lang-en">4.2 Iterating Groups with Guard Clauses</span>
+      <span class="lang-zh">4.2 遍历群组，守卫式过滤</span>
+    </h3>
+
+<pre><code class="language-typescript">for (const [chatJid, groupMessages] of messagesByGroup) {
+  const group = registeredGroups[chatJid];
+  if (!group) continue;
+
+  const channel = findChannel(channels, chatJid);
+  if (!channel) {
+    logger.warn({ chatJid }, 'No channel owns JID, skipping messages');
+    continue;
+  }</code></pre>
+
+    <p class="lang-en">
+      The second <code>for...of</code> uses destructuring <code>[chatJid, groupMessages]</code> to extract keys and values from the Map's iterator. The two <code>if (!...) continue;</code> statements are a typical "guard clause" pattern&mdash;eliminating cases that don't meet conditions first, avoiding deep nesting. After passing both guards, <code>group</code> and <code>channel</code> are guaranteed to have values.
+    </p>
+    <p class="lang-zh">
+      第二个 <code>for...of</code> 用了解构语法 <code>[chatJid, groupMessages]</code>，直接从 Map 的迭代器里拆出键和值。紧接着两个 <code>if (!...) continue;</code> 是典型的"守卫式写法"——先把不满足条件的情况排除掉，避免后续代码陷入深层嵌套。通过这两道守卫之后，<code>group</code> 和 <code>channel</code> 都确保是有值的。
+    </p>
+
+    <!-- 4.3 -->
+    <h3 id="sec-4-3">
+      <span class="lang-en">4.3 Tri-State Booleans and Trigger Word Logic</span>
+      <span class="lang-zh">4.3 三态布尔与触发词判定</span>
+    </h3>
+
+<pre><code class="language-typescript">  const isMainGroup = group.isMain === true;
+  const needsTrigger = !isMainGroup && group.requiresTrigger !== false;
+
+  if (needsTrigger) {
+    const triggerPattern = getTriggerPattern(group.trigger);
+    const allowlistCfg = loadSenderAllowlist();
+    const hasTrigger = groupMessages.some(
+      (m) =>
+        triggerPattern.test(m.content.trim()) &&
+        (m.is_from_me ||
+          isTriggerAllowed(chatJid, m.sender, allowlistCfg)),
+    );
+    if (!hasTrigger) continue;
+  }</code></pre>
+
+    <p class="lang-en">
+      Why not just write <code>if (group.isMain)</code> and <code>if (group.requiresTrigger)</code>? Because <code>isMain</code> and <code>requiresTrigger</code> are <strong>optional fields</strong> (<code>boolean | undefined</code>) with three possible values: <code>true</code>, <code>false</code>, <code>undefined</code>. <code>=== true</code> means "only counts as main group if explicitly set to <code>true</code>; <code>undefined</code> doesn't count." <code>!== false</code> means "trigger requirement is only disabled if explicitly set to <code>false</code>; <code>undefined</code> defaults to requiring a trigger." This "config tri-state + default value" pattern is extremely common in TS source code.
+    </p>
+    <p class="lang-zh">
+      为什么不直接写 <code>if (group.isMain)</code> 和 <code>if (group.requiresTrigger)</code>？因为 <code>isMain</code> 和 <code>requiresTrigger</code> 都是<strong>可选字段</strong>（<code>boolean | undefined</code>），有三种可能：<code>true</code>、<code>false</code>、<code>undefined</code>。<code>=== true</code> 的意思是"只有显式设成 <code>true</code> 才算主群，<code>undefined</code> 不算"；<code>!== false</code> 的意思是"只有显式设成 <code>false</code> 才关闭触发要求，<code>undefined</code> 默认需要触发"。这种"配置三态 + 默认值"的写法在 TS 源码里非常常见。
+    </p>
+
+    <p class="lang-en">
+      <code>groupMessages.some((m) =&gt; ...)</code> uses an arrow function callback to check if any message matches the trigger pattern. <code>some</code> returns <code>true</code> as soon as one element satisfies the condition, similar to Python's <code>any(...)</code>.
+    </p>
+    <p class="lang-zh">
+      <code>groupMessages.some((m) =&gt; ...)</code> 使用箭头函数回调检查是否有任何一条消息匹配触发模式。<code>some</code> 方法只要有一个元素满足条件就返回 <code>true</code>，类似 Python 的 <code>any(...)</code>。
+    </p>
+
+    <!-- 4.4 -->
+    <h3 id="sec-4-4">
+      <span class="lang-en">4.4 Fetching Context and Formatting</span>
+      <span class="lang-zh">4.4 拉取上下文并格式化</span>
+    </h3>
+
+<pre><code class="language-typescript">  const allPending = getMessagesSince(
+    chatJid,
+    getOrRecoverCursor(chatJid),
+    ASSISTANT_NAME,
+    MAX_MESSAGES_PER_PROMPT,
+  );
+  const messagesToSend =
+    allPending.length > 0 ? allPending : groupMessages;
+  const formatted = formatMessages(messagesToSend, TIMEZONE);</code></pre>
+
+    <p class="lang-en">
+      Between trigger events, some normal messages may have accumulated. These messages didn't trigger the agent but should be included as context when calling the model. <code>getMessagesSince</code> fetches all accumulated messages from the database cursor onward; if any were found, use those; otherwise fall back to the current batch. <code>allPending.length &gt; 0 ? allPending : groupMessages</code> is a ternary expression, equivalent to Python's <code>allPending if len(allPending) &gt; 0 else groupMessages</code>.
+    </p>
+    <p class="lang-zh">
+      触发词之间可能积累了一些普通消息，这些消息虽然不触发 agent，但应该作为上下文一起发给模型。<code>getMessagesSince</code> 从数据库游标往后取所有累积消息，如果取到了就用这些，否则回退到当前批次。<code>allPending.length &gt; 0 ? allPending : groupMessages</code> 是三元表达式，等价于 Python 的 <code>allPending if len(allPending) &gt; 0 else groupMessages</code>。
+    </p>
+
+    <!-- 4.5 Summary -->
+    <h3 id="sec-4-5">
+      <span class="lang-en">4.5 Summary</span>
+      <span class="lang-zh">4.5 小结</span>
+    </h3>
+
+    <p class="lang-en">
+      The entire code snippet has no fancy type gymnastics&mdash;it's almost entirely "maintainable engineering TS": type information helps quickly understand what each variable is; control flow ensures edge cases are handled correctly. This is the most common style in OpenClaw/NanoClaw source code.
+    </p>
+    <p class="lang-zh">
+      整段代码没有任何花哨的类型体操，几乎全是"可维护的工程 TS"：类型信息帮助快速理解每个变量是什么，控制流确保边界条件被正确处理。这就是 OpenClaw/NanoClaw 源码里最常见的风格。
+    </p>
+
+    <p class="lang-en">
+      <strong>Where to go next</strong>: Follow <code>getMessagesSince</code> and <code>formatMessages</code> into their definitions&mdash;read the input/output type signatures first (skip implementation details) to understand the "messages from database to prompt" data flow. Then look at other branches of <code>startMessageLoop</code>&mdash;sending to active containers, queue fallback, error recovery&mdash;to piece together the complete agent loop.
+    </p>
+    <p class="lang-zh">
+      <strong>继续阅读的路径</strong>：沿着 <code>getMessagesSince</code> 和 <code>formatMessages</code> 跳转进去，先看输入输出类型签名（不用看实现细节），就能理解"消息从数据库到 prompt"这条数据流。之后再看 <code>startMessageLoop</code> 的其他分支——发送到活动容器、队列回退、错误恢复——就能拼出完整的 agent loop。
+    </p>
+
+    <hr>
+
+    <!-- Conclusion -->
+    <h2 id="sec-conclusion">
+      <span class="lang-en">Conclusion</span>
+      <span class="lang-zh">总结</span>
+    </h2>
+
+    <p class="lang-en">
+      This article started from environment setup, covering TS's basic types and control flow, the type system (interfaces, generics, union types, type narrowing), async/await, and the module system, and finally tied these features together in NanoClaw's message polling main loop.
+    </p>
+    <p class="lang-zh">
+      本文从环境搭建出发，依次覆盖了 TS 的基本类型与控制流、类型系统（接口、泛型、联合类型、类型收窄）、async/await 和模块系统，最后在 NanoClaw 的消息轮询主循环中把这些特性串联起来。
+    </p>
+
+    <hr>
+
+    <!-- References -->
+    <h2 id="sec-references">
+      <span class="lang-en">References</span>
+      <span class="lang-zh">参考文献</span>
+    </h2>
+
+    <ol>
+      <li><a href="https://www.typescriptlang.org/docs/handbook/">TypeScript Handbook</a></li>
+      <li><a href="https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html">TypeScript for the New Programmer</a></li>
+      <li><a href="https://nodejs.org/api/esm.html">Node.js Documentation: ECMAScript Modules</a></li>
+      <li><a href="https://github.com/qwibitai/nanoclaw">NanoClaw source code</a> &mdash; <span class="lang-en">the agent loop analyzed in Part 4 is from <code>src/index.ts</code></span><span class="lang-zh">本文第四部分解析的 agent loop 来自 <code>src/index.ts</code></span></li>
+    </ol>
+
+  </div>
+</div>
+
+<!-- Table of Contents -->
+<aside class="blog-toc" id="toc">
+  <div class="blog-toc-title">
+    <span class="lang-en">Contents</span>
+    <span class="lang-zh">目录</span>
+  </div>
+  <ul>
+    <li><a href="#sec-1">1. Quick Start</a></li>
+    <li><a href="#sec-2">2. Shared Features</a></li>
+    <li style="padding-left:1em"><a href="#sec-2-1">2.1 Variables</a></li>
+    <li style="padding-left:1em"><a href="#sec-2-2">2.2 Functions</a></li>
+    <li style="padding-left:1em"><a href="#sec-2-3">2.3 Control Flow</a></li>
+    <li style="padding-left:1em"><a href="#sec-2-4">2.4 Data Structures</a></li>
+    <li style="padding-left:1em"><a href="#sec-2-5">2.5 Script Exercise</a></li>
+    <li><a href="#sec-3">3. TS-Specific Features</a></li>
+    <li style="padding-left:1em"><a href="#sec-3-1">3.1 Type System</a></li>
+    <li style="padding-left:1em"><a href="#sec-3-2">3.2 Interfaces</a></li>
+    <li style="padding-left:1em"><a href="#sec-3-3">3.3 Generics</a></li>
+    <li style="padding-left:1em"><a href="#sec-3-4">3.4 Union Types</a></li>
+    <li style="padding-left:1em"><a href="#sec-3-5">3.5 async/await</a></li>
+    <li style="padding-left:1em"><a href="#sec-3-6">3.6 Modules</a></li>
+    <li><a href="#sec-4">4. Reading NanoClaw</a></li>
+    <li style="padding-left:1em"><a href="#sec-4-1">4.1 Grouping Messages</a></li>
+    <li style="padding-left:1em"><a href="#sec-4-2">4.2 Guard Clauses</a></li>
+    <li style="padding-left:1em"><a href="#sec-4-3">4.3 Tri-State Booleans</a></li>
+    <li style="padding-left:1em"><a href="#sec-4-4">4.4 Fetching Context</a></li>
+    <li style="padding-left:1em"><a href="#sec-4-5">4.5 Summary</a></li>
+    <li><a href="#sec-conclusion">Conclusion</a></li>
+    <li><a href="#sec-references">References</a></li>
+  </ul>
+</aside>
+</div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Wen Chen.</p>
+</footer>
+
+<script>
+function toggleLang() {
+  const body = document.body;
+  const btn = document.querySelector('.lang-toggle');
+  body.classList.toggle('zh');
+  btn.textContent = body.classList.contains('zh') ? 'EN' : '中文';
+}
+
+// Syntax highlighting
+hljs.highlightAll();
+
+// Word count
+(function() {
+  const content = document.querySelector('.blog-article .content');
+  if (!content) return;
+  const enEls = content.querySelectorAll('.lang-en');
+  let enText = '';
+  enEls.forEach(el => enText += ' ' + el.textContent);
+  const enWords = enText.split(/\s+/).filter(w => w.length > 0).length;
+  const zhEls = content.querySelectorAll('.lang-zh');
+  let zhText = '';
+  zhEls.forEach(el => zhText += el.textContent);
+  const zhChars = (zhText.match(/[\u4e00-\u9fff]/g) || []).length;
+  const stats = document.getElementById('reading-stats');
+  if (stats) {
+    const enSpan = document.createElement('span');
+    enSpan.className = 'lang-en';
+    enSpan.textContent = '~' + enWords + ' words';
+    const zhSpan = document.createElement('span');
+    zhSpan.className = 'lang-zh';
+    zhSpan.textContent = '~' + zhChars + ' 字';
+    stats.appendChild(enSpan);
+    stats.appendChild(zhSpan);
+  }
+})();
+
+// TOC active state on scroll
+(function() {
+  const tocLinks = document.querySelectorAll('.blog-toc a');
+  const headings = [];
+  tocLinks.forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) headings.push({ id, el, link });
+  });
+
+  function updateActive() {
+    let current = headings[0];
+    for (const h of headings) {
+      if (h.el.getBoundingClientRect().top <= 100) current = h;
+    }
+    tocLinks.forEach(l => l.classList.remove('active'));
+    if (current) current.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+</script>
+
+</body>
+</html>
