@@ -1,0 +1,220 @@
+{
+  "education": [
+    {
+      "degree": {"en": "Ph.D. Student in Physics", "zh": "物理学博士生"},
+      "school": {"en": "University of Houston, Houston, TX, USA", "zh": "休斯顿大学，美国德克萨斯州休斯顿"},
+      "details": [
+        {"en": "Supervisor: Prof. Rubem Mondaini", "zh": "导师：Rubem Mondaini 教授"},
+        {"en": "Research focus: Sign problem in Quantum Monte Carlo methods", "zh": "研究方向：量子蒙特卡洛方法中的符号问题"}
+      ],
+      "year": {"en": "Jan. 2025 – Present", "zh": "2025年1月 – 至今"}
+    },
+    {
+      "degree": {"en": "M.S. in Condensed Matter Physics", "zh": "凝聚态物理学硕士"},
+      "school": {"en": "Beijing Computational Science Research Center (CSRC), Beijing, China", "zh": "北京计算科学研究中心（CSRC），中国北京"},
+      "details": [
+        {"en": "Supervisor: Prof. Rubem Mondaini", "zh": "导师：Rubem Mondaini 教授"},
+        {"en": "Thesis: Determinant Quantum Monte Carlo Method and Random Matrix Theory", "zh": "论文：行列式量子蒙特卡洛方法与随机矩阵理论"}
+      ],
+      "year": {"en": "Sept. 2022 – Dec. 2024", "zh": "2022年9月 – 2024年12月"}
+    },
+    {
+      "degree": {"en": "B.S. in Physics (Teacher Education)", "zh": "物理学（师范）学士"},
+      "school": {"en": "Zhejiang Normal University, Jinhua, China", "zh": "浙江师范大学，中国金华"},
+      "details": [
+        {"en": "Supervisor: Prof. Xianlong Gao", "zh": "导师：高先龙 教授"},
+        {"en": "Thesis: Application of Level Statistics in Disordered Systems", "zh": "论文：能级统计在无序系统中的应用"}
+      ],
+      "year": {"en": "Sept. 2018 – Jun. 2022", "zh": "2018年9月 – 2022年6月"}
+    },
+    {
+      "degree": {"en": "Visiting Student", "zh": "交换生"},
+      "school": {"en": "Kuang Yaming Honors School, Nanjing University, Nanjing, China", "zh": "南京大学匡亚明学院，中国南京"},
+      "details": [],
+      "year": {"en": "Sept. 2018 – Jul. 2019", "zh": "2018年9月 – 2019年7月"}
+    }
+  ],
+  "publications": [
+    {
+      "year": 2025,
+      "type": {"en": "Journal Article", "zh": "期刊论文"},
+      "title": {
+        "en": "Unveiling quantum criticality of disordered Aubry–André–Harper models via typical fidelity susceptibility",
+        "zh": "通过典型保真度易感性揭示无序 Aubry–André–Harper 模型的量子临界性"
+      },
+      "authors": [
+        {"name": "Tian-Cheng Yi"}, {"name": "Ying-Ying Fang"}, {"name": "Wen Chen", "me": true}, {"name": "Wen-Long You"}, {"name": "Yunbo Zhang"}
+      ],
+      "venue": {"en": "Physical Review A 112(2), 023308 (2025)", "zh": "Physical Review A 112(2), 023308（2025）"},
+      "links": [
+        {"label": "DOI", "href": "https://doi.org/10.1103/pwfy-2j1v"},
+        {"label": "arXiv", "href": "https://arxiv.org/abs/2508.04580"}
+      ]
+    },
+    {
+      "year": 2024,
+      "type": {"en": "Journal Article", "zh": "期刊论文"},
+      "title": {
+        "en": "Multifractality and prethermalization in the quasiperiodically kicked Aubry–André–Harper model",
+        "zh": "准周期驱动的 Aubry–André–Harper 模型中的多重分形性与预热化"
+      },
+      "authors": [
+        {"name": "Wen Chen", "me": true, "mark": "*"}, {"name": "Pedro D. Sacramento", "mark": "*"}, {"name": "Rubem Mondaini", "mark": "*"}
+      ],
+      "venue": {"en": "Physical Review B 109(5), 054202 (2024)", "zh": "Physical Review B 109(5), 054202（2024）"},
+      "links": [
+        {"label": "DOI", "href": "https://doi.org/10.1103/PhysRevB.109.054202"},
+        {"label": "arXiv", "href": "https://arxiv.org/abs/2311.03879"}
+      ]
+    },
+    {
+      "year": 2024,
+      "type": {"en": "Journal Article", "zh": "期刊论文"},
+      "title": {
+        "en": "Linear-scale simulations of quench dynamics",
+        "zh": "淬火动力学的线性规模模拟"
+      },
+      "authors": [
+        {"name": "Niaz Ali Khan"}, {"name": "Wen Chen", "me": true}, {"name": "Munsif Jan"}, {"name": "Xianlong Gao", "mark": "*"}
+      ],
+      "venue": {"en": "Computer Physics Communications 299, 109132 (2024)", "zh": "Computer Physics Communications 299, 109132（2024）"},
+      "links": [
+        {"label": "DOI", "href": "https://doi.org/10.1016/j.cpc.2024.109132"},
+        {"label": "arXiv", "href": "https://arxiv.org/abs/2311.09556"}
+      ]
+    },
+    {
+      "year": 2024,
+      "type": {"en": "Journal Article", "zh": "期刊论文"},
+      "title": {
+        "en": "Stable real-energy spectral dynamics with topological transitions and non-Hermitian many-body localization",
+        "zh": "具有拓扑相变和非厄米多体局域化的稳定实能谱动力学"
+      },
+      "authors": [
+        {"name": "Shu-Jie Cheng"}, {"name": "Xi-Xi Feng"}, {"name": "Wen Chen", "me": true}, {"name": "Niaz Ali Khan"}, {"name": "Xianlong Gao", "mark": "*"}
+      ],
+      "venue": {"en": "Physical Review B 109(17), 174209 (2024)", "zh": "Physical Review B 109(17), 174209（2024）"},
+      "links": [
+        {"label": "DOI", "href": "https://doi.org/10.1103/PhysRevB.109.174209"},
+        {"label": "arXiv", "href": "https://arxiv.org/abs/2306.08864"}
+      ]
+    },
+    {
+      "year": 2024,
+      "type": {"en": "Journal Article", "zh": "期刊论文"},
+      "title": {
+        "en": "Application of metric space method in quantum information in quasi-periodic systems",
+        "zh": "度量空间方法在准周期系统量子信息中的应用"
+      },
+      "authors": [
+        {"name": "Xi-Xi Feng"}, {"name": "Wen Chen", "me": true, "mark": "*"}, {"name": "Xianlong Gao", "mark": "*"}
+      ],
+      "venue": {"en": "Acta Physica Sinica 73(4), 040501 (2024)", "zh": "物理学报 73(4), 040501（2024）"},
+      "links": [{"label": "DOI", "href": "https://doi.org/10.7498/aps.73.20231605"}]
+    },
+    {
+      "year": 2022,
+      "type": {"en": "Journal Article", "zh": "期刊论文"},
+      "title": {
+        "en": "Breakdown of the correspondence between the real–complex and delocalization–localization transitions in non-Hermitian quasicrystals",
+        "zh": "非厄米准晶体中实–复与离域–局域转变对应关系的破缺"
+      },
+      "authors": [
+        {"name": "Wen Chen", "me": true}, {"name": "Shu-Jie Cheng", "mark": "*"}, {"name": "Ji Lin"}, {"name": "Reza Asgari"}, {"name": "Xianlong Gao", "mark": "*"}
+      ],
+      "venue": {"en": "Physical Review B 106, 144208 (2022)", "zh": "Physical Review B 106, 144208（2022）"},
+      "links": [
+        {"label": "DOI", "href": "https://doi.org/10.1103/PhysRevB.106.144208"},
+        {"label": "arXiv", "href": "https://arxiv.org/abs/2208.08733"}
+      ]
+    }
+  ],
+  "conference_abstracts": [
+    {
+      "year": 2026,
+      "type": {"en": "Conference Abstract", "zh": "会议摘要"},
+      "title": {
+        "en": "Auxiliary-Field Patterns, Random Matrices Theory, and Topology in Determinant Quantum Monte Carlo Simulation",
+        "zh": "行列式量子蒙特卡洛模拟中的辅助场图样、随机矩阵理论与拓扑"
+      },
+      "authors": [{"name": "Wen Chen", "me": true}, {"name": "Rubem Mondaini"}],
+      "venue": {"en": "APS Global Physics Summit 2026", "zh": "APS Global Physics Summit 2026"},
+      "links": [
+        {"label": "APS", "href": "https://meetings-archive.aps.org/smt/2026/mar-a46/2/"}
+      ]
+    },
+    {
+      "year": 2025,
+      "type": {"en": "Conference Abstract", "zh": "会议摘要"},
+      "title": {
+        "en": "Singular values statistics of finite-temperature determinant quantum Monte Carlo simulations",
+        "zh": "有限温行列式量子蒙特卡洛模拟的奇异值统计"
+      },
+      "authors": [{"name": "Wen Chen", "me": true}, {"name": "Rubem Mondaini"}],
+      "venue": {"en": "APS Global Physics Summit 2025", "zh": "APS Global Physics Summit 2025"},
+      "links": [
+        {"label": "APS", "href": "https://meetings-archive.aps.org/smt/2025/mar-w25/5/"}
+      ]
+    }
+  ],
+  "talks": [
+    {
+      "title": {"en": "Auxiliary-Field Patterns, Random Matrix Theory, and Topology in Determinant Quantum Monte Carlo simulations", "zh": "行列式量子蒙特卡洛模拟中的辅助场图样、随机矩阵理论与拓扑"},
+      "type": {"en": "Talk", "zh": "报告"},
+      "event": {"en": "APS Global Physics Summit 2026, Denver, Colorado, USA – March 2026", "zh": "APS Global Physics Summit 2026，美国科罗拉多州丹佛 – 2026年3月"}
+    },
+    {
+      "title": {"en": "Singular values statistics of finite-temperature determinant Quantum Monte Carlo simulations", "zh": "有限温行列式量子蒙特卡洛模拟的奇异值统计"},
+      "type": {"en": "Invited Talk", "zh": "邀请报告"},
+      "event": {"en": "Nanjing University, Online – May 2025", "zh": "南京大学，线上 – 2025年5月"}
+    },
+    {
+      "title": {"en": "Singular values statistics of finite-temperature determinant Quantum Monte Carlo simulations", "zh": "有限温行列式量子蒙特卡洛模拟的奇异值统计"},
+      "type": {"en": "Talk", "zh": "报告"},
+      "event": {"en": "2025 TSAAPT Joint Spring Meeting, Houston, Texas, USA – April 2025", "zh": "2025 TSAAPT 春季联合会议，美国得克萨斯州休斯顿 – 2025年4月"}
+    },
+    {
+      "title": {"en": "Singular values statistics of finite-temperature determinant Quantum Monte Carlo simulations", "zh": "有限温行列式量子蒙特卡洛模拟的奇异值统计"},
+      "type": {"en": "Talk", "zh": "报告"},
+      "event": {"en": "APS Global Physics Summit 2025, Anaheim, California, USA – March 2025", "zh": "APS Global Physics Summit 2025，美国加利福尼亚州阿纳海姆 – 2025年3月"}
+    },
+    {
+      "title": {"en": "Random Matrix Theory and Determinant Quantum Monte Carlo", "zh": "随机矩阵理论与行列式量子蒙特卡洛"},
+      "type": {"en": "Invited Talk", "zh": "邀请报告"},
+      "event": {"en": "Zhejiang Normal University, Jinhua, Zhejiang, China – September 2024", "zh": "浙江师范大学，中国浙江金华 – 2024年9月"}
+    },
+    {
+      "title": {"en": "Multifractality and prethermalization in the quasiperiodically kicked Aubry–André–Harper model", "zh": "准周期驱动的 Aubry–André–Harper 模型中的多重分形性与预热化"},
+      "type": {"en": "Poster", "zh": "海报"},
+      "event": {"en": "The 12th Workshop on Quantum Many-Body Computation, Xi'an, Shaanxi, China – April 2024", "zh": "第十二届量子多体计算研讨会，中国陕西西安 – 2024年4月"}
+    }
+  ],
+  "teaching": [
+    {
+      "role": {"en": "Teaching Assistant, Department of Physics", "zh": "物理系助教"},
+      "place": {"en": "University of Houston", "zh": "休斯顿大学"},
+      "details": [
+        {"en": "PHYS 1101 – College Physics I (Lab)", "zh": "PHYS 1101 – 大学物理 I（实验）"},
+        {"en": "PHYS 1301 – College Physics I (Lecture)", "zh": "PHYS 1301 – 大学物理 I（理论）"}
+      ],
+      "year": {"en": "Jan. 2025 – May 2025", "zh": "2025年1月 – 2025年5月"}
+    },
+    {
+      "role": {"en": "Temporary Teacher in Physics", "zh": "物理代课教师"},
+      "place": {"en": "Jinhua Binhong High School, Jinhua, China", "zh": "金华宾虹高级中学，中国金华"},
+      "details": [],
+      "year": {"en": "Feb. 2022 – Jun. 2022", "zh": "2022年2月 – 2022年6月"}
+    },
+    {
+      "role": {"en": "Distinguished Interpreter", "zh": "优秀讲解员"},
+      "place": {"en": "Nanjing Brocade Museum, Nanjing, China", "zh": "南京云锦博物馆，中国南京"},
+      "details": [],
+      "year": {"en": "Sept. 2018 – Jul. 2019", "zh": "2018年9月 – 2019年7月"}
+    }
+  ],
+  "awards": [
+    {"name": {"en": "First-Level Scholarship, CSRC, Beijing", "zh": "北京计算科学研究中心一等奖学金"}, "year": "Jun. 2024"},
+    {"name": {"en": "First-Level Scholarship, CSRC, Beijing", "zh": "北京计算科学研究中心一等奖学金"}, "year": "Jun. 2023"},
+    {"name": {"en": "Outstanding Graduate, Zhejiang Normal University", "zh": "浙江师范大学优秀毕业生"}, "year": "Jun. 2022"}
+  ]
+}
