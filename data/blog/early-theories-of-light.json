@@ -1,0 +1,1312 @@
+{
+  "slug": "early-theories-of-light",
+  "created": "2026-10-03",
+  "updated": "2026-10-05",
+  "contents": [
+    {
+      "target": "block-0",
+      "label": {
+        "zh": "1. 早期光学理论：从远古到16世纪",
+        "en": "1. Early Theories of Light: From Prehistory to the Sixteenth Century"
+      }
+    },
+    {
+      "target": "block-8",
+      "label": {
+        "zh": "2. 微粒说与波动说：17—18世纪",
+        "en": "2. Corpuscular and Wave Theories of Light: The Seventeenth and Eighteenth Centuries"
+      }
+    },
+    {
+      "target": "block-30",
+      "label": {
+        "zh": "3. 波动光学的建立：19世纪初",
+        "en": "3. The Establishment of Wave Optics: The Early Nineteenth Century"
+      }
+    },
+    {
+      "target": "references",
+      "label": {
+        "zh": "参考文献",
+        "en": "References"
+      }
+    }
+  ],
+  "title": {
+    "zh": "光的早期理论",
+    "en": "Early Theories of Light"
+  },
+  "series": {
+    "zh": "光学 · 01",
+    "en": "Optics · 01"
+  },
+  "description": {
+    "zh": "从古代视觉与光学器物出发，经微粒说、波动说与费马原理，到杨氏干涉、菲涅耳衍射与偏振，追踪光的理论如何从光线走向波动。",
+    "en": "From ancient vision and optical devices through corpuscular, wave, and Fermatian accounts to Young’s interference, Fresnel’s diffraction, and polarization, tracing how the theory of light moved from rays to waves."
+  },
+  "blocks": [
+    {
+      "type": "heading",
+      "text": {
+        "zh": "1. 早期光学理论：从远古到16世纪",
+        "en": "1. Early Theories of Light: From Prehistory to the Sixteenth Century"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "人类利用和认识光的历史始于远古。人们一面制造和改进光学器物，一面追问光的性质以及眼睛为什么能够看见，理论、实验、经验和技术在这一过程中交错发展。如图1(a)所示，早在约四千年前，人们已经制作铜镜，用经过磨光的金属表面映照面容[[1]](#ref-1)。",
+        "en": "Humanity’s use of, and attempts to understand, light date back to prehistory. People made and improved optical devices while asking what light was and how the eye could see. Theory, experiment, practical experience, and technology became intertwined as these pursuits unfolded. As illustrated in Fig. 1(a), people were already making bronze mirrors some four thousand years ago, polishing metal surfaces to see their own reflections[[1]](#ref-1)."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/early-optics.svg",
+      "alt": {
+        "zh": "图1　早期光学器物与光路：铜镜、小孔成像、反射与折射测量",
+        "en": "Early optical artifacts and light paths: bronze mirror, pinhole image, reflection, and refraction measurement."
+      },
+      "caption": {
+        "zh": "图1　早期光学器物与光路。(a) 齐家文化铜镜背面，摄于中国国家博物馆；中央为镜钮，用于映照的是另一面[[2]](#ref-2)。(b) 小孔处光路交叉形成倒像。(c) 将终点映到镜后，把最短反射路径展开为直线；镜后虚线是辅助线。(d) 托勒密折射测量装置的原理示意：刻度圆盘半浸于水中，水面经过圆心 $O$；观察者经圆心看水下标记，读出水面两侧光路与法线的夹角。箭头按现代约定标示光的传播方向。(b)–(d) 为几何示意，不是历史原图或测量数据。",
+        "en": "FIG. 1. Early optical artifacts and light paths. (a) The back of a Qijia-culture bronze mirror, photographed at the National Museum of China. A knob sits at its center; the opposite face served as the reflecting surface[[2]](#ref-2). (b) Light paths cross at a pinhole to form an inverted image. (c) Reflecting the endpoint across the mirror unfolds the shortest reflected path into a straight line; dashed lines behind the mirror are construction lines. (d) The principle of Ptolemy’s refraction measurement: a graduated disk is half immersed in water, with the surface passing through its center $O$. The observer sights an underwater mark through the center and reads the angles that the paths on either side of the surface make with the normal. Arrows indicate the modern convention for the direction of light propagation. Panels (b)–(d) are geometric schematics, not historical drawings or measured data."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "古代留下的文字，也记录了对影子、倒像和水中物体的观察：",
+        "en": "Ancient writings also preserve observations of shadows, inverted images, and objects in water:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "zh": "**小孔成像。** 《墨子·经说下》写道：“足蔽下光，故成景於上；首蔽上光，故成景於下”[[3]](#ref-3)。这里的“景”指像。这段话讨论上下颠倒的成像关系：用现代光路表示，脚部反射的光穿过小孔后到达屏的上方，头部反射的光则到达下方，于是形成倒像，如图1(b)所示[[4]](#ref-4)。",
+          "en": "**Pinhole imaging.** The *Mozi*, in “Explanations of the Canons, Part II,” states (our translation): “The feet block the light below, so the image forms above; the head blocks the light above, so the image forms below”[[3]](#ref-3). The passage concerns the inversion of the image: in a modern ray diagram, light reflected from the feet passes through the pinhole to the upper part of the screen, while light from the head reaches the lower part, producing the inverted image shown in Fig. 1(b)[[4]](#ref-4)."
+        },
+        {
+          "zh": "**镜面反射。** 希罗（Hero of Alexandria）用最短路程解释平面镜的反射规律：在起点和终点固定时，比较经过镜面不同位置的折线路径。如图1(c)所示，把终点 $B$ 对称地移到镜后的 $B'$，经过镜面任一点的两段路程之和都保持不变。连接起点 $A$ 与 $B'$ 的直线与镜面交于 $P$，于是经过 $P$ 的路径最短，由此得到入射角等于反射角[<a href=\"#ref-5\">5</a>, §2.1]。",
+          "en": "**Mirror reflection.** Hero explained reflection from a plane mirror by comparing the lengths of paths joining two fixed endpoints through different points on the mirror. In Fig. 1(c), reflecting the endpoint $B$ across the mirror to $B'$ leaves the total length of each two-segment path unchanged. The straight line from the starting point $A$ to $B'$ meets the mirror at $P$, so the path through $P$ is the shortest. This construction gives equal angles of incidence and reflection[<a href=\"#ref-5\">5</a>, §2.1]."
+        },
+        {
+          "zh": "**折射。** 柏拉图（Plato）在《理想国》中提及物体部分浸入水中后看似弯折的现象；托勒密（Claudius Ptolemy）则进一步测量入射角和折射角，并将结果列成表[<a href=\"#ref-6\">6</a>, §1.2]。图1(d)展示了空气与水之间的测量方法：把带角度刻度的铜圆盘竖直放入水中，使水面经过圆心，再从空气中经圆心观察水下圆周上的标记。标记的位置确定水中那段光路，观察方向确定空气中的光路，因而可以读出两段光路相对法线的角度。改变对准方向与标记位置，就能比较不同角度之间的对应关系[<a href=\"#ref-5\">5</a>, §1.1]。",
+          "en": "**Refraction.** In the *Republic*, Plato noted that objects partly immersed in water appear bent. Ptolemy went further, measuring angles of incidence and refraction and tabulating the results[<a href=\"#ref-6\">6</a>, §1.2]. Fig. 1(d) shows the method for air and water: a bronze disk with angular graduations is placed vertically in water, with the surface passing through its center. From the air, the observer sights a mark on the submerged circumference through the center. The position of the mark fixes the underwater path, while the viewing direction fixes the path in air, allowing both angles to be read relative to the normal. Changing the sighting direction and the position of the mark reveals how the two angles vary together[<a href=\"#ref-5\">5</a>, §1.1]."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "今天我们知道，光在视网膜上成像，经感光细胞和大脑的处理形成视觉[[7]](#ref-7)。古人却常把光的传播、眼睛的感知与心灵的认识放在一起讨论。一方面，有人认为物体不断发出“影像”，进入眼睛使人看见；相反地，也有人把视觉比作伸手触物，认为眼睛向外发出某种作用来感知物体[<a href=\"#ref-5\">5</a>, §1.1]。若眼睛能发光，为什么黑暗中仍看不见？柏拉图的解释为这种疑问留下了余地：眼内之火必须与外界日光结合，才能参与视觉[<a href=\"#ref-5\">5</a>, §1.1]。",
+        "en": "Today we know that light forms an image on the retina, and that processing by photoreceptors and the brain gives rise to vision[[7]](#ref-7). Ancient thinkers, however, often discussed the propagation of light, the eye’s perception, and the mind’s understanding together. Some held that objects continually gave off “images” that entered the eyes and made sight possible. Others, by contrast, likened seeing to reaching out and touching, proposing that the eyes sent something outward to perceive objects[<a href=\"#ref-5\">5</a>, §1.1]. If the eyes could emit light, why could they not see in darkness? Plato’s account made room for this difficulty: the fire within the eyes had to join with daylight before it could contribute to vision[<a href=\"#ref-5\">5</a>, §1.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "“看见”也涉及注意与心志。《荀子·劝学》说“目不能两视而明，耳不能两听而聪”[[8]](#ref-8)。这句话强调，即使眼前有物，注意不能专一，也难以清楚觉察，体现了古人对心的活动与感知之间关系的认识。",
+        "en": "Seeing also involves attention and the state of mind. The *Xunzi*, in “Encouraging Learning,” says (our translation): “The eyes cannot look at two things at once and see clearly; the ears cannot listen to two things at once and hear distinctly”[[8]](#ref-8). The point is that even when something is before our eyes, we may not perceive it clearly without focused attention—a reflection of how ancient thinkers understood the relation between the mind’s activity and perception."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "随着观察范围扩大，人们希望看清远处的物体和天体，也希望辨清肉眼难以分辨的细节。17世纪的望远镜和显微镜把这些要求变成了具体的技术问题，并逐渐展示出从天体到昆虫、细胞的新景象[<a href=\"#ref-9\">9</a>, ch. 9, §2]。要改进这些仪器，就必须更准确地预测光在各个界面怎样偏折、不同透镜怎样共同成像。与此同时，反射、折射和颜色等现象，也不断要求人们解释光的物理性质[<a href=\"#ref-6\">6</a>, §1.3]。",
+        "en": "As the range of observation widened, people sought clearer views of distant objects and celestial bodies, as well as details too small for the unaided eye to distinguish. In the seventeenth century, telescopes and microscopes turned these aims into concrete technical problems, gradually opening up new realms of observation, from celestial bodies to insects and cells [<a href=\"#ref-9\">9</a>, ch. 9, §2]. Improving these instruments required more accurate predictions of how light bends at each interface and how lenses work together to form images. At the same time, reflection, refraction, and color continued to call for an explanation of the physical nature of light[<a href=\"#ref-6\">6</a>, §1.3]."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "2. 微粒说与波动说：17—18世纪",
+        "en": "2. Corpuscular and Wave Theories of Light: The Seventeenth and Eighteenth Centuries"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "尽管图1(d)所示的装置原则上足以测量检验折射定律所需的角度，从记录角度到识别正弦关系，仍经历了长期探索。托勒密留下了折射角度表；到17世纪，斯涅尔（Willebrord Snell）、笛卡儿（René Descartes）等人的工作使正弦规律逐渐明确[<a href=\"#ref-5\">5</a>, §§1.1, 2.1]。取固定颜色，令光从均匀、各向同性的空气（介质1）进入水（介质2），入射角 $\\theta_1$ 与折射角 $\\theta_2$ 均从界面法线量起。改变非零入射角并记录折射角，二者的正弦比保持不变：",
+        "en": "Although the apparatus shown in Fig. 1(d) could in principle measure the angles needed to test the law of refraction, it took a long period of inquiry to move from recording angles to identifying a sine relation. Ptolemy left a table of refraction angles; by the seventeenth century, the work of Willebrord Snell, René Descartes, and others had brought the sine law into focus[<a href=\"#ref-5\">5</a>, §§1.1, 2.1]. Consider light of a fixed color passing from uniform, isotropic air (medium 1) into water (medium 2). Let the angles of incidence $\\theta_1$ and refraction $\\theta_2$ be measured from the interface normal. As the nonzero angle of incidence is varied and the refracted angle recorded, the ratio of their sines remains constant:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "K\\equiv\\frac{\\sin\\theta_1}{\\sin\\theta_2},\\qquad \\theta_1\\ne 0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "其中 $K$ 是这两种介质在所选颜色下对应的常数。这条规律使折射方向可以定量计算，但对于光为何遵循它，人们提出了不同解释。",
+        "en": "Here $K$ is a constant for these two media at the chosen color. The law makes it possible to calculate the direction of refraction quantitatively, but different explanations were proposed for why light obeys it."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/refraction-models.svg",
+      "alt": {
+        "zh": "图2　三种折射解释的现代示意图",
+        "en": "Three refraction models: corpuscular velocity components, Huygens’s wavelets, and Fermat’s interface-crossing point."
+      },
+      "caption": {
+        "zh": "图2　三种折射解释的现代示意图。(a) 微粒速度的两个水平投影分别为 $u_1\\sin\\theta_1$、$u_2\\sin\\theta_2$；等长箭头表示切向速度不变，法向分量则增大；(b) 惠更斯构造中，入射波前的一端先到界面，另一端继续传播，界面上的点发出次波，次波包络形成新波前；(c) 固定端点 $A,B$，让交点 $P$ 沿界面移动，以其横坐标 $x$ 比较不同路径的传播时间；灰线表示另一条候选路径。三面板用于说明模型和几何关系，不是历史原图或实验记录；$\\theta_1,\\theta_2$ 为光线与法线的夹角；(b) 用与它们相等的波前—界面夹角标示。颜色仅作区分。",
+        "en": "FIG. 2. Modern schematics of three explanations of refraction. (a) The horizontal components of the corpuscle’s velocity are $u_1\\sin\\theta_1$ and $u_2\\sin\\theta_2$. Equal-length arrows indicate that the tangential velocity is unchanged while the normal component increases. (b) In Huygens’s construction, one end of the incident wavefront reaches the interface first while the other continues to advance; points at the interface emit wavelets, whose envelope forms the new wavefront. (c) With endpoints $A$ and $B$ fixed, the crossing point $P$ moves along the interface; its horizontal coordinate $x$ parametrizes the travel times of different paths. The gray line shows an alternative path. The panels illustrate models and geometry; they are not historical images or experimental records. The angles $\\theta_1,\\theta_2$ are measured between each ray and the normal; in (b), the equal wavefront–interface angles are shown. Colors are used only to distinguish elements."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**牛顿（Isaac Newton）的微粒说：** 假设光由质量不变的微粒组成，界面对它的作用力只沿法线，因此用平行界面的动量守恒来确定偏折方向。如图2(a)，微粒在空气、水中的速度大小分别为 $u_1,u_2$，平行界面的速度分量分别是 $u_1\\sin\\theta_1$、$u_2\\sin\\theta_2$。界面作用不改变这两个水平箭头的长度。设微粒质量为 $m$，则",
+                "en": "**Newton’s corpuscular theory.** In this model, light consists of corpuscles of constant mass, and the interface exerts a force on them only in the normal direction. Conservation of momentum parallel to the interface then determines the bending. As shown in Fig. 2(a), let the corpuscle’s speeds in air and water be $u_1$ and $u_2$; their velocity components parallel to the interface are $u_1\\sin\\theta_1$ and $u_2\\sin\\theta_2$. The interface force leaves these two horizontal arrows unchanged in length. For a corpuscle of mass $m$,"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "m u_1\\sin\\theta_1=m u_2\\sin\\theta_2,\\qquad K=\\frac{u_2}{u_1}."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "空气入水时，观察到 $\\theta_2<\\theta_1$，所以 $K>1$，上式要求 $u_2>u_1$：这个模型预言光在水中更快[<a href=\"#ref-5\">5</a>, §3.5]。",
+                "en": "On entering water from air, observation gives $\\theta_2<\\theta_1$, and hence $K>1$. The equation therefore requires $u_2>u_1$: this model predicts that light travels faster in water[<a href=\"#ref-5\">5</a>, §3.5]."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**惠更斯（Christiaan Huygens）的波动解释：** 假设光以波传播，波前上的每一点都会发出次波，经过一段时间后，共同贴住这些次波的包络构成新的波前。在这里的各向同性介质中，传播方向垂直于波前。图2(b)可以按下面的顺序构造。",
+                "en": "**Huygens’s wave explanation.** Huygens assumed that light propagates as a wave and that every point on a wavefront emits a secondary wavelet. After a period of time, the envelope tangent to all these secondary wavelets forms a new wavefront. In these isotropic media, the direction of propagation is perpendicular to the wavefront. Fig. 2(b) can be constructed in the following order."
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "先在水面上选定两个点 $A,B$：入射的平面波前先到达 $A$，再沿水面扫到 $B$。把这两次到达之间的时间记为 $\\Delta t$；它由入射波的方向、空气中的波速和 $AB$ 的长度决定，不能另外任取。设空气和水中的波速分别为 $v_1,v_2$。从波前刚到达 $A$ 的时刻起计时，经过 $\\Delta t$，由 $A$ 发出的水中次波扩展到半径 $v_2\\Delta t$。因此先以 $A$ 为圆心，在水下画出这个半径的圆弧。",
+                "en": "First select two points $A$ and $B$ on the water surface: the incident plane wavefront reaches $A$ first, then sweeps along the surface to $B$. Let the time between these two arrivals be $\\Delta t$; it is determined by the direction of the incident wave, the wave speed in air, and the length $AB$, and cannot be chosen independently. Let the wave speeds in air and water be $v_1$ and $v_2$. Measuring from the moment the wavefront has just reached $A$, after $\\Delta t$ the wavelet emitted into the water from $A$ has expanded to a radius $v_2\\Delta t$. Therefore, first draw in the water an arc centered at $A$ with this radius."
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "此时入射波前恰好到达 $B$，$B$ 处的次波才开始发出。从 $B$ 向水中的圆弧作切线，切点记为 $D$，于是 $AD=v_2\\Delta t$，且 $AD\\perp BD$。$A$ 与 $B$ 之间各点发出的次波，传播时间介于 $\\Delta t$ 与零之间，它们也都与这条线相切；因此 $BD$ 就是这一时刻的折射波前。",
+                "en": "At this moment the incident wavefront has just reached $B$, and $B$ has only just begun to emit a wavelet. Draw a tangent from $B$ to the arc in the water and call the point of tangency $D$; then $AD=v_2\\Delta t$, and $AD\\perp BD$. The wavelets emitted by the points between $A$ and $B$ have travel times between $0$ and $\\Delta t$, and they are also tangent to this line; therefore $BD$ is the refracted wavefront at this moment."
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "再从 $B$ 沿入射光的传播方向反向量取距离 $v_1\\Delta t$，找到空气中的出发点 $C$。由 $C$ 出发的波经过同一段时间恰好到达 $B$，所以在初始时刻，$C$ 与 $A$ 位于同一波前上，连线 $AC$ 就是原来的入射波前。于是 $CB=v_1\\Delta t$，并且 $AC\\perp CB$。",
+                "en": "Next, from $B$ measure off a distance $v_1\\Delta t$ backward along the propagation direction of the incident light, to find the starting point $C$ in air. The wave starting from $C$ reaches $B$ after exactly the same interval, so at the initial moment $C$ and $A$ lie on the same wavefront, and the line $AC$ is the original incident wavefront. Thus $CB=v_1\\Delta t$, and $AC\\perp CB$."
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "到这里，两个直角三角形才都确定下来：$ACB$ 在 $C$ 处为直角，$ADB$ 在切点 $D$ 处为直角，它们共用斜边 $AB$。入射波前 $AC$ 与水面的夹角，等于入射方向与法线的夹角 $\\theta_1$；折射波前 $BD$ 与水面的夹角同理为 $\\theta_2$。分别写出正弦，再相除消去 $AB$ 和 $\\Delta t$：",
+                "en": "At this point, both right triangles are fully determined: $ACB$ has a right angle at $C$ and $ADB$ has a right angle at the point of tangency $D$, and they share the hypotenuse $AB$. The angle between the incident wavefront $AC$ and the water surface equals the angle between the incident direction and the normal, $\\theta_1$; the angle between the refracted wavefront $BD$ and the water surface is likewise $\\theta_2$. Writing out the sines separately and dividing eliminates both $AB$ and $\\Delta t$:"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\begin{aligned}\n\\sin\\theta_1&=\\frac{CB}{AB},\\qquad\n\\sin\\theta_2=\\frac{AD}{AB},\\\\[6pt]\nK&=\\frac{CB}{AD}=\\frac{v_1\\Delta t}{v_2\\Delta t}=\\frac{v_1}{v_2}.\n\\end{aligned}"
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "同样根据空气入水时 $\\theta_2<\\theta_1$，有 $K>1$，因而 $v_2<v_1$：波动解释预言光在水中更慢，与上述微粒模型相反[<a href=\"#ref-5\">5</a>, §§2.3, 3.5]。",
+                "en": "Again, $\\theta_2<\\theta_1$ for light entering water from air, so $K>1$ and therefore $v_2<v_1$. The wave explanation predicts that light travels more slowly in water, contrary to the corpuscular model above[<a href=\"#ref-5\">5</a>, §§2.3, 3.5]."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**费马（Pierre de Fermat）原理：** 费马以最短传播时间解释光路。更一般地，费马原理要求固定端点之间的传播时间取驻值，即路径发生微小改变时，传播时间的一阶变化为零；在这里均匀、无色散介质的平面界面问题中，驻值路径恰好是唯一的极小值路径。改变光穿过界面的位置，并对总时间求极小值，就能得到折射方向。如图2(c)，取界面为 $y=0$，固定空气中的起点 $A=(0,a)$ 和水中的终点 $B=(L,-b)$，其中 $a,b,L>0$ 都是给定的长度。在界面上任取一点 $P=(x,0)$，连接 $AP$ 和 $PB$，就得到一条候选光路。由于每种介质均匀，光在各自介质内沿直线传播；因此端点固定后，选定 $P$ 就确定了整条折线路径。$P$ 只能沿界面移动，所以它的横坐标 $x$ 是决定路径的唯一变量，尚未预先取定。图中的灰色折线表示选择另一界面交点时得到的路径。",
+                "en": "**Fermat’s principle.** Fermat explained light paths in terms of least travel time. More generally, Fermat’s principle states that the travel time between fixed endpoints is stationary: its first-order change vanishes under small variations of the path. In the present geometry—a plane interface between uniform, nondispersive media—the stationary path is the unique minimum. Varying the point where light crosses the interface and minimizing the total time therefore gives the direction of refraction. In Fig. 2(c), take the interface to be $y=0$, and fix the starting point in air at $A=(0,a)$ and the endpoint in water at $B=(L,-b)$, where $a,b,L>0$ are given lengths. Choose any point $P=(x,0)$ on the interface and join $A$ to $P$ and $P$ to $B$ to obtain a candidate path. Because each medium is uniform, light travels in a straight line within it. Thus, with the endpoints fixed, choosing $P$ specifies the entire broken-line path. Since $P$ can move only along the interface, its horizontal coordinate $x$ is the path’s sole variable; it has not been fixed in advance. The gray broken line shows the path obtained by choosing a different crossing point."
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "空气和水中的传播速度分别为给定的 $v_1,v_2$。两段路程除以各自速度，就得到随交点位置 $x$ 改变的总时间 $T(x)$；对 $x$ 求导并令其为零：",
+                "en": "Let the speeds in air and water be the given values $v_1$ and $v_2$. Dividing each segment’s length by its speed gives the total travel time $T(x)$ as a function of the crossing point; differentiating with respect to $x$ and setting the result to zero gives"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\begin{aligned}\nT(x)&=\\frac{\\sqrt{x^2+a^2}}{v_1}+\\frac{\\sqrt{(L-x)^2+b^2}}{v_2},\\\\[6pt]\n\\frac{\\mathrm dT}{\\mathrm dx}&=\\frac{x}{v_1\\sqrt{x^2+a^2}}-\\frac{L-x}{v_2\\sqrt{(L-x)^2+b^2}}=0.\n\\end{aligned}"
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "由两段直角三角形，$\\sin\\theta_1=x/\\sqrt{x^2+a^2}$，$\\sin\\theta_2=(L-x)/\\sqrt{(L-x)^2+b^2}$，代入即得",
+                "en": "From the two right triangles, $\\sin\\theta_1=x/\\sqrt{x^2+a^2}$ and $\\sin\\theta_2=(L-x)/\\sqrt{(L-x)^2+b^2}$. Substitution gives"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\frac{\\sin\\theta_1}{v_1}=\\frac{\\sin\\theta_2}{v_2},\\qquad K=\\frac{v_1}{v_2}."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "因为空气入水时 $K>1$，这也要求 $v_2<v_1$：费马原理得到与惠更斯相同的速度关系，但出发点是传播时间，而不是次波构造[<a href=\"#ref-5\">5</a>, §2.1]。本例中 $T''(x)>0$，且 $T'(0)<0$、$T'(L)>0$，因此驻点确实是区间内唯一的最小值。",
+                "en": "Since $K>1$ for light entering water from air, this also requires $v_2<v_1$. Fermat’s principle therefore gives the same speed relation as Huygens’s construction, but it starts from travel time rather than wavelets[<a href=\"#ref-5\">5</a>, §2.1]. In this example, $T''(x)>0$, while $T'(0)<0$ and $T'(L)>0$, so the stationary point is indeed the unique minimum in the interval."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "三种推导都能给出相同的角度规律，却对空气与水中的速度次序作出不同预测：微粒模型要求水中更快，惠更斯的波前构造与费马原理则要求水中更慢。当时尚无足以裁决这一速度分歧的空气和水中的光速比较结果[<a href=\"#ref-5\">5</a>, §§2.3, 3.5]。",
+        "en": "All three derivations give the same angular law, yet they predict different predictions for the relative speeds of light in air and water. The corpuscular model requires light to travel faster in water, whereas Huygens’s wavefront construction and Fermat’s principle require it to travel more slowly. At the time, no comparison of the speed of light in air and water was available to settle this disagreement[<a href=\"#ref-5\">5</a>, §§2.3, 3.5]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "前面的折射讨论固定了一种颜色。如果让白色的日光通过棱镜，屏上出现的却是一条展开的彩色色带：折射不仅改变了光的方向，还使不同颜色出现在不同位置。这些颜色是棱镜改变光后产生的，还是白光原本就包含的成分？牛顿通过选取色带中的一部分再次折射，再将分开的颜色重新汇合，检验这两种解释[<a href=\"#ref-9\">9</a>, ch. 9, §4]。",
+        "en": "The refraction discussion so far has kept the color fixed. But when white sunlight passes through a prism, an extended band of colors appears on a screen: refraction changes not only the direction of light but also where each color appears. Does the prism create these colors, or are they already components of white light? Newton tested these alternatives by refracting a selected part of the spectrum again and then bringing the separated colors back together [<a href=\"#ref-9\">9</a>, ch. 9, §4]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/prism-experiments.svg",
+      "alt": {
+        "zh": "图3　牛顿棱镜实验的现代原理示意图",
+        "en": "Newton’s prism experiments: separation, selection and repeated refraction, and recombination of colors."
+      },
+      "caption": {
+        "zh": "图3　棱镜实验的现代原理示意。(a) 白光经棱镜展开为色带；(b) 窄孔选取一段颜色送入第二枚棱镜，固定选色孔与第二枚棱镜、转动 $P_1$ 可切换所选颜色；(c) 各色光重新会聚形成白色光斑。",
+        "en": "FIG. 3. Modern schematic of the prism experiments. (a) A prism spreads white light into a spectrum. (b) A narrow aperture selects a band of color and sends it through a second prism; with the aperture and second prism fixed, rotating $P_1$ changes the selected color. (c) The colors converge again to form a white spot."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "zh": "**分色。** 让日光经窄孔和第一枚棱镜投到屏上，屏上出现拉长的色带；不同颜色落在不同位置，显示棱镜把白光展开为颜色序列。",
+          "en": "**Separation into colors.** Sunlight passes through a narrow aperture and the first prism onto a screen, where an elongated band appears. The colors fall at different positions, showing how the prism spreads white light into a spectrum."
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**选色并再次折射。**",
+                "en": "**Selecting a color and refracting it again.**"
+              }
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "zh": "在色带前放置带窄孔的遮板，选取同一窄色段送入第二枚棱镜；它再次折射后仍是一束窄光，没有重新展开成完整色带。",
+                  "en": "A screen with a narrow aperture is placed in front of the spectrum to select a narrow band and send it through a second prism. After refraction, it remains a narrow beam rather than spreading into the full spectrum again."
+                },
+                {
+                  "zh": "固定选色孔和第二枚棱镜 $P_2$，转动第一枚棱镜 $P_1$，让不同色段依次通过同一孔；红端偏折较小、紫端较大，显示各色段的折射性质不同。",
+                  "en": "Keep the selection aperture and second prism $P_2$ fixed, and rotate the first prism $P_1$ so that different color bands pass through the same aperture in turn. The red end is deviated less and the violet end more, showing that the different bands have different refractive properties."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "zh": "**重组。** 让分开的颜色重新汇合，得到白光；这一结果与分色实验相呼应。",
+          "en": "**Recombination.** Bring the separated colors back together to obtain white light, complementing the separation experiment."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这些操作表明，白光由折射性质不同的颜色成分组成。",
+        "en": "These experiments show that white light consists of color components with different refractive properties."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/newton-rings.svg",
+      "alt": {
+        "zh": "图4　牛顿环装置与理论模拟示意",
+        "en": "Newton’s rings: simulated reflected fringes and lens–plate setup."
+      },
+      "caption": {
+        "zh": "图4　牛顿环。(a) 理想单色光近垂直入射时的反射环纹模拟，非实测照片。(b) 透镜—平板装置剖面，中间的空气隙从接触点向外逐渐增厚。",
+        "en": "FIG. 4. Newton’s rings. (a) Simulation of the reflected ring pattern for ideal monochromatic light at near-normal incidence; this is not an experimental photograph. (b) Cross-section of the lens–plate arrangement, with the air gap between them thickening outward from the point of contact."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "棱镜将白光中的不同颜色分开，但即使只取其中一种颜色，光在薄膜中反射时仍会出现新的图样：一圈圈明暗相间的牛顿环（Newton’s rings），如图4(a)的模拟所示。如图4(b)所示，将平凸透镜的凸面放在平玻璃板上，两者之间形成从接触点向外逐渐增厚的空气隙；用单色光照明，在反射光中就会看到一圈圈明暗环[<a href=\"#ref-5\">5</a>, §3.5]。",
+        "en": "A prism separates the colors in white light, but even light of a single color can produce a new pattern when reflected from a thin film: alternating bright and dark concentric rings, known as Newton’s rings, as simulated in Fig. 4(a). As shown in Fig. 4(b), placing the convex surface of a plano-convex lens on a flat glass plate creates an air gap that thickens outward from the point of contact. Under monochromatic illumination, concentric bright and dark rings appear in the reflected light[<a href=\"#ref-5\">5</a>, §3.5]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "空气隙连续增厚，反射光却反复增强、减弱。怎样提出一个理论，解释这种周期性，并将环纹的位置与光的颜色、薄膜厚度联系起来？",
+        "en": "As the air gap thickens continuously, the reflected light repeatedly grows brighter and dimmer. What theory could explain this periodic pattern and relate the ring positions to the color of light and the film thickness?"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "薄膜让同一种颜色的光出现交替明暗，而在晶体中，同一种颜色的光还可能分成两路。如图5(a)所示，透过一块方解石（calcite）看纸上的文字，会看到两个错开的像；即使用单色光，也会出现这种双折射（birefringence）。1669年，巴特尔森（Erasmus Bartholin）报告了这一现象，惠更斯后来用波前构造解释了两束光的折射方向。再加上一块晶体，却出现了这个解释尚未解决的问题[<a href=\"#ref-5\">5</a>, §2.3]。",
+        "en": "A thin film produces alternating brightness and darkness in light of a single color, while a crystal can split light of that same color into two beams. As shown in Fig. 5(a), looking through a piece of calcite at printed text reveals two displaced images; this birefringence occurs even with monochromatic light. Erasmus Bartholin reported the phenomenon in 1669, and Huygens later used a wavefront construction to explain the directions in which the two beams refract. Adding a second crystal, however, raises a question that this explanation did not resolve[<a href=\"#ref-5\">5</a>, §2.3]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "让单色光通过第一块方解石，用遮板挡住分出的其中一路，只让另一路进入第二块晶体。图5(b)比较这同一路光在第二块晶体两种取向下的结果。保持入射方向不变，绕这一路光的传播方向转动第二块晶体：在某些相对取向下，屏上只有一个光斑；在一般取向下，则出现两个光斑。第一块晶体分出的光，经过第二块时是否再次分束，取决于两块晶体的相对取向[<a href=\"#ref-5\">5</a>, §2.3]。",
+        "en": "Send monochromatic light through the first calcite crystal, block one of the two emerging beams, and allow the other to enter a second crystal. Fig. 5(b) compares what happens to this same beam for two orientations of the second crystal. Keeping the incident direction fixed, rotate the second crystal about the beam’s direction of propagation. At certain relative orientations, only one spot appears on the screen; at most other orientations, two spots appear. Whether the beam emerging from the first crystal splits again in the second therefore depends on the crystals’ relative orientation[<a href=\"#ref-5\">5</a>, §2.3]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/calcite-optics.svg",
+      "alt": {
+        "zh": "图5　方解石双像与双晶体实验",
+        "en": "Calcite double image and the two-crystal experiment."
+      },
+      "caption": {
+        "zh": "图5　方解石。(a) 透过晶体观察文字的双像实拍[[10]](#ref-10)。(b) 晶体1分出的两路光经遮板选出一路，再比较晶体2的两种取向：I 出现单斑，II 出现双斑。晶体2的两种摆放表示绕入射光轴转动前后；灰色虚线连接两次观察，不表示光束分叉。",
+        "en": "FIG. 5. Calcite. (a) Photograph of the double image of text viewed through a crystal[[10]](#ref-10). (b) A mask selects one of the two beams emerging from crystal 1; the beam is then compared for two orientations of crystal 2: orientation I produces one spot, and II produces two. The two positions of crystal 2 show its rotation about the incident beam axis; the gray dashed line connects the two observations and does not represent a split beam."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "惠更斯的理论能够确定单块晶体中的两种折射方向，却尚未解释第二块晶体为何会作出这种与取向有关的选择。要继续解释这个实验，需要描述光通过第一块晶体后获得了什么性质，以及这种性质怎样影响后续传播。这种与取向有关的性质，后来被纳入偏振（polarization）的研究[<a href=\"#ref-5\">5</a>, §2.3]。",
+        "en": "Huygens’s theory can determine the two directions of refraction in a single crystal, but it does not explain why the second crystal produces this orientation-dependent outcome. To account for the experiment, one must describe what property light acquires on passing through the first crystal and how that property affects its subsequent propagation. This orientation-dependent property later became part of the study of polarization[<a href=\"#ref-5\">5</a>, §2.3]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这些解释上的困难也不限于薄膜和晶体。即使只让光经过一个小孔或障碍物，阴影边缘附近也会出现条纹，而非简单光路所预期的锐利边界。这类现象称为衍射（diffraction）。格里马尔迪（Francesco Maria Grimaldi）在1665年刊行的遗著中记载，日光经小孔照亮窄物体后，远处屏上的阴影边缘出现彩色亮暗纹，几何阴影内部也有条纹；他还以水流绕过障碍后的起伏作类比[<a href=\"#ref-5\">5</a>, §2.2]。",
+        "en": "These explanatory difficulties are not confined to thin films and crystals. Even when light passes only through a small aperture or around an obstacle, fringes appear near the edge of the shadow instead of the sharp boundary predicted by simple ray paths. This phenomenon is called diffraction. In a posthumously published work from 1665, Francesco Maria Grimaldi reported that sunlight passing through an aperture to illuminate a narrow object produced colored bright and dark bands at the edge of its shadow on a distant screen, as well as fringes within the geometrical shadow. He also compared this effect with ripples in water flowing around an obstacle[<a href=\"#ref-5\">5</a>, §2.2]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "图6给出一个现代例子：激光通过狭缝后，屏上形成中央较亮、两侧明暗交替的条纹。理论需要进一步说明，孔或障碍物的形状和大小怎样决定这些明暗的位置。",
+        "en": "Fig. 6 shows a modern example: after laser light passes through a slit, a bright central fringe and alternating bright and dark fringes appear on the screen to either side. A theory must further explain how the shape and size of an aperture or obstacle determine the positions of these bright and dark regions."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/diffraction.svg",
+      "alt": {
+        "zh": "图6　单缝衍射装置示意与实拍",
+        "en": "Single-slit diffraction: setup schematic and experimental photograph."
+      },
+      "caption": {
+        "zh": "图6　单缝衍射。(a) 激光、狭缝与屏的原理示意，虚线表示传播区域。(b) 现代 Fresnel 单缝衍射实拍（裁切）[[11]](#ref-11)。",
+        "en": "FIG. 6. Single-slit diffraction. (a) Schematic of a laser, slit, and screen; the dashed lines indicate the propagation region. (b) Cropped photograph of a modern Fresnel single-slit diffraction experiment[[11]](#ref-11)."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因此，关于光的本性的理论，除了给出正确的反射、折射方向，还要解释这些实验：光为什么在一些位置增强、在另一些位置减弱，通过晶体后又为什么对取向变得敏感？微粒说与波动说对同一折射光路的解释，至此需要接受更广泛的检验。接下来，先从明暗变化入手，考察两部分光到达同一位置时会发生什么[<a href=\"#ref-5\">5</a>, §§2.2–2.3, 3.5]。",
+        "en": "A theory of the nature of light must therefore do more than give the correct directions of reflection and refraction; it must also explain these experiments. Why is light enhanced at some positions and weakened at others? Why does its behavior after passing through a crystal become sensitive to orientation? The corpuscular and wave explanations of the same refracted ray must now face a broader range of tests. We begin with the changes in brightness and ask what happens when two portions of light arrive at the same point[<a href=\"#ref-5\">5</a>, §§2.2–2.3, 3.5]."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "3. 波动光学的建立：19世纪初",
+        "en": "3. The Establishment of Wave Optics: The Early Nineteenth Century"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "上一节看到的薄膜明暗，为托马斯·杨（Thomas Young）提供了线索：反射光来自薄膜的两个界面，从第二个界面返回的光多走一段路，两部分光便有了传播时间差。杨意识到，这个时间差可能决定它们相遇后的强弱，并把它与声学中的拍联系起来——两个音调相近的音叠加时，声音会忽强忽弱。他由此写出一条“普遍规律”：同一束光的两部分经不同路径、沿相同或几乎相同的方向到达眼睛时，颜色的出现和消失取决于路径长度之差；在同一介质中，路径差为某一长度的整数倍时，同一颜色重复出现[<a href=\"#ref-5\">5</a>, §5.1]。",
+        "en": "The bright and dark bands of thin films seen in the previous section gave Thomas Young a clue: the reflected light comes from the two interfaces of the film, and the part returning from the second interface travels an extra distance, so the two parts acquire a relative time delay. Young realized that this time difference might determine how strong they are after they meet, and he connected it with beats in acoustics—when two tones of nearly equal pitch are superposed, the sound grows alternately loud and faint. From this he wrote down a “universal law”: when two parts of the same beam of light reach the eye by different paths along the same or nearly the same direction, the appearance and disappearance of a color depend on the difference in path length; in the same medium, when the path difference is an integer multiple of a certain length, the same color reappears [<a href=\"#ref-5\">5</a>, §5.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "用波的语言描述，一个沿 $+x$ 方向传播的简谐扰动可以写成",
+        "en": "Described in the language of waves, a harmonic disturbance propagating in the $+x$ direction can be written as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\psi(x,t)=A\\cos(\\omega t-kx+\\phi)."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这里 $\\psi$ 表示扰动的大小，$A$ 是振幅，$\\phi$ 是初相位；$k=2\\pi/\\lambda$ 是波数，$\\lambda$ 是波长，$\\omega=2\\pi\\nu$ 是角频率，$\\nu$ 是频率。固定位置看，$-kx+\\phi$ 是常数，可以记为 $\\alpha$，相位便写成 $\\omega t+\\alpha$，扰动每隔一个周期 $T=1/\\nu$ 重复；固定时刻看，波形每隔一个波长 $\\lambda$ 重复，传播速度为 $v=\\lambda\\nu$。如图7中的蓝线所示，扰动在 $-A$ 与 $A$ 之间周期变化；横轴 $\\chi$ 表示振动的相位[<a href=\"#ref-6\">6</a>, §§2.1–2.2]。",
+        "en": "Here $\\psi$ denotes the magnitude of the disturbance, $A$ is the amplitude, and $\\phi$ is the initial phase; $k=2\\pi/\\lambda$ is the wave number, $\\lambda$ is the wavelength, $\\omega=2\\pi\\nu$ is the angular frequency, and $\\nu$ is the frequency. At a fixed position, $-kx+\\phi$ is a constant that can be denoted by $\\alpha$, so the phase becomes $\\omega t+\\alpha$ and the disturbance repeats every period $T=1/\\nu$; viewed at a fixed instant, the waveform repeats every wavelength $\\lambda$, and the propagation speed is $v=\\lambda\\nu$. As the blue curve in Fig. 7 shows, the disturbance varies periodically between $-A$ and $A$; the horizontal axis $\\chi$ denotes the phase of the vibration [<a href=\"#ref-6\">6</a>, §§2.1–2.2]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "如果两列同频、同振动方向的波在一起，各点的扰动相加。先取振幅都为 $A$ 的情况，在一个观察点把第一列波的相位记为 $\\chi=\\omega t+\\alpha_1$，第二列比它落后 $\\delta=\\alpha_1-\\alpha_2$，则",
+        "en": "If two waves of the same frequency and the same direction of vibration are present together, their disturbances add at every point. Take first the case in which both have amplitude $A$; at an observation point write the phase of the first wave as $\\chi=\\omega t+\\alpha_1$ and let the second lag behind it by $\\delta=\\alpha_1-\\alpha_2$. Then"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\psi_1&=A\\cos\\chi,\\qquad \\psi_2=A\\cos(\\chi-\\delta),\\\\\n\\psi&=\\psi_1+\\psi_2=2A\\cos\\frac{\\delta}{2}\\cos\\!\\left(\\chi-\\frac{\\delta}{2}\\right).\n\\end{aligned}"
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s3-superposition.svg",
+      "alt": {
+        "zh": "图7　两列等振幅、同频波的叠加",
+        "en": "Superposition of two equal-amplitude waves of the same frequency for phase differences 0, π/2 and π."
+      },
+      "caption": {
+        "zh": "图7　两列等振幅、同频波的叠加：蓝线与橙线为两列波，绿线为合振动；纵轴以单列波振幅 $A$ 归一化，横轴为相位 $\\chi$。$I_0$ 为单列波的强度；理论示意。",
+        "en": "FIG. 7. Superposition of two equal-amplitude waves of the same frequency: the blue and orange curves are the two waves, and the green curve is the resultant; the vertical axis is normalized to the single-wave amplitude $A$, and the horizontal axis is the phase $\\chi$. $I_0$ is the intensity of a single wave; theoretical schematic."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "最后一步用了余弦的和差化积公式。叠加后的频率不变，振幅为 $2A|\\cos(\\delta/2)|$。考虑三种情况：",
+        "en": "The last step used the sum-to-product formula for cosines. The frequency is unchanged after superposition, and the amplitude is $2A|\\cos(\\delta/2)|$. Consider three cases:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**同相：$\\delta=0$。** 两列波同时到达波峰，也同时到达波谷。代入得",
+                "en": "**In phase: $\\delta=0$.** The two waves reach their crests at the same time and their troughs at the same time. Substituting gives"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\psi=A\\cos\\chi+A\\cos\\chi=2A\\cos\\chi."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "合振幅为 $2A$，是单列波的两倍，称为相长干涉。如图7(a)所示，蓝线与橙线重合，绿色合振动的波峰和波谷都扩大一倍。",
+                "en": "The resultant amplitude is $2A$, twice that of a single wave, which is called constructive interference. As Fig. 7(a) shows, the blue and orange curves coincide, and the crests and troughs of the green resultant vibration are both doubled."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**相差四分之一个周期：$\\delta=\\pi/2$。** 一列波达到最大值时，另一列恰好过零。代入得",
+                "en": "**A quarter-period out of phase: $\\delta=\\pi/2$.** When one wave reaches its maximum, the other passes through zero. Substituting gives"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\psi=A\\cos\\chi+A\\sin\\chi=\\sqrt2A\\cos\\!\\left(\\chi-\\frac{\\pi}{4}\\right)."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "合振幅为 $\\sqrt2A$，小于完全同相时的 $2A$。如图7(b)所示，两列波的波峰错开，合振动的波峰位于二者之间。",
+                "en": "The resultant amplitude is $\\sqrt2A$, smaller than the $2A$ at perfect phase agreement. As Fig. 7(b) shows, the crests of the two waves are offset, and the crest of the resultant vibration lies between them."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**反相：$\\delta=\\pi$。** 一列波的波峰恰好对着另一列的波谷，任意时刻二者大小相等、符号相反。代入得",
+                "en": "**In antiphase: $\\delta=\\pi$.** The crest of one wave coincides with the trough of the other, and at any instant the two are equal in magnitude and opposite in sign. Substituting gives"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\psi=A\\cos\\chi+A\\cos(\\chi-\\pi)=A\\cos\\chi-A\\cos\\chi=0."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "两列波完全抵消，称为相消干涉。如图7(c)所示，绿色合振动是一条零线。",
+                "en": "The two waves cancel completely, which is called destructive interference. As Fig. 7(c) shows, the green resultant vibration is a line at zero."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "屏或眼睛记录的是许多个周期上的平均光强，而不是瞬时扰动。光强正比于扰动平方的时间平均，写成 $I=C\\langle\\psi^2\\rangle_t$，其中 $C>0$ 为比例常数。这里的时间平均，就是把一个周期内的扰动平方积分，再除以周期 $T=2\\pi/\\omega$。对任意不随时间变化的相位 $\\alpha$，利用 $\\cos^2 u=(1+\\cos 2u)/2$，有",
+        "en": "A screen or the eye records the average light intensity over many periods, not the instantaneous disturbance. The intensity is proportional to the time average of the square of the disturbance, written as $I=C\\langle\\psi^2\\rangle_t$, where $C>0$ is a proportionality constant. The time average here means integrating the square of the disturbance over one period and then dividing by the period $T=2\\pi/\\omega$. For any time-independent phase $\\alpha$, using $\\cos^2 u=(1+\\cos 2u)/2$, one has"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\bigl\\langle\\cos^2(\\omega t+\\alpha)\\bigr\\rangle_t\n&=\\frac{1}{T}\\int_0^T\\cos^2(\\omega t+\\alpha)\\,\\mathrm dt\\\\\n&=\\frac{1}{2T}\\int_0^T\\bigl[1+\\cos(2\\omega t+2\\alpha)\\bigr]\\,\\mathrm dt\\\\\n&=\\frac12+\\frac{\\sin(2\\omega T+2\\alpha)-\\sin(2\\alpha)}{4\\omega T}\\\\\n&=\\frac12.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "最后一步用了 $2\\omega T=4\\pi$，所以两个正弦值相同。先算单列波：将 $\\psi_1=A\\cos\\chi$ 代入光强定义，振幅 $A$ 不随时间变化，可以移到平均号外，得到",
+        "en": "The last step used $2\\omega T=4\\pi$, so the two sine values are equal. First compute the single wave: substituting $\\psi_1=A\\cos\\chi$ into the definition of intensity, the amplitude $A$ does not vary with time and can be moved outside the averaging sign, giving"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "I_0=C\\langle\\psi_1^2\\rangle_t\n=CA^2\\langle\\cos^2\\chi\\rangle_t\n=\\frac{CA^2}{2}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "再算两列波叠加后的光强。把前面求出的合振动完整代入；由于相位差 $\\delta$ 固定，$2A\\cos(\\delta/2)$ 也可以移到平均号外：",
+        "en": "Now compute the intensity after the two waves are superposed. Substitute the full resultant vibration found above; since the phase difference $\\delta$ is fixed, $2A\\cos(\\delta/2)$ can also be moved outside the averaging sign:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nI&=C\\left\\langle\\left[2A\\cos\\left(\\frac\\delta2\\right)\n\\cos\\left(\\chi-\\frac\\delta2\\right)\\right]^2\\right\\rangle_t\\\\\n&=4CA^2\\cos^2\\left(\\frac\\delta2\\right)\n\\left\\langle\\cos^2\\left(\\chi-\\frac\\delta2\\right)\\right\\rangle_t\\\\\n&=2CA^2\\cos^2\\left(\\frac\\delta2\\right)\\\\\n&=4I_0\\cos^2\\left(\\frac\\delta2\\right).\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "倒数第二步仍用了余弦平方的平均值 $1/2$；最后一步用了 $CA^2=2I_0$。",
+        "en": "The second-to-last step again used the average value of the cosine squared, $1/2$; the last step used $CA^2=2I_0$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "代入图7的三种相位差，分别得到 $4I_0$、$2I_0$ 和 $0$：同相时振幅加倍，光强变成四倍；相差四分之一个周期时光强等于两束各自光强之和；反相时光强为零。",
+        "en": "Substituting the three phase differences of Fig. 7 gives $4I_0$, $2I_0$, and $0$, respectively: in phase the amplitude is doubled and the intensity becomes four times as large; a quarter-period out of phase the intensity equals the sum of the two individual intensities; in antiphase the intensity is zero."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "如果两列波的振幅不同，仍先相加，再平方，最后求平均。设振幅 $A_1,A_2$ 均非负，频率相同，相位差 $\\delta=\\alpha_1-\\alpha_2$ 固定：",
+        "en": "If the two waves have different amplitudes, one still first adds them, then squares, and finally averages. Let the amplitudes $A_1,A_2$ both be non-negative, with the same frequency and a fixed phase difference $\\delta=\\alpha_1-\\alpha_2$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\psi_1&=A_1\\cos(\\omega t+\\alpha_1),\\\\\n\\psi_2&=A_2\\cos(\\omega t+\\alpha_2),\\\\\n\\psi&=\\psi_1+\\psi_2.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "平方时除了各自的平方，还多出一个乘积项：",
+        "en": "When squaring, besides the squares of the individual terms there is also a cross term:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\psi^2&=\\psi_1^2+\\psi_2^2+2\\psi_1\\psi_2,\\\\\n\\langle\\psi^2\\rangle_t\n&=\\frac{A_1^2}{2}+\\frac{A_2^2}{2}+2\\langle\\psi_1\\psi_2\\rangle_t.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "前两项已经用到了刚才算出的余弦平方平均值。乘积项用积化和差公式展开：",
+        "en": "The first two terms already use the average of the cosine squared computed just above. The cross term is expanded with the product-to-sum formula:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\psi_1\\psi_2\n&=A_1A_2\\cos(\\omega t+\\alpha_1)\\cos(\\omega t+\\alpha_2)\\\\\n&=\\frac{A_1A_2}{2}\\bigl[\\cos(\\alpha_1-\\alpha_2)\n+\\cos(2\\omega t+\\alpha_1+\\alpha_2)\\bigr].\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "方括号内第一项是常数，平均后不变；第二项随时间振荡，其平均为",
+        "en": "The first term inside the brackets is constant and is unchanged by averaging; the second term oscillates in time, and its average is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\frac1T\\int_0^T\\cos(2\\omega t+\\alpha_1+\\alpha_2)\\,\\mathrm dt\n&=\\frac{\\sin(2\\omega T+\\alpha_1+\\alpha_2)-\\sin(\\alpha_1+\\alpha_2)}{2\\omega T}\\\\\n&=0.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "所以 $\\langle\\psi_1\\psi_2\\rangle_t=(A_1A_2/2)\\cos\\delta$。代回平方平均，再乘以 $C$，便得到光强：",
+        "en": "Therefore $\\langle\\psi_1\\psi_2\\rangle_t=(A_1A_2/2)\\cos\\delta$. Substituting back into the mean square and multiplying by $C$ gives the intensity:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\langle\\psi^2\\rangle_t\n&=\\frac{A_1^2}{2}+\\frac{A_2^2}{2}+A_1A_2\\cos\\delta,\\\\\nI&=\\frac{CA_1^2}{2}+\\frac{CA_2^2}{2}+CA_1A_2\\cos\\delta.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两列波单独照明时的光强分别为 $I_1=CA_1^2/2$、$I_2=CA_2^2/2$，因此",
+        "en": "The intensities when the two waves illuminate separately are $I_1=CA_1^2/2$ and $I_2=CA_2^2/2$, respectively, so"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "2\\sqrt{I_1I_2}\n=2\\sqrt{\\frac{CA_1^2}{2}\\frac{CA_2^2}{2}}\n=CA_1A_2."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这样就可以把结果完全写成光强的形式：",
+        "en": "The result can thus be written entirely in terms of intensities:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "I=I_1+I_2+2\\sqrt{I_1I_2}\\cos\\delta."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "前两项是两列波各自的光强，第三项是干涉项：同相时它为正，反相时它为负。因此反相时的最小光强为 $(\\sqrt{I_1}-\\sqrt{I_2})^2$，只有两束光强相等时才能完全抵消[<a href=\"#ref-6\">6</a>, §§2.4, 9.1]。",
+        "en": "The first two terms are the intensities of the two waves individually, and the third is the interference term: it is positive in phase and negative in antiphase. Hence the minimum intensity in antiphase is $(\\sqrt{I_1}-\\sqrt{I_2})^2$, and complete cancellation occurs only when the two intensities are equal [<a href=\"#ref-6\">6</a>, §§2.4, 9.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这一现象可以用一个简单的实验显示：让同一束光经过两个相距很近的小孔，再在后方放一块屏，两部分光重叠处就能出现明暗条纹。杨先让阳光通过一个小孔，以它作为光源照亮后面的双孔；这个前置小孔使两孔处的振动能够保持稳定的相位关系。今天通常用狭缝代替小孔，以透过更多光。计算时取单色光，让光源到两缝的距离相等，使两缝处的光同相[<a href=\"#ref-6\">6</a>, §9.3.1]。",
+        "en": "This phenomenon can be shown with a simple experiment: let a single beam of light pass through two very close small holes and place a screen behind them; where the two parts of the light overlap, bright and dark fringes appear. Young first let sunlight pass through a small hole and used it as a source to illuminate the two holes behind it; this upstream pinhole keeps the vibrations at the two holes in a stable phase relation. Today slits are usually used instead of small holes, so that more light is transmitted. In the calculation, monochromatic light is taken and the source is placed at equal distances from the two slits, so that the light at the two slits is in phase [<a href=\"#ref-6\">6</a>, §9.3.1]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s3-young.svg",
+      "alt": {
+        "zh": "图8　双缝几何、路径差与屏上光强分布",
+        "en": "Double-slit geometry, path difference, and the intensity distribution on the screen."
+      },
+      "caption": {
+        "zh": "图8　(a) 双缝与屏的位置关系，标出缝距 $d$、屏距 $L$、屏上坐标 $y$ 和观察方向 $\\theta$。(b) 远场近似下的路径差放大图：$S_1B$ 垂直于下方光路，$S_2B=d\\sin\\theta$。(c) 屏上光强分布，$I$ 向右增大；(a)中的 $P$ 位于第一条亮纹 $y=\\lambda L/d$。原理示意，非比例绘制。",
+        "en": "FIG. 8. (a) The geometric relation between the two slits and the screen, showing the slit separation $d$, the screen distance $L$, the screen coordinate $y$, and the observation direction $\\theta$. (b) Magnified path-difference diagram in the far-field approximation: $S_1B$ is perpendicular to the lower light path, and $S_2B=d\\sin\\theta$. (c) Intensity distribution on the screen, with $I$ increasing to the right; the point $P$ in (a) lies on the first bright fringe at $y=\\lambda L/d$. Schematic, not drawn to scale."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "设两缝中心相距 $d$，到屏的距离为 $L$，屏上一点 $P$ 距中央点 $O$ 为 $y$，两缝到 $P$ 的距离分别是 $r_1$、$r_2$（图8）。两缝处的光同相，所以 $P$ 点的相位差只来自路径差 $\\Delta r=r_2-r_1$：多走一个波长便落后一个周期，多走 $\\Delta r$ 对应的相位差为 $\\delta=2\\pi\\Delta r/\\lambda$。$\\theta$ 是从两缝中点看向 $P$ 的方向与中轴的夹角，图8(a)中有 $\\tan\\theta=y/L$。当 $L\\gg d$ 时，两条路径几乎平行，可以按图8(b)放大画出：从 $S_1$ 向下方光路作垂线，垂足为 $B$。$S_1$ 与 $B$ 到远处 $P$ 的路程近似相等，因此第二束多走的路程就是 $S_2B$。直角三角形 $S_1S_2B$ 中，斜边 $S_1S_2=d$，$S_1$ 处的夹角也是 $\\theta$，故 $S_2B=d\\sin\\theta$。再取 $|y|\\ll L$ 的小角范围，$\\sin\\theta\\simeq\\tan\\theta=y/L$，于是",
+        "en": "Let the centers of the two slits be separated by $d$, the distance to the screen be $L$, and a point $P$ on the screen be a distance $y$ from the central point $O$; the distances from the two slits to $P$ are $r_1$ and $r_2$ (Fig. 8). The light at the two slits is in phase, so the phase difference at $P$ comes only from the path difference $\\Delta r=r_2-r_1$: an extra wavelength of travel means a lag of one period, and an extra travel $\\Delta r$ corresponds to a phase difference $\\delta=2\\pi\\Delta r/\\lambda$. Here $\\theta$ is the angle between the direction from the midpoint of the two slits to $P$ and the central axis, and in Fig. 8(a) $\\tan\\theta=y/L$. When $L\\gg d$, the two paths are nearly parallel and can be drawn enlarged as in Fig. 8(b): drop a perpendicular from $S_1$ to the lower light path, with foot $B$. The distances from $S_1$ and from $B$ to the distant $P$ are approximately equal, so the extra distance traveled by the second beam is $S_2B$. In the right triangle $S_1S_2B$, the hypotenuse $S_1S_2=d$ and the angle at $S_1$ is also $\\theta$, so $S_2B=d\\sin\\theta$. With the additional small-angle approximation $|y|\\ll L$, $\\sin\\theta\\simeq\\tan\\theta=y/L$, and hence"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\Delta r\\simeq d\\sin\\theta\\simeq\\frac{dy}{L},\\qquad \\delta=\\frac{2\\pi}{\\lambda}\\Delta r\\simeq\\frac{2\\pi dy}{\\lambda L}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "在屏的中央区域，若每条缝单独照明时的光强都近似为常数 $I_0$，代入等振幅公式得",
+        "en": "In the central region of the screen, if the intensity when each slit illuminates separately is approximately a constant $I_0$, substituting into the equal-amplitude formula gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "I(y)=4I_0\\cos^2\\!\\left(\\frac{\\pi dy}{\\lambda L}\\right)."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "亮纹处两列波同相，暗纹处两列波反相，因此",
+        "en": "At a bright fringe the two waves are in phase, and at a dark fringe they are in antiphase, therefore"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "\\begin{aligned}\n\\text{亮纹：}\\quad &\\Delta r=m\\lambda,\n&y_m^{\\text{亮}}&=\\frac{m\\lambda L}{d},\\\\\n\\text{暗纹：}\\quad &\\Delta r=(m+\\tfrac12)\\lambda,\n&y_m^{\\text{暗}}&=\\frac{(m+\\tfrac12)\\lambda L}{d},\\\\\n\\text{条纹间距：}\\quad &&\\Delta y&=y_{m+1}^{\\text{亮}}-y_m^{\\text{亮}}=\\frac{\\lambda L}{d}.\n\\end{aligned}",
+        "en": "\\begin{aligned}\n\\text{bright fringes: }\\quad &\\Delta r=m\\lambda,\n&y_m^{\\text{bright}}&=\\frac{m\\lambda L}{d},\\\\\n\\text{dark fringes: }\\quad &\\Delta r=(m+\\tfrac12)\\lambda,\n&y_m^{\\text{dark}}&=\\frac{(m+\\tfrac12)\\lambda L}{d},\\\\\n\\text{fringe spacing: }\\quad &&\\Delta y&=y_{m+1}^{\\text{bright}}-y_m^{\\text{bright}}=\\frac{\\lambda L}{d}.\n\\end{aligned}"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "其中 $m$ 为整数。图8中的 $P$ 正好落在 $m=1$ 的亮纹上，右侧画出按此公式得到的强度分布。[<a href=\"#ref-6\">6</a>, §9.3.1]",
+        "en": "Here $m$ is an integer. The point $P$ in Fig. 8 lies exactly on the bright fringe with $m=1$, and the intensity distribution obtained from this formula is drawn on the right. [<a href=\"#ref-6\">6</a>, §9.3.1]"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "双缝用两个孔径分出两部分光，薄膜则用两个界面的反射完成这件事。回到上一节的牛顿环：把平凸透镜的凸面轻放在平玻璃板上，两者之间形成从中心向外逐渐增厚的空气膜。用近垂直的单色光照明，在反射光中便能看到同心的明暗环。",
+        "en": "The double slit splits the light into two parts by two apertures, whereas a thin film does this by reflection at two interfaces. Returning to Newton’s rings from the previous section, consider a plano-convex lens with its convex surface resting gently on a flat glass plate. An air film between them thickens gradually from the center outward. Illuminated with nearly perpendicular monochromatic light, concentric bright and dark rings are seen in the reflected light."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s3-newton-rings.svg",
+      "alt": {
+        "zh": "图9　牛顿环：空气膜两个界面的反射光与透镜—平板几何",
+        "en": "Newton’s rings: reflections from the two interfaces of the air film, and the lens–plate geometry."
+      },
+      "caption": {
+        "zh": "图9　(a) 空气膜两个界面产生的反射光，倾斜光路用于区分两束光，计算取近垂直入射。(b) 透镜球面与平板形成的空气膜：$R$ 为曲率半径，$r$ 为到接触点的径向距离，$h$ 为膜厚。原理示意，非比例绘制。",
+        "en": "FIG. 9. (a) The reflected light produced by the two interfaces of the air film; the paths are tilted so that the two beams can be distinguished, while the calculation takes near-perpendicular incidence. (b) The air film formed by the spherical surface of the lens and the flat plate: $R$ is the radius of curvature, $r$ is the radial distance from the contact point, and $h$ is the film thickness. Schematic, not drawn to scale."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "如图9(a)所示，第一部分光在透镜底面的玻璃—空气界面反射；第二部分光进入空气膜，在下方的空气—玻璃界面反射后再返回。设局部膜厚为 $h$，第二部分光在膜内多往返一次，近垂直入射时多走约 $2h$。以 $\\lambda$ 表示光在空气中的波长，传播造成的相位差为 $4\\pi h/\\lambda$。",
+        "en": "As Fig. 9(a) shows, the first part of the light is reflected at the glass–air interface on the lower surface of the lens; the second part enters the air film and returns after reflection at the air–glass interface below. Let the local film thickness be $h$; the second part makes one extra round trip inside the film, traveling about $2h$ more at near-perpendicular incidence. Taking $\\lambda$ to denote the wavelength of light in air, the phase difference due to propagation is $4\\pi h/\\lambda$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "先只考虑这段传播路程差。取两束反射光振幅近似相等，每束的强度为 $I_0$，代入前面的干涉公式，得到",
+        "en": "First consider only the phase difference due to propagation. Taking the amplitudes of the two reflected beams to be approximately equal, each with intensity $I_0$, and substituting into the interference formula above gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\delta_{\\rm path}&=\\frac{4\\pi h}{\\lambda},\\\\\nI_{\\rm path}(h)&=4I_0\\cos^2\\frac{\\delta_{\\rm path}}{2}\n=4I_0\\cos^2\\!\\left(\\frac{2\\pi h}{\\lambda}\\right).\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这个结果已经给出了随膜厚交替出现的明暗，却在中心出了问题：理想接触点处 $h=0$，公式给出 $I_{\\rm path}(0)=4I_0$，中心应当最亮；实验看到的却是中心暗斑。回看图4(a)，反射环纹模拟的正中央也是一个暗斑，而第一圈亮环在它的外侧。仅仅计算第二束光多走了多少路，还不能解释这一观察。",
+        "en": "This result already gives alternating bright and dark bands as the film thickness changes, but it fails at the center: at the ideal point of contact $h=0$, the formula gives $I_{\\rm path}(0)=4I_0$, so the center should be brightest; what the experiment shows is a dark spot at the center. Looking back at Fig. 4(a), the simulation of the reflected rings also has a dark spot at its exact center, with the first bright ring outside it. Merely counting how much farther the second beam travels cannot explain this observation."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "如果两个界面的反射使两束光额外相差半个周期，结果就会改变。半个周期对应额外的相对 $\\pi$ 相移，在相位上等效于增加 $\\lambda/2$ 的路程差，并不是光实际多走了这段路；把它加到传播造成的相位差上，得到",
+        "en": "If the reflections at the two interfaces make the two beams differ by an extra half period, the result changes. Half a period corresponds to an additional relative phase shift of $\\pi$, which is phase-equivalent to an additional path difference of $\\lambda/2$, not an extra distance actually traveled by the light. Adding it to the phase difference due to propagation gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\delta=\\frac{4\\pi h}{\\lambda}+\\pi."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "重新代入光强公式：",
+        "en": "Substituting back into the intensity formula:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nI(h)&=4I_0\\cos^2\\frac{\\delta}{2}\\\\\n&=4I_0\\cos^2\\!\\left(\\frac{2\\pi h}{\\lambda}+\\frac{\\pi}{2}\\right)\\\\\n&=4I_0\\sin^2\\!\\left(\\frac{2\\pi h}{\\lambda}\\right).\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "现在 $h=0$ 时 $I(0)=0$，中心变成暗的。向外移动，膜厚增加，正弦平方在零与一之间周期变化，因此亮暗条件为",
+        "en": "Now $I(0)=0$ when $h=0$, so the center becomes dark. Moving outward, the film thickness increases, and the sine squared varies periodically between zero and one; hence the bright and dark conditions are"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "\\begin{aligned}\n\\text{暗纹：}\\quad &\\frac{2\\pi h}{\\lambda}=m\\pi\n&&\\Longrightarrow\\quad 2h=m\\lambda,\\\\\n\\text{亮纹：}\\quad &\\frac{2\\pi h}{\\lambda}=(m+\\tfrac12)\\pi\n&&\\Longrightarrow\\quad 2h=(m+\\tfrac12)\\lambda,\n\\end{aligned}\n\\qquad m=0,1,2,\\ldots .",
+        "en": "\\begin{aligned}\n\\text{dark fringes: }\\quad &\\frac{2\\pi h}{\\lambda}=m\\pi\n&&\\Longrightarrow\\quad 2h=m\\lambda,\\\\\n\\text{bright fringes: }\\quad &\\frac{2\\pi h}{\\lambda}=(m+\\tfrac12)\\pi\n&&\\Longrightarrow\\quad 2h=(m+\\tfrac12)\\lambda,\n\\end{aligned}\n\\qquad m=0,1,2,\\ldots ."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "补上这个相对半周期差，中心暗斑和随膜厚变化的亮暗位置便与观察相符[<a href=\"#ref-6\">6</a>, §9.4]。1802年，杨在讨论薄泡反射光的中央暗斑时，正是根据这类现象提出：光在通向折射率较高介质的界面反射时，应额外延迟半个波长。他还检验了这条规则的另一项预言：在折射率不同的平板与凸透镜之间加入折射率介于二者之间的液体，中央斑会变亮[<a href=\"#ref-5\">5</a>, §5.1]。",
+        "en": "With this relative half-period difference added, the central dark spot and the positions of the bright and dark bands as the film thickness changes agree with observation [<a href=\"#ref-6\">6</a>, §9.4]. In 1802, when discussing the central dark spot in light reflected from a thin bubble, Young proposed on the basis of just such phenomena that light should be delayed by an extra half wavelength when reflected from a boundary to a medium of higher refractive index. He also tested another prediction of this rule: when a liquid whose refractive index lies between those of the plate and the lens is introduced between a flat plate and a convex lens of different refractive indices, the central spot becomes bright [<a href=\"#ref-5\">5</a>, §5.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这项修正解释了中心暗斑，却留下了新的问题：为什么反射会使两束光额外相差半个周期？仅凭波的传播与叠加，还不能确定界面处发生的相位变化；这需要进一步说明光与介质的相互作用，留待后文讨论。",
+        "en": "This correction explains the central dark spot but leaves a new question: why does reflection make the two beams differ by an extra half period? From the propagation and superposition of waves alone, one cannot determine the phase change that occurs at the interface; this requires a further account of the interaction between light and the medium, to be discussed later."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "为什么条纹是圆环，又为什么越往外越密？如图9(b)所示，透镜底面是半径为 $R$ 的球面，离接触点相同距离 $r$ 的位置具有相同的膜厚，因而也有相同的光强。由球心、接触点和球面上一点构成的几何关系，",
+        "en": "Why are the fringes circular rings, and why are they denser farther out? As Fig. 9(b) shows, the lower surface of the lens is a spherical surface of radius $R$, and positions at the same distance $r$ from the contact point have the same film thickness and therefore the same intensity. From the geometry formed by the center of the sphere, the contact point, and a point on the spherical surface,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nr^2+(R-h)^2&=R^2,\\\\\nr^2&=2Rh-h^2\\simeq2Rh,\\qquad h\\ll R,\\\\\nh(r)&\\simeq\\frac{r^2}{2R}.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把膜厚代入亮暗条件，得到环的半径：",
+        "en": "Substituting the film thickness into the bright and dark conditions gives the radii of the rings:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "\\begin{aligned}\n\\text{暗环：}\\quad &r_m^2=m\\lambda R,\\\\\n\\text{亮环：}\\quad &(r_m^{\\rm bright})^2=(m+\\tfrac12)\\lambda R.\n\\end{aligned}",
+        "en": "\\begin{aligned}\n\\text{dark rings: }\\quad &r_m^2=m\\lambda R,\\\\\n\\text{bright rings: }\\quad &(r_m^{\\rm bright})^2=(m+\\tfrac12)\\lambda R.\n\\end{aligned}"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这里 $r_m$ 是从中心接触点到第 $m$ 条暗环的距离，$r_{m+1}$ 是下一条、也就是更外侧暗环的半径；$r_0=0$ 对应中心暗点。大写 $R$ 则是透镜球面的曲率半径，对同一块透镜是固定的。两条相邻暗环之间的径向间距为 $\\Delta r_m=r_{m+1}-r_m$。由暗环公式，",
+        "en": "Here $r_m$ is the distance from the central contact point to the $m$-th dark ring, and $r_{m+1}$ is the radius of the next outer dark ring; $r_0=0$ corresponds to the central dark spot. The capital $R$ is the radius of curvature of the spherical surface of the lens, which is fixed for a given lens. The radial spacing between two adjacent dark rings is $\\Delta r_m=r_{m+1}-r_m$. From the dark-ring formula,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nr_{m+1}^2-r_m^2\n&=(m+1)\\lambda R-m\\lambda R=\\lambda R,\\\\\n(r_{m+1}-r_m)(r_{m+1}+r_m)&=\\lambda R,\\\\\n\\Delta r_m&=\\frac{\\lambda R}{r_{m+1}+r_m}.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "向外数，$r_m$ 和 $r_{m+1}$ 都增大，分母增大，而分子 $\\lambda R$ 不变，所以间距 $\\Delta r_m$ 逐渐减小。",
+        "en": "Counting outward, both $r_m$ and $r_{m+1}$ increase, so the denominator increases while the numerator $\\lambda R$ is unchanged; hence the spacing $\\Delta r_m$ gradually decreases."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "例如，取波长 $\\lambda=500\\,\\mathrm{nm}$、透镜曲率半径 $R=2\\,\\mathrm m$，则",
+        "en": "For example, taking wavelength $\\lambda=500\\,\\mathrm{nm}$ and lens radius of curvature $R=2\\,\\mathrm m$, then"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\lambda R=(500\\times10^{-9}\\,\\mathrm m)(2\\,\\mathrm m)\n=10^{-6}\\,\\mathrm m^2=1\\,\\mathrm{mm}^2,\n\\qquad r_m=\\sqrt m\\,\\mathrm{mm}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "第一、第二、第三条暗环的半径与间距分别为",
+        "en": "The radii and spacings of the first, second, and third dark rings are, respectively,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nr_1&=1.000\\,\\mathrm{mm},\\qquad\nr_2\\simeq1.414\\,\\mathrm{mm},\\qquad\nr_3\\simeq1.732\\,\\mathrm{mm},\\\\\n\\Delta r_1&=r_2-r_1\\simeq0.414\\,\\mathrm{mm},\\\\\n\\Delta r_2&=r_3-r_2\\simeq0.318\\,\\mathrm{mm}.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因此，第二、第三条暗环比第一、第二条更靠近。中心为何暗，由反射时的相对 $\\pi$ 相移解释；条纹为何成圆，由相同半径处膜厚相同解释；外侧为何更密，则由上面的间距公式解释。若换成白光，对同一级亮环有 $(r_m^{\\rm bright})^2=(m+\\tfrac12)\\lambda R$，不同波长增强的位置不同，环纹便呈现颜色[<a href=\"#ref-6\">6</a>, §9.4]。",
+        "en": "Therefore the second and third dark rings are closer together than the first and second. Why the center is dark is explained by the relative $\\pi$ phase shift on reflection; why the fringes are circular is explained by the film thickness being the same at equal radii; and why the outer fringes are denser is explained by the spacing formula above. If white light is used instead, then for a bright ring of the same order $(r_m^{\\rm bright})^2=(m+\\tfrac12)\\lambda R$, and different wavelengths are enhanced at different positions, so the rings appear colored [<a href=\"#ref-6\">6</a>, §9.4]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "双缝和薄膜的明暗来自两部分光的叠加。但上一节还看到，光只通过一条狭缝，屏上也会出现明暗条纹。此时没有第二条缝，哪些光在相互抵消？惠更斯把波前的每一点看作发出次波的地方；菲涅耳进一步把这些次波到观察点的相位计入叠加。这样，同一条缝的不同部分也能彼此增强或抵消[<a href=\"#ref-5\">5</a>, §5.3]。",
+        "en": "The bright and dark bands from the double slit and from thin films come from the superposition of two portions of light. But the previous section also showed that bright and dark fringes appear on the screen even when light passes through only a single slit. With no second slit, which portions of light cancel each other? Huygens regarded every point of a wavefront as a place that emits secondary waves; Fresnel went further and included the phase of these secondary waves at the observation point in the superposition. In this way, different parts of the same slit can also reinforce or cancel one another[<a href=\"#ref-5\">5</a>, §5.3]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s3-single-slit.svg",
+      "alt": {
+        "zh": "图10　单缝内的路径差与理论远场光强曲线",
+        "en": "Single slit: path difference across the slit, and the theoretical far-field intensity curve."
+      },
+      "caption": {
+        "zh": "图10　(a) 单缝内两处光的路径比较：$O$ 为缝中心，$Q$ 的坐标为 $x$，虚线 $QB$ 垂直于中心光路；橙色线段 $OB=x\\sin\\theta$ 是从 $Q$ 出发的光少走的路程，光路按远场方向平行绘出。(b) 均匀单缝的 Fraunhofer 理论光强曲线。理论示意，非测量数据。",
+        "en": "FIG. 10. (a) Comparison of the light paths from two points in a single slit: $O$ is the slit center, $Q$ has coordinate $x$, and the dashed line $QB$ is perpendicular to the central light path; the orange segment $OB=x\\sin\\theta$ is the amount by which the path from $Q$ is shorter, with the paths drawn parallel in the far-field direction. (b) Theoretical Fraunhofer intensity curve for a uniform single slit. Theoretical schematic, not measured data."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "考虑图10(a)的装置：单色平面波垂直照亮一条宽度为 $a$ 的长狭缝，在很远的屏上观察。沿缝宽方向取坐标 $x$，缝中心为 $x=0$，两边缘分别为 $x=\\pm a/2$。设观察点 $P$ 的方向与中轴夹角为 $\\theta$，缝中心到 $P$ 的距离为 $r_0$。由于屏足够远，从缝内各处看向 $P$ 的方向几乎平行，可以使用双缝中相同的投影方法。图10(a)中，$O$ 是缝中心，$Q$ 是坐标为 $x>0$ 的一小段缝。从 $Q$ 向中心光路作垂线，垂足为 $B$；$Q$ 和 $B$ 到远处 $P$ 的路程近似相等。因此从 $O$ 出发的光比从 $Q$ 出发的光多走橙色线段 $OB$。在直角三角形 $OQB$ 中，$OQ=x$，$\\angle QOB=\\pi/2-\\theta$，所以 $OB=x\\cos(\\pi/2-\\theta)=x\\sin\\theta$。于是 $Q$ 处的光程比中心短约 $x\\sin\\theta$，即",
+        "en": "Consider the arrangement in Fig. 10(a): a monochromatic plane wave normally illuminates a long slit of width $a$, and observation is made on a distant screen. Take the coordinate $x$ along the slit width, with the slit center at $x=0$ and the two edges at $x=\\pm a/2$. Let the direction of the observation point $P$ make an angle $\\theta$ with the central axis, and let the distance from the slit center to $P$ be $r_0$. Since the screen is far enough away, the directions from all parts of the slit toward $P$ are nearly parallel, and the same projection method as for the double slit can be used. In Fig. 10(a), $O$ is the slit center and $Q$ is a narrow segment of the slit at coordinate $x>0$. Drop a perpendicular from $Q$ to the central light path, meeting it at $B$; the paths from $Q$ and from $B$ to the distant $P$ are approximately equal. Light starting from $O$ therefore travels an extra orange segment $OB$ compared with light starting from $Q$. In the right triangle $OQB$, $OQ=x$ and $\\angle QOB=\\pi/2-\\theta$, so $OB=x\\cos(\\pi/2-\\theta)=x\\sin\\theta$. Hence the optical path at $Q$ is shorter than that at the center by about $x\\sin\\theta$, that is,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "r(x)\\simeq r_0-x\\sin\\theta."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "入射光在整条缝上同相，传播到 $P$ 后，各小段的相位便不再相同。把缝分成许多宽度为 $\\mathrm dx$ 的小段，设每单位缝宽对 $P$ 提供的振幅为 $b$。在均匀照明、近轴远场条件下，$b$ 可近似取为常数，所以一小段的贡献为",
+        "en": "The incident light is in phase across the whole slit, but after propagation to $P$ the phases of the small segments are no longer the same. Divide the slit into many small segments of width $\\mathrm dx$, and let the amplitude contributed to $P$ per unit slit width be $b$. Under uniform illumination and in the paraxial far-field regime, $b$ may be taken as approximately constant, so the contribution of one small segment is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\mathrm d\\psi\n&=b\\,\\mathrm dx\\cos\\bigl[\\omega t-kr(x)\\bigr]\\\\\n&\\simeq b\\,\\mathrm dx\\cos\\bigl(\\omega t-kr_0+kx\\sin\\theta\\bigr).\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这里 $k=2\\pi/\\lambda$。令 $\\chi=\\omega t-kr_0$，把整条缝的贡献相加；小段无限细时，求和变成积分：",
+        "en": "Here $k=2\\pi/\\lambda$. Setting $\\chi=\\omega t-kr_0$, add the contributions from the whole slit; as the segments become infinitely narrow, the sum becomes an integral:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\psi(P,t)=b\\int_{-a/2}^{a/2}\\cos\\bigl(\\chi+kx\\sin\\theta\\bigr)\\,\\mathrm dx."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "积分时 $\\chi$ 与 $\\theta$ 都不随 $x$ 变化。当 $\\sin\\theta\\ne0$ 时，余弦的原函数是正弦除以相位中 $x$ 的系数 $k\\sin\\theta$，因此",
+        "en": "In the integration, neither $\\chi$ nor $\\theta$ varies with $x$. When $\\sin\\theta\\ne0$, the antiderivative of the cosine is a sine divided by the coefficient $k\\sin\\theta$ of $x$ in the phase, so"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\psi(P,t)\n&=\\frac{b}{k\\sin\\theta}\n\\left[\\sin\\bigl(\\chi+kx\\sin\\theta\\bigr)\\right]_{-a/2}^{a/2}\\\\\n&=\\frac{b}{k\\sin\\theta}\n\\left[\\sin\\left(\\chi+\\frac{ka\\sin\\theta}{2}\\right)\n-\\sin\\left(\\chi-\\frac{ka\\sin\\theta}{2}\\right)\\right].\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "为了简化记号，定义 $\\beta=ka\\sin\\theta/2=\\pi a\\sin\\theta/\\lambda$，它是缝两端相位差的一半。用 $\\sin(\\chi+\\beta)-\\sin(\\chi-\\beta)=2\\cos\\chi\\sin\\beta$，得到",
+        "en": "To simplify the notation, define $\\beta=ka\\sin\\theta/2=\\pi a\\sin\\theta/\\lambda$, which is half the phase difference between the two ends of the slit. Using $\\sin(\\chi+\\beta)-\\sin(\\chi-\\beta)=2\\cos\\chi\\sin\\beta$ gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\psi(P,t)\n&=\\frac{2b\\sin\\beta}{k\\sin\\theta}\\cos\\chi\\\\\n&=ba\\frac{\\sin\\beta}{\\beta}\\cos\\chi.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "在正前方 $\\theta=0$，各处光程相等，直接在原积分中令 $\\theta=0$ 就得到 $\\psi=ba\\cos\\chi$，合振幅为 $ba$。偏离正前方后，不同位置的振动不能完全同相相加，合振幅变为 $ba|\\sin\\beta/\\beta|$。和前面一样，对扰动平方取时间平均：",
+        "en": "On axis, $\\theta=0$, the optical paths are equal everywhere, and setting $\\theta=0$ directly in the original integral gives $\\psi=ba\\cos\\chi$, with resultant amplitude $ba$. Away from the axis, vibrations at different positions can no longer add fully in phase, and the resultant amplitude becomes $ba|\\sin\\beta/\\beta|$. As before, average the square of the disturbance over time:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nI(\\theta)&=C(ba)^2\\left(\\frac{\\sin\\beta}{\\beta}\\right)^2\n\\langle\\cos^2\\chi\\rangle_t\n=\\frac{C(ba)^2}{2}\\left(\\frac{\\sin\\beta}{\\beta}\\right)^2,\\\\\nI(0)&=\\frac{C(ba)^2}{2},\\\\\n\\frac{I(\\theta)}{I(0)}&=\\left(\\frac{\\sin\\beta}{\\beta}\\right)^2.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "图10(b)就是这个光强分布。暗纹要求合振幅为零，即 $\\sin\\beta=0$ 而 $\\beta\\ne0$，所以",
+        "en": "Fig. 10(b) shows this intensity distribution. A dark fringe requires the resultant amplitude to vanish, that is, $\\sin\\beta=0$ with $\\beta\\ne0$, so"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\beta=m\\pi\n\\quad\\Longrightarrow\\quad\n\\frac{\\pi a}{\\lambda}\\sin\\theta_m=m\\pi\n\\quad\\Longrightarrow\\quad\na\\sin\\theta_m=m\\lambda,\n\\qquad m=\\pm1,\\pm2,\\ldots ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$m=0$ 不属于暗纹，因为 $\\sin\\beta/\\beta$ 在 $\\beta\\to0$ 时趋于 $1$。中央亮纹位于左右第一条暗纹之间；当 $a\\gg\\lambda$ 时，小角近似给出 $\\theta_{\\pm1}\\simeq\\pm\\lambda/a$，因此中央亮纹的角宽为",
+        "en": "$m=0$ does not count as a dark fringe, because $\\sin\\beta/\\beta$ tends to $1$ as $\\beta\\to0$. The central bright fringe lies between the first dark fringes on either side; when $a\\gg\\lambda$, the small-angle approximation gives $\\theta_{\\pm1}\\simeq\\pm\\lambda/a$, so the angular width of the central bright fringe is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\Delta\\theta=\\theta_{+1}-\\theta_{-1}\\simeq\\frac{2\\lambda}{a}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "缝越窄，第一条暗纹离中轴越远，中央亮纹越宽，这正是狭缝实验中光向两侧展开的趋势[<a href=\"#ref-6\">6</a>, §10.2.1]。",
+        "en": "The narrower the slit, the farther the first dark fringe lies from the central axis and the wider the central bright fringe—the trend of light spreading to both sides in the slit experiment[<a href=\"#ref-6\">6</a>, §10.2.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "上面的关键近似是 $r(x)\\simeq r_0-x\\sin\\theta$。精确距离及其展开为",
+        "en": "The key approximation above is $r(x)\\simeq r_0-x\\sin\\theta$. The exact distance and its expansion are"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nr(x)&=\\sqrt{r_0^2-2r_0x\\sin\\theta+x^2}\\\\\n&=r_0-x\\sin\\theta+\\frac{x^2\\cos^2\\theta}{2r_0}+\\cdots .\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "被略去的二次项虽然是一个很短的距离，乘上波数 $k$ 后仍可能造成明显的相位变化。因此，要使用上面的结果，必须让它在整个缝宽内造成的相位误差远小于 $1$：",
+        "en": "Although the omitted quadratic term is a very short distance, once multiplied by the wave number $k$ it can still produce a noticeable phase change. To use the result above, the phase error it produces across the entire slit width must therefore be much less than $1$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "k\\frac{(a/2)^2\\cos^2\\theta}{2r_0}\n=\\frac{\\pi a^2\\cos^2\\theta}{4\\lambda r_0}\\ll1."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "在近轴区域 $r_0\\simeq L$，通常用 $L\\gg a^2/\\lambda$ 表示这个远场条件，所得图样称为夫琅禾费（Fraunhofer）衍射；也可以借助透镜，在焦平面观察这样的图样。若屏较近，二次相位不能忽略，条纹就属于菲涅耳（Fresnel）衍射，需要保留它重新计算[<a href=\"#ref-6\">6</a>, §§10.1.2, 10.2.1]。",
+        "en": "In the paraxial region, $r_0\\simeq L$, and this far-field condition is usually written $L\\gg a^2/\\lambda$; the resulting pattern is called Fraunhofer diffraction, and a lens may also be used to observe such a pattern in its focal plane. If the screen is closer, the quadratic phase cannot be neglected, and the pattern lies in the Fresnel diffraction regime, requiring that term to be retained in the calculation[<a href=\"#ref-6\">6</a>, §§10.1.2, 10.2.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "前面用 $\\psi$ 表示振动的大小，计算了两部分光怎样增强或抵消。但一个振动除了大小，还可以有方向。先把两个方向分清：**传播方向**是波形向哪里前进，**振动方向**是在固定位置上，描述光的扰动沿哪个方向来回变化。对于横波，振动方向垂直于传播方向。",
+        "en": "Above, $\\psi$ was used to denote the magnitude of the vibration, and we calculated how two portions of light reinforce or cancel. But a vibration can have a direction as well as a magnitude. First distinguish two directions: the **direction of propagation** is the direction in which the waveform advances, while the **direction of vibration** describes, at a fixed position, the direction along which the light's disturbance oscillates back and forth. For a transverse wave, the direction of vibration is perpendicular to the direction of propagation."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "例如，让光沿 $+z$ 方向传播，在垂直于 $z$ 的平面内选取互相垂直的 $x,y$ 轴。一束光的扰动可以只沿 $x$ 方向往复，另一束则只沿 $y$ 方向往复；两束光可以具有相同的频率、波长和强度，也朝同一个方向传播，但振动方向不同。如果一束光在固定位置的振动始终沿同一条直线，即使振动的正负随时间改变，这条直线的方向仍保持不变，就称为**线偏振光**。偏振描述的是这种振动方向及其随时间变化的方式，这里先讨论方向固定的线偏振[<a href=\"#ref-6\">6</a>, §§8.1–8.2]。",
+        "en": "For example, let light propagate along $+z$, and choose mutually perpendicular $x$ and $y$ axes in the plane perpendicular to $z$. The disturbance of one beam may oscillate only along $x$, and that of another only along $y$; the two beams may have the same frequency, wavelength, and intensity and may travel in the same direction, yet have different directions of vibration. If at a fixed position the vibration of a beam always lies along the same straight line, then even though the sign of the vibration changes with time, the direction of that line remains fixed; such light is called **linearly polarized light**. Polarization describes this direction of vibration and how it changes with time; here we first discuss linear polarization with a fixed direction[<a href=\"#ref-6\">6</a>, §§8.1–8.2]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s3-polarization-directions.svg",
+      "alt": {
+        "zh": "图11　传播方向与两种线偏振的振动方向",
+        "en": "Propagation versus vibration: a transverse wave and two orthogonal linear polarizations."
+      },
+      "caption": {
+        "zh": "图11　传播与振动的区别。(a) 沿 $+z$ 传播、沿 $x$ 振动的波在某一时刻的波形；曲线高度表示扰动大小，不是光束上下弯曲的轨迹。(b)、(c) 沿光束轴看两束不同的光：一束只沿 $x$ 振动，另一束只沿 $y$ 振动，双向箭头表示往复方向。两束光的传播方向相同，偏振方向互相垂直。",
+        "en": "FIG. 11. The distinction between propagation and vibration. (a) Snapshot of a wave propagating along $+z$ and vibrating along $x$; the height of the curve represents the magnitude of the disturbance, not the beam bending up and down. (b), (c) Two different beams viewed along the beam axis: one vibrates only along $x$ and the other only along $y$, and the double-headed arrows indicate the directions of oscillation. The two beams propagate in the same direction, with mutually perpendicular polarization directions."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这两种线偏振可以分别写成",
+        "en": "These two linear polarizations can be written respectively as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\boldsymbol\\psi_x(z,t)=\\hat{\\mathbf x}A\\cos(\\omega t-kz+\\phi),\n\\qquad\n\\boldsymbol\\psi_y(z,t)=\\hat{\\mathbf y}A\\cos(\\omega t-kz+\\phi)."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "余弦描述振动的大小和正负，单位矢量 $\\hat{\\mathbf x}$、$\\hat{\\mathbf y}$ 则指定振动所在的直线。图11(b)的光沿 $x$ 振动，因此在 $y$ 方向上的分量为零；图11(c)反过来。振动也可以沿两轴之间的斜方向，此时在 $x,y$ 两个方向上都有分量。这两个方向是一组描述振动的坐标，并不是说每束光都同时含有两个独立振动。",
+        "en": "The cosine describes the magnitude and sign of the vibration, while the unit vectors $\\hat{\\mathbf x}$ and $\\hat{\\mathbf y}$ specify the line on which the vibration lies. The light in Fig. 11(b) vibrates along $x$, so its component along $y$ is zero; Fig. 11(c) is the reverse. A vibration may also lie along an oblique direction between the two axes, in which case it has components along both $x$ and $y$. These two directions are a set of coordinates for describing the vibration; this does not mean that every beam simultaneously contains two independent vibrations."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "现在回到图5(b)的实验。第一块方解石把光分成两路，遮板选出其中一路，得到具有固定振动方向的线偏振光。第二块晶体则把入射振动沿它所允许的两个正交偏振方向分解，并使两个分量沿不同光路出射。转动第二块晶体，就是转动这两个分解方向：入射光的振动方向不变，它在两个方向上的投影却会改变，因此两个光斑的强弱也会改变[<a href=\"#ref-5\">5</a>, §§2.3, 5.3; <a href=\"#ref-6\">6</a>, §8.4]。",
+        "en": "Now return to the experiment of Fig. 5(b). The first calcite crystal splits the light into two beams, and a mask selects one of them, yielding linearly polarized light with a fixed direction of vibration. The second crystal resolves the incident vibration along the two orthogonal polarization directions it permits and sends the two components out along different paths. Rotating the second crystal means rotating these two orthogonal polarization directions: the direction of vibration of the incident light is unchanged, but its projections onto the two directions change, so the brightnesses of the two spots also change[<a href=\"#ref-5\">5</a>, §§2.3, 5.3; <a href=\"#ref-6\">6</a>, §8.4]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s3-polarization.svg",
+      "alt": {
+        "zh": "图12　第二块晶体对入射振动的两路分解",
+        "en": "Resolution of the incident vibration onto the two polarization directions of the second crystal, and the resulting spot intensities."
+      },
+      "caption": {
+        "zh": "图12　(a) 沿入射光束看，振幅矢量在第二块晶体的两个正交偏振方向上分解为 $A\\cos\\alpha$ 和 $A\\sin\\alpha$；虚线为投影辅助线。(b) 转动第二块晶体时，两个输出光斑的相对强度变化。理想无损分光模型；图5给出光路装置。",
+        "en": "FIG. 12. (a) Viewed along the incident beam, the amplitude vector is resolved onto the two orthogonal polarization directions of the second crystal as $A\\cos\\alpha$ and $A\\sin\\alpha$; dashed lines are projection construction lines. (b) Change in the relative intensities of the two output spots as the second crystal is rotated. Ideal lossless beam-splitting model; Fig. 5 shows the optical layout."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "先忽略表面反射和吸收，把第二块晶体作为理想化的无损两路分光装置。图12(a)沿入射光束方向看，标出它的两个正交偏振方向 $\\hat{\\mathbf e}_1$、$\\hat{\\mathbf e}_2$。若入射振动的方向 $\\hat{\\mathbf p}$ 与 $\\hat{\\mathbf e}_1$ 夹角为 $\\alpha$，单位方向矢量可分解为",
+        "en": "First neglect surface reflection and absorption and treat the second crystal as an idealized lossless two-way beam splitter. Viewed along the incident beam, Fig. 12(a) marks its two orthogonal polarization directions $\\hat{\\mathbf e}_1$ and $\\hat{\\mathbf e}_2$. If the direction of the incident vibration $\\hat{\\mathbf p}$ makes an angle $\\alpha$ with $\\hat{\\mathbf e}_1$, the unit direction vector can be resolved as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\hat{\\mathbf p}=\\hat{\\mathbf e}_1\\cos\\alpha+\\hat{\\mathbf e}_2\\sin\\alpha."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "设入射振动为 $\\boldsymbol\\psi=A\\hat{\\mathbf p}\\cos\\chi$，其中 $A$ 是振幅，$\\chi$ 是随时间变化的相位。代入方向分解，得到",
+        "en": "Let the incident vibration be $\\boldsymbol\\psi=A\\hat{\\mathbf p}\\cos\\chi$, where $A$ is the amplitude and $\\chi$ is the time-varying phase. Substituting this decomposition gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "\\begin{aligned}\n\\boldsymbol\\psi\n&=A\\cos\\chi\\bigl(\\hat{\\mathbf e}_1\\cos\\alpha+\\hat{\\mathbf e}_2\\sin\\alpha\\bigr)\\\\\n&=\\hat{\\mathbf e}_1\\underbrace{A\\cos\\alpha\\cos\\chi}_{\\text{第一路分量}}\n+\\hat{\\mathbf e}_2\\underbrace{A\\sin\\alpha\\cos\\chi}_{\\text{第二路分量}}.\n\\end{aligned}",
+        "en": "\\begin{aligned}\n\\boldsymbol\\psi\n&=A\\cos\\chi\\bigl(\\hat{\\mathbf e}_1\\cos\\alpha+\\hat{\\mathbf e}_2\\sin\\alpha\\bigr)\\\\\n&=\\hat{\\mathbf e}_1\\underbrace{A\\cos\\alpha\\cos\\chi}_{\\text{first-path component}}\n+\\hat{\\mathbf e}_2\\underbrace{A\\sin\\alpha\\cos\\chi}_{\\text{second-path component}}.\n\\end{aligned}"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "所以两个通道的振幅系数分别为 $A\\cos\\alpha$ 和 $A\\sin\\alpha$。晶体将它们分开传播，在屏上形成两个位置不同的光斑。用前面已经算出的 $\\langle\\cos^2\\chi\\rangle_t=1/2$，分别计算光强：",
+        "en": "Thus the amplitude coefficients of the two channels are $A\\cos\\alpha$ and $A\\sin\\alpha$, i.e., the first-path component and the second-path component labeled in the formula above. The crystal sends the two components along separate paths, forming two spots at different positions on the screen. Using $\\langle\\cos^2\\chi\\rangle_t=1/2$ obtained earlier, compute the intensities separately:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nI_{\\rm in}&=C\\langle(A\\cos\\chi)^2\\rangle_t=\\frac{CA^2}{2},\\\\\nI_1&=C\\langle(A\\cos\\alpha\\cos\\chi)^2\\rangle_t\n=\\frac{CA^2}{2}\\cos^2\\alpha=I_{\\rm in}\\cos^2\\alpha,\\\\\nI_2&=C\\langle(A\\sin\\alpha\\cos\\chi)^2\\rangle_t\n=\\frac{CA^2}{2}\\sin^2\\alpha=I_{\\rm in}\\sin^2\\alpha.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这里 $I_{\\rm in}$ 是进入第二块晶体的光强，$I_1,I_2$ 是两路出射光的光强。二者之和为 $I_{\\rm in}(\\cos^2\\alpha+\\sin^2\\alpha)=I_{\\rm in}$；转动晶体改变的是光在两路之间的分配。菲涅耳在处理双折射与偏振干涉时，正是用这种余弦、正弦的振幅分解来计算强度[<a href=\"#ref-5\">5</a>, §5.3; <a href=\"#ref-6\">6</a>, §8.4]。",
+        "en": "Here $I_{\\rm in}$ is the intensity entering the second crystal, and $I_1,I_2$ are the intensities of the two emerging beams. Their sum is $I_{\\rm in}(\\cos^2\\alpha+\\sin^2\\alpha)=I_{\\rm in}$; rotating the crystal changes only how the light is divided between the two paths. In treating birefringence and polarization interference, Fresnel used precisely this cosine-and-sine amplitude resolution to calculate intensities[<a href=\"#ref-5\">5</a>, §5.3; <a href=\"#ref-6\">6</a>, §8.4]."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "zh": "**$\\alpha=0$：入射振动沿第一个偏振方向。** 此时 $I_1=I_{\\rm in}$、$I_2=0$，屏上只有第一路光斑。转到 $\\alpha=\\pi/2$ 时，$I_1=0$、$I_2=I_{\\rm in}$，只剩第二路光斑。",
+          "en": "**$\\alpha=0$: the incident vibration is along the first polarization direction.** Here $I_1=I_{\\rm in}$ and $I_2=0$, so only the first-path spot appears on the screen. Rotating to $\\alpha=\\pi/2$ gives $I_1=0$ and $I_2=I_{\\rm in}$, leaving only the second-path spot."
+        },
+        {
+          "zh": "**$\\alpha=\\pi/4$：入射振动与两个方向各成 $45^\\circ$。** 因为 $\\cos^2(\\pi/4)=\\sin^2(\\pi/4)=1/2$，所以 $I_1=I_2=I_{\\rm in}/2$，两斑等亮。",
+          "en": "**$\\alpha=\\pi/4$: the incident vibration makes $45^\\circ$ with each of the two directions.** Since $\\cos^2(\\pi/4)=\\sin^2(\\pi/4)=1/2$, we have $I_1=I_2=I_{\\rm in}/2$, so the two spots are equally bright."
+        },
+        {
+          "zh": "**其余一般取向。** 两个投影都不为零，屏上出现两个光斑，强弱随角度连续变化。这就解释了图5(b)中由单斑变成双斑的现象；单斑时，另一路消失是因为入射振动在那个方向上没有分量。",
+          "en": "**Other orientations.** Neither projection is zero, so two spots appear on the screen, with their brightnesses varying continuously with the angle. This explains the change from one spot to two in Fig. 5(b); when only one spot appears, the other output has zero intensity because the incident vibration has no component along that direction."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这种方向模型还解释了偏振与干涉之间的联系。菲涅耳与阿拉戈发现，具有稳定相位关系的两束光，即使到达同一位置，若偏振方向互相垂直，也不出现通常的干涉条纹；将它们投影到同一检偏轴上后，条纹又能出现[<a href=\"#ref-5\">5</a>, §5.3]。在振动的矢量描述中，原因很直接：设两束光的振动分别为 $\\boldsymbol\\psi_1=\\hat{\\mathbf e}_1\\psi_1$、$\\boldsymbol\\psi_2=\\hat{\\mathbf e}_2\\psi_2$，其中 $\\psi_1,\\psi_2$ 是各自带符号的振动大小，则",
+        "en": "This direction model also explains the connection between polarization and interference. Fresnel and Arago found that two beams with a stable phase relation do not show the usual interference fringes even when they reach the same position, if their polarization directions are mutually perpendicular; after they are projected onto a common analyzer axis, the fringes reappear[<a href=\"#ref-5\">5</a>, §5.3]. In the vector description of vibration the reason is straightforward: let the vibrations of the two beams be $\\boldsymbol\\psi_1=\\hat{\\mathbf e}_1\\psi_1$ and $\\boldsymbol\\psi_2=\\hat{\\mathbf e}_2\\psi_2$, where $\\psi_1,\\psi_2$ are their respective signed vibration magnitudes; then"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n|\\boldsymbol\\psi_1+\\boldsymbol\\psi_2|^2\n&=\\psi_1^2+\\psi_2^2\n+2(\\hat{\\mathbf e}_1\\!\\cdot\\!\\hat{\\mathbf e}_2)\\psi_1\\psi_2\\\\\n&=\\psi_1^2+\\psi_2^2,\n\\qquad \\hat{\\mathbf e}_1\\!\\cdot\\!\\hat{\\mathbf e}_2=0.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "相互垂直时，干涉项在求时间平均之前就已经为零，光强只剩 $I_1+I_2$。若沿与两方向都不垂直的共同方向取投影，两个投影分量便可以相加，干涉项重新出现。双晶体的取向效应和这些偏振干涉现象，共同推动了光是横向振动的解释：在垂直于传播的平面内，振动能够具有不同方向；若振动只沿传播方向，就没有这样的自由度[<a href=\"#ref-5\">5</a>, §5.3]。",
+        "en": "When they are mutually perpendicular, the interference term already vanishes before time averaging, leaving an intensity of only $I_1+I_2$. If the vibrations are projected onto a common direction that is not perpendicular to either, the two projected components can add and the interference term reappears. The orientation effect of the two crystals and these polarization-interference phenomena together drove the interpretation that light vibrates transversely: in the plane perpendicular to propagation, the vibration can have different directions; if the vibration were only along the direction of propagation, no such freedom would exist[<a href=\"#ref-5\">5</a>, §5.3]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "至此，波动理论的成功不只在于把光说成一种波。同一套叠加规则给出了双缝条纹的位置、薄膜亮暗与厚度的关系、单缝中央亮纹的宽度；再把振动方向纳入描述，又解释了双晶体对取向的选择和正交偏振光不干涉的现象。然而，相位、振幅和方向都能算出以后，仍有一个物理问题：究竟是什么在振动？当时声波、水波等熟悉的波都有承载振动的介质，光又能穿过抽去空气的空间，因而人们设想空间中还充满一种不同于空气的介质——以太[<a href=\"#ref-6\">6</a>, §1.4]。",
+        "en": "At this point the success of the wave theory lay not only in calling light a wave. The same superposition rules gave the positions of the double-slit fringes, the relation between the brightness of a thin film and its thickness, and the width of the central bright fringe of a single slit; incorporating the direction of vibration then explained the orientation dependence in the two-crystal experiment and the non-interference of orthogonally polarized light. Yet once the phase, amplitude, and direction could all be calculated, a physical question remained: what exactly is vibrating? At the time, familiar waves such as sound waves and water waves all had a medium that carried the vibration, and light could pass through evacuated space, so people imagined that space was still filled with a medium different from air—the ether[<a href=\"#ref-6\">6</a>, §1.4]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "偏振使以太的要求变得更加苛刻。传递横向振动需要介质在受到剪切形变后产生恢复力，普通流体却不能像弹性固体那样维持这种形变。以太既要能够传递横波，又要让天体穿行其中而不受明显阻碍。菲涅耳尝试让它对微小振动表现出弹性，对较大的位移又近似流体；这样可以容纳部分光学规律，却没有给出一个令人满意的机械解释[<a href=\"#ref-5\">5</a>, §5.3]。",
+        "en": "Polarization made the requirements on the ether even more demanding. Transmitting a transverse vibration requires a medium that develops a restoring force after a shear deformation, whereas an ordinary fluid cannot maintain such a deformation as an elastic solid does. The ether had to transmit transverse waves while allowing celestial bodies to move through it without noticeable obstruction. Fresnel tried to make it behave elastically for small vibrations and approximately like a fluid for larger displacements; this could reproduce some of the known optical laws but did not yield a satisfactory mechanical explanation[<a href=\"#ref-5\">5</a>, §5.3]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "波动理论解释了光怎样叠加、怎样振动，却仍未说明承载这些振动的介质究竟是什么。1845年，法拉第发现磁场能够改变光的偏振方向，为光与电、磁之间的联系提供了实验线索[<a href=\"#ref-5\">5</a>, §6.2]。",
+        "en": "The wave theory explained how light superposes and how it vibrates, but it still did not say what medium carries these vibrations. In 1845, Faraday discovered that a magnetic field can change the polarization direction of light, providing an experimental clue to a connection between light and electricity and magnetism[<a href=\"#ref-5\">5</a>, §6.2]."
+      }
+    }
+  ],
+  "references": [
+    {
+      "text": {
+        "zh": "Wikipedia contributors, “Qijia culture”, Wikipedia, accessed 5 October 2026.",
+        "en": "Wikipedia contributors, “Qijia culture”, Wikipedia, accessed 5 October 2026."
+      },
+      "url": "https://en.wikipedia.org/wiki/Qijia_culture"
+    },
+    {
+      "text": {
+        "zh": "Gary Todd, “Bronze Mirror”, photograph, 1 September 2011, Wikimedia Commons, CC0 1.0, accessed 5 October 2026.",
+        "en": "Gary Todd, “Bronze Mirror”, photograph, 1 September 2011, Wikimedia Commons, CC0 1.0, accessed 5 October 2026."
+      },
+      "url": "https://commons.wikimedia.org/wiki/File:Bronze_Mirror_(9830424956).jpg"
+    },
+    {
+      "text": {
+        "zh": "Mozi, “Explanations of the Canons, Part II” (《经说下》), Wikisource, Chinese text, accessed 5 October 2026.",
+        "en": "Mozi, “Explanations of the Canons, Part II” (《经说下》), Wikisource, Chinese text, accessed 5 October 2026."
+      },
+      "url": "https://zh.wikisource.org/wiki/墨子/經說下"
+    },
+    {
+      "text": {
+        "zh": "Wikipedia contributors, “Camera obscura”, Wikipedia, accessed 5 October 2026.",
+        "en": "Wikipedia contributors, “Camera obscura”, Wikipedia, accessed 5 October 2026."
+      },
+      "url": "https://en.wikipedia.org/wiki/Camera_obscura#500_BC_to_500_AD:_Earliest_written_observations"
+    },
+    {
+      "text": {
+        "zh": "O. Darrigol, *A History of Optics: From Greek Antiquity to the Nineteenth Century* (Oxford University Press, Oxford, 2012).",
+        "en": "O. Darrigol, *A History of Optics: From Greek Antiquity to the Nineteenth Century* (Oxford University Press, Oxford, 2012)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "E. Hecht, *Optics*, 5th ed., Global ed. (Pearson, 2017).",
+        "en": "E. Hecht, *Optics*, 5th ed., Global ed. (Pearson, 2017)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "National Eye Institute, “How the Eyes Work”, updated 20 April 2022, accessed 5 October 2026.",
+        "en": "National Eye Institute, “How the Eyes Work”, updated 20 April 2022, accessed 5 October 2026."
+      },
+      "url": "https://www.nei.nih.gov/eye-health-information/healthy-vision/how-eyes-work"
+    },
+    {
+      "text": {
+        "zh": "Xunzi, “Encouraging Learning” (《劝学篇》), Wikisource, Chinese text, accessed 5 October 2026.",
+        "en": "Xunzi, “Encouraging Learning” (《劝学篇》), Wikisource, Chinese text, accessed 5 October 2026."
+      },
+      "url": "https://zh.wikisource.org/wiki/荀子/勸學篇"
+    },
+    {
+      "text": {
+        "zh": "A. M. Smith, *From Sight to Light: The Passage from Ancient to Modern Optics* (University of Chicago Press, Chicago, 2015).",
+        "en": "A. M. Smith, *From Sight to Light: The Passage from Ancient to Modern Optics* (University of Chicago Press, Chicago, 2015)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "Furrfu, “3310.calcite (Iceland Spar) birefringence”, photograph, 6 March 2010, Wikimedia Commons, public domain, accessed 5 October 2026.",
+        "en": "Furrfu, “3310.calcite (Iceland Spar) birefringence”, photograph, 6 March 2010, Wikimedia Commons, public domain, accessed 5 October 2026."
+      },
+      "url": "https://commons.wikimedia.org/wiki/File:3310.calcite_(Iceland_Spar)_birefringence.jpg"
+    },
+    {
+      "text": {
+        "zh": "Luiz Sauerbronn (Wikimedia Commons username: Luiz.Sauerbronn), “Fresnel Diffraction experiment DSC04554”, photograph, 20 June 2008, Wikimedia Commons, public domain, accessed 5 October 2026.",
+        "en": "Luiz Sauerbronn (Wikimedia Commons username: Luiz.Sauerbronn), “Fresnel Diffraction experiment DSC04554”, photograph, 20 June 2008, Wikimedia Commons, public domain, accessed 5 October 2026."
+      },
+      "url": "https://commons.wikimedia.org/wiki/File:Fresnel_Diffraction_experiment_DSC04554.JPG"
+    }
+  ]
+}

@@ -19,6 +19,7 @@
       <li><a href="#publications" class="lang-en">Publications</a><a href="#publications" class="lang-zh">论文</a></li>
       <li><a href="#talks" class="lang-en">Talks</a><a href="#talks" class="lang-zh">报告</a></li>
       <li><a href="#teaching" class="lang-en">Teaching</a><a href="#teaching" class="lang-zh">教学</a></li>
+      <li><a href="blog/index.html" class="lang-en">Blog</a><a href="blog/index.html" class="lang-zh">博客</a></li>
       <li><button type="button" class="lang-toggle" onclick="toggleLang()" aria-label="Switch language">中文</button></li>
     </ul>
   </div>
@@ -370,9 +371,14 @@ function toggleLang() {
   setLanguage(document.body.classList.contains('zh') ? 'en' : 'zh');
 }
 
-try {
-  if (localStorage.getItem('site-language') === 'zh') setLanguage('zh');
-} catch (_) {}
+const requestedLanguage = new URLSearchParams(location.search).get('lang');
+if (requestedLanguage === 'zh' || requestedLanguage === 'en') {
+  setLanguage(requestedLanguage);
+} else {
+  try {
+    if (localStorage.getItem('site-language') === 'zh') setLanguage('zh');
+  } catch (_) {}
+}
 </script>
 
 </body>

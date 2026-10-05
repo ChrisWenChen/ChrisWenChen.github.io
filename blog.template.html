@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/blog.css">{{HEAD}}
+  <script src="../assets/blog.js" defer></script>
+</head>
+<body class="blog-page" data-title-en="{{TITLE_EN}}" data-title-zh="{{TITLE_ZH}}">
+<a href="#main" class="skip-link">Skip to content / 跳转正文</a>
+<nav aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Wen Chen</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about" class="lang-en">About</a><a href="../index.html#about" class="lang-zh">关于</a></li>
+      <li><a href="../index.html#education" class="lang-en">Education</a><a href="../index.html#education" class="lang-zh">教育</a></li>
+      <li><a href="../index.html#publications" class="lang-en">Publications</a><a href="../index.html#publications" class="lang-zh">论文</a></li>
+      <li><a href="../index.html#talks" class="lang-en">Talks</a><a href="../index.html#talks" class="lang-zh">报告</a></li>
+      <li><a href="../index.html#teaching" class="lang-en">Teaching</a><a href="../index.html#teaching" class="lang-zh">教学</a></li>
+      <li><a href="index.html" class="lang-en"{{BLOG_CURRENT}}>Blog</a><a href="index.html" class="lang-zh"{{BLOG_CURRENT}}>博客</a></li>
+      <li><button type="button" class="lang-toggle" aria-label="Switch language">中文</button></li>
+    </ul>
+  </div>
+</nav>
+<main id="main" class="blog-main">
+{{BODY}}
+</main>
+<footer><p>&copy; 2026 Wen Chen.</p></footer>
+</body>
+</html>
