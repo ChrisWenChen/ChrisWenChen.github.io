@@ -14,7 +14,19 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 LANGS = ('en', 'zh')
 # Citations may include a list of source locators after their linked references.
-LOCATOR = r'(?:§{1,2}\s*[\d.]+(?:\s*[–-]\s*[\d.]+)?|ch\.\s*\d+)(?:\s*,\s*(?:§{1,2}\s*)?[\d.]+(?:\s*[–-]\s*[\d.]+)?)*'
+# Locators cover section/chapter numbers, page numbers, and equation numbers,
+# including ranges whose lower endpoint carries the section prefix (e.g. §6.4.3–§6.4.6).
+_NUM = r'\d+(?:\.\d+)*'
+_ROMAN = r'[0-9IVXLC一二三四五六七八九十百]+'
+_RANGE = r'(?:\s*[–-]\s*(?:§{1,2}\s*)?' + _NUM + r')?'
+_LOC = (r'(?:§{1,2}\s*' + _NUM + _RANGE +
+        r'|(?:ch\.\s*|第\s*)' + _ROMAN + r'\s*[章节]?' +
+        r'|pp?\.\s*' + _NUM + r'(?:\s*[–-]\s*' + _NUM + r')?' +
+        r'|(?:式|Eqs?\.)\s*\(\s*' + _NUM + r'\s*\)' + r'(?:\s*[–-]\s*\(\s*' + _NUM + r'\s*\))?' +
+        r'|\(\s*' + _NUM + r'\s*\)' +
+        r'|(?:引言|introduction)' +
+        r'|' + _NUM + _RANGE + r')')
+LOCATOR = _LOC + r'(?:[，,]?\s*' + _LOC + r')*'
 # A group is one or more linked references with an optional locator; groups may be joined by semicolons.
 GROUP = r'(?:<a href="#ref-\d+">\d+</a>,?)+(?:,\s*' + LOCATOR + r')?'
 CITATION = re.compile(r'\[\[(\d+)\]\]\(#ref-\1\)|\[(' + GROUP + r'(?:;\s*' + GROUP + r')*)\]')

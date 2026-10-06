@@ -92,6 +92,23 @@ class BlogTests(unittest.TestCase):
                          '<strong><span class="math" data-tex="\\alpha=0">\\alpha=0</span>：沿轴</strong>')
         self.assertEqual(plain('**$\\alpha=0$：沿轴** 与 [<a href="#ref-5">5</a>, §5.3; <a href="#ref-6">6</a>, §8.4]'), '：沿轴 与')
 
+    def test_chapter_and_equation_locators(self):
+        # Locator forms added with the blackbody section: Chinese chapter labels,
+        # full-width comma separators, bare parenthesized equations, and "introduction".
+        groups = (
+            '[<a href="#ref-7">7</a>, 第五章 §7，式 (7.15)–(7.17); <a href="#ref-8">8</a>, §39-3]',
+            '[<a href="#ref-8">8</a>, 第45章, 式 (45.7); <a href="#ref-9">9</a>, §63]',
+            '[<a href="#ref-6">6</a>, §19.6, 式 (19.123)–(19.124), (19.135)]',
+            '[<a href="#ref-11">11</a>, 第V章 引言]',
+            '[<a href="#ref-11">11</a>, ch. V, introduction]',
+        )
+        for group in groups:
+            rendered = inline(group, 'zh', 13)
+            self.assertIn('class="citation"', rendered)
+            self.assertNotIn('&lt;a', rendered)
+        self.assertIn('第五章 §7，式 (7.15)–(7.17)', inline(groups[0], 'zh', 13))
+        self.assertIn('ch. V, introduction', inline(groups[4], 'en', 13))
+
     def test_equation_labels_follow_the_language(self):
         sample = {'references': [], 'blocks': [
             {'type': 'math', 'tex': {'zh': '\\text{亮纹：}m=0', 'en': '\\text{bright fringes: }m=0'}},
@@ -110,7 +127,8 @@ class BlogTests(unittest.TestCase):
 
     def test_generated_pages_and_links(self):
         pages = build_pages()
-        self.assertEqual(len(pages), 2)
+        posts = list((ROOT / 'data/blog').glob('*.json'))
+        self.assertEqual(len(pages), len(posts) + 1)
         for path, text in pages.items():
             self.assertEqual(path.read_text(), text)
             doc = Document(text)
@@ -140,12 +158,15 @@ class BlogTests(unittest.TestCase):
         self.assertIn('type="search"', listing)
         self.assertIn('class="post-thumbnail"', listing)
         self.assertIn('最后更新', listing)
-        self.assertEqual(listing.count('data-search='), 2)
+        posts = list((ROOT / 'data/blog').glob('*.json'))
+        self.assertEqual(listing.count('data-search='), 2 * len(posts))
         config = json.loads((ROOT / 'data/blog-index.json').read_text())
         self.assertEqual(config['directories'][0]['posts'][0]['slug'], self.post['slug'])
         self.assertEqual([d['title']['zh'] for d in config['directories']], ['光学', '量子计算', '量子动力学'])
         planned = re.findall(r'<li class="archive-planned">(.*?)</li>', listing)
-        self.assertEqual(len(planned), 3)
+        planned_expected = sum(1 for d in config['directories'] for e in d['posts']
+                               if isinstance(e, dict) and 'slug' not in e)
+        self.assertEqual(len(planned), planned_expected)
         for entry in planned:
             self.assertNotIn('<a ', entry)
             self.assertNotIn('<time', entry)

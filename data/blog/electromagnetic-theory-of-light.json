@@ -1,0 +1,1523 @@
+{
+  "slug": "electromagnetic-theory-of-light",
+  "created": "2026-10-05",
+  "updated": "2026-10-06",
+  "contents": [
+    {
+      "target": "block-0",
+      "label": {
+        "zh": "1. 磁场怎样改变光：1845",
+        "en": "1. How a Magnetic Field Changes Light: 1845"
+      }
+    },
+    {
+      "target": "block-9",
+      "label": {
+        "zh": "2. 光速与电学测量：1849—1857",
+        "en": "2. The Speed of Light and Electrical Measurements: 1849–1857"
+      }
+    },
+    {
+      "target": "block-39",
+      "label": {
+        "zh": "3. 光的电磁理论：1861—1865",
+        "en": "3. The Electromagnetic Theory of Light: 1861–1865"
+      }
+    },
+    {
+      "target": "block-55",
+      "label": {
+        "zh": "4. 赫兹的实验：1886—1888",
+        "en": "4. Hertz's Experiment: 1886–1888"
+      }
+    },
+    {
+      "target": "block-77",
+      "label": {
+        "zh": "5. 再看薄膜干涉：麦克斯韦方程的边界条件",
+        "en": "5. Thin-Film Interference Revisited: Boundary Conditions of Maxwell's Equations"
+      }
+    },
+    {
+      "target": "block-99",
+      "label": {
+        "zh": "6. 黑体辐射：1859—1905",
+        "en": "6. Blackbody Radiation: 1859–1905"
+      }
+    },
+    {
+      "target": "references",
+      "label": {
+        "zh": "参考文献",
+        "en": "References"
+      }
+    }
+  ],
+  "title": {
+    "zh": "光的电磁理论",
+    "en": "The Electromagnetic Theory of Light"
+  },
+  "series": {
+    "zh": "光学 · 02",
+    "en": "Optics · 02"
+  },
+  "description": {
+    "zh": "光学笔记第二篇的六节：从1845年法拉第发现磁场使偏振面旋转开始，经菲佐用旋转齿轮测光速、韦伯与科尔劳施比较静电与电流的磁作用，麦克斯韦由场方程解出电磁波并把光认定为电磁波，再到赫兹用火花隙实验产生、接收并反射这些波，用麦克斯韦方程的边界条件解释薄膜干涉的半波损失，最后从热腔辐射的压强与模式计数导出斯特藩—玻尔兹曼律和瑞利—金斯公式，并指出经典能量均分无法给出有限的热辐射谱。",
+    "en": "The six sections of the second optics note: from Faraday's 1845 discovery that a magnetic field rotates the plane of polarization, through Fizeau's rotating-gear measurement of the speed of light and the Weber–Kohlrausch comparison of electrostatic and magnetic measurements, and Maxwell's field equations yielding electromagnetic waves and the identification of light as one, to Hertz's spark-gap experiments that generated, received, and reflected those waves; the boundary conditions of Maxwell's equations explaining the half-wave loss in thin-film interference; and finally thermal-cavity radiation, where radiation pressure and mode counting lead to the Stefan–Boltzmann law and the Rayleigh–Jeans formula, and classical equipartition cannot give a finite thermal-radiation spectrum."
+  },
+  "blocks": [
+    {
+      "type": "heading",
+      "text": {
+        "zh": "1. 磁场怎样改变光：1845",
+        "en": "1. How a Magnetic Field Changes Light: 1845"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "波动理论已经能计算出许多干涉、衍射和偏振现象的细节，但承载光振动的以太究竟是什么，仍然没有明确的答案。托马斯·杨（Thomas Young）在19世纪初曾猜想，传递电作用与承载光振动的可能是同一种以太，并提出通过电作用改变液体折射的实验来检验这一猜想。迈克尔·法拉第（Michael Faraday）也尝试用电和磁影响光的传播。1845年，他发现，磁场能使穿过透明介质的光改变偏振方向，为光与磁之间的联系提供了实验证据[<a href=\"#ref-2\">2</a>, §6.2]。",
+        "en": "The wave theory could already account for many details of interference, diffraction, and polarization, but what the ether that carries light vibrations actually was remained without a definite answer. In the early nineteenth century Thomas Young had conjectured that the ether transmitting electrical action and the ether carrying light vibrations might be one and the same, and he proposed an experiment on changing the refraction of a liquid by electrical action to test this conjecture. Michael Faraday also tried to influence the propagation of light by electricity and magnetism. In 1845 he found that a magnetic field can change the polarization direction of light passing through a transparent medium, providing experimental evidence for a connection between light and magnetism [<a href=\"#ref-2\">2</a>, §6.2]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "实验原理如图1所示。光依次通过起偏器、玻璃和检偏器。起偏器的透光轴沿 $x$ 方向，使通过的光沿 $x$ 方向振动；玻璃外的线圈通电后，在玻璃内产生沿光传播方向的磁场。检偏器的透光轴最初沿 $y$ 方向，与起偏器垂直。以下忽略玻璃的吸收，记到达检偏器的光强为 $I_0$、振幅为 $A$。",
+        "en": "The principle of the experiment is shown in Fig. 1. Light passes in turn through a polarizer, a piece of glass, and an analyzer. The transmission axis of the polarizer lies along $x$, so that the transmitted light vibrates along $x$; once the coil around the glass is energized, it produces inside the glass a magnetic field directed along the propagation direction of the light. The transmission axis of the analyzer initially lies along $y$, perpendicular to the polarizer. In what follows we neglect absorption by the glass and denote the intensity and amplitude of the light reaching the analyzer by $I_0$ and $A$."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**不加磁场：两偏振器正交，检偏器后方为暗。**",
+                "en": "**No magnetic field: the two polarizers are crossed, and the region behind the analyzer is dark.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "线圈不通电时，光穿过玻璃后仍沿 $x$ 方向振动。检偏器只允许沿 $y$ 方向的振动分量通过，因此透射振幅和光强分别为",
+                "en": "With the coil unenergized, the light still vibrates along $x$ after passing through the glass. The analyzer transmits only the component vibrating along $y$, so the transmitted amplitude and intensity are"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\begin{aligned}\nA_{\\mathrm t}&=A\\,\\hat{\\mathbf x}\\cdot\\hat{\\mathbf y}=0,\\\\\nI&=0.\n\\end{aligned}"
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "这就是图1(a)的消光状态，也是随后比较的基准。",
+                "en": "This is the extinguished state of Fig. 1(a) and the baseline for the comparisons that follow."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**加上磁场：检偏器不动，后方出现透射光。**",
+                "en": "**Applying the magnetic field: with the analyzer fixed, transmitted light appears behind it.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "给线圈通电，保持两个偏振器的位置和方向不变，检偏器后方便出现了光。若光穿过玻璃后的振动方向相对 $x$ 轴转过了角度 $\\beta$，其方向单位矢量可写成",
+                "en": "Energize the coil while keeping the positions and orientations of both polarizers unchanged, and light appears behind the analyzer. If the vibration direction of the light after the glass is rotated by an angle $\\beta$ relative to the $x$ axis, its direction unit vector can be written as"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\hat{\\mathbf p}\n=\\hat{\\mathbf x}\\cos\\beta+\\hat{\\mathbf y}\\sin\\beta."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "沿检偏器透光轴的投影不再为零。由于光强正比于振幅的平方，",
+                "en": "Its projection onto the analyzer's transmission axis is no longer zero. Since the intensity is proportional to the square of the amplitude,"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\begin{aligned}\nA_{\\mathrm t}\n&=A\\,\\hat{\\mathbf p}\\cdot\\hat{\\mathbf y}\n=A\\sin\\beta,\\\\\nI&=I_0\\sin^2\\beta.\n\\end{aligned}"
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "因而，原本被检偏器挡住的光现在有一部分能够通过，对应图1(b)。这也是马吕斯定律 $I=I_0\\cos^2\\theta$ 的直接结果：此时光的振动方向与检偏器透光轴的夹角为 $\\theta=\\pi/2-\\beta$[<a href=\"#ref-1\">1</a>, §8.2.1]。",
+                "en": "Thus part of the light that the analyzer previously blocked can now pass, corresponding to Fig. 1(b). This is also a direct consequence of Malus's law $I=I_0\\cos^2\\theta$: the angle between the light's vibration direction and the analyzer's transmission axis is now $\\theta=\\pi/2-\\beta$ [<a href=\"#ref-1\">1</a>, §8.2.1]."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**保持磁场，转动检偏器：透射光重新消失。**",
+                "en": "**Keeping the magnetic field, rotate the analyzer: the transmitted light disappears again.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "仅凭后方变亮，还不能确定光的偏振状态发生了怎样的变化。保持磁场不变，将检偏器从原来的 $y$ 方向转过角度 $\\alpha$，其透光轴方向变为",
+                "en": "The brightening behind the analyzer alone does not yet determine how the polarization state of the light has changed. Keeping the magnetic field fixed, rotate the analyzer by an angle $\\alpha$ from its original $y$ direction; its transmission axis becomes"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\hat{\\mathbf a}\n=-\\hat{\\mathbf x}\\sin\\alpha+\\hat{\\mathbf y}\\cos\\alpha."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "出射光在这条轴上的投影给出",
+                "en": "The projection of the emerging light onto this axis gives"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\begin{aligned}\nA_{\\mathrm t}\n&=A\\,\\hat{\\mathbf p}\\cdot\\hat{\\mathbf a}\n=A\\sin(\\beta-\\alpha),\\\\\nI&=I_0\\sin^2(\\beta-\\alpha).\n\\end{aligned}"
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "当 $\\alpha=\\beta$ 时，检偏器后方重新变暗。能够通过转动检偏器恢复消光，说明出射光仍是线偏振光，只是振动方向转过了 $\\beta$；检偏器从原消光位置转过的角度，也就给出了这个转角。",
+                "en": "When $\\alpha=\\beta$, the region behind the analyzer becomes dark again. The fact that extinction can be restored by rotating the analyzer shows that the emerging light is still linearly polarized, merely with its vibration direction rotated by $\\beta$; the angle through which the analyzer is rotated from its original extinction position then gives this rotation angle."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**反转磁场：偏振方向向相反一侧转动。**",
+                "en": "**Reversing the magnetic field: the polarization direction rotates to the opposite side.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "将线圈电流反向，玻璃内的磁场也随之反向，偏振转角由 $\\beta$ 变为 $-\\beta$。如果检偏器仍放在最初的 $y$ 方向，透射光强为",
+                "en": "Reverse the coil current, and the magnetic field inside the glass reverses as well, so the polarization rotation angle changes from $\\beta$ to $-\\beta$. If the analyzer is still placed in its original $y$ direction, the transmitted intensity is"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "I=I_0\\sin^2(-\\beta)=I_0\\sin^2\\beta."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "因此，单看亮度不能区分转动方向。要重新消光，检偏器必须从最初的位置向相反方向转过同样的角度，即取 $\\alpha=-\\beta$，如图1(c)所示。消光位置随磁场反向而改变，显示偏振转动的方向由磁场控制。",
+                "en": "Hence brightness alone cannot distinguish the direction of rotation. To restore extinction, the analyzer must be rotated from its original position by the same angle in the opposite direction, that is, $\\alpha=-\\beta$, as shown in Fig. 1(c). The extinction position changes when the magnetic field reverses, showing that the direction of the polarization rotation is controlled by the magnetic field."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s1-faraday.svg",
+      "alt": {
+        "zh": "法拉第效应的实验示意与旋转角",
+        "en": "Schematic of the Faraday effect and the rotation angle"
+      },
+      "caption": {
+        "zh": "图1　法拉第效应的原理示意。(a) 不加磁场，起偏器与检偏器正交，出射为暗。(b) 加上纵向磁场，偏振方向转过 $\\beta$，正交检偏器后出现透射光；检偏器转过 $\\beta$ 后重新消光。(c) 磁场反向，偏振转动和恢复消光所需的检偏器转动也随之反向。每列下方为沿光束方向看的偏振方向（蓝色）与检偏器透光轴（橙色）；橙色虚线表示恢复消光后的透光轴。图中转角大小取 $35^\\circ$ 以便看清，不表示实测值。",
+        "en": "FIG. 1. Principle of the Faraday effect. (a) With no magnetic field, the polarizer and analyzer are crossed and the output is dark. (b) With a longitudinal magnetic field, the polarization direction is rotated by $\\beta$, and transmitted light appears behind the crossed analyzer; after the analyzer is rotated by $\\beta$, extinction is restored. (c) When the magnetic field is reversed, the polarization rotation and the analyzer rotation needed to restore extinction reverse as well. Below each column are the polarization direction (blue) and the analyzer transmission axis (orange) as seen along the beam; the orange dashed line marks the transmission axis after extinction is restored. The rotation angle in the figure is taken as $35^\\circ$ for clarity and does not represent a measured value."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这一现象称为**法拉第效应**。在给定波长、温度和介质下，均匀纵向磁场中的旋转角满足",
+        "en": "This phenomenon is called the **Faraday effect**. For a given wavelength, temperature, and medium, the rotation angle in a uniform longitudinal magnetic field satisfies"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\beta=\\mathcal V B d,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "其中 $B$ 是沿光传播方向的磁感应强度分量，$d$ 是光穿过介质的长度，$\\mathcal V$ 是维尔代（Verdet）常数[<a href=\"#ref-1\">1</a>, §8.11.2]。",
+        "en": "where $B$ is the component of the magnetic induction along the propagation direction of the light, $d$ is the length over which the light passes through the medium, and $\\mathcal V$ is the Verdet constant [<a href=\"#ref-1\">1</a>, §8.11.2]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "法拉第的实验表明，磁场能够通过介质改变光的偏振方向，光与磁之间确实存在联系。但这一发现还不足以说明光是什么。要进一步建立光的电磁理论，还需要研究电磁作用如何传播。",
+        "en": "Faraday's experiment showed that a magnetic field can change the polarization direction of light through a medium, and that a connection between light and magnetism indeed exists. But this discovery was not yet sufficient to say what light is. To go further and build an electromagnetic theory of light, one must still study how electromagnetic action propagates."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "2. 光速与电学测量：1849—1857",
+        "en": "2. The Speed of Light and Electrical Measurements: 1849–1857"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "1849 年以前，光速的量级只能由天体观测估计：罗默（Ole Rømer）1676 年从木星卫星食的时刻偏差断定光以有限速度传播，布拉德雷（James Bradley）后来由恒星位置的周年变化缩小了它的大致范围[<a href=\"#ref-1\">1</a>, §1.4]。要在地面上用几公里的距离直接测出光速，需要一只能在极短时间里反复开合的“快门”，因为光走完几公里往返只要约 $6\\times10^{-5}$ s。1849 年，菲佐（Hippolyte Fizeau）在巴黎郊外做了这个测量[<a href=\"#ref-1\">1</a>, §1.4]。",
+        "en": "Before 1849, the order of magnitude of the speed of light could only be estimated from astronomical observations: in 1676 Ole Rømer inferred from timing deviations in the eclipses of Jupiter's moons that light propagates at a finite speed, and James Bradley later narrowed its rough range from the annual variation in stellar positions [<a href=\"#ref-1\">1</a>, §1.4]. To measure the speed of light directly on the ground over a distance of a few kilometers required a “shutter” that could open and close repeatedly within an extremely short time, because light covers a round trip of a few kilometers in only about $6\\times10^{-5}$ s. In 1849 Hippolyte Fizeau carried out this measurement outside Paris [<a href=\"#ref-1\">1</a>, §1.4]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "装置沿一条直线排开：近端放着光源、观察用的望远镜、一块倾斜的半透半反镜和一只边缘开齿的轮子，远处的反射镜与近端相距 $L\\approx8.6$ km（巴黎的苏雷纳到蒙马特，$8633$ m）。光源的光被半透半反镜折向轮子边缘，从齿与齿之间的缺口射出；光走过单程 $L$ 到达远处的镜子，原路返回，再从同一个齿轮的缺口穿过一次，然后透过那面镜子进入望远镜。",
+        "en": "The apparatus was laid out along a straight line: at the near end were a light source, a telescope for observation, a tilted half-silvered mirror, and a wheel with teeth cut along its rim, while the distant mirror stood at a one-way distance $L\\approx8.6$ km from the near end (from Suresnes to Montmartre in Paris, $8633$ m). Light from the source was deflected by the half-silvered mirror toward the rim of the wheel and emerged through the gap between two teeth; it traveled the one-way distance $L$ to the distant mirror, returned along the same path, passed once more through a gap in the same gear, and then entered the telescope through that mirror."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这个设计的关键，是让同一只齿轮两次控制光的通过：第一次把连续光切成一串光脉冲，第二次检验这些脉冲回来时齿隙是否仍然开放。光源虽然持续发光，经过齿轮射出的光却是断续的。光往返期间，轮子继续转动；调节转速，便能使返回的光脉冲与齿隙开放的时段重合或错开。人眼分辨不了每个短脉冲，在望远镜里看到的是它们的平均亮度。",
+        "en": "The key to the design was to let the same gear control the passage of light twice: the first time it chopped the continuous light into a train of pulses, and the second time it tested whether the gaps were still open when those pulses returned. Although the source emitted light continuously, the light emerging past the gear was intermittent. While the light made its round trip, the wheel kept rotating; by adjusting its rotation rate one could make the returning pulses coincide with, or miss, the intervals when a gap was open. The eye cannot resolve each short pulse, so what was seen in the telescope was their average brightness."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "设轮子有 $N$ 个齿和 $N$ 个齿隙，齿与齿隙等宽，每秒转 $f$ 圈。相邻两个齿隙先后到达光路的时间间隔为 $T=1/(Nf)$，每次开放持续 $T/2$。光的往返时间记为 $\\tau=2L/c$，它不随轮子转速改变。",
+        "en": "Let the wheel have $N$ teeth and $N$ gaps, with teeth and gaps equally wide, and let it rotate $f$ times per second. The time interval between two successive gaps arriving at the light path is $T=1/(Nf)$, and each opening lasts $T/2$. The round-trip time of the light is denoted $\\tau=2L/c$; it does not change with the rotation rate of the wheel."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "图2(b)–(d)的第一行画出齿隙开放的时段，第二行画出光往返一趟后回到齿轮的时段。回光只有赶上齿隙开放才能通过，因此第三行只保留前两行重叠的部分，表示最终进入望远镜的光。以下忽略光束宽度，并把轮齿视为完全不透光。",
+        "en": "In Fig. 2(b)–(d) the first row shows the intervals when a gap is open, and the second row shows the intervals when light returns to the gear after one round trip. Returning light can pass only if it catches a gap open, so the third row retains only the overlap of the first two rows, representing the light that finally enters the telescope. In what follows we neglect the width of the light beam and treat the teeth as completely opaque."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**较低转速：返回脉冲与开放时段仍有重叠。**",
+                "en": "**Lower rotation rate: the returning pulse still overlaps the open interval.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "当 $\\tau<T/2$ 时，返回脉冲的前一部分还能赶上齿隙开放，后一部分则被接着移来的齿挡住。图2(b)取 $T=4\\tau$：齿隙每次开放 $2\\tau$，返回脉冲与它重叠的时间只有 $\\tau$，所以通过的脉冲变窄，平均亮度下降。转得更慢时，两行重叠更多，回光更亮。",
+                "en": "When $\\tau<T/2$, the leading part of the returning pulse still catches the gap open, while the trailing part is blocked by the tooth that arrives next. Figure 2(b) takes $T=4\\tau$: each gap stays open for $2\\tau$, and the returning pulse overlaps it for only $\\tau$, so the transmitted pulses become narrower and the average brightness drops. At still lower rotation rates the two rows overlap more and the returning light is brighter."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**首次消光：返回的亮段恰好遇到轮齿遮挡。**",
+                "en": "**First extinction: the returning bright interval meets the teeth.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "转速增大到 $T=2\\tau$（即 $T/2=\\tau$）时，返回脉冲恰好错开齿隙的开放时段，如图2(c)。所有在齿隙开放时出发的光，回来时都被齿挡住；而返回时齿隙开放的那些时刻，对应的出发时刻又没有光通过。因此第三行始终为0，理想情况下完全消光。实际测量寻找的是回光亮度的极小值，有限光束宽度、杂散光和轮齿误差都会使这个最小值不为零。",
+                "en": "When the rotation rate increases to $T=2\\tau$ (that is, $T/2=\\tau$), the returning pulse just misses the interval when the gap is open, as in Fig. 2(c). All light that set out while the gap was open is blocked by a tooth when it returns; and at the moments when the gap is open on the return, no light passed through at the corresponding departure time. The third row is therefore always 0, and ideal extinction occurs. An actual measurement looks for a minimum in the returning brightness; the finite beam width, stray light, and errors in the teeth all keep this minimum from being zero."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**转速加倍：返回脉冲与下一个开放时段重合。**",
+                "en": "**Doubling the rotation rate: the returning pulse coincides with the next open interval.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "此时周期缩短到 $T=\\tau$，返回脉冲延迟了恰好一个周期，与当前齿隙的开放时段重新对齐，如图2(d)。每个返回脉冲都能通过，平均亮度恢复。继续提高转速，还会交替出现亮度极小和极大。",
+                "en": "The period is now shortened to $T=\\tau$, so the returning pulse is delayed by exactly one period and realigns with the interval when the current gap is open, as in Fig. 2(d). Every returning pulse passes, and the average brightness recovers. Raising the rotation rate further produces alternating minima and maxima of brightness."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "实验要记录三个量：单程距离 $L$、齿数 $N$，以及首次亮度极小时的转速 $f_1$。首次消光条件给出",
+        "en": "The experiment had to record three quantities: the one-way distance $L$, the number of teeth $N$, and the rotation rate $f_1$ at the first brightness minimum. The condition for the first extinction gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\tau=\\frac{T_1}{2}=\\frac{1}{2Nf_1},\n\\qquad\nc=\\frac{2L}{\\tau}=4LNf_1."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "例如，用下面一组示例读数计算（并非菲佐的原始实验记录）：",
+        "en": "For example, calculate with the following set of sample readings (not Fizeau's original experimental record):"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "zh": "齿轮到反射镜的单程距离 $L$：$8.60\\ \\mathrm{km}$",
+          "en": "One-way distance from the gear to the mirror $L$: $8.60\\ \\mathrm{km}$"
+        },
+        {
+          "zh": "齿数 $N$：$720$",
+          "en": "Number of teeth $N$: $720$"
+        },
+        {
+          "zh": "首次亮度极小时的转速 $f_1$：$12.5\\ \\mathrm{圈/秒}$",
+          "en": "Rotation rate at the first brightness minimum $f_1$: $12.5\\ \\mathrm{rev/s}$"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "转一整圈需要 $1/12.5=0.080$ s；从齿隙中央转到相邻齿中央，需要一整圈的 $1/(2\\times720)$，所以光的往返时间为",
+        "en": "One full turn takes $1/12.5=0.080$ s; going from the center of a gap to the center of the adjacent tooth takes $1/(2\\times720)$ of a full turn, so the round-trip time of the light is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\tau=\\frac{0.080}{1440}\\ \\mathrm s=55.6\\ \\mu\\mathrm s."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "光在这段时间里走过 $2L=17.2$ km，因而",
+        "en": "In this time the light travels $2L=17.2$ km, hence"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "c=\\frac{17.2\\times10^3\\ \\mathrm m}{55.6\\times10^{-6}\\ \\mathrm s}\n\\approx3.10\\times10^8\\ \\mathrm{m/s}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "实验没有直接用钟量出这几十微秒，而是用齿轮的转速推算它。菲佐实际采用的单程距离为 $8633$ m，得到的光速约为 $3.15\\times10^8$ m/s[<a href=\"#ref-1\">1</a>, §1.4]。",
+        "en": "The experiment did not measure these tens of microseconds directly with a clock; it inferred the time from the rotation rate of the gear. Fizeau's actual one-way distance was $8633$ m, and he obtained a speed of light of about $3.15\\times10^8$ m/s [<a href=\"#ref-1\">1</a>, §1.4]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s2-fizeau.svg",
+      "alt": {
+        "zh": "菲佐旋转齿轮法测光速的原理",
+        "en": "Principle of Fizeau's rotating-gear measurement of the speed of light"
+      },
+      "caption": {
+        "zh": "*图2　菲佐齿轮测速的原理示意，非历史装置复原。(a) 完整往返光路；去、回光实际共用光路，图中略作错开，双斜线表示省略的长距离。(b)–(d) 理想窄光束、等宽齿隙的时间脉冲序列，三列共用同一时间窗 $0$ 到 $4\\tau$，$\\tau=2L/c$ 为固定的往返时间。每列自上而下为齿隙开放的时段（灰）、回光到达齿轮的时段（橙）、最终进入望远镜的光（蓝，对应前两行重叠的部分）。(b) 转速 $f_1/2$，$T=4\\tau$，两列部分重叠，回光减弱，时间平均通光为 $1/4$；(c) 转速 $f_1$，$T=2\\tau$，完全错开，理想消光，平均为 $0$；$f_1=c/(4LN)$ 即首次出现消光的转速，$N$ 为齿数。(d) 转速 $2f_1$，$T=\\tau$，重新对齐，回光恢复，平均为 $1/2$。时间平均决定望远镜中的亮度，这里以不被齿轮遮挡时的返回光强归一化。*",
+        "en": "*FIG. 2. Principle of Fizeau's rotating-gear measurement of the speed of light, a schematic and not a reconstruction of the historical apparatus. (a) The complete round-trip light path; the outgoing and returning light in fact share the same path, drawn slightly offset here, and the double slashes indicate the omitted long distance. (b)–(d) Time sequences of pulses for an ideal narrow beam and equal-width gaps, all three columns sharing the same time window from $0$ to $4\\tau$, where $\\tau=2L/c$ is the fixed round-trip time. In each column, from top to bottom, are the intervals when a gap is open (gray), the intervals when returning light reaches the gear (orange), and the light that finally enters the telescope (blue, the overlap of the first two rows). (b) Rotation rate $f_1/2$, $T=4\\tau$: the rows partially overlap, the returning light is weakened, and the time-averaged transmission is $1/4$. (c) Rotation rate $f_1$, $T=2\\tau$: the rows just miss each other, giving ideal extinction and an average of $0$; here $f_1=c/(4LN)$ is the rotation rate at which extinction first appears, with $N$ the number of teeth. (d) Rotation rate $2f_1$, $T=\\tau$: the rows realign, the returning light recovers, and the average is $1/2$. The time average determines the brightness in the telescope, normalized here to the returning intensity when the gear does not block it.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "几年后，一组与光无关的电学实验给出了另一个可以写成速度的数。",
+        "en": "A few years later, a set of electrical experiments unrelated to light produced another number that could be written as a speed."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "19 世纪中叶，电学里有一个把静电测量和电流测量联系起来的问题：同一份电荷，用静电力去量，和用它放电时电流的磁效应去量，得到的两套数值相差多少？韦伯（Wilhelm Weber）和科尔劳施（Rudolph Kohlrausch）在莱比锡用一个莱顿瓶把这两种测量放在同一份电荷上[<a href=\"#ref-3\">3</a>, §2.4.8]。测量分两条路。",
+        "en": "In the mid-nineteenth century, electricity posed a question connecting electrostatic and current measurements: how far apart are the two sets of values obtained for the same charge when it is measured by electrostatic force and when it is measured by the magnetic effect of the current during its discharge? In Leipzig, Wilhelm Weber and Rudolph Kohlrausch used a single Leyden jar to apply both kinds of measurement to the same charge [<a href=\"#ref-3\">3</a>, §2.4.8]. The measurement proceeded along two routes."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**静电一路。**",
+                "en": "**The electrostatic route.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "科尔劳施先用一只导体球接触莱顿瓶的内层导体，取走一部分电荷，再由接触前后瓶电压的变化定出球带走的电荷占瓶中原有电荷的几分之几。球上的电量放在库仑扭秤上测量。扭秤用细丝悬挂一根端部带小球的水平轻杆，被测电荷与秤内固定小球之间的电力使轻杆扭转，悬挂的细丝或石英丝产生的回复扭矩与它平衡；在扭转范围内，悬丝扭转的角度正比于所受扭矩，因此角度先经标定对应到力。知道作用力、两球间距，以及两球所带电荷的比例（由两球接触使电荷等分来控制），再由库仑定律",
+                "en": "Kohlrausch first touched a conducting sphere to the inner conductor of the Leyden jar and removed part of the charge; from the change in the jar's voltage before and after contact he determined what fraction of the jar's original charge the sphere carried away. The charge on the sphere was measured with a Coulomb torsion balance. The balance hangs a light horizontal rod carrying a small ball at its end from a fine fiber; the electric force between the charge under test and a fixed ball in the balance twists the rod, and the restoring torque of the suspended fiber or quartz thread balances it. Over the range of twist, the angle through which the fiber twists is proportional to the torque applied, so the angle is first calibrated against force. Knowing the force, the separation of the two balls, and the ratio of their charges (controlled by touching the balls so as to divide the charge equally), one then uses Coulomb's law"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "F_{\\rm e}=k_{\\rm e}\\frac{q_1q_2}{r^2},"
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "就定出以静电力标定的电量。其中 $q_1$、$q_2$ 是两球所带电荷，$r$ 是球心间距，图3(a)标出了这三个量。",
+                "en": "to determine the charge calibrated by electrostatic force. Here $q_1$ and $q_2$ are the charges on the two balls, $r$ is the separation of their centers, and Fig. 3(a) marks these three quantities."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**电流一路。**",
+                "en": "**The current route.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "同一只莱顿瓶通过一只自制的冲击电流计短促放电。放电电流在短时间内通过线圈，对线圈施以磁作用的冲量，使它带着指针或小镜摆动；第一次摆动的最大幅度正比于这个冲量，而冲量正比于放电电流对时间的积分 $\\int I\\,\\mathrm dt$。这一步成立的假设是放电时间远短于电流计的摆动周期，放电结束前摆几乎来不及发生，整次放电因而可以当成一次瞬间冲量，最大偏转才直接对应 $Q=\\int I\\,\\mathrm dt$。这样得到的电量以电流的磁作用标定。",
+                "en": "The same Leyden jar was discharged in a brief pulse through a homemade ballistic galvanometer. For a short time the discharge current passed through the coil and gave it an impulse through magnetic action, setting it swinging together with a pointer or small mirror; the maximum amplitude of the first swing is proportional to this impulse, and the impulse is proportional to the time integral of the discharge current, $\\int I\\,\\mathrm dt$. This step assumes that the discharge time is much shorter than the swing period of the galvanometer, so that the swing has barely begun before the discharge ends and the whole discharge can be treated as an instantaneous impulse; only then does the maximum deflection correspond directly to $Q=\\int I\\,\\mathrm dt$. The charge obtained this way is calibrated by the magnetic action of the current."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两条路测的是同一个瓶里的同一份电荷，只是一个化成放电电流来量，一个化成静电电量来量；图3把这两条路线并排画出。",
+        "en": "The two routes measured the same charge in the same jar, one by converting it into a discharge current and the other by converting it into an electrostatic charge; Fig. 3 shows the two routes side by side."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s2-charge-measurement.svg",
+      "alt": {
+        "zh": "同一份电荷的两种测法",
+        "en": "Two ways of measuring the same charge"
+      },
+      "caption": {
+        "zh": "*图3　电量测量与两种力的关系。(a) 莱顿瓶取样后用库仑扭秤测量，$q_1$、$q_2$ 为两球电荷，$r$ 为球心间距，虚线表示取样转移。(b) 莱顿瓶经冲击电流计放电，$I(t)$ 为放电电流，$Q$ 为总放电量；(a)(b) 是分别进行的测量。(c) 用来说明磁作用常数的平行导线示意：电流 $I_1$、$I_2$ 同向，两线相距 $r$，长度 $\\ell$ 上的磁力为 $F_{\\rm m}$，方向相互吸引。*",
+        "en": "*FIG. 3. Charge measurement and its relation to the two kinds of force. (a) A sample is taken from the Leyden jar and measured with a Coulomb torsion balance; $q_1$ and $q_2$ are the charges on the two balls, $r$ is the separation of their centers, and the dashed line indicates the transfer of the sample. (b) The Leyden jar is discharged through a ballistic galvanometer; $I(t)$ is the discharge current and $Q$ the total charge discharged; (a) and (b) are separate measurements. (c) A parallel-wire schematic used to illustrate the constant of magnetic action: the currents $I_1$ and $I_2$ run in the same direction, the wires are a distance $r$ apart, the magnetic force on a length $\\ell$ is $F_{\\rm m}$, and its direction is mutually attractive; this diagram does not belong to the discharge circuit of the Leyden jar.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "库仑定律中的 $k_{\\rm e}$ 表示静电作用的强度。电流的磁作用也有相应的常数 $k_{\\rm m}$。对于两根平行长直导线，单位长度所受的磁力为",
+        "en": "The constant $k_{\\rm e}$ in Coulomb's law measures the strength of the electrostatic interaction. The magnetic action of a current has a corresponding constant $k_{\\rm m}$. For two long parallel straight wires, the magnetic force per unit length is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\frac{F_{\\rm m}}{\\ell}=2k_{\\rm m}\\frac{I_1I_2}{r},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "如图3(c)，$I_1$、$I_2$ 分别是两根导线中的稳恒电流，$r$ 是两线间距，$F_{\\rm m}$ 是长度为 $\\ell$ 的一段导线所受的磁力。同向电流相互吸引，电流越大或间距越小，吸引力越强。这里用平行导线的简单几何来表示磁作用常数 $k_{\\rm m}$；图3(b)实际放电回路中的电流则记为 $I(t)$。",
+        "en": "As in Fig. 3(c), $I_1$ and $I_2$ are the steady currents in the two wires, $r$ is the distance between them, and $F_{\\rm m}$ is the magnetic force on a segment of length $\\ell$. Currents in the same direction attract each other, and the attraction is stronger for larger currents or smaller separations. The parallel wires are used here as a simple geometry to represent the constant of magnetic action $k_{\\rm m}$; the current in the actual discharge circuit of Fig. 3(b) is written $I(t)$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "电流是单位时间通过截面的电量，稳恒电流满足 $I=Q/t$。由 $F_{\\rm e}$ 的表达式，$k_{\\rm e}$ 的单位是 $\\mathrm{N\\,m^2/C^2}$；由导线单位长度的磁力表达式，$k_{\\rm m}$ 的单位是 $\\mathrm{N/A^2}=\\mathrm{N\\,s^2/C^2}$。两者相除，力和电量的单位消去，只剩长度平方比时间平方：",
+        "en": "Current is the charge passing through a cross section per unit time, and a steady current satisfies $I=Q/t$. From the expression for $F_{\\rm e}$, the unit of $k_{\\rm e}$ is $\\mathrm{N\\,m^2/C^2}$; from the expression for the magnetic force per unit length of the wire, the unit of $k_{\\rm m}$ is $\\mathrm{N/A^2}=\\mathrm{N\\,s^2/C^2}$. Dividing one by the other cancels the units of force and charge, leaving only a squared length over a squared time:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\left[\\frac{k_{\\rm e}}{k_{\\rm m}}\\right]\n=\\frac{\\mathrm{m^2}}{\\mathrm{s^2}},\n\\qquad\nv_{\\rm e}=\\sqrt{\\frac{k_{\\rm e}}{k_{\\rm m}} } ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "韦伯与科尔劳施的测量结果对应的 $v_{\\rm e}$ 约为 $3.11\\times10^8$ m/s[<a href=\"#ref-3\">3</a>, §2.4.8]。",
+        "en": "The measurements of Weber and Kohlrausch correspond to $v_{\\rm e}$ of about $3.11\\times10^8$ m/s [<a href=\"#ref-3\">3</a>, §2.4.8]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "1857 年，基尔霍夫（Gustav Kirchhoff）从当时流行的电动力学理论出发，算出细导线上的电扰动以约 $3.1\\times10^8$ m/s 传播，并记下它与真空中光速相符，没有多作解释[<a href=\"#ref-3\">3</a>, §2.5.4; <a href=\"#ref-2\">2</a>, p. 240]。",
+        "en": "In 1857 Gustav Kirchhoff, starting from the electrodynamic theory then current, calculated that an electric disturbance on a thin wire propagates at about $3.1\\times10^8$ m/s, and noted that this agrees with the speed of light in vacuum, without explaining it further [<a href=\"#ref-3\">3</a>, §2.5.4; <a href=\"#ref-2\">2</a>, p. 240]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "菲佐用齿轮测出了光的往返时间，韦伯与科尔劳施比较了静电作用和电流的磁效应，基尔霍夫又把后者得到的电学参数与导线上电扰动的传播速度联系起来。这几项工作逐渐汇到同一个问题上：为什么从电学中得到的速度，会与光速如此接近？麦克斯韦随后建立的电磁理论，为这种接近给出了物理解释。",
+        "en": "Fizeau measured the round-trip time of light with a gear, Weber and Kohlrausch compared the electrostatic interaction with the magnetic effect of a current, and Kirchhoff connected the electrical parameters obtained from the latter with the propagation speed of an electric disturbance along a wire. These works gradually converged on a single question: why should a speed obtained from electricity come so close to the speed of light? The electromagnetic theory Maxwell went on to build gave this closeness a physical explanation."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "3. 光的电磁理论：1861—1865",
+        "en": "3. The Electromagnetic Theory of Light: 1861–1865"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "经过对以太力学模型的探索，麦克斯韦（James Clerk Maxwell）在1860年代把电与磁的规律统一到一套场的理论中。关键的一步，是在描述电流磁效应的方程中加入变化电场的贡献：变化的磁场与电场相联系，变化的电场也与磁场相联系。由此，他解出了能够在空间中传播的电磁波，并算出了它的传播速度[<a href=\"#ref-3\">3</a>, §§4.3.3, 4.4.6; <a href=\"#ref-2\">2</a>, pp. 240–242]。",
+        "en": "After exploring mechanical models of the ether, James Clerk Maxwell in the 1860s unified the laws of electricity and magnetism into a single field theory. The key step was to add the contribution of a changing electric field to the equation describing the magnetic effect of a current: a changing magnetic field is linked to an electric field, and a changing electric field is linked to a magnetic field as well. From this he solved for electromagnetic waves able to propagate through space and calculated their speed [<a href=\"#ref-3\">3</a>, §§4.3.3, 4.4.6; <a href=\"#ref-2\">2</a>, pp. 240–242]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "在没有电荷和电流的真空中，电场与磁场满足麦克斯韦方程：",
+        "en": "In vacuum, with no charges or currents, the electric and magnetic fields satisfy Maxwell's equations:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\nabla\\cdot\\mathbf E&=0, &\\qquad \\nabla\\cdot\\mathbf B&=0,\\\\[2pt]\n\\nabla\\times\\mathbf E&=-\\frac{\\partial\\mathbf B}{\\partial t}, &\\qquad\n\\nabla\\times\\mathbf B&=\\mu_0\\epsilon_0\\,\\frac{\\partial\\mathbf E}{\\partial t}.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$\\mathbf E$ 是电场强度（单位 V/m），$\\mathbf B$ 是磁感应强度（单位 T），$\\epsilon_0$、$\\mu_0$ 是由电学测量定出的两个常数[<a href=\"#ref-4\">4</a>, §9.2.1]。两条散度方程说，在这片没有电荷的区域内，电场线与磁场线都没有源或汇；两条旋度方程说，变化的磁场在周围激起绕行的电场（法拉第电磁感应定律），变化的电场在周围激起绕行的磁场（安培定律加上麦克斯韦补上的那一项）。后两条把 $\\mathbf E$ 和 $\\mathbf B$ 缠在一起，取旋度可以把它们拆开。",
+        "en": "$\\mathbf E$ is the electric field strength (unit V/m), $\\mathbf B$ is the magnetic induction (unit T), and $\\epsilon_0$ and $\\mu_0$ are two constants fixed by electrical measurements [<a href=\"#ref-4\">4</a>, §9.2.1]. The two divergence equations say that in this charge-free region the electric and magnetic field lines have no sources or sinks; the two curl equations say that a changing magnetic field excites a circulating electric field around it (Faraday's law of induction), and a changing electric field excites a circulating magnetic field around it (Ampère's law together with the term Maxwell added). The latter two entangle $\\mathbf E$ and $\\mathbf B$; taking a curl separates them."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "对法拉第定律两边取旋度：",
+        "en": "Take the curl of both sides of Faraday's law:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\nabla\\times(\\nabla\\times\\mathbf E)\n=-\\frac{\\partial}{\\partial t}(\\nabla\\times\\mathbf B)\n=-\\mu_0\\epsilon_0\\,\\frac{\\partial^2\\mathbf E}{\\partial t^2},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "第二步交换了时间偏导与空间旋度的顺序，并代入了另一条旋度方程。左边用恒等式 $\\nabla\\times(\\nabla\\times\\mathbf A)=\\nabla(\\nabla\\cdot\\mathbf A)-\\nabla^2\\mathbf A$，其中 $\\nabla^2=\\partial_x^2+\\partial_y^2+\\partial_z^2$。真空里 $\\nabla\\cdot\\mathbf E=0$，第一项消失，于是",
+        "en": "The second step exchanges the order of the time derivative and the spatial curl and substitutes the other curl equation. On the left, use the identity $\\nabla\\times(\\nabla\\times\\mathbf A)=\\nabla(\\nabla\\cdot\\mathbf A)-\\nabla^2\\mathbf A$, where $\\nabla^2=\\partial_x^2+\\partial_y^2+\\partial_z^2$. In vacuum $\\nabla\\cdot\\mathbf E=0$, so the first term vanishes, and hence"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\nabla^2\\mathbf E=\\mu_0\\epsilon_0\\,\\frac{\\partial^2\\mathbf E}{\\partial t^2}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "对另一条旋度方程做同样的操作，并利用 $\\nabla\\cdot\\mathbf B=0$，$\\mathbf B$ 也满足同样的方程。这正是波动方程，其行波解的传播速度为",
+        "en": "Applying the same operation to the other curl equation and using $\\nabla\\cdot\\mathbf B=0$, $\\mathbf B$ satisfies the same equation. This is exactly the wave equation, and the propagation speed of its traveling-wave solution is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "v=\\frac{1}{\\sqrt{\\mu_0\\epsilon_0}} ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把这组方程的解取为沿一个方向传播的平面波，两条散度方程要求电场和磁场都垂直于传播方向，两条旋度方程进一步要求二者彼此垂直，因此这是一列横波；图4画出它的电场、磁场与传播方向。",
+        "en": "Taking the solution of these equations to be a plane wave propagating in one direction, the two divergence equations require the electric and magnetic fields to be perpendicular to the propagation direction, and the two curl equations further require them to be perpendicular to each other; it is therefore a transverse wave. Figure 4 shows its electric field, magnetic field, and propagation direction."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "由于 $k_{\\rm e}=1/(4\\pi\\epsilon_0)$、$k_{\\rm m}=\\mu_0/(4\\pi)$，波速 $v=1/\\sqrt{\\mu_0\\epsilon_0}$ 恰好等于电学测量中的 $v_{\\rm e}=\\sqrt{k_{\\rm e}/k_{\\rm m}}$。代入韦伯与科尔劳施的电学测量结果，得到约 $3.11\\times10^8$ m/s；另一边，菲佐用齿轮与反射镜测出的光速约为 $3.15\\times10^8$ m/s。前一个结果来自电荷与电流，后一个结果来自光的往返，两条独立路线得到的速度十分接近[<a href=\"#ref-3\">3</a>, §4.3.3]。",
+        "en": "Since $k_{\\rm e}=1/(4\\pi\\epsilon_0)$ and $k_{\\rm m}=\\mu_0/(4\\pi)$, the wave speed $v=1/\\sqrt{\\mu_0\\epsilon_0}$ is exactly the $v_{\\rm e}=\\sqrt{k_{\\rm e}/k_{\\rm m}}$ of the electrical measurements. Substituting the electrical measurements of Weber and Kohlrausch gives about $3.11\\times10^8$ m/s; on the other hand, the speed of light measured by Fizeau with a gear and a mirror is about $3.15\\times10^8$ m/s. The first result comes from charges and currents, the second from the round trip of light, and the two independent routes give speeds that are very close [<a href=\"#ref-3\">3</a>, §4.3.3]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "电学理论算出的波速与独立测得的光速接近，这种波又具有偏振所要求的横向性（图4）。因此，光可能不是另一种恰好同速的波，光本身就是电磁波。此前不知道“光里究竟是什么在振动”，现在有了一个具体答案：电场与磁场[<a href=\"#ref-3\">3</a>, §§4.3.3, 4.4.6]。",
+        "en": "The wave speed calculated from electrical theory is close to the independently measured speed of light, and this wave has the transversality that polarization requires (Fig. 4). Light therefore need not be another wave that merely happens to have the same speed: light itself is an electromagnetic wave. What had been unknown—what exactly was vibrating in light—now had a concrete answer: the electric and magnetic fields [<a href=\"#ref-3\">3</a>, §§4.3.3, 4.4.6]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s2-plane-wave.svg",
+      "alt": {
+        "zh": "沿 +x 传播的平面电磁波",
+        "en": "A plane electromagnetic wave propagating along +x"
+      },
+      "caption": {
+        "zh": "*图4　真空中沿 $+x$ 方向传播的平面电磁波，$t=0$ 时刻的快照（理论示意）。(a) 电场与磁场同相振荡，波长 $\\lambda=2\\pi/k$，图样以速度 $c$ 向右平移；$B_0=E_0/c$。(b) 电场、磁场、传播方向两两垂直：图中取 $\\mathbf E$ 沿 $y$、$\\mathbf B$ 沿 $z$、波沿 $x$。*",
+        "en": "*FIG. 4. A plane electromagnetic wave propagating in vacuum along $+x$, a snapshot at $t=0$ (theoretical schematic). (a) The electric and magnetic fields oscillate in phase, the wavelength is $\\lambda=2\\pi/k$, and the pattern translates to the right at speed $c$; $B_0=E_0/c$. (b) The electric field, magnetic field, and propagation direction are mutually perpendicular: here $\\mathbf E$ is along $y$, $\\mathbf B$ along $z$, and the wave along $x$.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "如果光就是电磁波，那么电装置能不能也发出这样的波？当时还无法让电流振荡得像可见光那样快，但较慢的振荡应当产生波长更长的波。它们虽然看不见，却可以通过对另一套电装置的作用被探测到。",
+        "en": "If light is an electromagnetic wave, could an electrical device also emit such waves? At the time it was impossible to make a current oscillate as fast as visible light, but slower oscillations should produce waves of longer wavelength. Although invisible, they should be detectable through their action on another electrical device."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "4. 赫兹的实验：1886—1888",
+        "en": "4. Hertz's Experiment: 1886–1888"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "赫兹（Heinrich Hertz）要判别的，是亥姆霍兹（Hermann von Helmholtz）框架内哪一个电动力学方案成立，而不是直接测量光速；造波、检波和测量波长，构成了他在这一过程中发展出的一整套实验技术[<a href=\"#ref-3\">3</a>, §6.3.11, §6.4.1, §6.4.3–§6.4.6]。",
+        "en": "What Heinrich Hertz set out to decide was which electrodynamic scheme within the framework of Hermann von Helmholtz was correct, not to measure the speed of light directly. In the process, he developed a suite of techniques for generating waves, detecting them, and measuring their wavelengths [<a href=\"#ref-3\">3</a>, §6.3.11, §6.4.1, §6.4.3–§6.4.6]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "发射器是两段金属导体，中间留一道很窄的空隙，叫火花隙。鲁姆科夫（Ruhmkorff）线圈给导体充电，电压升到足以击穿空隙时，一道火花把两段导体接通，电荷在导体之间来回振荡，形成快速振荡的电偶极子，向空间辐射[<a href=\"#ref-3\">3</a>, §6.4.3; <a href=\"#ref-1\">1</a>, §3.6.1]。",
+        "en": "The transmitter consisted of two metal conductors separated by a very narrow gap, the spark gap. A Ruhmkorff coil charged the conductors; when the voltage rose enough to break down the gap, a spark connected the two conductors, and charge oscillated back and forth between them, forming a rapidly oscillating electric dipole that radiated into space [<a href=\"#ref-3\">3</a>, §6.4.3; <a href=\"#ref-1\">1</a>, §3.6.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "接收器是一段弯成环或拉成直线的导线，中间留一道极小的空隙，小到要在暗处才看得见火花。把它放到离发射器几米远的地方，如果辐射的电场在导线里推动电荷、在空隙两端积起足够高的电压，空隙就被击穿，出现一粒肉眼可见的小火花[<a href=\"#ref-3\">3</a>, §6.4.3; <a href=\"#ref-1\">1</a>, §3.6.1]。看到小火花，只说明有一份电磁扰动到达了接收器所在的位置；它本身分不清近处的静电感应和远处的辐射，也不给出波长。赫兹进一步改变接收器的取向，并用金属板反射这些波，观察接收效果怎样随位置变化。",
+        "en": "The receiver was a piece of wire bent into a loop or drawn out straight, with a very small gap in the middle, small enough that the spark could be seen only in the dark. Placed a few meters from the transmitter, if the radiated electric field drove charges in the wire and built up a high enough voltage across the gap, the gap broke down and a small spark visible to the eye appeared [<a href=\"#ref-3\">3</a>, §6.4.3; <a href=\"#ref-1\">1</a>, §3.6.1]. Seeing a small spark shows only that some electromagnetic disturbance reached the position of the receiver; by itself it cannot distinguish the nearby electrostatic induction from the distant radiation, nor does it give the wavelength. Hertz went on to change the orientation of the receiver and to reflect these waves from a metal plate, observing how the received effect varied with position."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**转动接收器，确定振动的方向。**",
+                "en": "**Rotating the receiver to determine the direction of vibration.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "保持位置不变，绕自身轴转动接收器，火花的强弱随取向变化，某些取向下火花消失。接收器对电场和磁场都有耦合，不同几何下响应不一样；在合适的取向和距离上，火花主要由电场驱动。不能把任意取向的接收环都当成纯电场探针。",
+                "en": "Keeping its position fixed and turning the receiver about its own axis, the strength of the spark varies with orientation, and in some orientations the spark disappears. The receiver couples to both the electric and magnetic fields, and its response differs with geometry; at a suitable orientation and distance, the spark is driven mainly by the electric field. Not every orientation of the receiving loop can be treated as a pure electric-field probe."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**在对面立一块金属板。**",
+                "en": "**Placing a metal plate on the opposite side.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "让发射的波和板面反射回来的波在板前叠加，形成驻波。",
+                "en": "The emitted wave and the wave reflected from the plate's surface superpose in front of the plate, forming a standing wave."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**沿垂直板面的方向移动接收器。**",
+                "en": "**Moving the receiver along the direction perpendicular to the plate.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "火花在某些位置最强，在另一些位置消失，消失的位置等间距排列。",
+                "en": "The spark is strongest at some positions and disappears at others, and the positions of disappearance are equally spaced."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "在主要探测切向电场的配置下，接收极小的位置对应电场驻波的节点。设板面在 $x=0$，波从 $x>0$ 一侧沿 $-x$ 射向板，电场 $E_y$ 平行于板面。把金属近似为理想导体，其内部电场为零。",
+        "en": "In the configuration that mainly probes the tangential electric field, the positions of minimum reception correspond to the nodes of the electric-field standing wave. Let the plate lie at $x=0$, with the wave traveling from the $x>0$ side along $-x$ toward the plate, and the electric field $E_y$ parallel to the plate's surface. Approximate the metal as a perfect conductor, whose interior electric field is zero."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "取一个跨过板面的小矩形回路，两条长边沿 $y$ 方向，长度为 $a$，分别位于金属内外；两条短边沿 $x$ 方向，长度为 $h$，如图5(c)。法拉第电磁感应定律给出",
+        "en": "Take a small rectangular loop crossing the plate's surface, with its two long sides along $y$, of length $a$, one inside and one outside the metal, and its two short sides along $x$, of length $h$, as in Fig. 5(c). Faraday's law of induction gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\oint\\mathbf E\\cdot\\mathrm d\\boldsymbol\\ell\n=-\\frac{\\mathrm d}{\\mathrm dt}\\int\\mathbf B\\cdot\\mathrm d\\mathbf S."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "让 $h$ 趋于零。在场及其时间变化有限的条件下，磁通量的变化随回路面积 $ah$ 趋于零，两条短边的电场积分也趋于零。两条长边绕行方向相反，剩下",
+        "en": "Let $h$ tend to zero. Under the condition that the field and its time variation are finite, the change of the magnetic flux tends to zero with the loop area $ah$, and the electric-field integrals along the two short sides also tend to zero. The two long sides are traversed in opposite directions, leaving"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "a\\bigl(E_y^{\\mathrm{out}}-E_y^{\\mathrm{in}}\\bigr)=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因此，界面两侧的切向电场连续。理想导体内 $E_y^{\\mathrm{in}}=0$，板外紧贴表面的总电场也满足 $E_y(0,t)=0$，板面就是电场的节点。",
+        "en": "Hence the tangential electric field is continuous across the interface. Inside the perfect conductor $E_y^{\\mathrm{in}}=0$, and the total field just outside the surface also satisfies $E_y(0,t)=0$, so the plate's surface is a node of the electric field."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "设入射波与反射波分别为",
+        "en": "Let the incident and reflected waves be, respectively,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nE_{\\mathrm i}(x,t)&=E_0\\sin(\\omega t+kx),\\\\\nE_{\\mathrm r}(x,t)&=A_{\\mathrm r}\\sin(\\omega t-kx+\\varphi),\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "其中 $E_0>0$、$A_{\\mathrm r}\\geq0$ 为振幅，$\\omega$ 为角频率，$k=2\\pi/\\lambda$ 为波数，$\\varphi$ 为反射相位。在板面 $x=0$ 处，两列波始终相消：",
+        "en": "where $E_0>0$ and $A_{\\mathrm r}\\geq0$ are amplitudes, $\\omega$ is the angular frequency, $k=2\\pi/\\lambda$ is the wave number, and $\\varphi$ is the reflection phase. At the plate's surface $x=0$, the two waves always cancel:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "(E_0+A_{\\mathrm r}\\cos\\varphi)\\sin\\omega t\n+A_{\\mathrm r}\\sin\\varphi\\cos\\omega t=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这对任意时刻都成立，要求两个系数分别为零，因而 $A_{\\mathrm r}=E_0$、$\\varphi=\\pi\\pmod{2\\pi}$。反射波与入射波等振幅，在板面相差半个周期，叠加后得到",
+        "en": "This holds at every instant, requiring the two coefficients to vanish separately, so $A_{\\mathrm r}=E_0$ and $\\varphi=\\pi\\pmod{2\\pi}$. The reflected wave has the same amplitude as the incident wave and differs in phase by half a period at the plate's surface; superposing them gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "E=E_0\\bigl[\\sin(\\omega t+kx)-\\sin(\\omega t-kx)\\bigr]=2E_0\\sin kx\\,\\cos\\omega t ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "时间因子 $\\cos\\omega t$ 与位置无关，空间因子 $\\sin kx$ 决定每一点的振幅。振幅为零的位置满足 $\\sin kx=0$，即 $x=m\\lambda/2$，$m=0,1,2,\\dots$；相邻两个节点的距离是 $\\lambda/2$。把接收器沿这条线移动，记下相邻两个火花消失的位置，两者距离的两倍就是波长。图5给出装置和驻波形状。",
+        "en": "The time factor $\\cos\\omega t$ is independent of position, and the spatial factor $\\sin kx$ determines the amplitude at each point. The positions of zero amplitude satisfy $\\sin kx=0$, that is, $x=m\\lambda/2$, $m=0,1,2,\\dots$; the distance between adjacent nodes is $\\lambda/2$. Moving the receiver along this line and recording two successive positions at which the spark disappears, twice the distance between them is the wavelength. Figure 5 shows the apparatus and the shape of the standing wave."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "**示例计算。** 设相邻节点相距 $0.50$ m，则 $\\lambda=1.0$ m；若测得的间距是 $0.48$ m，则 $\\lambda=0.96$ m，间距的相对误差直接成为波长的相对误差。",
+        "en": "**Sample calculation.** If adjacent nodes are $0.50$ m apart, then $\\lambda=1.0$ m; if the measured spacing is $0.48$ m, then $\\lambda=0.96$ m, and the relative error of the spacing directly becomes the relative error of the wavelength."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s3-hertz.svg",
+      "alt": {
+        "zh": "赫兹实验：发射器、接收器与驻波",
+        "en": "Hertz's experiment: transmitter, receiver, and standing wave"
+      },
+      "caption": {
+        "zh": "*图5　赫兹实验的示意。(a) 发射器为跨火花隙的振荡放电，接收器画为带火花隙的直导线，空隙处的小火花表示接收到电磁扰动。(b) 反射板前的驻波：节点（黑点）相距 $\\lambda/2$，波腹处振幅为入射波的两倍；示例节点间距为 $0.5$ m。(c) 跨过板面的小矩形回路，长边为 $a$、短边为 $h$；$h\\to0$ 时，两条长边的电场积分相消，给出切向电场连续。*",
+        "en": "*FIG. 5. Schematic of Hertz's experiment. (a) The transmitter is an oscillatory discharge across a spark gap, and the receiver is drawn as a straight wire with a spark gap, the small spark at the gap indicating that an electromagnetic disturbance has been received. (b) The standing wave in front of the reflecting plate: the nodes (black dots) are $\\lambda/2$ apart, and the amplitude at the antinodes is twice that of the incident wave; the sample node spacing is $0.5$ m. (c) The small rectangular loop crossing the plate's surface, with long sides $a$ and short sides $h$; as $h\\to0$, the electric-field integrals along the two long sides cancel, giving the continuity of the tangential electric field.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "赫兹不只量出波长。他让这些波反射、折射，用金属面把它们聚焦，转动接收器确定它们的偏振，并让入射波与反射波干涉出驻波[<a href=\"#ref-1\">1</a>, §3.6.1]。这些正是第一篇里光所表现的行为：光能反射、折射、偏振、干涉，而偏振说明光是横波。电产生的波逐条复现了这些性质，同一组方程对波长也不设上下限，从米量级一直到光波量级都适用。赫兹把这些波称为“波长很长的光线”，认为它们足以消除对光、辐射热和电磁波同一性的疑问[<a href=\"#ref-1\">1</a>, §3.6.1]。",
+        "en": "Hertz did not only measure the wavelength. He made these waves reflect and refract, focused them with metal surfaces, rotated the receiver to determine their polarization, and made the incident and reflected waves interfere into a standing wave [<a href=\"#ref-1\">1</a>, §3.6.1]. These are precisely the behaviors light exhibited in the first note: light reflects, refracts, polarizes, and interferes, and polarization shows that light is a transverse wave. The waves produced by electricity reproduced these properties one by one, and the same set of equations sets no upper or lower limit on wavelength, applying from the meter scale all the way to the scale of light waves. Hertz called these waves “light rays of very long wavelength” and considered them sufficient to remove doubt about the identity of light, radiant heat, and electromagnetic waves [<a href=\"#ref-1\">1</a>, §3.6.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "金属板面是电场的节点，入射波与反射波在板面相差半个周期，恰好相消。牛顿环的中心暗斑也与反射时的半周期相位差有关。玻璃与空气的分界面上，这个相位差又是怎样产生的？",
+        "en": "The metal plate's surface is a node of the electric field, and the incident and reflected waves differ by half a period at the surface and cancel exactly. The dark center of Newton's rings is likewise related to the half-period phase difference on reflection. At a glass–air interface, how is this phase difference produced?"
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "5. 再看薄膜干涉：麦克斯韦方程的边界条件",
+        "en": "5. Thin-Film Interference Revisited: Boundary Conditions of Maxwell's Equations"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "平凸透镜的凸面轻放在平玻璃板上，两者之间形成从接触点向外增厚的空气膜。用单色光近垂直照明，反射光里出现同心的明暗环，中心是一个暗斑；只计膜厚 $h$ 带来的传播相位差 $4\\pi h/\\lambda$（$\\lambda$ 为空气中的波长），接触点 $h=0$ 处应当最亮，与观察相反。1802 年，杨在讨论薄泡反射光的中央暗斑时补上一条规则：光在通向折射率较高介质的界面上反射，相位改变 $\\pi$；他把折射率介于透镜与平板之间的液体压入膜内，中央斑随之变亮[<a href=\"#ref-2\">2</a>, §5.1, p. 182]。要从电磁理论推出这条规则，需要知道分界面对电磁场施加什么边界条件。",
+        "en": "The convex surface of a plano-convex lens rests lightly on a flat glass plate, and between them an air film thickens outward from the point of contact. Under near-normal illumination with monochromatic light, concentric bright and dark rings appear in the reflected light, with a dark spot at the center; counting only the propagation phase difference $4\\pi h/\\lambda$ from the film thickness $h$ (where $\\lambda$ is the wavelength in air), the point of contact $h=0$ should be brightest, contrary to observation. In 1802, discussing the dark center of light reflected from a thin bubble, Young added a rule: light reflected at an interface toward a medium of higher refractive index changes phase by $\\pi$; pressing a liquid with refractive index between those of the lens and the plate into the film made the central spot brighten [<a href=\"#ref-2\">2</a>, §5.1, p. 182]. To derive this rule from electromagnetic theory, one needs to know what boundary conditions the interface imposes on the electromagnetic field."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "取线偏振平面波垂直入射到两种非磁性透明无损介质的平面分界面上，分界面为 $z=0$，$z<0$ 是折射率 $n_1$ 的介质，$z>0$ 是 $n_2$ 的介质，介质中的相速度 $v=c/n$。入射波沿 $+z$、电场沿 $x$，角频率 $\\omega$；分界面上三个波按共同的 $\\cos\\omega t$ 变化，振幅带符号，写为",
+        "en": "Take a linearly polarized plane wave at normal incidence on the planar interface of two nonmagnetic, transparent, lossless media, with the interface at $z=0$, the medium at $z<0$ having refractive index $n_1$ and that at $z>0$ having $n_2$, and the phase speed in the medium being $v=c/n$. The incident wave travels along $+z$ with its electric field along $x$ and angular frequency $\\omega$; at the interface the three waves vary with a common $\\cos\\omega t$, with signed amplitudes, written as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "E_{\\rm I}=E_{0\\rm I}\\cos\\omega t,\\quad\nE_{\\rm R}=E_{0\\rm R}\\cos\\omega t,\\quad\nE_{\\rm T}=E_{0\\rm T}\\cos\\omega t\n\\qquad(z=0)."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$E_{0\\rm I}$、$E_{0\\rm R}$、$E_{0\\rm T}$ 是带符号的实振幅（单位 V/m），定义反射系数 $r=E_{0\\rm R}/E_{0\\rm I}$ 与透射系数 $t=E_{0\\rm T}/E_{0\\rm I}$。",
+        "en": "$E_{0\\rm I}$, $E_{0\\rm R}$, and $E_{0\\rm T}$ are signed real amplitudes (unit V/m); define the reflection coefficient $r=E_{0\\rm R}/E_{0\\rm I}$ and the transmission coefficient $t=E_{0\\rm T}/E_{0\\rm I}$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "磁场方向随传播方向反转：$\\mathbf E\\times\\mathbf H$ 指向传播方向，$E$ 沿 $x$ 时，沿 $+z$ 与 $-z$ 传播的波分别有 $H_y=+nE/(\\mu_0c)$、$-nE/(\\mu_0c)$[<a href=\"#ref-4\">4</a>, §9.3.1]；三个波在界面上的 $H_y$ 是",
+        "en": "The magnetic field direction reverses with the direction of propagation: $\\mathbf E\\times\\mathbf H$ points along the propagation direction, and with $E$ along $x$, waves traveling along $+z$ and $-z$ have $H_y=+nE/(\\mu_0c)$ and $-nE/(\\mu_0c)$ respectively [<a href=\"#ref-4\">4</a>, §9.3.1]; the $H_y$ of the three waves at the interface are"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "H_{\\rm I}=\\frac{n_1}{\\mu_0c}E_{\\rm I},\\qquad\nH_{\\rm R}=-\\frac{n_1}{\\mu_0c}E_{\\rm R},\\qquad\nH_{\\rm T}=\\frac{n_2}{\\mu_0c}E_{\\rm T}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "分界面上：",
+        "en": "At the interface:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**切向电场连续。**",
+                "en": "**Continuity of the tangential electric field.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "第4节的矩形回路推导（图5(c)）同样适用于这里，$E_{\\rm I}+E_{\\rm R}=E_{\\rm T}$。",
+                "en": "The rectangular-loop derivation of section 4 (Fig. 5(c)) applies here as well, giving $E_{\\rm I}+E_{\\rm R}=E_{\\rm T}$."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**切向磁场连续。**",
+                "en": "**Continuity of the tangential magnetic field.**"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "界面上没有自由面电流，对跨界面的小回路应用安培–麦克斯韦定律，回路收窄时位移电流项消失，$H_{\\rm I}+H_{\\rm R}=H_{\\rm T}$[<a href=\"#ref-4\">4</a>, §9.3.1, 式(9.74)]。",
+                "en": "There is no free surface current at the interface; applying the Ampère–Maxwell law to a small loop crossing the interface, the displacement-current term vanishes as the loop narrows, giving $H_{\\rm I}+H_{\\rm R}=H_{\\rm T}$ [<a href=\"#ref-4\">4</a>, §9.3.1, Eq. (9.74)]."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "消去共同的时间因子，将磁场等式两边乘以 $\\mu_0c$，再除以入射振幅，用 $r$、$t$ 写成",
+        "en": "Canceling the common time factor, multiplying both sides of the magnetic-field equations by $\\mu_0c$, and dividing by the incident amplitude, these become, in terms of $r$ and $t$,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "1+r=t,\\qquad n_1(1-r)=n_2t ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "消去 $t$ 得",
+        "en": "Eliminating $t$ gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "r=\\frac{n_1-n_2}{n_1+n_2},\\qquad t=1+r ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两者都是实数，符号直接给出相位：$r>0$ 时反射波与入射波同相，$r<0$ 时相差 $\\pi$；$t$ 始终为正。",
+        "en": "Both are real numbers, so their signs directly give the phase: when $r>0$ the reflected and incident waves are in phase, and when $r<0$ they differ by $\\pi$; $t$ is always positive."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "空气到玻璃取 $n_1=1$、$n_2=1.5$，得 $r=-0.2$、$t=0.8$；反向则 $r=+0.2$，$t=1.2$。由疏入密 $r$ 为负，反射波反号；由密入疏 $r$ 为正，反射波同号。图6把这两个方向画在一起。",
+        "en": "For air to glass, taking $n_1=1$ and $n_2=1.5$ gives $r=-0.2$ and $t=0.8$; in the reverse direction $r=+0.2$ and $t=1.2$. Going from a rarer to a denser medium makes $r$ negative and reverses the sign of the reflected wave; going from denser to rarer makes $r$ positive and keeps the reflected wave's sign. Figure 6 draws these two directions together."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s4-reflection-sign.svg",
+      "alt": {
+        "zh": "垂直入射时电场的反射与透射",
+        "en": "Reflection and transmission of the electric field at normal incidence"
+      },
+      "caption": {
+        "zh": "*图6　垂直入射、$t=0$ 时刻入射波（蓝）、反射波（橙）、透射波（绿）的电场 $E_x(z)$，入射振幅取 1，圆点为 $z=0$ 处的值。(a) 空气→玻璃：$r=-0.2$，$t=0.8$，反射波与入射波反号，透射波波长缩短为 $1/1.5$。(b) 玻璃→空气：$r=+0.2$，$t=1.2$，反射波与入射波同号。*",
+        "en": "*FIG. 6. At normal incidence and $t=0$, the electric field $E_x(z)$ of the incident (blue), reflected (orange), and transmitted (green) waves, with the incident amplitude taken as 1 and dots marking the values at $z=0$. (a) Air→glass: $r=-0.2$, $t=0.8$, the reflected wave has the opposite sign to the incident wave, and the transmitted wavelength is shortened to $1/1.5$. (b) Glass→air: $r=+0.2$, $t=1.2$, the reflected wave has the same sign as the incident wave.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "回到牛顿环。图7(a)的空气膜两侧都是 $n=1.5$ 的玻璃。第 1 束光在透镜下表面 $A$ 处反射，入射光从玻璃侧射向玻璃—空气界面，$r_A=+0.2$，没有跃变；第 2 束光在平板上表面 $B$ 处反射，入射光从空气侧射向空气—玻璃界面，$r_B=-0.2$，跃变 $\\pi$。两处透射系数都为正，穿过界面不带来额外相位。两次反射贡献的相对相位为 $\\pi$，再加上第 2 束在膜内多走 $2h$ 所积累的传播相位，",
+        "en": "Return to Newton's rings. On both sides of the air film in Fig. 7(a) is glass with $n=1.5$. The first beam is reflected at the lens's lower surface $A$, where the incident light approaches the interface from glass toward air, with $r_A=+0.2$ and no jump; the second is reflected at the plate's upper surface $B$, where the incident light approaches the interface from air toward glass, with $r_B=-0.2$ and a jump of $\\pi$. The transmission coefficients at both places are positive, so crossing the interface brings no extra phase. The relative phase contributed by the two reflections is $\\pi$, and adding the propagation phase accumulated by the second beam traveling the extra $2h$ within the film,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\delta=\\frac{4\\pi h}{\\lambda}+\\pi,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "中心 $h=0$ 处 $\\delta=\\pi$，两束光相消，中心是暗斑。",
+        "en": "At the center $h=0$, $\\delta=\\pi$, the two beams cancel, and the center is a dark spot."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s4-newton-sign.svg",
+      "alt": {
+        "zh": "牛顿环空气膜与液体膜的两次反射",
+        "en": "The two reflections in the air and liquid films of Newton's rings"
+      },
+      "caption": {
+        "zh": "*图7　牛顿环膜中两次反射的符号。(a) 玻璃透镜与玻璃平板（$n=1.50$）之间的空气膜：$A$ 处玻璃→空气，$r_A=+0.200$；$B$ 处空气→玻璃，$r_B=-0.200$；相对相位 $\\pi$，中心暗。(b) 透镜 1.50、液体 1.65、平板 1.80：$r_A=-0.048$，$r_B=-0.043$，均跃变 $\\pi$，相对相位为零，中心亮。示意，非比例。*",
+        "en": "*FIG. 7. Signs of the two reflections in the film of Newton's rings. (a) Air film between the glass lens and the glass plate ($n=1.50$): at $A$, glass→air, $r_A=+0.200$; at $B$, air→glass, $r_B=-0.200$; relative phase $\\pi$, center dark. (b) Lens 1.50, liquid 1.65, plate 1.80: $r_A=-0.048$, $r_B=-0.043$, both jump by $\\pi$, relative phase zero, center bright. Schematic, not to scale.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "杨的液体检验用同一组系数就能看。取透镜 $n_L=1.50$、液体 $n_\\ell=1.65$、平板 $n_P=1.80$，两次界面都由疏入密，$r_A$、$r_B$ 同为负，各跃变 $\\pi$；相对相位为零，$h=0$ 处两束光同相，中心变亮（图7(b)）。",
+        "en": "Young's liquid test can be read off the same set of coefficients. Taking the lens $n_L=1.50$, the liquid $n_\\ell=1.65$, and the plate $n_P=1.80$, both interfaces go from rarer to denser, so $r_A$ and $r_B$ are both negative and each jumps by $\\pi$; the relative phase is zero, the two beams are in phase at $h=0$, and the center brightens (Fig. 7(b))."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两处反射的差别只在 $r$ 的符号。薄膜干涉里说的半波损失，就是反射电场相对入射电场反号、相差 $\\pi$。",
+        "en": "The difference between the two reflections lies only in the sign of $r$. What thin-film interference calls the half-wave loss is just the reflected electric field having the opposite sign to the incident field and differing by $\\pi$."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "6. 黑体辐射：1859—1905",
+        "en": "6. Blackbody Radiation: 1859–1905"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "上一节把麦克斯韦方程的边界条件用在一块玻璃的表面上，解释了反射光为什么有半个周期的相移。同一组方程还可以用在一个完全不同的对象上：烧热的炉子。炉膛的壁维持在温度 $T$，壁上开一个小孔。射进孔里的光要在腔内来回反射多次才可能逃出，因此小孔既接近理想的吸收体，也接近理想的发射体；从孔里看进去，看到的是腔内处于热平衡的辐射。早在 1792 年，英国陶工韦奇伍德（Thomas Wedgwood）就注意到：窑里的物件无论大小、形状、材质，都和窑壁一起呈现同样的红色[<a href=\"#ref-1\">1</a>, §13.1.1, p. 613]。这个颜色只由温度决定，与物件本身无关。",
+        "en": "The previous section applied the boundary conditions of Maxwell's equations to the surface of a piece of glass and explained why the reflected light acquires a half-period phase shift. The same set of equations can be applied to a completely different object: a heated furnace. The wall of the furnace chamber is held at temperature $T$, and a small hole is opened in the wall. Light entering the hole has to be reflected back and forth inside the cavity many times before it can escape, so the hole is close to both an ideal absorber and an ideal emitter; looking into the hole, one sees radiation in thermal equilibrium inside the cavity. As early as 1792, the English potter Thomas Wedgwood noticed that objects in the kiln, whatever their size, shape, or material, showed the same red color together with the kiln wall [<a href=\"#ref-1\">1</a>, §13.1.1, p. 613]. This color is determined by temperature alone and is independent of the objects themselves."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "要让这件事可测量，让孔里漏出的光先经过一块不吸收光的棱镜，不同波长偏折到不同方向；探测器沿棱镜后面的弧线移动，每到一处只接收一个窄波段，读出单位时间、单位面积、单位波长间隔内进入探测器的能量[<a href=\"#ref-1\">1</a>, §13.1.1, pp. 613–614]。把读数对波长作图，得到一条先升后降的曲线：短波一侧几乎为零，随波长增大升到一个峰，过峰后缓慢下降。炉温升高，整条曲线抬高，峰向短波移动。这条曲线之所以值得从理论上推导，是因为基尔霍夫（Kirchhoff）在 1859 年得到一个普适性结论：处于热平衡的腔，壁的发射本领与吸收本领之比在每个波长上都与壁的材料、颜色、形状、大小无关，只依赖温度和波长[<a href=\"#ref-1\">1</a>, §13.1.1, pp. 612–613; <a href=\"#ref-5\">5</a>, §1.1, pp. 1–2]。论证的要点是：若两个温度相同、壁材料不同的腔辐射不同，把它们连通，就会有能量从一方流向另一方，温度不再均匀，与热平衡矛盾。所以孔里漏出的谱只由 $T$ 决定，换炉子、换壁料都不改变。",
+        "en": "To make this measurable, the light leaking from the hole first passes through a prism that does not absorb light, deflecting different wavelengths into different directions; a detector moves along an arc behind the prism, receiving only a narrow band at each position and reading off the energy entering the detector per unit time, per unit area, and per unit wavelength interval [<a href=\"#ref-1\">1</a>, §13.1.1, pp. 613–614]. Plotting the readings against wavelength gives a curve that first rises and then falls: it is almost zero on the short-wavelength side, rises to a peak as the wavelength increases, and falls slowly after the peak. As the furnace temperature rises, the whole curve is raised and the peak shifts toward shorter wavelengths. This spectrum is worth deriving theoretically because Kirchhoff arrived at a universal conclusion in 1859: for a cavity in thermal equilibrium, the ratio of the wall's emissive power to its absorptive power is, at every wavelength, independent of the wall's material, color, shape, and size, depending only on temperature and wavelength [<a href=\"#ref-1\">1</a>, §13.1.1, pp. 612–613; <a href=\"#ref-5\">5</a>, §1.1, pp. 1–2]. The essential argument is that if two cavities at the same temperature but with different wall materials radiated differently, connecting them would make energy flow from one to the other; the temperature would no longer be uniform, contradicting thermal equilibrium. Hence the spectrum leaking from the hole is determined by $T$ alone, and changing the furnace or the wall material leaves it unchanged."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s5-blackbody-apparatus.svg",
+      "alt": {
+        "zh": "热腔光谱的测量装置",
+        "en": "Apparatus for measuring a thermal-cavity spectrum"
+      },
+      "caption": {
+        "zh": "*图8　热腔光谱测量的原理示意。温度为 $T$ 的炉腔通过小孔出射，狭缝限制光束，棱镜将不同波长的光偏折到不同方向；探测器沿弧线移动，依次接收各个窄波段。*",
+        "en": "*FIG. 8. Schematic principle of thermal-cavity spectrum measurement. A furnace cavity at temperature $T$ radiates through a small hole, a slit restricts the beam, and a prism deflects different wavelengths into different directions; the detector moves along an arc, receiving the narrow bands in turn.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "腔里频率在 $\\nu$ 到 $\\nu+\\mathrm d\\nu$ 之间的电磁能量，除以腔的体积，记作 $u_\\nu(T)\\,\\mathrm d\\nu$：",
+        "en": "The electromagnetic energy in the cavity between frequencies $\\nu$ and $\\nu+\\mathrm d\\nu$, divided by the cavity volume, is written $u_\\nu(T)\\,\\mathrm d\\nu$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "u_\\nu(T)\\ [\\mathrm{J\\,m^{-3}\\,Hz^{-1}}]\\quad\\text{为谱能量密度},\\qquad\nu(T)=\\int_0^\\infty u_\\nu(T)\\,\\mathrm d\\nu\\ [\\mathrm{J\\,m^{-3}}]\\quad\\text{为总能量密度。}",
+        "en": "u_\\nu(T)\\ [\\mathrm{J\\,m^{-3}\\,Hz^{-1}}]\\quad\\text{is the spectral energy density},\\qquad\nu(T)=\\int_0^\\infty u_\\nu(T)\\,\\mathrm d\\nu\\ [\\mathrm{J\\,m^{-3}}]\\quad\\text{is the total energy density.}"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "光对腔壁施加压强，腔体膨胀时辐射会对外做功。把这种压强与热力学联系起来，可以先求出总能量密度 $u(T)$ 随温度的变化。",
+        "en": "Light exerts pressure on the cavity wall, and as the cavity expands the radiation does work on the surroundings. Connecting this pressure to thermodynamics allows one to first obtain how the total energy density $u(T)$ varies with temperature."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "电磁波携带能量，也携带动量。沿 $+x$ 传播、沿 $y$ 偏振的平面波满足",
+        "en": "An electromagnetic wave carries energy and also momentum. A plane wave propagating along $+x$ and polarized along $y$ satisfies"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nE_y&=E_0\\cos(kx-\\omega t),\\\\\nB_z&=\\frac{E_0}{c}\\cos(kx-\\omega t).\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "单位体积的电磁能量是",
+        "en": "The electromagnetic energy per unit volume is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "u=\\tfrac12\\left(\\epsilon_0E^2+\\frac{B^2}{\\mu_0}\\right),"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "平面波里 $B=E/c$，磁场与电场各占一半，$u=\\epsilon_0E^2$；能流由坡印廷矢量给出，$\\mathbf S=\\mathbf E\\times\\mathbf B/\\mu_0=c\\epsilon_0E^2\\,\\hat{\\mathbf x}=cu\\,\\hat{\\mathbf x}$，动量密度 $\\mathbf g=\\mathbf S/c^2=(u/c)\\hat{\\mathbf x}$[<a href=\"#ref-4\">4</a>, §8.1.2, 式 (8.13), §9.2.3, 式 (9.53)–(9.58); <a href=\"#ref-6\">6</a>, §15.4–15.5]。对振荡周期取平均，$\\cos^2$ 的平均值为 $1/2$，这束波的平均能量密度、强度和动量密度分别为$u=\\tfrac12\\epsilon_0E_0^2$，$I=\\langle S\\rangle=cu$，$\\langle g\\rangle=u/c$。",
+        "en": "In the plane wave $B=E/c$, the electric and magnetic fields each contribute half of the energy, so $u=\\epsilon_0E^2$; the energy flux is given by the Poynting vector, $\\mathbf S=\\mathbf E\\times\\mathbf B/\\mu_0=c\\epsilon_0E^2\\,\\hat{\\mathbf x}=cu\\,\\hat{\\mathbf x}$, and the momentum density is $\\mathbf g=\\mathbf S/c^2=(u/c)\\hat{\\mathbf x}$ [<a href=\"#ref-4\">4</a>, §8.1.2, Eq. (8.13), §9.2.3, Eqs. (9.53)–(9.58); <a href=\"#ref-6\">6</a>, §§15.4–15.5]. Averaging over an oscillation period, where the mean of $\\cos^2$ is $1/2$, the mean energy density, intensity, and momentum density of this beam are $u=\\tfrac12\\epsilon_0E_0^2$, $I=\\langle S\\rangle=cu$, and $\\langle g\\rangle=u/c$ respectively."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这束光垂直照到完全吸收的壁上，壁面积 $A$。时间 $\\Delta t$ 内，壁前长度 $c\\Delta t$ 的柱体里的光都入射到壁面，柱体体积 $Ac\\Delta t$，带的动量 $\\Delta p=g\\,Ac\\Delta t$，壁受到的压强是单位时间、单位面积的动量，",
+        "en": "This beam falls normally on a perfectly absorbing wall of area $A$. Within a time $\\Delta t$, all the light in a column of length $c\\Delta t$ in front of the wall strikes the wall; the column has volume $Ac\\Delta t$ and carries momentum $\\Delta p=g\\,Ac\\Delta t$, and the pressure on the wall is the momentum per unit time and unit area,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "P=\\frac{1}{A}\\frac{\\Delta p}{\\Delta t}=gc=\\frac Ic=u ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "完全反射时光的动量反向，壁多承受一倍，压强为 $2I/c$[<a href=\"#ref-4\">4</a>, §9.2.3, 式 (9.64); <a href=\"#ref-1\">1</a>, §3.3.4]。",
+        "en": "Under complete reflection the light's momentum reverses, the wall bears twice as much, and the pressure is $2I/c$ [<a href=\"#ref-4\">4</a>, §9.2.3, Eq. (9.64); <a href=\"#ref-1\">1</a>, §3.3.4]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "热平衡时，腔内辐射各向同性，总能量密度记为 $u$。取面积为 $A$ 的一块壁面，光的入射方向与法线成 $\\theta$ 角（图9）：",
+        "en": "In thermal equilibrium the radiation in the cavity is isotropic, and its total energy density is denoted $u$. Take a piece of wall of area $A$, with the direction of incidence making an angle $\\theta$ with the normal (Fig. 9):"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "zh": "**能量分布。** 立体角 $\\mathrm d\\Omega$ 内的能量密度为 $u\\,\\mathrm d\\Omega/(4\\pi)$；绕法线的一圈方向构成环带，$\\mathrm d\\Omega=2\\pi\\sin\\theta\\,\\mathrm d\\theta$。",
+          "en": "**Energy distribution.** The energy density within the solid angle $\\mathrm d\\Omega$ is $u\\,\\mathrm d\\Omega/(4\\pi)$; the directions around the normal form a ring-shaped band, with $\\mathrm d\\Omega=2\\pi\\sin\\theta\\,\\mathrm d\\theta$."
+        },
+        {
+          "zh": "**到达壁面的能量。** 沿法线的速度分量为 $c\\cos\\theta$，因此单位时间落到壁面的能量为 $[u\\,\\mathrm d\\Omega/(4\\pi)]Ac\\cos\\theta$。",
+          "en": "**Energy reaching the wall.** The component of the velocity along the normal is $c\\cos\\theta$, so the energy landing on the wall per unit time is $[u\\,\\mathrm d\\Omega/(4\\pi)]Ac\\cos\\theta$."
+        },
+        {
+          "zh": "**传给壁面的动量。** 完全反射时，动量的法向分量反向，每单位入射能量传给壁面的法向动量为 $2\\cos\\theta/c$。",
+          "en": "**Momentum transferred to the wall.** Under complete reflection the normal component of the momentum reverses, and the normal momentum transferred to the wall per unit incident energy is $2\\cos\\theta/c$."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "将能量到达率乘以每单位能量传递的动量，除以面积，再对入射半球积分，得到压强",
+        "en": "Multiplying the energy arrival rate by the momentum transferred per unit energy, dividing by the area, and integrating over the incident hemisphere gives the pressure"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "p=\\int_0^{\\pi/2}\\frac{u\\,\\mathrm d\\Omega}{4\\pi}\\,c\\cos\\theta\\cdot\\frac{2\\cos\\theta}{c}\n=u\\int_0^{\\pi/2}\\cos^2\\theta\\sin\\theta\\,\\mathrm d\\theta=\\frac u3 ,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "末一步用了 $\\int_0^{\\pi/2}\\cos^2\\theta\\sin\\theta\\,\\mathrm d\\theta=1/3$。对于吸收、发射辐射的黑壁，平衡时入射光的动量传递与出射光的反冲各贡献 $u/6$，总压强同样为 $p=u/3$[<a href=\"#ref-7\">7</a>, 第五章 §7，式 (7.15)–(7.17); <a href=\"#ref-8\">8</a>, §39-3]。",
+        "en": "The last step uses $\\int_0^{\\pi/2}\\cos^2\\theta\\sin\\theta\\,\\mathrm d\\theta=1/3$. For a black wall that absorbs and emits radiation, in equilibrium the momentum transfer of the incident light and the recoil of the emitted light each contribute $u/6$, and the total pressure is likewise $p=u/3$ [<a href=\"#ref-7\">7</a>, ch. 5, §7, Eqs. (7.15)–(7.17); <a href=\"#ref-8\">8</a>, §39-3]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把压强和温度联系起来。将腔看成一个热力学系统：体积 $V$，温度 $T$，内能 $U$，熵 $S$，压强 $p$。准静态地改变体积时 $\\mathrm dU=T\\,\\mathrm dS-p\\,\\mathrm dV$。以 $T,V$ 为变量，在恒温下对 $V$ 求偏导，$(\\partial U/\\partial V)_T=T(\\partial S/\\partial V)_T-p$。右边的熵导数用亥姆霍兹自由能 $F=U-TS$ 换掉：$\\mathrm dF=-S\\,\\mathrm dT-p\\,\\mathrm dV$，所以 $S=-(\\partial F/\\partial T)_V$，$p=-(\\partial F/\\partial V)_T$；$F$ 的二阶混合偏导与求导顺序无关，给出热力学里的麦克斯韦关系",
+        "en": "Connect the pressure to temperature. Treat the cavity as a thermodynamic system: volume $V$, temperature $T$, internal energy $U$, entropy $S$, pressure $p$. Under a quasi-static change of volume, $\\mathrm dU=T\\,\\mathrm dS-p\\,\\mathrm dV$. Taking $T,V$ as the variables and differentiating with respect to $V$ at constant temperature, $(\\partial U/\\partial V)_T=T(\\partial S/\\partial V)_T-p$. Replacing the entropy derivative on the right with the Helmholtz free energy $F=U-TS$: $\\mathrm dF=-S\\,\\mathrm dT-p\\,\\mathrm dV$, so $S=-(\\partial F/\\partial T)_V$ and $p=-(\\partial F/\\partial V)_T$; the independence of the mixed second derivative of $F$ from the order of differentiation gives the Maxwell relation of thermodynamics"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\left(\\frac{\\partial S}{\\partial V}\\right)_T=\\left(\\frac{\\partial p}{\\partial T}\\right)_V,\n\\qquad\n\\left(\\frac{\\partial U}{\\partial V}\\right)_T=T\\left(\\frac{\\partial p}{\\partial T}\\right)_V-p ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "[<a href=\"#ref-8\">8</a>, 第45章, 式 (45.7); <a href=\"#ref-9\">9</a>, §63] 将这一关系应用于腔体时，还需要两条物理关系。基尔霍夫说 $u$ 只是 $T$ 的函数，与腔的材料、形状、大小无关，因此内能与体积成正比，$U=u(T)V$；麦克斯韦理论给出 $p=u/3$。代入 $(\\partial U/\\partial V)_T=u$ 与 $(\\partial p/\\partial T)_V=\\tfrac13\\,\\mathrm du/\\mathrm dT$，",
+        "en": "Applying this relation to the cavity requires two additional relations [<a href=\"#ref-8\">8</a>, ch. 45, Eq. (45.7); <a href=\"#ref-9\">9</a>, §63]. Kirchhoff says that $u$ is a function of $T$ alone, independent of the cavity's material, shape, and size, so the internal energy is proportional to the volume, $U=u(T)V$; Maxwell's theory gives $p=u/3$. Substituting $(\\partial U/\\partial V)_T=u$ and $(\\partial p/\\partial T)_V=\\tfrac13\\,\\mathrm du/\\mathrm dT$,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "u=\\frac T3\\frac{\\mathrm du}{\\mathrm dT}-\\frac u3\n\\quad\\Longrightarrow\\quad\n4u=T\\,\\frac{\\mathrm du}{\\mathrm dT}\n\\quad\\Longrightarrow\\quad\nu(T)=aT^4 ,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "积分常数 $a$ 由实验确定。1884 年，玻尔兹曼用辐射压强与热力学解释了斯特藩在 1879 年提出的四次方规律[<a href=\"#ref-1\">1</a>, §13.1.1]。",
+        "en": "The integration constant $a$ is determined by experiment. In 1884 Boltzmann explained Stefan's fourth-power law, proposed in 1879, using radiation pressure and thermodynamics [<a href=\"#ref-1\">1</a>, §13.1.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "从孔里漏出的能量是对半球的积分。孔径很小，方向 $\\theta$ 的那一份光每秒穿过单位孔面积的能量是 $\\dfrac{u\\,\\mathrm d\\Omega}{4\\pi}c\\cos\\theta$，对半球积分",
+        "en": "The energy leaking from the hole is an integral over the hemisphere. The aperture being very small, the share of light in direction $\\theta$ crossing unit hole area per second is $\\dfrac{u\\,\\mathrm d\\Omega}{4\\pi}c\\cos\\theta$; integrating over the hemisphere,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "M=\\int_0^{\\pi/2}\\frac{u}{4\\pi}\\,c\\cos\\theta\\,2\\pi\\sin\\theta\\,\\mathrm d\\theta=\\frac{cu}2\\int_0^{\\pi/2}\\cos\\theta\\sin\\theta\\,\\mathrm d\\theta=\\frac{cu}4 ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$M$ 是小孔单位面积射出的功率，单位为 W/m$^2$。写成 $M=\\sigma T^4$，$\\sigma=5.670\\times10^{-8}$ W m$^{-2}$ K$^{-4}$[<a href=\"#ref-1\">1</a>, §13.1.1, pp. 613–614, 式 (13.2)]，则 $a=4\\sigma/c$。这是斯特藩—玻尔兹曼律。热力学只要求 $\\int_0^\\infty u_\\nu\\,\\mathrm d\\nu=aT^4$，对 $u_\\nu$ 按频率怎样分配没有给出信息。",
+        "en": "$M$ is the power emitted per unit area of the small hole, in W/m$^2$. Writing $M=\\sigma T^4$ with $\\sigma=5.670\\times10^{-8}$ W m$^{-2}$ K$^{-4}$ [<a href=\"#ref-1\">1</a>, §13.1.1, pp. 613–614, Eq. (13.2)], we have $a=4\\sigma/c$. This is the Stefan–Boltzmann law. Thermodynamics requires only $\\int_0^\\infty u_\\nu\\,\\mathrm d\\nu=aT^4$; it gives no information about how $u_\\nu$ is distributed over frequency."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s5-pressure.svg",
+      "alt": {
+        "zh": "热腔壁面上的一次反射、各方向的权重与 u = aT⁴",
+        "en": "A single reflection at the cavity wall, the directional weighting, and u = aT⁴"
+      },
+      "caption": {
+        "zh": "*图9　辐射对壁面的压力。(a) 完全反射时，壁得到的法向动量为 $2p\\cos\\theta$。(b) 腔内各方向的光射向面积 $A$，速度的法向分量为 $c\\cos\\theta$；绿色环带表示立体角 $\\mathrm d\\Omega$ 内的方向。*",
+        "en": "*FIG. 9. Pressure of radiation on the wall. (a) Under complete reflection the normal momentum received by the wall is $2p\\cos\\theta$. (b) Light from all directions in the cavity falls on area $A$, with the normal component of the velocity $c\\cos\\theta$; the green band represents the directions within the solid angle $\\mathrm d\\Omega$.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "总能量定了，谱形仍未知。把它写成模式密度与每个模式平均能量的乘积：",
+        "en": "The total energy is fixed, but the spectral shape is still unknown. Write it as the product of the mode density and the mean energy of each mode:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "u_\\nu(\\nu,T)=g(\\nu)\\,\\langle E_\\nu\\rangle ,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$g(\\nu)\\,\\mathrm d\\nu$ 是单位体积内频率在 $\\nu$ 到 $\\nu+\\mathrm d\\nu$ 之间的独立振动方式数，$\\langle E_\\nu\\rangle$ 是每个方式在温度 $T$ 下的平均能量。先数 $g(\\nu)$。",
+        "en": "$g(\\nu)\\,\\mathrm d\\nu$ is the number of independent vibration modes per unit volume with frequencies between $\\nu$ and $\\nu+\\mathrm d\\nu$, and $\\langle E_\\nu\\rangle$ is the mean energy of each mode at temperature $T$. First count $g(\\nu)$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "取边长为 $L$ 的立方腔，以理想导体近似腔壁。与第4节的金属反射板一样，壁面上切向电场为零。腔内场满足真空波动方程和 $\\nabla\\cdot\\mathbf E=0$。对时间依赖 $e^{-i\\omega t}$ 的驻波，边界条件要求",
+        "en": "Take a cubic cavity of side length $L$, approximating the cavity wall by an ideal conductor. As with the metal reflecting plate of section 4, the tangential electric field vanishes on the wall. The field inside the cavity satisfies the vacuum wave equation and $\\nabla\\cdot\\mathbf E=0$. For a standing wave with time dependence $e^{-i\\omega t}$, the boundary conditions require"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "k_x=\\frac{n_x\\pi}{L},\\quad k_y=\\frac{n_y\\pi}{L},\\quad k_z=\\frac{n_z\\pi}{L},\n\\qquad\n\\nu=\\frac{c}{2L}\\sqrt{n_x^2+n_y^2+n_z^2},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$n_x,n_y,n_z$ 取正整数时给出互相独立的解。散度条件在三个模式振幅之间施加一个线性约束，留下两个独立振幅，因此每一组正整数三元组对应两个偏振模式。含一个零的三元组只剩一个模式，这类三元组在 $\\Lambda\\equiv2L\\nu/c\\gg1$ 时占比约为 $1/\\Lambda$，是边界修正量级，计数时可以略去[<a href=\"#ref-6\">6</a>, §19.6, 式 (19.123)–(19.124), (19.135)]。",
+        "en": "When $n_x,n_y,n_z$ take positive integers, the solutions are mutually independent. The divergence condition imposes one linear constraint among the three mode amplitudes, leaving two independent amplitudes, so each triple of positive integers corresponds to two polarization modes. A triple containing a zero retains only one mode; when $\\Lambda\\equiv2L\\nu/c\\gg1$, such triples make up a fraction of about $1/\\Lambda$, which is of the order of the boundary correction and may be neglected in the counting [<a href=\"#ref-6\">6</a>, §19.6, Eqs. (19.123)–(19.124), (19.135)]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把 $(n_x,n_y,n_z)$ 看成三维整数格点，每个格点占一个单位小立方体（图10(a) 的蓝色格子）。频率不超过 $\\nu$ 的格点满足 $\\sqrt{n_x^2+n_y^2+n_z^2}\\le\\Lambda=2L\\nu/c$，落在半径 $\\Lambda$ 的球位于 $n_x,n_y,n_z>0$ 的那八分之一里。$\\Lambda\\gg1$ 时格点数近似等于八分之一球的体积，每格点两个偏振：",
+        "en": "Regard $(n_x,n_y,n_z)$ as points of a three-dimensional integer lattice, each point occupying a unit cube (the blue cubes of Fig. 10(a)). The lattice points with frequency not exceeding $\\nu$ satisfy $\\sqrt{n_x^2+n_y^2+n_z^2}\\le\\Lambda=2L\\nu/c$ and lie in the octant $n_x,n_y,n_z>0$ of the sphere of radius $\\Lambda$. When $\\Lambda\\gg1$, the number of lattice points is approximately equal to the volume of the one-eighth sphere, with two polarizations per point:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "N(\\nu)=2\\cdot\\frac18\\cdot\\frac43\\pi\\Lambda^3=\\frac{8\\pi V\\nu^3}{3c^3},\\qquad V=L^3 ."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "对 $\\nu$ 求导再除以体积，得到单位体积、单位频率间隔的模式数",
+        "en": "Differentiating with respect to $\\nu$ and dividing by the volume gives the number of modes per unit volume and unit frequency interval"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "g(\\nu)=\\frac1V\\frac{\\mathrm dN}{\\mathrm d\\nu}=\\frac{8\\pi\\nu^2}{c^3}\n\\qquad[\\mathrm{m^{-3}\\,Hz^{-1}}]."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "图10(a) 的橙色壳层就是 $\\mathrm dN=2\\cdot\\frac18\\cdot4\\pi\\Lambda^2\\,\\mathrm d\\Lambda$，其中 $\\mathrm d\\Lambda=(2L/c)\\,\\mathrm d\\nu$。在腔的尺寸远大于波长的极限下，这个模式密度不依赖腔的形状[<a href=\"#ref-6\">6</a>, §19.6.4; <a href=\"#ref-10\">10</a>, §52]。$g(\\nu)\\propto\\nu^2$：频率越高，同样宽度的频带里模式越多。",
+        "en": "The orange shell of Fig. 10(a) is $\\mathrm dN=2\\cdot\\frac18\\cdot4\\pi\\Lambda^2\\,\\mathrm d\\Lambda$, where $\\mathrm d\\Lambda=(2L/c)\\,\\mathrm d\\nu$. In the limit where the cavity is much larger than the wavelength, this mode density does not depend on the cavity's shape [<a href=\"#ref-6\">6</a>, §19.6.4; <a href=\"#ref-10\">10</a>, §52]. Since $g(\\nu)\\propto\\nu^2$, the higher the frequency, the more modes in a band of the same width."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s5-modes.svg",
+      "alt": {
+        "zh": "n 空间里的模式计数与腔内驻波的形状",
+        "en": "Mode counting in n-space and the standing-wave shapes in the cavity"
+      },
+      "caption": {
+        "zh": "*图10　(a) $(n_x,n_y,n_z)$ 空间的八分之一球：每个单位小立方体对应一组整数，含 2 个偏振；橙色壳层为频率在 $\\nu$ 到 $\\nu+\\mathrm d\\nu$ 之间的模式，$\\Lambda=2L\\nu/c$。(b) 壁间距 $L$ 的一维截面：$E_y\\propto\\sin(n\\pi x/L)$，$n=1,2,3$，壁上为节点，$\\nu_n=nc/2L$。*",
+        "en": "*FIG. 10. (a) The one-eighth sphere in $(n_x,n_y,n_z)$ space: each unit cube corresponds to a triple of integers and contains 2 polarizations; the orange shell is the modes with frequencies between $\\nu$ and $\\nu+\\mathrm d\\nu$, $\\Lambda=2L\\nu/c$. (b) A one-dimensional cross section of wall spacing $L$: $E_y\\propto\\sin(n\\pi x/L)$, $n=1,2,3$, with nodes at the walls and $\\nu_n=nc/2L$.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "腔里每一个驻波是一个独立的自由度，它的动力学就是一个谐振子。取矢势 $\\mathbf A$ 使 $\\mathbf E=-\\partial_t\\mathbf A$、$\\mathbf B=\\nabla\\times\\mathbf A$，把 $\\mathbf A$ 按模式的空间形状展开，$\\mathbf A(\\mathbf r,t)=\\sum_jq_j(t)\\,\\mathbf a_j(\\mathbf r)$，每个系数满足 $\\ddot q_j=-\\omega_j^2q_j$[<a href=\"#ref-10\">10</a>, §52, 式 (52.4); <a href=\"#ref-11\">11</a>, 第V章 引言]。将空间函数归一化为 $\\int|\\mathbf a_j|^2\\,\\mathrm dV=1/\\epsilon_0$ 后，场的总能量 $\\int(\\tfrac12\\epsilon_0E^2+B^2/2\\mu_0)\\,\\mathrm dV$ 里，电场项给出 $\\tfrac12\\dot q_j^2$，磁场项给出 $\\tfrac12\\omega_j^2q_j^2$，不同模式的交叉项因正交而消失：",
+        "en": "Each standing wave in the cavity is an independent degree of freedom, and its dynamics is that of a harmonic oscillator. Taking the vector potential $\\mathbf A$ such that $\\mathbf E=-\\partial_t\\mathbf A$ and $\\mathbf B=\\nabla\\times\\mathbf A$, expand $\\mathbf A$ in the spatial shapes of the modes, $\\mathbf A(\\mathbf r,t)=\\sum_jq_j(t)\\,\\mathbf a_j(\\mathbf r)$; each coefficient satisfies $\\ddot q_j=-\\omega_j^2q_j$ [<a href=\"#ref-10\">10</a>, §52, Eq. (52.4); <a href=\"#ref-11\">11</a>, ch. V, introduction]. After normalizing the spatial functions to $\\int|\\mathbf a_j|^2\\,\\mathrm dV=1/\\epsilon_0$, in the total field energy $\\int(\\tfrac12\\epsilon_0E^2+B^2/2\\mu_0)\\,\\mathrm dV$ the electric-field term gives $\\tfrac12\\dot q_j^2$, the magnetic-field term gives $\\tfrac12\\omega_j^2q_j^2$, and the cross terms among different modes vanish by orthogonality:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "U=\\sum_jH_j,\\qquad H_j=\\tfrac12\\big(p_j^2+\\omega_j^2q_j^2\\big),\\qquad p_j=\\dot q_j ,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$p_j$ 是 $q_j$ 的共轭动量。一个模式的能量由两个二次项组成，一个正比于 $p^2$（电场），一个正比于 $q^2$（磁场）[<a href=\"#ref-10\">10</a>, §52, 式 (52.8)]。",
+        "en": "$p_j$ is the momentum conjugate to $q_j$. The energy of one mode consists of two quadratic terms, one proportional to $p^2$ (electric field) and one proportional to $q^2$ (magnetic field) [<a href=\"#ref-10\">10</a>, §52, Eq. (52.8)]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "实际腔壁通过吸收和发射与场交换能量，使这些模式达到温度 $T$ 下的热平衡[<a href=\"#ref-9\">9</a>, §63]。",
+        "en": "The actual cavity wall exchanges energy with the field through absorption and emission, bringing these modes to thermal equilibrium at temperature $T$ [<a href=\"#ref-9\">9</a>, §63]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "设模式与温度为 $T$ 的壁处于热平衡。经典玻尔兹曼分布说，一个模式处于相空间元 $\\mathrm dq\\,\\mathrm dp$ 的概率正比于 $e^{-\\beta H}\\,\\mathrm dq\\,\\mathrm dp$，$\\beta=1/k_BT$[<a href=\"#ref-12\">12</a>, §3.8]。配分函数",
+        "en": "Suppose a mode is in thermal equilibrium with a wall at temperature $T$. The classical Boltzmann distribution says that the probability for a mode to lie in the phase-space element $\\mathrm dq\\,\\mathrm dp$ is proportional to $e^{-\\beta H}\\,\\mathrm dq\\,\\mathrm dp$, with $\\beta=1/k_BT$ [<a href=\"#ref-12\">12</a>, §3.8]. The partition function is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "Z=\\iint e^{-\\beta H}\\,\\mathrm dq\\,\\mathrm dp\n=\\sqrt{\\frac{2\\pi}{\\beta}}\\sqrt{\\frac{2\\pi}{\\beta\\omega^2}}\n=\\frac{2\\pi}{\\beta\\omega},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "由此得到平均能量 $\\langle H\\rangle=-\\partial\\ln Z/\\partial\\beta=1/\\beta=k_BT$。结果与 $\\omega$ 无关：电场的二次项和磁场的二次项各分得 $\\tfrac12k_BT$，这就是能量均分定理。每个模式平均 $k_BT$，乘以模式密度，",
+        "en": "This gives the mean energy $\\langle H\\rangle=-\\partial\\ln Z/\\partial\\beta=1/\\beta=k_BT$. The result is independent of $\\omega$: the electric-field quadratic term and the magnetic-field quadratic term each receive $\\tfrac12k_BT$. This is the equipartition theorem. Each mode averages $k_BT$; multiplying by the mode density,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "u_\\nu(\\nu,T)=g(\\nu)\\,k_BT=\\frac{8\\pi\\nu^2}{c^3}\\,k_BT"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "[<a href=\"#ref-6\">6</a>, §19.6.4, 式 (19.139); <a href=\"#ref-9\">9</a>, §63, 式 (63.7)]，这是瑞利—金斯公式[<a href=\"#ref-12\">12</a>, §7.3]。它正比于 $\\nu^2$，温度升高时整条曲线按比例抬高，没有峰；频率越高模式越多，每个模式又分到同样的 $k_BT$，积分 $\\int_0^\\infty u_\\nu\\,\\mathrm d\\nu$ 发散，与热力学给出的有限总量 $aT^4$ 直接矛盾[<a href=\"#ref-8\">8</a>, §41-2]。",
+        "en": "which is the Rayleigh–Jeans formula [<a href=\"#ref-12\">12</a>, §7.3]. It is proportional to $\\nu^2$; as the temperature rises the whole curve is raised proportionally and has no peak. The higher the frequency, the more modes, and each mode receives the same $k_BT$, so the integral $\\int_0^\\infty u_\\nu\\,\\mathrm d\\nu$ diverges, in direct contradiction with the finite total $aT^4$ given by thermodynamics [<a href=\"#ref-8\">8</a>, §41-2]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "实测的谱在峰值之后随频率下降，总量有限。图11将瑞利—金斯公式与符合实验谱形的普朗克公式比较：低频端两者接近，高频端瑞利—金斯曲线持续上升，普朗克曲线则越过峰值后下降[<a href=\"#ref-1\">1</a>, §13.1.1, pp. 614–615; <a href=\"#ref-12\">12</a>, §7.3]。",
+        "en": "The measured spectrum falls with frequency after the peak, and its total is finite. Figure 11 compares the Rayleigh–Jeans formula with the Planck formula, which matches the experimental spectral shape: at the low-frequency end the two are close, while at the high-frequency end the Rayleigh–Jeans curve keeps rising and the Planck curve falls after passing its peak [<a href=\"#ref-1\">1</a>, §13.1.1, pp. 614–615; <a href=\"#ref-12\">12</a>, §7.3]."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/s5-spectra.svg",
+      "alt": {
+        "zh": "5000 K 时普朗克与瑞利—金斯谱的比较",
+        "en": "Comparison of the Planck and Rayleigh–Jeans spectra at 5000 K"
+      },
+      "caption": {
+        "zh": "*图11　$T=5000$ K 时的理论谱：深色曲线表示普朗克公式，橙色曲线表示瑞利—金斯公式。低频端两者接近，高频端瑞利—金斯持续增长，超出图示范围；普朗克谱具有有限峰值。*",
+        "en": "*FIG. 11. Theoretical spectra at $T=5000$ K: the dark curve shows the Planck formula, and the orange curve the Rayleigh–Jeans formula. At the low-frequency end the two are close; at the high-frequency end Rayleigh–Jeans keeps growing and goes beyond the plotted range, while the Planck spectrum has a finite peak.*"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "如果保留电磁理论给出的模式密度 $g(\\nu)$，实测谱要求每个模式的平均能量满足",
+        "en": "If one keeps the mode density $g(\\nu)$ given by electromagnetic theory, the measured spectrum requires the mean energy of each mode to satisfy"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\langle E_\\nu\\rangle=\\frac{u_\\nu}{g(\\nu)}=\\frac{c^3u_\\nu}{8\\pi\\nu^2}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "低频端这个值接近 $k_BT$，高频端则远小于 $k_BT$。经典能量均分无法给出有限的热辐射谱。这就是开尔文所谓“两朵乌云”之一。",
+        "en": "At the low-frequency end this value is close to $k_BT$, and at the high-frequency end it is far smaller than $k_BT$. Classical equipartition cannot give a finite thermal-radiation spectrum. This is one of Kelvin’s so-called “two clouds.”"
+      }
+    }
+  ],
+  "references": [
+    {
+      "text": {
+        "zh": "E. Hecht, *Optics*, 5th ed., Global ed. (Pearson, Harlow, 2017).",
+        "en": "E. Hecht, *Optics*, 5th ed., Global ed. (Pearson, Harlow, 2017)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "O. Darrigol, *A History of Optics: From Greek Antiquity to the Nineteenth Century* (Oxford University Press, Oxford, 2012).",
+        "en": "O. Darrigol, *A History of Optics: From Greek Antiquity to the Nineteenth Century* (Oxford University Press, Oxford, 2012)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "O. Darrigol, *Electrodynamics from Ampère to Einstein* (Oxford University Press, Oxford, 2000; reprinted 2002).",
+        "en": "O. Darrigol, *Electrodynamics from Ampère to Einstein* (Oxford University Press, Oxford, 2000; reprinted 2002)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "D. J. Griffiths, *Introduction to Electrodynamics*, 3rd ed. (Prentice Hall, Upper Saddle River, NJ, 1999).",
+        "en": "D. J. Griffiths, *Introduction to Electrodynamics*, 3rd ed. (Prentice Hall, Upper Saddle River, NJ, 1999)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "S. Weinberg, *Lectures on Quantum Mechanics*, 2nd ed. (Cambridge University Press, Cambridge, 2015).",
+        "en": "S. Weinberg, *Lectures on Quantum Mechanics*, 2nd ed. (Cambridge University Press, Cambridge, 2015)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "A. Zangwill, *Modern Electrodynamics* (Cambridge University Press, Cambridge, 2013).",
+        "en": "A. Zangwill, *Modern Electrodynamics* (Cambridge University Press, Cambridge, 2013)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "郭硕鸿，《电动力学》（第3版，高等教育出版社，北京，2008）。",
+        "en": "郭硕鸿，《电动力学》（第3版，高等教育出版社，北京，2008）。"
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "R. P. Feynman, R. B. Leighton, and M. Sands, *The Feynman Lectures on Physics*, Vol. I (Addison-Wesley, Reading, MA, 1963).",
+        "en": "R. P. Feynman, R. B. Leighton, and M. Sands, *The Feynman Lectures on Physics*, Vol. I (Addison-Wesley, Reading, MA, 1963)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "L. D. Landau and E. M. Lifshitz, *Statistical Physics, Part 1*, 3rd ed. (Pergamon Press, Oxford, 1980).",
+        "en": "L. D. Landau and E. M. Lifshitz, *Statistical Physics, Part 1*, 3rd ed. (Pergamon Press, Oxford, 1980)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "L. D. Landau and E. M. Lifshitz, *The Classical Theory of Fields*, 4th ed. (Pergamon Press, Oxford, 1975).",
+        "en": "L. D. Landau and E. M. Lifshitz, *The Classical Theory of Fields*, 4th ed. (Pergamon Press, Oxford, 1975)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "C. Cohen-Tannoudji, B. Diu, and F. Laloë, *Quantum Mechanics*, Vol. 1, 2nd ed. (Wiley-VCH, Weinheim, 2020).",
+        "en": "C. Cohen-Tannoudji, B. Diu, and F. Laloë, *Quantum Mechanics*, Vol. 1, 2nd ed. (Wiley-VCH, Weinheim, 2020)."
+      },
+      "url": ""
+    },
+    {
+      "text": {
+        "zh": "R. K. Pathria and P. D. Beale, *Statistical Mechanics*, 3rd ed. (Elsevier, Oxford, 2011).",
+        "en": "R. K. Pathria and P. D. Beale, *Statistical Mechanics*, 3rd ed. (Elsevier, Oxford, 2011)."
+      },
+      "url": ""
+    }
+  ]
+}
