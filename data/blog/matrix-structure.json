@@ -1,0 +1,1491 @@
+{
+  "slug": "matrix-structure",
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "title": {
+    "zh": "从正交方向到矩阵结构",
+    "en": "From Orthogonal Directions to Matrix Structure"
+  },
+  "description": {
+    "zh": "从实对称矩阵的正交本征基出发，引入复内积，讨论厄米、幺正与正规矩阵的本征分解。",
+    "en": "Starting from the orthogonal eigenbasis of a real symmetric matrix, we introduce the complex inner product and study eigendecompositions of Hermitian, unitary and normal matrices."
+  },
+  "series": {
+    "zh": "矩阵分解 · 02",
+    "en": "Matrix Decompositions · 02"
+  },
+  "tags": [
+    "linear-algebra"
+  ],
+  "contents": [
+    {
+      "target": "block-0",
+      "label": {
+        "zh": "1. 一组正交归一的实本征基",
+        "en": "1. An Orthonormal Real Eigenbasis"
+      }
+    },
+    {
+      "target": "block-33",
+      "label": {
+        "zh": "2. 从实向量到复向量",
+        "en": "2. From Real Vectors to Complex Vectors"
+      }
+    },
+    {
+      "target": "block-81",
+      "label": {
+        "zh": "3. 厄米矩阵：实本征值与正交本征基",
+        "en": "3. Hermitian Matrices: Real Eigenvalues and an Orthogonal Eigenbasis"
+      }
+    },
+    {
+      "target": "block-133",
+      "label": {
+        "zh": "4. 幺正矩阵：保持长度，本征值模长为一",
+        "en": "4. Unitary Matrices: Length Preserved, Eigenvalues of Modulus One"
+      }
+    },
+    {
+      "target": "block-157",
+      "label": {
+        "zh": "5. 正规矩阵：何时能用正交归一本征基对角化",
+        "en": "5. Normal Matrices: When Can We Diagonalize with an Orthonormal Eigenbasis?"
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "text": {
+        "zh": "1. 一组正交归一的实本征基",
+        "en": "1. An Orthonormal Real Eigenbasis"
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "1.1 求出正交归一本征向量",
+        "en": "1.1 Finding Orthonormal Eigenvectors"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "第一篇的本征分解 $A=X\\Lambda X^{-1}$ 只要求本征方向线性无关，它们可以斜交。哪些矩阵的本征向量能取成互相垂直的方向？先看一个满足 $S^{\\mathsf T}=S$ 的实对称矩阵",
+        "en": "The eigendecomposition $A=X\\Lambda X^{-1}$ of Part 1 requires only that the eigendirections be linearly independent; they may be oblique. For which matrices can the eigenvectors be chosen mutually perpendicular? Start with a real symmetric matrix, one satisfying $S^{\\mathsf T}=S$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "S=\\begin{bmatrix}2&1\\\\1&2\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "它的特征多项式为",
+        "en": "Its characteristic polynomial is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\det(S-\\lambda I)=\\begin{vmatrix}2-\\lambda&1\\\\1&2-\\lambda\\end{vmatrix}=(2-\\lambda)^2-1=(1-\\lambda)(3-\\lambda),"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两根是 $\\lambda_1=1$、$\\lambda_2=3$。把 $\\lambda_1=1$ 代回 $(S-\\lambda I)v=0$，即",
+        "en": "with two roots $\\lambda_1=1$ and $\\lambda_2=3$. Substituting $\\lambda_1=1$ into $(S-\\lambda I)v=0$ gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{bmatrix}1&1\\\\1&1\\end{bmatrix}\\begin{bmatrix}v_1\\\\v_2\\end{bmatrix}=\\begin{bmatrix}0\\\\0\\end{bmatrix},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两行都给出 $v_1+v_2=0$，取 $x_1=(1,-1)^{\\mathsf T}$。把 $\\lambda_2=3$ 代回，",
+        "en": "and both rows give $v_1+v_2=0$; take $x_1=(1,-1)^{\\mathsf T}$. Substituting $\\lambda_2=3$,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{bmatrix}-1&1\\\\1&-1\\end{bmatrix}\\begin{bmatrix}v_1\\\\v_2\\end{bmatrix}=\\begin{bmatrix}0\\\\0\\end{bmatrix},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两行都给出 $-v_1+v_2=0$，取 $x_2=(1,1)^{\\mathsf T}$。两者内积",
+        "en": "and both rows give $-v_1+v_2=0$; take $x_2=(1,1)^{\\mathsf T}$. Their inner product is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "x_1^{\\mathsf T}x_2=\\begin{bmatrix}1&-1\\end{bmatrix}\\begin{bmatrix}1\\\\1\\end{bmatrix}=1-1=0,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "方向垂直。两个长度都是 $\\sqrt{1^2+(\\pm1)^2}=\\sqrt2$，各自除以长度，得到单位本征向量",
+        "en": "so the two directions are perpendicular. Both have length $\\sqrt{1^2+(\\pm1)^2}=\\sqrt2$; dividing each by its length gives the unit eigenvectors"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "q_1=\\frac{1}{\\sqrt2}\\begin{bmatrix}1\\\\-1\\end{bmatrix},\\qquad q_2=\\frac{1}{\\sqrt2}\\begin{bmatrix}1\\\\1\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$q_1$、$q_2$ 两两内积为零、长度为一，这样的向量组称为**正交归一**。",
+        "en": "A set of vectors such as $q_1,q_2$, whose pairwise inner products are zero and whose lengths are one, is called **orthonormal**."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "1.2 用投影求分解系数",
+        "en": "1.2 Finding Expansion Coefficients by Projection"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "正交归一的基把求坐标变成做内积。设 $v$ 在这组本征基下写成",
+        "en": "An orthonormal basis turns finding coordinates into taking inner products. Write $v$ in this eigenbasis as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "v=c_1q_1+c_2q_2,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两边用 $q_1^{\\mathsf T}$ 左乘。由 $q_1^{\\mathsf T}q_1=1$、$q_1^{\\mathsf T}q_2=0$，",
+        "en": "and multiply both sides on the left by $q_1^{\\mathsf T}$. Since $q_1^{\\mathsf T}q_1=1$ and $q_1^{\\mathsf T}q_2=0$,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "q_1^{\\mathsf T}v=c_1\\,q_1^{\\mathsf T}q_1+c_2\\,q_1^{\\mathsf T}q_2=c_1."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "同理 $c_2=q_2^{\\mathsf T}v$。系数 $c_i=q_i^{\\mathsf T}v$ 是 $v$ 在 $q_i$ 方向上的**有符号标量投影**：它是可正可负的数；真正落在那个方向上的向量分量是 $c_iq_i$。取 $v=(2,0)^{\\mathsf T}$ 完整算一遍：",
+        "en": "Likewise $c_2=q_2^{\\mathsf T}v$. The coefficient $c_i=q_i^{\\mathsf T}v$ is the **signed scalar projection** of $v$ onto the direction $q_i$: it is a number that may be positive or negative, whereas the vector component actually lying along that direction is $c_iq_i$. Take $v=(2,0)^{\\mathsf T}$ and work through the whole computation:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "c_1=q_1^{\\mathsf T}v=\\frac{1}{\\sqrt2}\\bigl(1\\cdot2+(-1)\\cdot0\\bigr)=\\sqrt2,\\qquad c_2=q_2^{\\mathsf T}v=\\frac{1}{\\sqrt2}\\bigl(1\\cdot2+1\\cdot0\\bigr)=\\sqrt2."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "于是",
+        "en": "Then"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nSv&=S(\\sqrt2\\,q_1+\\sqrt2\\,q_2)\\\\\n&=\\sqrt2\\,Sq_1+\\sqrt2\\,Sq_2\\\\\n&=\\sqrt2\\,q_1+3\\sqrt2\\,q_2\\\\\n&=\\begin{bmatrix}1\\\\-1\\end{bmatrix}+\\begin{bmatrix}3\\\\3\\end{bmatrix}\n=\\begin{bmatrix}4\\\\2\\end{bmatrix}.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "与直接计算 $S(2,0)^{\\mathsf T}=(4,2)^{\\mathsf T}$ 一致。向量分量 $c_1q_1$、$c_2q_2$ 与 $v$ 的关系见图 1。",
+        "en": "This agrees with the direct computation $S(2,0)^{\\mathsf T}=(4,2)^{\\mathsf T}$. The relation between the vector components $c_1q_1$, $c_2q_2$ and $v$ is shown in Fig. 1."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/structure-orthogonal-basis.svg",
+      "alt": {
+        "zh": "向量在正交归一实本征基下的分解",
+        "en": "Fig. 1 Decomposition of a vector in an orthonormal real eigenbasis"
+      },
+      "caption": {
+        "zh": "图1　$v=(2,0)^{\\mathsf T}$（黑）沿正交归一本征方向 $q_1$、$q_2$ 分解。浅色直线是两个本征方向；蓝色向量 $c_1q_1=(1,-1)^{\\mathsf T}$ 与绿色向量 $c_2q_2=(1,1)^{\\mathsf T}$ 是两个向量分量，虚线表示它们相加回到 $v$，其中标量系数 $c_i=q_i^{\\mathsf T}v=\\sqrt2$。",
+        "en": "FIG. 1. The vector $v=(2,0)^{\\mathsf T}$ (black) decomposed along the orthonormal eigendirections $q_1$ and $q_2$. The light straight lines are the two eigendirections; the blue vector $c_1q_1=(1,-1)^{\\mathsf T}$ and the green vector $c_2q_2=(1,1)^{\\mathsf T}$ are the two vector components, and the dashed lines show that they add back to $v$. The scalar coefficients are $c_i=q_i^{\\mathsf T}v=\\sqrt2$."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "1.3 将投影写成矩阵",
+        "en": "1.3 Writing the Projections as a Matrix"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把 $q_1$、$q_2$ 按列排成 $Q=\\begin{bmatrix}q_1&q_2\\end{bmatrix}$，乘积 $Q^{\\mathsf T}Q$ 的第 $(i,j)$ 个元素正是 $q_i^{\\mathsf T}q_j$：",
+        "en": "Arrange $q_1,q_2$ as columns, $Q=\\begin{bmatrix}q_1&q_2\\end{bmatrix}$. The $(i,j)$ entry of the product $Q^{\\mathsf T}Q$ is exactly $q_i^{\\mathsf T}q_j$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "Q^{\\mathsf T}Q=\\begin{bmatrix}q_1^{\\mathsf T}q_1&q_1^{\\mathsf T}q_2\\\\q_2^{\\mathsf T}q_1&q_2^{\\mathsf T}q_2\\end{bmatrix}=\\begin{bmatrix}1&0\\\\0&1\\end{bmatrix}=I."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "对角线给出长度为一，非对角线给出两两正交。若 $Qc=0$，左乘 $Q^{\\mathsf T}$ 得 $c=0$，所以 $Q$ 的列线性无关，方阵 $Q$ 可逆。在 $Q^{\\mathsf T}Q=I$ 两边右乘 $Q^{-1}$，得到 $Q^{\\mathsf T}=Q^{-1}$：正交矩阵的转置就是它的逆。列正交归一的实方阵称为**正交矩阵**。",
+        "en": "The diagonal entries say the lengths are one, and the off-diagonal entries say the columns are pairwise orthogonal. If $Qc=0$, multiplying on the left by $Q^{\\mathsf T}$ gives $c=0$, so the columns of $Q$ are linearly independent and the square matrix $Q$ is invertible. Multiplying $Q^{\\mathsf T}Q=I$ on the right by $Q^{-1}$ gives $Q^{\\mathsf T}=Q^{-1}$: the transpose of an orthogonal matrix is its inverse. A real square matrix with orthonormal columns is called an **orthogonal matrix**."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "求坐标因此不必解方程组。由 $c=Q^{\\mathsf T}v$，以及 $Sq_1=q_1$、$Sq_2=3q_2$ 按列合写成 $SQ=Q\\Lambda$（$\\Lambda=\\operatorname{diag}(1,3)$），右乘 $Q^{\\mathsf T}$ 得",
+        "en": "Finding coordinates therefore does not require solving a linear system. We have $c=Q^{\\mathsf T}v$, and $Sq_1=q_1$, $Sq_2=3q_2$ combine column by column into $SQ=Q\\Lambda$ (with $\\Lambda=\\operatorname{diag}(1,3)$); multiplying on the right by $Q^{\\mathsf T}$ gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "Sv=Q\\Lambda Q^{\\mathsf T}v,\\qquad\\text{即}\\qquad S=Q\\Lambda Q^{\\mathsf T}.",
+        "en": "Sv=Q\\Lambda Q^{\\mathsf T}v,\\qquad\\text{that is,}\\qquad S=Q\\Lambda Q^{\\mathsf T}."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "换基之所以简单，正在于列向量正交归一，逆矩阵可以直接从转置读出。",
+        "en": "The change of basis is simple precisely because the columns are orthonormal, so the inverse can be read off from the transpose."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "2. 从实向量到复向量",
+        "en": "2. From Real Vectors to Complex Vectors"
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "2.1 复数域中的本征值与本征分解",
+        "en": "2.1 Eigenvalues and Eigendecomposition over the Complex Numbers"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "实矩阵的本征值不一定是实数。考虑",
+        "en": "The eigenvalues of a real matrix need not be real. Consider"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "R=\\begin{bmatrix}0&-1\\\\1&0\\end{bmatrix},\\qquad\n\\det(R-\\lambda I)=\\begin{vmatrix}-\\lambda&-1\\\\1&-\\lambda\\end{vmatrix}=\\lambda^2+1."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "方程 $\\lambda^2+1=0$ 没有实根。允许复数后，由 $i^2=-1$ 得到两个根 $\\lambda=i$、$\\lambda=-i$。分别代回本征方程：",
+        "en": "The equation $\\lambda^2+1=0$ has no real root. Once complex numbers are allowed, $i^2=-1$ gives two roots, $\\lambda=i$ and $\\lambda=-i$. Substitute each into the eigenvalue equation:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "当 $\\lambda=i$ 时，",
+                "en": "For $\\lambda=i$,"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\begin{bmatrix}-i&-1\\\\1&-i\\end{bmatrix}\\begin{bmatrix}v_1\\\\v_2\\end{bmatrix}=0."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "第一行给出 $v_2=-iv_1$，代入第二行得 $v_1-i(-iv_1)=0$，也满足。取 $v_1=1$，得到 $r_+=(1,-i)^{\\mathsf T}$。",
+                "en": "The first row gives $v_2=-iv_1$, and substituting into the second row gives $v_1-i(-iv_1)=0$, which is also satisfied. Taking $v_1=1$ gives $r_+=(1,-i)^{\\mathsf T}$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "当 $\\lambda=-i$ 时，",
+                "en": "For $\\lambda=-i$,"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\begin{bmatrix}i&-1\\\\1&i\\end{bmatrix}\\begin{bmatrix}v_1\\\\v_2\\end{bmatrix}=0."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "第一行给出 $v_2=iv_1$，代入第二行得 $v_1+i(iv_1)=0$。取 $v_1=1$，得到 $r_-=(1,i)^{\\mathsf T}$。",
+                "en": "The first row gives $v_2=iv_1$, and substituting into the second row gives $v_1+i(iv_1)=0$. Taking $v_1=1$ gives $r_-=(1,i)^{\\mathsf T}$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "直接相乘可以核对：",
+        "en": "Direct multiplication confirms this:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "Rr_+=\\begin{bmatrix}i\\\\1\\end{bmatrix}=i\\begin{bmatrix}1\\\\-i\\end{bmatrix},\\qquad\nRr_-=\\begin{bmatrix}-i\\\\1\\end{bmatrix}=-i\\begin{bmatrix}1\\\\i\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因此，实数范围里找不到本征值的矩阵，允许复数后仍可能找到本征值和对应的本征向量。",
+        "en": "Thus a matrix with no eigenvalues over the reals may still have eigenvalues and corresponding eigenvectors once complex numbers are allowed."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这个存在性结论可以推广到任意有限维方阵。**代数基本定理**保证：每个非恒定的复系数多项式都至少有一个复根。若 $p(\\lambda)$ 的一个根为 $\\lambda_1$，多项式除法给出",
+        "en": "This existence result extends to any finite-dimensional square matrix. The **fundamental theorem of algebra** guarantees that every nonconstant polynomial with complex coefficients has at least one complex root. If $\\lambda_1$ is a root of $p(\\lambda)$, polynomial division gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "p(\\lambda)=(\\lambda-\\lambda_1)p_{n-1}(\\lambda),"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "其中剩余多项式 $p_{n-1}$ 的次数比原来少一。只要它的次数还大于零，就可以再次应用这个定理，继续分解。对 $n\\times n$ 方阵 $A$（$n\\ge1$），$\\det(A-\\lambda I)$ 的最高次项是 $(-1)^n\\lambda^n$，所以最终得到",
+        "en": "where the remaining polynomial $p_{n-1}$ has degree one less than before. As long as its degree is still greater than zero, the theorem can be applied again to factor further. For an $n\\times n$ square matrix $A$ ($n\\ge1$), the highest-degree term of $\\det(A-\\lambda I)$ is $(-1)^n\\lambda^n$, so in the end"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\det(A-\\lambda I)=(-1)^n\\prod_{j=1}^{n}(\\lambda-\\lambda_j)."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这里有 $n$ 个一次因子，但其中的根可以重复。这就是“按重数计有 $n$ 个根”的含义，不要求有 $n$ 个不同的本征值。",
+        "en": "There are $n$ linear factors here, but the roots may repeat. This is what \"$n$ roots counted with multiplicity\" means; it does not require $n$ distinct eigenvalues."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "每个根 $\\lambda_j$ 都使 $A-\\lambda_jI$ 不可逆，于是 $(A-\\lambda_jI)v=0$ 有非零解。因此，**任意有限维方阵，无论元素是实数还是复数，在复数域中都存在本征值和对应的非零本征向量。**",
+        "en": "Each root $\\lambda_j$ makes $A-\\lambda_jI$ non-invertible, so $(A-\\lambda_jI)v=0$ has a nonzero solution. Therefore, **any finite-dimensional square matrix, whether its entries are real or complex, has eigenvalues and corresponding nonzero eigenvectors over the complex numbers.**"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "复数同样可以做加减乘除，非零复数都有乘法逆元。高斯消元、线性无关和可逆性的判断仍然适用；不同本征值对应的本征向量线性无关，其证明也不依赖实数的大小关系（见第一篇 4.2 节）。只要能选出 $n$ 个独立本征向量，把它们按列排成 $X$，仍有",
+        "en": "Complex numbers can likewise be added, subtracted, multiplied, and divided, and every nonzero complex number has a multiplicative inverse. Gaussian elimination and the tests for linear independence and invertibility still apply; eigenvectors belonging to distinct eigenvalues are linearly independent, and the proof does not rely on the ordering of the real numbers (see Part 1, Section 4.2). As long as $n$ independent eigenvectors can be chosen, arranging them as the columns of $X$ still gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "AX=X\\Lambda,\\qquad\n\\Lambda=\\operatorname{diag}(\\lambda_1,\\dots,\\lambda_n)."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "此时 $X$ 可逆，右乘 $X^{-1}$ 就得到 $A=X\\Lambda X^{-1}$。本例 $R$ 的两个本征值不同，因此 $r_+,r_-$ 线性无关，可以取",
+        "en": "Then $X$ is invertible, and multiplying on the right by $X^{-1}$ gives $A=X\\Lambda X^{-1}$. The two eigenvalues of $R$ in this example are distinct, so $r_+,r_-$ are linearly independent, and we may take"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "X=\\begin{bmatrix}1&1\\\\-i&i\\end{bmatrix},\\qquad\n\\Lambda=\\begin{bmatrix}i&0\\\\0&-i\\end{bmatrix},\\qquad\nR=X\\Lambda X^{-1}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "但存在本征值，还不足以保证能完成本征分解。看另一个实矩阵",
+        "en": "However, the existence of eigenvalues does not by itself guarantee that an eigendecomposition can be completed. Consider another real matrix"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "J=\\begin{bmatrix}1&1\\\\0&1\\end{bmatrix},\\qquad\n\\det(J-\\lambda I)=(1-\\lambda)^2."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "它只有一个不同的本征值 $\\lambda=1$，这个根重复两次。代回本征方程，",
+        "en": "It has only one distinct eigenvalue $\\lambda=1$, a root repeated twice. Substituting into the eigenvalue equation,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "(J-I)v=\\begin{bmatrix}0&1\\\\0&0\\end{bmatrix}\\begin{bmatrix}v_1\\\\v_2\\end{bmatrix}\n=\\begin{bmatrix}v_2\\\\0\\end{bmatrix}=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "即使允许 $v_1,v_2$ 取复数，方程仍要求 $v_2=0$。所有本征向量只能写成",
+        "en": "Even when $v_1,v_2$ are allowed to be complex, the equation still requires $v_2=0$. All eigenvectors can only be written as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "v=c\\begin{bmatrix}1\\\\0\\end{bmatrix},\\qquad c\\in\\mathbb C,\\quad c\\ne0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "它们都是同一个向量的倍数，无法选出两个线性无关的向量，所以 $J$ 在复数域中仍不能对角化（$J$ 即第一篇 4.3 节的例子）。",
+        "en": "They are all multiples of the same vector, so two linearly independent ones cannot be chosen, and $J$ still cannot be diagonalized over the complex numbers ($J$ is the example of Part 1, Section 4.3)."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "2.2 长度与正交性的公式需要调整",
+        "en": "2.2 The Formulas for Length and Orthogonality Need Adjusting"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "本征值本身是复数时，本征向量一般也是复向量，实平面里“沿本征方向伸缩”的图像不能直接照搬。要把长度与正交重新定义，才能继续讨论正交的本征方向。取",
+        "en": "When an eigenvalue is itself complex, the eigenvector is in general a complex vector too, and the picture of \"stretching along an eigendirection\" in the real plane cannot be carried over directly. Length and orthogonality must be redefined before we can continue to discuss orthogonal eigendirections. Take"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "z=\\begin{bmatrix}1\\\\i\\end{bmatrix},\\qquad z^{\\mathsf T}z=1^2+i^2=0,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "一个非零向量的“长度平方”成为零，原因是转置只换位置、不取共轭，$i^2=-1$ 把正项抵消了。",
+        "en": "so the \"squared length\" of a nonzero vector becomes zero. The reason is that the transpose only moves entries around without taking conjugates, and $i^2=-1$ cancels the positive term."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把分量先取复共轭再转置，记作 $\\dagger$，称为**共轭转置**：",
+        "en": "Taking the complex conjugate of each component and then transposing, denoted $\\dagger$, is called the **conjugate transpose**:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "z^\\dagger=\\bar z^{\\mathsf T}=(\\bar z_1,\\dots,\\bar z_n),\\qquad \\overline{a+bi}=a-bi,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "其中 $\\bar z_k$ 是 $z_k$ 的复共轭。对 $z=(z_1,\\dots,z_n)^{\\mathsf T}$、$w=(w_1,\\dots,w_n)^{\\mathsf T}$，定义内积",
+        "en": "where $\\bar z_k$ is the complex conjugate of $z_k$. For $z=(z_1,\\dots,z_n)^{\\mathsf T}$ and $w=(w_1,\\dots,w_n)^{\\mathsf T}$, define the inner product"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\langle z,w\\rangle=z^\\dagger w=\\bar z_1w_1+\\cdots+\\bar z_nw_n."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "它只在第一个向量的分量上多取一次共轭，于是 $\\langle z,z\\rangle=|z_1|^2+\\cdots+|z_n|^2\\ge0$，只有 $z=0$ 时为零，据此定义范数 $\\|z\\|=\\sqrt{\\langle z,z\\rangle}$。回到上面的 $z$，$\\|z\\|^2=|1|^2+|i|^2=2>0$。",
+        "en": "It conjugates only the components of the first vector, so $\\langle z,z\\rangle=|z_1|^2+\\cdots+|z_n|^2\\ge0$, which vanishes only when $z=0$; on this basis the norm is defined as $\\|z\\|=\\sqrt{\\langle z,z\\rangle}$. Returning to the $z$ above, $\\|z\\|^2=|1|^2+|i|^2=2>0$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "复内积对两个位置的作用并不对称：",
+        "en": "The complex inner product treats its two slots asymmetrically:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "交换两个向量要取共轭：$\\langle w,z\\rangle=\\overline{\\langle z,w\\rangle}$；",
+                "en": "Swapping the two vectors requires a conjugate: $\\langle w,z\\rangle=\\overline{\\langle z,w\\rangle}$;"
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "第二个位置可以直接提出常数：$\\langle z,cw\\rangle=c\\langle z,w\\rangle$；",
+                "en": "A constant in the second slot can be pulled out directly: $\\langle z,cw\\rangle=c\\langle z,w\\rangle$;"
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "第一个位置先共轭再提出：$\\langle cz,w\\rangle=\\bar c\\langle z,w\\rangle$。",
+                "en": "A constant in the first slot is conjugated before being pulled out: $\\langle cz,w\\rangle=\\bar c\\langle z,w\\rangle$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "称 $\\langle z,w\\rangle=0$ 的两个向量**正交**，称 $\\|z\\|=1$ 的向量为**单位向量**。取 $w=(1,-i)^{\\mathsf T}$ 核对：",
+        "en": "Two vectors with $\\langle z,w\\rangle=0$ are called **orthogonal**, and a vector with $\\|z\\|=1$ is called a **unit vector**. Check with $w=(1,-i)^{\\mathsf T}$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\langle z,w\\rangle=\\bar1\\cdot1+\\bar i\\,(-i)=1+(-i)(-i)=1-1=0."
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "2.3 用复内积求分解系数",
+        "en": "2.3 Finding Expansion Coefficients with the Complex Inner Product"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把 $z$、$w$ 各自除以长度 $\\sqrt2$，得到一组正交归一的复向量",
+        "en": "Dividing $z$ and $w$ each by its length $\\sqrt2$ gives an orthonormal set of complex vectors"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "u_1=\\frac{1}{\\sqrt2}\\begin{bmatrix}1\\\\i\\end{bmatrix},\\qquad u_2=\\frac{1}{\\sqrt2}\\begin{bmatrix}1\\\\-i\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "任取向量 $v$，写成 $v=c_1u_1+c_2u_2$，两边用 $u_1^\\dagger$ 左乘，",
+        "en": "For any vector $v$, write $v=c_1u_1+c_2u_2$ and multiply both sides on the left by $u_1^\\dagger$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "u_1^\\dagger v=c_1\\,u_1^\\dagger u_1+c_2\\,u_1^\\dagger u_2=c_1,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "同理 $c_2=u_2^\\dagger v$。把两列并成 $U=\\begin{bmatrix}u_1&u_2\\end{bmatrix}$，内积关系合起来就是",
+        "en": "and likewise $c_2=u_2^\\dagger v$. Combining the two columns into $U=\\begin{bmatrix}u_1&u_2\\end{bmatrix}$, the inner-product relations together read"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "U^\\dagger U=\\begin{bmatrix}u_1^\\dagger u_1&u_1^\\dagger u_2\\\\u_2^\\dagger u_1&u_2^\\dagger u_2\\end{bmatrix}=I."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$U^\\dagger U=I$ 同样保证 $U$ 的列线性无关，因而 $U$ 可逆；两边右乘 $U^{-1}$ 得 $U^\\dagger=U^{-1}$。列在复内积下正交归一的复方阵称为**幺正矩阵**。",
+        "en": "$U^\\dagger U=I$ likewise guarantees that the columns of $U$ are linearly independent, so $U$ is invertible; multiplying on the right by $U^{-1}$ gives $U^\\dagger=U^{-1}$. A complex square matrix whose columns are orthonormal under the complex inner product is called a **unitary matrix**."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "3. 厄米矩阵：实本征值与正交本征基",
+        "en": "3. Hermitian Matrices: Real Eigenvalues and an Orthogonal Eigenbasis"
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "3.1 共轭转置对称带来的性质",
+        "en": "3.1 Consequences of Conjugate-Transpose Symmetry"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "满足",
+        "en": "A square matrix satisfying"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "H^\\dagger=H"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "的方阵称为**厄米矩阵**。逐个元素看，这个条件是 $H_{ij}=\\overline{H_{ji}}$：对角元等于自己的共轭，所以是实数；主对角线两侧对应的元素互为共轭。若元素全为实数，这个条件就成为 $H^{\\mathsf T}=H$，即实对称。",
+        "en": "is called a **Hermitian matrix**. Entry by entry, this condition is $H_{ij}=\\overline{H_{ji}}$: each diagonal entry equals its own conjugate and is therefore real, and entries placed symmetrically across the main diagonal are complex conjugates of each other. If all entries are real, the condition becomes $H^{\\mathsf T}=H$, that is, real symmetric."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这个对称条件对本征值和本征向量分别给出限制。",
+        "en": "This symmetry condition constrains the eigenvalues and the eigenvectors respectively."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**本征值一定是实数。** 设 $Hx=\\lambda x$，$x\\ne0$，左乘 $x^\\dagger$ 得",
+                "en": "**Eigenvalues are always real.** Let $Hx=\\lambda x$ with $x\\ne0$; multiplying on the left by $x^\\dagger$ gives"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\lambda=\\frac{x^\\dagger Hx}{x^\\dagger x}."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "分母 $x^\\dagger x=\\|x\\|^2>0$。分子取共轭后有",
+                "en": "The denominator is $x^\\dagger x=\\|x\\|^2>0$. Taking the conjugate of the numerator,"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\overline{x^\\dagger Hx}=x^\\dagger H^\\dagger x=x^\\dagger Hx,"
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "因此分子也是实数，$\\lambda$ 必为实数。",
+                "en": "so the numerator is also real, and $\\lambda$ must be real."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**不同本征值对应的本征向量正交。** 再设 $Hy=\\mu y$，$\\lambda\\ne\\mu$。由于已经证明 $\\lambda$ 为实数，",
+                "en": "**Eigenvectors belonging to distinct eigenvalues are orthogonal.** Let also $Hy=\\mu y$ with $\\lambda\\ne\\mu$. Since $\\lambda$ has been shown to be real,"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "\\lambda x^\\dagger y=(Hx)^\\dagger y\n=x^\\dagger H^\\dagger y=x^\\dagger Hy=\\mu x^\\dagger y."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "因而 $(\\lambda-\\mu)x^\\dagger y=0$，只能有 $x^\\dagger y=0$。",
+                "en": "Hence $(\\lambda-\\mu)x^\\dagger y=0$, which forces $x^\\dagger y=0$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这两个短证明分别说明实本征值与正交性从何而来[<a href=\"#ref-2\">2</a>, §6.4]。",
+        "en": "These two short proofs show where real eigenvalues and orthogonality come from [<a href=\"#ref-2\">2</a>, §6.4]."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "3.2 从手算到谱定理",
+        "en": "3.2 From a Hand Calculation to the Spectral Theorem"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "取一个厄米矩阵",
+        "en": "Take a Hermitian matrix"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "H=\\begin{bmatrix}2&i\\\\-i&2\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "转置再取共轭得到 $H^\\dagger=H$。求本征值：",
+        "en": "Transposing and then conjugating gives $H^\\dagger=H$. To find the eigenvalues:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\det(H-\\lambda I)=\\begin{vmatrix}2-\\lambda&i\\\\-i&2-\\lambda\\end{vmatrix}=(2-\\lambda)^2-(i)(-i)=(2-\\lambda)^2-1,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "其中 $(i)(-i)=-i^2=1$。两根 $\\lambda_1=1$、$\\lambda_2=3$，都是实数。代入 $\\lambda_1=1$，",
+        "en": "where $(i)(-i)=-i^2=1$. The two roots $\\lambda_1=1$ and $\\lambda_2=3$ are both real. Substituting $\\lambda_1=1$,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{bmatrix}1&i\\\\-i&1\\end{bmatrix}\\begin{bmatrix}v_1\\\\v_2\\end{bmatrix}=\\begin{bmatrix}0\\\\0\\end{bmatrix},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "得 $v_1=-iv_2$，取 $v_2=1$，本征向量为 $(-i,1)^{\\mathsf T}$。代入 $\\lambda_2=3$，",
+        "en": "gives $v_1=-iv_2$; taking $v_2=1$, the eigenvector is $(-i,1)^{\\mathsf T}$. Substituting $\\lambda_2=3$,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{bmatrix}-1&i\\\\-i&-1\\end{bmatrix}\\begin{bmatrix}v_1\\\\v_2\\end{bmatrix}=\\begin{bmatrix}0\\\\0\\end{bmatrix},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "得 $v_1=iv_2$，本征向量为 $(i,1)^{\\mathsf T}$。两个向量的长度平方都是 $|-i|^2+1=2$，各自除以 $\\sqrt2$ 后记作",
+        "en": "gives $v_1=iv_2$, and the eigenvector is $(i,1)^{\\mathsf T}$. Both vectors have squared length $|-i|^2+1=2$; dividing each by $\\sqrt2$ and writing"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "u_1=\\frac{1}{\\sqrt2}\\begin{bmatrix}-i\\\\1\\end{bmatrix},\\qquad u_2=\\frac{1}{\\sqrt2}\\begin{bmatrix}i\\\\1\\end{bmatrix},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "复内积",
+        "en": "the complex inner product is"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\langle u_1,u_2\\rangle=\\frac{1}{2}\\bigl(\\overline{(-i)}\\,i+\\bar1\\cdot1\\bigr)=\\frac{1}{2}(i\\cdot i+1)=\\frac{1}{2}(-1+1)=0,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "方向垂直。把 $u_1,u_2$ 按列排成 $U=\\dfrac1{\\sqrt2}\\begin{bmatrix}-i&i\\\\1&1\\end{bmatrix}$，直接做乘法核对本征分解。先算",
+        "en": "so the directions are perpendicular. Arrange $u_1,u_2$ as columns, $U=\\dfrac1{\\sqrt2}\\begin{bmatrix}-i&i\\\\1&1\\end{bmatrix}$, and verify the eigendecomposition by direct multiplication. First compute"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "HU=\\frac1{\\sqrt2}\\begin{bmatrix}2&i\\\\-i&2\\end{bmatrix}\\begin{bmatrix}-i&i\\\\1&1\\end{bmatrix}=\\frac1{\\sqrt2}\\begin{bmatrix}-i&3i\\\\1&3\\end{bmatrix}=\\frac1{\\sqrt2}\\begin{bmatrix}-i&i\\\\1&1\\end{bmatrix}\\begin{bmatrix}1&0\\\\0&3\\end{bmatrix}=U\\Lambda,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "再取 $U^\\dagger=\\dfrac1{\\sqrt2}\\begin{bmatrix}i&1\\\\-i&1\\end{bmatrix}$ 左乘：",
+        "en": "then multiply on the left by $U^\\dagger=\\dfrac1{\\sqrt2}\\begin{bmatrix}i&1\\\\-i&1\\end{bmatrix}$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "U^\\dagger HU=\\frac12\\begin{bmatrix}i&1\\\\-i&1\\end{bmatrix}\\begin{bmatrix}-i&3i\\\\1&3\\end{bmatrix}=\\frac12\\begin{bmatrix}2&0\\\\0&6\\end{bmatrix}=\\begin{bmatrix}1&0\\\\0&3\\end{bmatrix}=\\Lambda."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这个手算同时呈现三件事：厄米矩阵的本征值 $1,3$ 是实数；两个本征向量既能归一化又互相正交；它们凑满二维空间的一组基，换基矩阵 $U$ 幺正（$U^\\dagger U=I$），于是对角化写成 $H=U\\Lambda U^\\dagger$。",
+        "en": "This hand calculation exhibits three things at once: the eigenvalues $1,3$ of the Hermitian matrix are real; the two eigenvectors can be normalized and are mutually orthogonal; and together they form a basis of the two-dimensional space, with the change-of-basis matrix $U$ unitary ($U^\\dagger U=I$), so the diagonalization is written $H=U\\Lambda U^\\dagger$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "对任意 $n\\times n$ 厄米矩阵，**厄米矩阵的谱定理**保证同样的结论成立：总能选出 $n$ 个正交归一的本征向量，组成幺正矩阵 $U$，使",
+        "en": "For any $n\\times n$ Hermitian matrix, the **spectral theorem for Hermitian matrices** guarantees the same conclusion: one can always choose $n$ orthonormal eigenvectors, forming a unitary matrix $U$ such that"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "H=U\\Lambda U^\\dagger,\\qquad U^\\dagger U=I,\\qquad \\Lambda=\\operatorname{diag}(\\lambda_1,\\ldots,\\lambda_n),\\quad \\lambda_i\\in\\mathbb R."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "谱定理的这个存在性结论对有重根的厄米矩阵也成立[<a href=\"#ref-2\">2</a>, §6.4]。元素全为实数的厄米矩阵就是实对称矩阵，此时可以取实的正交归一本征基，换基矩阵满足 $Q^{\\mathsf T}=Q^{-1}$，$S=Q\\Lambda Q^{\\mathsf T}$；第一节的 $S=\\begin{bmatrix}2&1\\\\1&2\\end{bmatrix}$ 就是这一特例[<a href=\"#ref-1\">1</a>, §8.1][<a href=\"#ref-2\">2</a>, §6.3]。",
+        "en": "This existence statement of the spectral theorem also holds for Hermitian matrices with repeated roots [<a href=\"#ref-2\">2</a>, §6.4]. A Hermitian matrix with all real entries is just a real symmetric matrix; in that case a real orthonormal eigenbasis can be chosen, the change-of-basis matrix satisfies $Q^{\\mathsf T}=Q^{-1}$, and $S=Q\\Lambda Q^{\\mathsf T}$. The matrix $S=\\begin{bmatrix}2&1\\\\1&2\\end{bmatrix}$ of Section 1 is exactly this special case [<a href=\"#ref-1\">1</a>, §8.1][<a href=\"#ref-2\">2</a>, §6.3]."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "3.3 重根时，怎样选择正交本征向量",
+        "en": "3.3 With Repeated Roots, How to Choose Orthogonal Eigenvectors"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "重根会不会让正交本征基出问题？取一个实对称矩阵",
+        "en": "Can a repeated root spoil the orthogonal eigenbasis? Take a real symmetric matrix"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "B=\\begin{bmatrix}2&1&0\\\\1&2&0\\\\0&0&1\\end{bmatrix},\\qquad\n\\det(B-\\lambda I)=\\bigl((2-\\lambda)^2-1\\bigr)(1-\\lambda)=(3-\\lambda)(1-\\lambda)^2,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两根 $\\lambda_1=\\lambda_2=1$（重根）、$\\lambda_3=3$。代入 $\\lambda_1=1$，$B-I=\\begin{bmatrix}1&1&0\\\\1&1&0\\\\0&0&0\\end{bmatrix}$，本征方程只给出 $x+y=0$，$z$ 不受限制，所以",
+        "en": "with two roots, $\\lambda_1=\\lambda_2=1$ (repeated) and $\\lambda_3=3$. Substituting $\\lambda_1=1$, $B-I=\\begin{bmatrix}1&1&0\\\\1&1&0\\\\0&0&0\\end{bmatrix}$, and the eigenvalue equation gives only $x+y=0$ with $z$ unconstrained, so"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "v=a\\begin{bmatrix}1\\\\-1\\\\0\\end{bmatrix}+b\\begin{bmatrix}0\\\\0\\\\1\\end{bmatrix}=(a,-a,b)^{\\mathsf T},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$a,b$ 任意。重根对应的本征空间是整个二维平面 $x+y=0$，不同的方向都满足同一本征值。随手取平面里的两个独立向量 $p=(1,-1,0)^{\\mathsf T}$、$r=(1,-1,1)^{\\mathsf T}$，它们的内积",
+        "en": "with $a,b$ arbitrary. The eigenspace of the repeated root is the entire two-dimensional plane $x+y=0$; many different directions satisfy the same eigenvalue. Pick two independent vectors in the plane at random, $p=(1,-1,0)^{\\mathsf T}$ and $r=(1,-1,1)^{\\mathsf T}$. Their inner product"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "p^{\\mathsf T}r=1\\cdot1+(-1)(-1)+0\\cdot1=2\\ne0,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "并不正交，说明同一本征值的本征向量不会自动垂直。图2左侧画出同一本征平面内的 $p,r$，右侧则画出选取正交归一基后的 $q_1,q_2$，以及与该平面垂直的 $q_3$。",
+        "en": "is not zero, so they are not orthogonal, which shows that eigenvectors of the same eigenvalue are not automatically perpendicular. The left panel of Fig. 2 shows $p,r$ in the same eigenplane, and the right panel shows $q_1,q_2$, together with $q_3$ perpendicular to the plane, after an orthonormal basis has been chosen."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "怎样把这两个斜交的向量变成正交的，同时仍留在本征平面内？保留 $p$ 的方向，从 $r$ 中减去一些 $p$，设",
+        "en": "How can these two oblique vectors be made orthogonal while staying in the eigenplane? Keep the direction of $p$ and subtract some multiple of $p$ from $r$; set"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "w=r-\\alpha p."
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**先用正交条件确定减多少。** 要求 $p^{\\mathsf T}w=0$，则",
+                "en": "**First, use the orthogonality condition to decide how much to subtract.** Requiring $p^{\\mathsf T}w=0$ gives"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "p^{\\mathsf T}r-\\alpha p^{\\mathsf T}p=0\n\\quad\\Longrightarrow\\quad\n\\alpha=\\frac{p^{\\mathsf T}r}{p^{\\mathsf T}p}=\\frac22=1."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "因此",
+                "en": "Therefore"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "w=r-p=\\begin{bmatrix}1\\\\-1\\\\1\\end{bmatrix}\n-\\begin{bmatrix}1\\\\-1\\\\0\\end{bmatrix}\n=\\begin{bmatrix}0\\\\0\\\\1\\end{bmatrix}."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "减去的 $\\alpha p$ 是 $r$ 沿 $p$ 方向的投影分量，剩余的 $w$ 与 $p$ 垂直。图2中间将本征平面正对读者，展示这次分解 $r=p+w$。",
+                "en": "The subtracted $\\alpha p$ is the projection component of $r$ along $p$, and the remainder $w$ is perpendicular to $p$. The middle panel of Fig. 2 faces the eigenplane head-on and shows this decomposition $r=p+w$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**确认减去投影后仍是本征向量。** 因为 $Bp=p$、$Br=r$，",
+                "en": "**Confirm that it is still an eigenvector after the projection is subtracted.** Since $Bp=p$ and $Br=r$,"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "Bw=B(r-p)=Br-Bp=r-p=w."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "这个操作保留了本征值 $1$，原因是 $p,r$ 属于同一个本征空间；它们的线性组合仍在该空间内。",
+                "en": "This operation preserves the eigenvalue $1$ because $p,r$ belong to the same eigenspace; their linear combinations remain in that space."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**最后将两个向量归一化。** $\\|p\\|=\\sqrt2$、$\\|w\\|=1$，所以",
+                "en": "**Finally, normalize the two vectors.** With $\\|p\\|=\\sqrt2$ and $\\|w\\|=1$,"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "q_1=\\frac{p}{\\|p\\|}=\\frac1{\\sqrt2}\\begin{bmatrix}1\\\\-1\\\\0\\end{bmatrix},\\qquad\nq_2=\\frac{w}{\\|w\\|}=\\begin{bmatrix}0\\\\0\\\\1\\end{bmatrix}."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这就是两个向量的 **Gram–Schmidt（格拉姆–施密特）正交化**：保留第一个方向，减去第二个向量沿它的投影，再归一化。用单位向量 $q_1$ 表示，同一个计算写成",
+        "en": "This is the **Gram–Schmidt orthogonalization** of two vectors: keep the first direction, subtract the projection of the second vector along it, and normalize. In terms of the unit vector $q_1$, the same computation is written"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "w=r-(q_1^{\\mathsf T}r)q_1,\\qquad q_2=\\frac{w}{\\|w\\|}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "由于 $p,r$ 原本线性无关，减去投影不会得到零向量。复向量使用相同的步骤，只需将投影系数改为 $q_1^\\dagger r$。",
+        "en": "Because $p,r$ were linearly independent to begin with, subtracting the projection cannot produce the zero vector. Complex vectors use the same steps, with the projection coefficient replaced by $q_1^\\dagger r$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "再看另一个本征值 $\\lambda_3=3$。$B-3I=\\begin{bmatrix}-1&1&0\\\\1&-1&0\\\\0&0&-2\\end{bmatrix}$，本征方程要求 $x=y$、$z=0$，取",
+        "en": "Now consider the other eigenvalue $\\lambda_3=3$. Here $B-3I=\\begin{bmatrix}-1&1&0\\\\1&-1&0\\\\0&0&-2\\end{bmatrix}$, and the eigenvalue equation requires $x=y$, $z=0$; take"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "q_3=\\frac1{\\sqrt2}\\begin{bmatrix}1\\\\1\\\\0\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$q_3$ 与 $q_1$、$q_2$ 的内积都是零，方向正是平面 $x+y=0$ 的法线。把三列排成 $Q=\\begin{bmatrix}q_1&q_2&q_3\\end{bmatrix}$，三列正交归一，且由 $Bq_1=q_1$、$Bq_2=q_2$、$Bq_3=3q_3$ 得",
+        "en": "The inner products of $q_3$ with $q_1$ and $q_2$ are both zero, and its direction is exactly the normal of the plane $x+y=0$. Arrange the three columns as $Q=\\begin{bmatrix}q_1&q_2&q_3\\end{bmatrix}$; the three columns are orthonormal, and from $Bq_1=q_1$, $Bq_2=q_2$, $Bq_3=3q_3$ we get"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "Q^{\\mathsf T}Q=I,\\qquad Q^{\\mathsf T}BQ=\\operatorname{diag}(1,1,3)."
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/structure-degenerate-eigenspace.svg",
+      "alt": {
+        "zh": "重根本征空间中的正交归一基",
+        "en": "Fig. 2 Orthonormal basis in a degenerate eigenspace"
+      },
+      "caption": {
+        "zh": "图2　左：平面 $x+y=0$ 内的两个独立本征向量 $p,r$，并不正交。中：正对该平面看分解 $r=p+w$，减去沿 $p$ 的投影，留下与 $p$ 垂直的 $w$；虚线箭头是平移后的 $w$。右：归一化后的 $q_1,q_2$ 在同一本征平面内正交，$q_3$ 垂直于平面，对应本征值 $3$。左右采用相同观察角度；中图的横纵方向沿 $p,w$，不是原来的 $x,y$ 坐标。",
+        "en": "FIG. 2. Left: two independent eigenvectors $p,r$ in the plane $x+y=0$, which are not orthogonal. Middle: viewing the plane head-on, the decomposition $r=p+w$ subtracts the projection along $p$ and leaves $w$ perpendicular to $p$; the dashed arrow is $w$ translated. Right: the normalized $q_1,q_2$ are orthogonal within the same eigenplane, and $q_3$ is perpendicular to the plane and corresponds to the eigenvalue $3$. The left and right panels use the same viewing angle; the horizontal and vertical directions of the middle panel run along $p,w$, not the original $x,y$ coordinates."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "谱定理保证的是“可以选出”一组正交归一本征基，并不要求同一本征值下任取的向量都正交。本例的 $p,r$ 已是本征平面的一组基，减去投影并归一化后得到 $q_1,q_2$，再与 $q_3$ 合起来，便构成整个空间的正交归一本征基。",
+        "en": "The spectral theorem guarantees that an orthonormal eigenbasis \"can be chosen\"; it does not require that arbitrarily chosen vectors under the same eigenvalue be orthogonal. In this example $p,r$ already form a basis of the eigenplane; subtracting the projection and normalizing gives $q_1,q_2$, which together with $q_3$ form an orthonormal eigenbasis of the whole space."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "4. 幺正矩阵：保持长度，本征值模长为一",
+        "en": "4. Unitary Matrices: Length Preserved, Eigenvalues of Modulus One"
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "4.1 从幺正条件到长度保持",
+        "en": "4.1 From the Unitary Condition to Length Preservation"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "幺正矩阵满足 $U^\\dagger U=I$。这个条件对任意两个向量 $v,w$ 给出",
+        "en": "A unitary matrix satisfies $U^\\dagger U=I$. For any two vectors $v,w$ this condition gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\langle Uv,Uw\\rangle=(Uv)^\\dagger Uw\n=v^\\dagger U^\\dagger Uw=v^\\dagger w=\\langle v,w\\rangle."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因此，幺正变换保持内积，原本正交的向量经过变换后仍然正交。取 $w=v$，还得到",
+        "en": "Hence a unitary transformation preserves inner products, and vectors that were orthogonal remain orthogonal after the transformation. Setting $w=v$ also gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\|Uv\\|^2=\\|v\\|^2,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "即每个向量的长度保持不变。实数情形下，$\\dagger$ 变成转置，幺正条件就是实正交矩阵的条件 $Q^{\\mathsf T}Q=I$。",
+        "en": "that is, the length of every vector is unchanged. In the real case, $\\dagger$ becomes the transpose, and the unitary condition is the condition $Q^{\\mathsf T}Q=I$ for a real orthogonal matrix."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "4.2 长度保持怎样限制本征值",
+        "en": "4.2 How Length Preservation Restricts the Eigenvalues"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "若 $Uv=\\lambda v$ 且 $v\\ne0$，则",
+        "en": "If $Uv=\\lambda v$ and $v\\ne0$, then"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\|v\\|^2=\\|Uv\\|^2=\\|\\lambda v\\|^2=|\\lambda|^2\\|v\\|^2."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "约去正数 $\\|v\\|^2$，得到",
+        "en": "Dividing out the positive number $\\|v\\|^2$ gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "|\\lambda|=1."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "所以**幺正矩阵的本征值都在复平面的单位圆上**[<a href=\"#ref-2\">2</a>, §6.4]。厄米条件 $H^\\dagger=H$ 保证本征值为实数；幺正条件 $U^\\dagger U=I$ 则保证本征值模长为一。这是两个不同的限制。",
+        "en": "So **the eigenvalues of a unitary matrix all lie on the unit circle in the complex plane** [<a href=\"#ref-2\">2</a>, §6.4]. The Hermitian condition $H^\\dagger=H$ guarantees real eigenvalues, whereas the unitary condition $U^\\dagger U=I$ guarantees eigenvalues of modulus one. These are two different restrictions."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "4.3 九十度旋转的例子",
+        "en": "4.3 Example: A Ninety-Degree Rotation"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "2.1节中的矩阵",
+        "en": "The matrix from Section 2.1,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "R=\\begin{bmatrix}0&-1\\\\1&0\\end{bmatrix}",
+        "en": "R=\\begin{bmatrix}0&-1\\\\1&0\\end{bmatrix},"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "满足",
+        "en": "satisfies"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "R^{\\mathsf T}R=\\begin{bmatrix}0&1\\\\-1&0\\end{bmatrix}\n\\begin{bmatrix}0&-1\\\\1&0\\end{bmatrix}=I,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "所以是实正交矩阵。它把实向量 $(a,b)^{\\mathsf T}$ 变成 $(-b,a)^{\\mathsf T}$，即逆时针旋转 $90^\\circ$，长度不变。",
+        "en": "so it is a real orthogonal matrix. It sends the real vector $(a,b)^{\\mathsf T}$ to $(-b,a)^{\\mathsf T}$, that is, a counterclockwise rotation by $90^\\circ$ that leaves the length unchanged."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/structure-rotation-90.svg",
+      "alt": {
+        "zh": "90 度旋转保持长度",
+        "en": "Fig. 3 A 90-degree rotation preserves length"
+      },
+      "caption": {
+        "zh": "图3　实向量 $v$ 与旋转后的 $Rv$ 长度相同、方向垂直。虚线圆表示单位圆。",
+        "en": "FIG. 3. The real vector $v$ and its rotated image $Rv$ have the same length and are perpendicular. The dashed circle is the unit circle."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "已经求出的本征值为 $i,-i$，确实都有模长 $1$。相应的 $r_+=(1,-i)^{\\mathsf T}$、$r_-=(1,i)^{\\mathsf T}$ 满足",
+        "en": "The eigenvalues found earlier are $i,-i$, and both indeed have modulus $1$. The corresponding eigenvectors $r_+=(1,-i)^{\\mathsf T}$ and $r_-=(1,i)^{\\mathsf T}$ satisfy"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "r_+^\\dagger r_-=1+i^2=0,\\qquad\n\\|r_+\\|=\\|r_-\\|=\\sqrt2."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两者除以 $\\sqrt2$，便组成复数域中的正交归一本征基。",
+        "en": "Dividing both by $\\sqrt2$ gives an orthonormal eigenbasis over the complex numbers."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "长度保持也允许反射。例如 $F=\\operatorname{diag}(1,-1)$ 满足 $F^{\\mathsf T}F=I$，将 $(a,b)^{\\mathsf T}$ 变成 $(a,-b)^{\\mathsf T}$，即关于横轴反射。这里 $R$ 和 $F$ 都是实正交矩阵，分别描述旋转和反射；实正交矩阵也是幺正矩阵的实数特例。",
+        "en": "Length preservation also allows reflections. For example, $F=\\operatorname{diag}(1,-1)$ satisfies $F^{\\mathsf T}F=I$ and sends $(a,b)^{\\mathsf T}$ to $(a,-b)^{\\mathsf T}$, a reflection about the horizontal axis. Here $R$ and $F$ are both real orthogonal matrices, describing a rotation and a reflection respectively; a real orthogonal matrix is the real special case of a unitary matrix."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "5. 正规矩阵：何时能用正交归一本征基对角化",
+        "en": "5. Normal Matrices: When Can We Diagonalize with an Orthonormal Eigenbasis?"
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "5.1 厄米与幺正的共同条件",
+        "en": "5.1 What Hermitian and Unitary Matrices Have in Common"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "厄米矩阵和幺正矩阵对本征值的限制不同，却有一个共同的矩阵关系：",
+        "en": "Hermitian and unitary matrices restrict the eigenvalues differently, yet they share one matrix relation:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "厄米矩阵满足 $H^\\dagger=H$，因此 $HH^\\dagger=H^2=H^\\dagger H$。",
+                "en": "A Hermitian matrix satisfies $H^\\dagger=H$, so $HH^\\dagger=H^2=H^\\dagger H$."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "幺正矩阵满足 $U^\\dagger=U^{-1}$，因此 $UU^\\dagger=U^\\dagger U=I$。",
+                "en": "A unitary matrix satisfies $U^\\dagger=U^{-1}$, so $UU^\\dagger=U^\\dagger U=I$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两者都与自己的共轭转置可交换。满足",
+        "en": "Both commute with their own conjugate transpose. A square matrix satisfying"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "MM^\\dagger=M^\\dagger M"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "的方阵称为**正规矩阵**。实对称与实正交矩阵分别是上述两类的实数特例，因此也都正规。",
+        "en": "is called a **normal matrix**. Real symmetric and real orthogonal matrices are the real special cases of the two classes above, so they are normal as well."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "5.2 正规性与幺正对角化",
+        "en": "5.2 Normality and Unitary Diagonalization"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "复数域中的谱定理给出准确的对应关系：**矩阵正规，当且仅当它具有完整的正交归一本征基**，即可以写成",
+        "en": "The spectral theorem over the complex numbers gives the exact correspondence: **a matrix is normal if and only if it has a complete orthonormal eigenbasis**, that is, it can be written as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "M=V\\Lambda V^\\dagger,\\qquad V^\\dagger V=I,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "其中 $V$ 的列是单位本征向量，$\\Lambda$ 是本征值组成的对角矩阵。这种用幺正矩阵换基的对角化称为**幺正对角化**[<a href=\"#ref-1\">1</a>, §7.1, Corollary 7.1.4]。因此，幺正矩阵也总能在复数域中选出完整的正交归一本征基。",
+        "en": "where the columns of $V$ are unit eigenvectors and $\\Lambda$ is the diagonal matrix of eigenvalues. This diagonalization, which changes basis by a unitary matrix, is called **unitary diagonalization** [<a href=\"#ref-1\">1</a>, §7.1, Corollary 7.1.4]. Consequently, a unitary matrix can also always be given a complete orthonormal eigenbasis over the complex numbers."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "“正规保证这组基存在”在这里引用谱定理；反方向可以直接验证。若已有 $M=V\\Lambda V^\\dagger$，则 $M^\\dagger=V\\Lambda^\\dagger V^\\dagger$，利用 $V^\\dagger V=I$ 得",
+        "en": "The statement that normality guarantees such a basis is taken here from the spectral theorem; the converse can be verified directly. If $M=V\\Lambda V^\\dagger$ is given, then $M^\\dagger=V\\Lambda^\\dagger V^\\dagger$, and using $V^\\dagger V=I$ we obtain"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nMM^\\dagger&=V\\Lambda\\Lambda^\\dagger V^\\dagger,\\\\\nM^\\dagger M&=V\\Lambda^\\dagger\\Lambda V^\\dagger.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因为",
+        "en": "Since"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\Lambda\\Lambda^\\dagger=\\Lambda^\\dagger\\Lambda\n=\\operatorname{diag}(|\\lambda_1|^2,\\ldots,|\\lambda_n|^2),"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "所以两个乘积相等，$M$ 正规。",
+        "en": "the two products are equal, and $M$ is normal."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "5.3 正规矩阵的本征值不必实，也不必模长为一",
+        "en": "5.3 Eigenvalues of a Normal Matrix Need Be Neither Real Nor of Modulus One"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "取",
+        "en": "Take"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "M=\\begin{bmatrix}2&1\\\\-1&2\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "先算",
+        "en": "First compute"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "M^\\dagger=\\begin{bmatrix}2&-1\\\\1&2\\end{bmatrix},\\qquad MM^\\dagger=\\begin{bmatrix}2&1\\\\-1&2\\end{bmatrix}\\begin{bmatrix}2&-1\\\\1&2\\end{bmatrix}=\\begin{bmatrix}5&0\\\\0&5\\end{bmatrix}=5I,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "同样 $M^\\dagger M=5I$，所以 $M$ 正规。但 $M^\\dagger\\ne M$，它不厄米；$M^\\dagger M\\ne I$，它也不幺正。本征值由",
+        "en": "and likewise $M^\\dagger M=5I$, so $M$ is normal. But $M^\\dagger\\ne M$, so it is not Hermitian, and $M^\\dagger M\\ne I$, so it is not unitary. The eigenvalues are given by"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\det(M-\\lambda I)=\\begin{vmatrix}2-\\lambda&1\\\\-1&2-\\lambda\\end{vmatrix}=(2-\\lambda)^2+1=0"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "给出 $\\lambda=2+i$、$\\lambda=2-i$，模长 $|2\\pm i|=\\sqrt5$，既不落在实轴也不落在单位圆上。代入 $\\lambda=2+i$，",
+        "en": "as $\\lambda=2+i$ and $\\lambda=2-i$, with modulus $|2\\pm i|=\\sqrt5$, lying neither on the real axis nor on the unit circle. Substituting $\\lambda=2+i$ gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{bmatrix}-i&1\\\\-1&-i\\end{bmatrix}\\begin{bmatrix}v_1\\\\v_2\\end{bmatrix}=\\begin{bmatrix}0\\\\0\\end{bmatrix},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "得 $v_2=iv_1$，取 $m_+=(1,i)^{\\mathsf T}$；代入 $\\lambda=2-i$ 得 $m_-=(1,-i)^{\\mathsf T}$。复内积",
+        "en": "so $v_2=iv_1$, and we take $m_+=(1,i)^{\\mathsf T}$; substituting $\\lambda=2-i$ gives $m_-=(1,-i)^{\\mathsf T}$. The complex inner product"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\langle m_+,m_-\\rangle=\\bar1\\cdot1+\\bar i\\,(-i)=1+(-i)(-i)=1-1=0,"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两向量各有长度 $\\sqrt2$，除以 $\\sqrt2$ 后组成正交归一本征基。因此本例有",
+        "en": "and each vector has length $\\sqrt2$, so dividing by $\\sqrt2$ gives an orthonormal eigenbasis. This example therefore has"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "V=\\frac1{\\sqrt2}\\begin{bmatrix}1&1\\\\i&-i\\end{bmatrix},\\qquad\nM=V\\begin{bmatrix}2+i&0\\\\0&2-i\\end{bmatrix}V^\\dagger."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "三种条件的区别可以归纳为：",
+        "en": "The differences among the three conditions can be summarized as follows:"
+      }
+    },
+    {
+      "type": "table",
+      "rows": [
+        [
+          {
+            "zh": "矩阵条件",
+            "en": "Matrix condition"
+          },
+          {
+            "zh": "本征值的限制",
+            "en": "Restriction on eigenvalues"
+          },
+          {
+            "zh": "在复数域中的本征基",
+            "en": "Eigenbasis over the complex numbers"
+          }
+        ],
+        [
+          {
+            "zh": "厄米：$H^\\dagger=H$",
+            "en": "Hermitian: $H^\\dagger=H$"
+          },
+          {
+            "zh": "全为实数",
+            "en": "All real"
+          },
+          {
+            "zh": "可选正交归一",
+            "en": "Orthonormal basis can be chosen"
+          }
+        ],
+        [
+          {
+            "zh": "幺正：$U^\\dagger U=I$",
+            "en": "Unitary: $U^\\dagger U=I$"
+          },
+          {
+            "zh": "模长全为 $1$",
+            "en": "All of modulus $1$"
+          },
+          {
+            "zh": "可选正交归一",
+            "en": "Orthonormal basis can be chosen"
+          }
+        ],
+        [
+          {
+            "zh": "正规：$MM^\\dagger=M^\\dagger M$",
+            "en": "Normal: $MM^\\dagger=M^\\dagger M$"
+          },
+          {
+            "zh": "可取任意复数",
+            "en": "Any complex number"
+          },
+          {
+            "zh": "可选正交归一",
+            "en": "Orthonormal basis can be chosen"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "厄米与幺正都是正规矩阵的特殊情形。正规性保证正交归一本征基存在；另外两种条件在此基础上，进一步限制本征值的位置。",
+        "en": "Hermitian and unitary matrices are both special cases of normal matrices. Normality guarantees the existence of an orthonormal eigenbasis; the other two conditions, on top of this, further restrict where the eigenvalues lie."
+      }
+    }
+  ],
+  "references": [
+    {
+      "text": {
+        "zh": "G. H. Golub and C. F. Van Loan, *Matrix Computations*, 3rd ed. (Johns Hopkins University Press, Baltimore, 1996).",
+        "en": "G. H. Golub and C. F. Van Loan, *Matrix Computations*, 3rd ed. (Johns Hopkins University Press, Baltimore, 1996)."
+      }
+    },
+    {
+      "text": {
+        "zh": "G. Strang, *Introduction to Linear Algebra*, 6th ed. (Wellesley–Cambridge Press, 2023).",
+        "en": "G. Strang, *Introduction to Linear Algebra*, 6th ed. (Wellesley–Cambridge Press, 2023)."
+      }
+    }
+  ]
+}

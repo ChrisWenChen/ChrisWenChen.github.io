@@ -59,6 +59,7 @@
           }
         },
         {
+          "slug": "matrix-structure",
           "title": {
             "zh": "从正交方向到矩阵结构",
             "en": "From Orthogonal Directions to Matrix Structure"

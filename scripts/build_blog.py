@@ -106,6 +106,9 @@ def texts(post: dict, lang: str, headings: bool = False) -> list[str]:
                     else:
                         if available(item, lang):
                             result.append(item[lang])
+            elif kind == 'table':
+                for row in block['rows']:
+                    result.extend(cell[lang] for cell in row)
             elif kind == 'figure':
                 result.append(block['caption'][lang])
             elif kind != 'math':
@@ -179,6 +182,11 @@ def content(post: dict, lang: str) -> str:
                         value = inline(item[lang], lang, nrefs) if available(item, lang) else ''
                     items.append(f'<li id="{item_id}">{value}</li>')
                 rendered.append('<ul class="post-list">' + ''.join(items) + '</ul>')
+            elif kind == 'table':
+                head, *body = block['rows']
+                th = ''.join(f'<th>{inline(c[lang], lang, nrefs)}</th>' for c in head)
+                tr = ''.join('<tr>' + ''.join(f'<td>{inline(c[lang], lang, nrefs)}</td>' for c in r) + '</tr>' for r in body)
+                rendered.append(f'<div class="table-wrap" id="{block_id}"><table class="post-table"><thead><tr>{th}</tr></thead><tbody>{tr}</tbody></table></div>')
             elif kind == 'figure':
                 src = block['src']
                 if not src.startswith('../assets/blog/') or not (ROOT / 'blog' / src).resolve().is_file():

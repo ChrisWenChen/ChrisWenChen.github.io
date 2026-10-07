@@ -47,6 +47,14 @@ def parse(lines: list[str]) -> list[dict]:
             caption = lines[i].strip()
             caption = caption[1:-1] if caption.startswith('*') and caption.endswith('*') else caption
             blocks.append({'type': 'figure', 'src': src, 'alt': alt, 'caption': inline(caption)}); i += 1
+        elif line.startswith('|'):
+            rows = []
+            while i < len(lines) and lines[i].startswith('|'):
+                cells = [c.strip() for c in lines[i].strip().strip('|').split('|')]
+                if not all(re.fullmatch(r':?-+:?', c) for c in cells):
+                    rows.append([inline(c) for c in cells])
+                i += 1
+            blocks.append({'type': 'table', 'rows': rows})
         elif line.startswith('- '):
             items = []
             while i < len(lines) and (lines[i].startswith('- ') or lines[i].startswith('  ') or not lines[i].strip()):
@@ -61,7 +69,7 @@ def parse(lines: list[str]) -> list[dict]:
         else:
             text = [line]
             i += 1
-            while i < len(lines) and lines[i].strip() and not re.match(r'(#|\$\$|!\[|- )', lines[i].lstrip()):
+            while i < len(lines) and lines[i].strip() and not re.match(r'(#|\$\$|!\[|- |\|)', lines[i].lstrip()):
                 text.append(lines[i]); i += 1
             blocks.append({'type': 'paragraph', 'text': inline(' '.join(t.strip() for t in text))})
     return blocks
@@ -92,6 +100,10 @@ def merge(zh: list[dict], en: list[dict], figures: dict) -> list[dict]:
                 raise ValueError(f'Figure mismatch: {a["src"]} / {b["src"]}')
             merged.append({'type': 'figure', 'src': figures[a['src']], 'alt': {'zh': a['alt'], 'en': b['alt']},
                            'caption': {'zh': a['caption'], 'en': b['caption']}})
+        elif kind == 'table':
+            if [len(r) for r in a['rows']] != [len(r) for r in b['rows']]:
+                raise ValueError('Table shape differs')
+            merged.append({'type': 'table', 'rows': [[{'zh': x, 'en': y} for x, y in zip(r, s)] for r, s in zip(a['rows'], b['rows'])]})
         else:
             if len(a['items']) != len(b['items']):
                 raise ValueError('List length differs')
