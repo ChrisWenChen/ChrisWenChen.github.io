@@ -35,6 +35,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .blog-posts { list-style: none; }
 .blog-index { max-width: 920px; margin: 0 auto; padding: .5rem 0 3rem; }
 .index-toolbar { display: flex; align-items: center; gap: 1.4rem; margin-bottom: 3.5rem; font-size: .85rem; }
+.tag-filter { display: flex; flex-wrap: wrap; gap: .5rem; }
+.tag-chip, .post-tags a { display: inline-block; padding: .2rem .75rem; border: 1px solid var(--border, #dde3ea); border-radius: 999px; background: #fff; color: var(--text-light); font: inherit; font-size: .78rem; line-height: 1.6; cursor: pointer; }
+.tag-chip:hover, .post-tags a:hover { color: var(--accent); border-color: var(--accent); }
+.tag-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.post-tags { list-style: none; display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; }
+.blog-card .post-tags { margin-top: .7rem; }
+.blog-card .post-tags a { font-size: .7rem; padding: .05rem .6rem; }
+.post header .post-tags { margin-top: -.2rem; }
 .blog-search { margin-left: auto; display: flex; align-items: center; gap: .7rem; padding: .5rem .85rem; background: #f3f5f7; border-radius: 8px; color: var(--text-light); }
 .blog-search input { width: 180px; min-width: 0; border: 0; outline: none; background: transparent; color: var(--primary); }
 .blog-search:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -103,13 +111,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .citation-group { font-size: .8em; white-space: nowrap; }
 .citation-group .citation { font-size: 1em; padding: 0; }
 .post > h2 { max-width: 760px; margin: 3rem auto 1.2rem; color: var(--primary); font-size: 1.45rem; line-height: 1.5; font-weight: 650; }
+.post > h3 { max-width: 760px; margin: 2.2rem auto 1rem; color: var(--primary); font-size: 1.15rem; line-height: 1.5; font-weight: 600; }
 .post .math { font-family: Georgia, 'Times New Roman', serif; }
 .math-display { max-width: 760px; margin: 1rem auto 1.8rem; overflow-x: auto; overflow-y: hidden; text-align: center; }
 .math-display .katex-display { margin: .2em 0; }
 .translation-note { padding: .8rem 1rem; background: #f3f5f7; border-radius: 8px; color: var(--text-light); font-size: .92rem; line-height: 1.7; }
 .post figure { max-width: 760px; margin: 2rem auto 2.1rem; }
 .figure-link { display: block; cursor: zoom-in; }
-.post figure img { display: block; width: 100%; height: auto; }
+.post figure img { display: block; width: 100%; height: auto; max-height: 460px; object-fit: contain; }
 .post figcaption { font-size: .84rem; line-height: 1.7; color: var(--text-light); margin: .9rem auto 0; max-width: 760px; }
 .references { padding-top: 1.6rem; margin-top: 2.5rem; font-size: .85rem; line-height: 1.65; }
 .references h2 { font-size: 1.2rem; margin-bottom: 1rem; }

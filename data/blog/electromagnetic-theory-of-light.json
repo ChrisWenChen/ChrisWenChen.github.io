@@ -2,6 +2,21 @@
   "slug": "electromagnetic-theory-of-light",
   "created": "2026-10-05",
   "updated": "2026-10-06",
+  "title": {
+    "zh": "光的电磁理论",
+    "en": "The Electromagnetic Theory of Light"
+  },
+  "description": {
+    "zh": "光学笔记第二篇的六节：从1845年法拉第发现磁场使偏振面旋转开始，经菲佐用旋转齿轮测光速、韦伯与科尔劳施比较静电与电流的磁作用，麦克斯韦由场方程解出电磁波并把光认定为电磁波，再到赫兹用火花隙实验产生、接收并反射这些波，用麦克斯韦方程的边界条件解释薄膜干涉的半波损失，最后从热腔辐射的压强与模式计数导出斯特藩—玻尔兹曼律和瑞利—金斯公式，并指出经典能量均分无法给出有限的热辐射谱。",
+    "en": "The six sections of the second optics note: from Faraday's 1845 discovery that a magnetic field rotates the plane of polarization, through Fizeau's rotating-gear measurement of the speed of light and the Weber–Kohlrausch comparison of electrostatic and magnetic measurements, and Maxwell's field equations yielding electromagnetic waves and the identification of light as one, to Hertz's spark-gap experiments that generated, received, and reflected those waves; the boundary conditions of Maxwell's equations explaining the half-wave loss in thin-film interference; and finally thermal-cavity radiation, where radiation pressure and mode counting lead to the Stefan–Boltzmann law and the Rayleigh–Jeans formula, and classical equipartition cannot give a finite thermal-radiation spectrum."
+  },
+  "series": {
+    "zh": "光学 · 02",
+    "en": "Optics · 02"
+  },
+  "tags": [
+    "optics"
+  ],
   "contents": [
     {
       "target": "block-0",
@@ -53,18 +68,6 @@
       }
     }
   ],
-  "title": {
-    "zh": "光的电磁理论",
-    "en": "The Electromagnetic Theory of Light"
-  },
-  "series": {
-    "zh": "光学 · 02",
-    "en": "Optics · 02"
-  },
-  "description": {
-    "zh": "光学笔记第二篇的六节：从1845年法拉第发现磁场使偏振面旋转开始，经菲佐用旋转齿轮测光速、韦伯与科尔劳施比较静电与电流的磁作用，麦克斯韦由场方程解出电磁波并把光认定为电磁波，再到赫兹用火花隙实验产生、接收并反射这些波，用麦克斯韦方程的边界条件解释薄膜干涉的半波损失，最后从热腔辐射的压强与模式计数导出斯特藩—玻尔兹曼律和瑞利—金斯公式，并指出经典能量均分无法给出有限的热辐射谱。",
-    "en": "The six sections of the second optics note: from Faraday's 1845 discovery that a magnetic field rotates the plane of polarization, through Fizeau's rotating-gear measurement of the speed of light and the Weber–Kohlrausch comparison of electrostatic and magnetic measurements, and Maxwell's field equations yielding electromagnetic waves and the identification of light as one, to Hertz's spark-gap experiments that generated, received, and reflected those waves; the boundary conditions of Maxwell's equations explaining the half-wave loss in thin-film interference; and finally thermal-cavity radiation, where radiation pressure and mode counting lead to the Stefan–Boltzmann law and the Rayleigh–Jeans formula, and classical equipartition cannot give a finite thermal-radiation spectrum."
-  },
   "blocks": [
     {
       "type": "heading",

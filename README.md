@@ -30,13 +30,21 @@ Then open <http://localhost:8765/index.html>.
 
 ## Blog
 
-- The index opens with **Recent** (newest creation date first), followed by **Archived**
+- The index opens with **Recent** (newest creation date first), followed by **Series**
   (all posts in manually curated topic/order). Edit `data/blog-index.json` to set
   `recent_limit` and arrange `directories`: each has a bilingual `title` and ordered
   `posts` list. Entries may be slug strings, objects with `slug` and a bilingual
   display `title`, or title-only objects for planned articles (no link or dates).
   Empty directories remain visible. Planned articles do not enter Recent or search.
   Every published post must appear exactly once in the archive.
+- Tags: `data/blog-index.json` holds the tag vocabulary (`tags`: key → bilingual label);
+  each post lists 1–4 of those keys in `tags`. Tags appear as filter chips beside the
+  search box, on Recent cards, and in the article header (linking to `index.html?tag=key`).
+  A tag only narrows the list; result order stays newest-created first.
+- Notes kept as a Chinese/English Markdown pair (`README.md` + `README.en.md` in one folder)
+  can refill a post's body: `python3 scripts/import_note.py <note-dir> <slug> --sections N`
+  imports the first N `##` sections (both files must have the same block structure), copies
+  their figures as SVG into `assets/blog/`, and keeps the post's title, dates, series and tags.
 - Each article requires `created` and `updated` dates (`YYYY-MM-DD`). Maintain these
   explicitly; layout rebuilds do not change article dates. The first post dates reflect
   its original local creation/edit session on 2026-10-03.

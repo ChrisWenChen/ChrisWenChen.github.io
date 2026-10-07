@@ -56,10 +56,22 @@
     if (end < text.length) paragraph.append('…');
     return paragraph;
   }
+  // A tag narrows the result list like a search term; it never reorders it. `?tag=` lets article pages link here.
+  const chips = [...document.querySelectorAll('.tag-chip')];
+  let activeTag = new URL(location.href).searchParams.get('tag') || '';
+  if (!chips.some(chip => chip.dataset.tag === activeTag)) activeTag = '';
+  chips.forEach(chip => chip.addEventListener('click', () => {
+    activeTag = activeTag === chip.dataset.tag ? '' : chip.dataset.tag;
+    const url = new URL(location.href);
+    if (activeTag) url.searchParams.set('tag', activeTag); else url.searchParams.delete('tag');
+    try { history.replaceState(null, '', url); } catch (_) {}
+    filterPosts();
+  }));
   function filterPosts() {
     if (!search) return;
     const terms = [...new Set(normalize(search.value).trim().split(/\s+/).filter(Boolean))];
-    const active = terms.length > 0;
+    const active = terms.length > 0 || activeTag !== '';
+    chips.forEach(chip => chip.setAttribute('aria-pressed', String(chip.dataset.tag === activeTag)));
     const lang = document.body.classList.contains('zh') ? 'zh' : 'en';
     document.getElementById('recent').hidden = active;
     document.getElementById('archived').hidden = active;
@@ -68,11 +80,16 @@
     document.querySelectorAll('.search-result').forEach(entry => {
       const texts = {en: entry.dataset.textEn, zh: entry.dataset.textZh};
       const combined = normalize(texts.en + ' ' + texts.zh);
-      entry.hidden = !active || !terms.every(term => combined.includes(term));
+      const tagged = !activeTag || entry.dataset.tags.split(' ').includes(activeTag);
+      entry.hidden = !active || !tagged || !terms.every(term => combined.includes(term));
       if (entry.hidden) return;
       count++;
       const target = entry.querySelector('.search-snippet');
       target.replaceChildren();
+      if (!terms.length) {
+        target.append(entry.dataset[lang === 'zh' ? 'descZh' : 'descEn']);
+        return;
+      }
       // Prefer the interface language, but show the other language when it
       // contains matches that would otherwise be invisible.
       const other = lang === 'zh' ? 'en' : 'zh';

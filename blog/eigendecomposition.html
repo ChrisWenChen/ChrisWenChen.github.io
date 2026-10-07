@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eigendecomposition: Finding Invariant Directions | Wen Chen</title>
+  <meta name="description" content="Starting from a 2×2 matrix, we look for the vectors that keep their direction under it and use them to define eigenvalues and eigenvectors.">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/blog.css?v=d57642a6">
+  <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css?v=43459d51">
+  <script src="../assets/vendor/katex/katex.min.js?v=6d481709" defer></script>
+  <script src="../assets/blog.js?v=a2c9acea" defer></script>
+</head>
+<body class="blog-page" data-title-en="Eigendecomposition: Finding Invariant Directions | Wen Chen" data-title-zh="本征分解：寻找不变方向 | Wen Chen">
+<a href="#main" class="skip-link">Skip to content / 跳转正文</a>
+<nav aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Wen Chen</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about" class="lang-en">About</a><a href="../index.html#about" class="lang-zh">关于</a></li>
+      <li><a href="../index.html#education" class="lang-en">Education</a><a href="../index.html#education" class="lang-zh">教育</a></li>
+      <li><a href="../index.html#publications" class="lang-en">Publications</a><a href="../index.html#publications" class="lang-zh">论文</a></li>
+      <li><a href="../index.html#talks" class="lang-en">Talks</a><a href="../index.html#talks" class="lang-zh">报告</a></li>
+      <li><a href="../index.html#teaching" class="lang-en">Teaching</a><a href="../index.html#teaching" class="lang-zh">教学</a></li>
+      <li><a href="index.html" class="lang-en">Blog</a><a href="index.html" class="lang-zh">博客</a></li>
+      <li><button type="button" class="lang-toggle" aria-label="Switch language">中文</button></li>
+    </ul>
+  </div>
+</nav>
+<main id="main" class="blog-main">
+<div class="post-layout lang-en"><aside class="post-toc" aria-label="Contents"><details open><summary>Contents</summary><div class="toc-body"><div class="read-progress" role="slider" tabindex="0" hidden aria-orientation="vertical" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="read-thumb"></span></div><ol><li><a href="#en-block-0">1. Eigenvalues and Eigenvectors: Definition and Geometric Meaning</a></li><li><a href="#en-block-11">2. Solving the Eigenvalue Equation</a></li><li><a href="#en-block-62">3. Eigendecomposition and Change of Basis</a></li><li><a href="#en-block-85">4. When an Eigendecomposition Exists</a></li></ol><p class="read-percent" aria-hidden="true"></p></div></details></aside><article class="post lang-en" lang="en">
+<a class="back-link" href="index.html?lang=en">← All posts</a>
+<header><p class="post-dates"><span><span class="lang-en" lang="en">Created</span><span class="lang-zh" lang="zh-CN">创建</span> <time datetime="2026-10-07">2026-10-07</time></span><span><span class="lang-en" lang="en">Updated</span><span class="lang-zh" lang="zh-CN">最后更新</span> <time datetime="2026-10-07">2026-10-07</time></span></p><p class="eyebrow">Matrix Decompositions · 01</p><h1>Eigendecomposition: Finding Invariant Directions</h1><p class="post-meta" title="Body and captions, excluding the title and references. Estimated at 200 words per minute.">2,871 words · 15 min read</p><ul class="post-tags"><li><a href="index.html?tag=linear-algebra">Linear Algebra</a></li></ul></header>
+<h2 id="en-block-0">1. Eigenvalues and Eigenvectors: Definition and Geometric Meaning</h2>
+<p id="en-block-1">Consider the matrix</p>
+<div class="math-display" id="en-block-2" data-tex="A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}">A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}</div>
+<p id="en-block-3">acting on vectors in the plane. Take three vectors: <span class="math" data-tex="e_1=(1,0)^{\mathsf T}">e_1=(1,0)^{\mathsf T}</span>, <span class="math" data-tex="e_2=(0,1)^{\mathsf T}">e_2=(0,1)^{\mathsf T}</span>, and <span class="math" data-tex="e_3=(1,1)^{\mathsf T}">e_3=(1,1)^{\mathsf T}</span>; the subscripts simply number the three examples. Multiplying each on the left by <span class="math" data-tex="A">A</span> gives</p>
+<div class="math-display" id="en-block-4" data-tex="\begin{aligned}
+Ae_1&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}1\\0\end{bmatrix}=\begin{bmatrix}1\\0\end{bmatrix}=e_1,\\[6pt]
+Ae_2&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}1\\2\end{bmatrix},\\[6pt]
+Ae_3&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}1\\1\end{bmatrix}=\begin{bmatrix}2\\2\end{bmatrix}=2e_3.
+\end{aligned}">\begin{aligned}
+Ae_1&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}1\\0\end{bmatrix}=\begin{bmatrix}1\\0\end{bmatrix}=e_1,\\[6pt]
+Ae_2&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}1\\2\end{bmatrix},\\[6pt]
+Ae_3&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}1\\1\end{bmatrix}=\begin{bmatrix}2\\2\end{bmatrix}=2e_3.
+\end{aligned}</div>
+<p id="en-block-5">As Fig. 1 shows, <span class="math" data-tex="e_1">e_1</span> stays where it is, <span class="math" data-tex="e_2">e_2</span> changes both its length and its direction, and <span class="math" data-tex="e_3">e_3</span> is stretched by a factor of two along its original direction.</p>
+<figure id="en-block-6"><a href="../assets/blog/eigen-three-vectors.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-three-vectors.svg" alt="Fig. 1 Three vectors under the same matrix" width="2000" height="702"></a><figcaption>FIG. 1. Dashed blue arrows are inputs and solid orange arrows are outputs; all three panels share the same scale. (a) <span class="math" data-tex="Ae_1=e_1">Ae_1=e_1</span>: the two arrows coincide. (b) <span class="math" data-tex="Ae_2=(1,2)^{\mathsf T}">Ae_2=(1,2)^{\mathsf T}</span>: the direction changes. (c) <span class="math" data-tex="Ae_3=2e_3">Ae_3=2e_3</span>: the vector is stretched along its original direction.</figcaption></figure>
+<p id="en-block-7">Whenever a nonzero vector <span class="math" data-tex="v">v</span> and a number <span class="math" data-tex="\lambda">\lambda</span> satisfy</p>
+<div class="math-display" id="en-block-8" data-tex="Av=\lambda v,\tag{1}">Av=\lambda v,\tag{1}</div>
+<p id="en-block-9">we call <span class="math" data-tex="\lambda">\lambda</span> an <strong>eigenvalue</strong> of <span class="math" data-tex="A">A</span> and <span class="math" data-tex="v">v</span> a corresponding <strong>eigenvector</strong> <span class="citation-group">[<a class="citation" href="#en-ref-1" aria-label="Reference 1">1</a>, §6.1]</span>. For now, this article considers only real matrices with real eigenvalues. Here <span class="math" data-tex="e_1">e_1</span> and <span class="math" data-tex="e_3">e_3</span> correspond to <span class="math" data-tex="\lambda=1">\lambda=1</span> and <span class="math" data-tex="\lambda=2">\lambda=2</span>. The absolute value <span class="math" data-tex="|\lambda|">|\lambda|</span> gives the factor by which the length changes; for <span class="math" data-tex="\lambda&lt;0">\lambda&lt;0</span> the vector is also reversed, and for <span class="math" data-tex="\lambda=0">\lambda=0</span> it collapses to the origin. Any nonzero multiple of an eigenvector still satisfies Eq. (1), so its length can be chosen freely. The two eigendirections <span class="math" data-tex="e_1">e_1</span> and <span class="math" data-tex="e_3">e_3</span> make an angle of <span class="math" data-tex="45^\circ">45^\circ</span>. Each is stretched independently along its own direction, and they need not be perpendicular.</p>
+<p id="en-block-10">Above, two eigendirections were found by direct multiplication. For a given matrix, how can the eigenvalues and eigenvectors be found systematically?</p>
+<h2 id="en-block-11">2. Solving the Eigenvalue Equation</h2>
+<h3 id="en-block-12">2.1 From a Two-Dimensional Equation to Finite Square Matrices</h3>
+<p id="en-block-13">In Eq. (1) both <span class="math" data-tex="\lambda">\lambda</span> and <span class="math" data-tex="v">v</span> are unknown. Let <span class="math" data-tex="v=(x,y)^{\mathsf T}">v=(x,y)^{\mathsf T}</span> and first expand the matrix product row by row:</p>
+<div class="math-display" id="en-block-14" data-tex="\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}
+=\lambda\begin{bmatrix}x\\y\end{bmatrix}
+\quad\Longrightarrow\quad
+\begin{cases}x+y=\lambda x,\\2y=\lambda y.\end{cases}">\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}
+=\lambda\begin{bmatrix}x\\y\end{bmatrix}
+\quad\Longrightarrow\quad
+\begin{cases}x+y=\lambda x,\\2y=\lambda y.\end{cases}</div>
+<p id="en-block-15">Moving the right-hand side to the left gives</p>
+<div class="math-display" id="en-block-16" data-tex="\begin{cases}(1-\lambda)x+y=0,\\(2-\lambda)y=0.\end{cases}">\begin{cases}(1-\lambda)x+y=0,\\(2-\lambda)y=0.\end{cases}</div>
+<p id="en-block-17">The second equation requires <span class="math" data-tex="(2-\lambda)y=0">(2-\lambda)y=0</span>, which splits into two cases.</p>
+<ul class="post-list"><li id="en-item-18-0"><p id="en-item-18-0-block-0"><strong>If <span class="math" data-tex="y=0">y=0</span>:</strong> the first equation becomes <span class="math" data-tex="(1-\lambda)x=0">(1-\lambda)x=0</span>. An eigenvector must satisfy <span class="math" data-tex="(x,y)\ne(0,0)">(x,y)\ne(0,0)</span>, so here <span class="math" data-tex="x\ne0">x\ne0</span>, and the only possibility is <span class="math" data-tex="\lambda=1">\lambda=1</span>. Taking <span class="math" data-tex="x=1">x=1</span> gives <span class="math" data-tex="v=(1,0)^{\mathsf T}">v=(1,0)^{\mathsf T}</span>.</p></li><li id="en-item-18-1"><p id="en-item-18-1-block-0"><strong>If <span class="math" data-tex="y\ne0">y\ne0</span>:</strong> the second equation requires <span class="math" data-tex="2-\lambda=0">2-\lambda=0</span>, so <span class="math" data-tex="\lambda=2">\lambda=2</span>. Substituting into the first gives <span class="math" data-tex="-x+y=0">-x+y=0</span>, that is, <span class="math" data-tex="x=y">x=y</span>. Taking <span class="math" data-tex="x=y=1">x=y=1</span> gives <span class="math" data-tex="v=(1,1)^{\mathsf T}">v=(1,1)^{\mathsf T}</span>.</p></li></ul>
+<p id="en-block-19">These two cases cover every possibility. Nonzero solutions exist only for <span class="math" data-tex="\lambda=1">\lambda=1</span> or <span class="math" data-tex="\lambda=2">\lambda=2</span>; for any other <span class="math" data-tex="\lambda">\lambda</span>, the second equation first forces <span class="math" data-tex="y=0">y=0</span>, and the first then forces <span class="math" data-tex="x=0">x=0</span>.</p>
+<p id="en-block-20">With more components, the rearranged equations can be written uniformly as</p>
+<div class="math-display" id="en-block-21" data-tex="(A-\lambda I)v=0.\tag{2}">(A-\lambda I)v=0.\tag{2}</div>
+<p id="en-block-22">Write <span class="math" data-tex="M=A-\lambda I">M=A-\lambda I</span>. To say that <span class="math" data-tex="M">M</span> is invertible means that there is a matrix <span class="math" data-tex="M^{-1}">M^{-1}</span> that undoes the action of <span class="math" data-tex="M">M</span>, with <span class="math" data-tex="M^{-1}M=MM^{-1}=I">M^{-1}M=MM^{-1}=I</span>. If such an inverse exists, multiplying both sides of <span class="math" data-tex="Mv=0">Mv=0</span> on the left by it gives</p>
+<div class="math-display" id="en-block-23" data-tex="v=M^{-1}Mv=M^{-1}0=0.">v=M^{-1}Mv=M^{-1}0=0.</div>
+<p id="en-block-24">This argument by contradiction uses only the definition of the inverse, so it holds for any finite <span class="math" data-tex="n\times n">n\times n</span> square matrix: for <span class="math" data-tex="Mv=0">Mv=0</span> to have a nonzero solution, <span class="math" data-tex="M">M</span> cannot be invertible.</p>
+<h3 id="en-block-25">2.2 Gaussian Elimination and the Determinant</h3>
+<p id="en-block-26">A system <span class="math" data-tex="Mv=0">Mv=0</span> in <span class="math" data-tex="n">n</span> unknown components can be solved by Gaussian elimination. If two equations both contain <span class="math" data-tex="x">x</span>, subtracting a suitable multiple of the first from the second removes <span class="math" data-tex="x">x</span> from the second. As an example, consider the three-dimensional system with a parameter <span class="math" data-tex="t">t</span>:</p>
+<div class="math-display" id="en-block-27" data-tex="M_t\begin{bmatrix}x\\y\\z\end{bmatrix}=0,\qquad
+M_t=\begin{bmatrix}1&amp;1&amp;1\\2&amp;3&amp;4\\1&amp;2&amp;t\end{bmatrix},
+\qquad
+\begin{cases}x+y+z=0,\\2x+3y+4z=0,\\x+2y+tz=0.\end{cases}">M_t\begin{bmatrix}x\\y\\z\end{bmatrix}=0,\qquad
+M_t=\begin{bmatrix}1&amp;1&amp;1\\2&amp;3&amp;4\\1&amp;2&amp;t\end{bmatrix},
+\qquad
+\begin{cases}x+y+z=0,\\2x+3y+4z=0,\\x+2y+tz=0.\end{cases}</div>
+<p id="en-block-28">Let <span class="math" data-tex="R_i">R_i</span> denote the equation in row <span class="math" data-tex="i">i</span>. Keep the first row and use its coefficient of <span class="math" data-tex="x">x</span>, which is <span class="math" data-tex="1">1</span>, as the <strong>pivot</strong> to eliminate <span class="math" data-tex="x">x</span> from the two rows below:</p>
+<div class="math-display" id="en-block-29" data-tex="\begin{aligned}
+R_2&amp;\leftarrow R_2-2R_1:
+&amp;&amp;(2x+3y+4z)-2(x+y+z)=y+2z=0,\\
+R_3&amp;\leftarrow R_3-R_1:
+&amp;&amp;(x+2y+tz)-(x+y+z)=y+(t-1)z=0.
+\end{aligned}">\begin{aligned}
+R_2&amp;\leftarrow R_2-2R_1:
+&amp;&amp;(2x+3y+4z)-2(x+y+z)=y+2z=0,\\
+R_3&amp;\leftarrow R_3-R_1:
+&amp;&amp;(x+2y+tz)-(x+y+z)=y+(t-1)z=0.
+\end{aligned}</div>
+<p id="en-block-30">Then keep the second row and use its coefficient of <span class="math" data-tex="y">y</span>, again <span class="math" data-tex="1">1</span>, as the pivot to eliminate <span class="math" data-tex="y">y</span> from the third row:</p>
+<div class="math-display" id="en-block-31" data-tex="R_3\leftarrow R_3-R_2:
+\quad [y+(t-1)z]-(y+2z)=(t-3)z=0.">R_3\leftarrow R_3-R_2:
+\quad [y+(t-1)z]-(y+2z)=(t-3)z=0.</div>
+<p id="en-block-32">Every step can be undone. For example, adding back the <span class="math" data-tex="2R_1">2R_1</span> subtracted from the second row restores the original equation. The solution set is therefore the same before and after elimination. The result is an upper-triangular system:</p>
+<div class="math-display" id="en-block-33" data-tex="T_t\begin{bmatrix}x\\y\\z\end{bmatrix}=0,\qquad
+T_t=\begin{bmatrix}1&amp;1&amp;1\\0&amp;1&amp;2\\0&amp;0&amp;t-3\end{bmatrix},
+\qquad
+\begin{cases}x+y+z=0,\\y+2z=0,\\(t-3)z=0.\end{cases}">T_t\begin{bmatrix}x\\y\\z\end{bmatrix}=0,\qquad
+T_t=\begin{bmatrix}1&amp;1&amp;1\\0&amp;1&amp;2\\0&amp;0&amp;t-3\end{bmatrix},
+\qquad
+\begin{cases}x+y+z=0,\\y+2z=0,\\(t-3)z=0.\end{cases}</div>
+<figure id="en-block-34"><a href="../assets/blog/eigen-gaussian-elimination.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-gaussian-elimination.svg" alt="Fig. 2 Column-by-column elimination and the last pivot" width="2000" height="582"></a><figcaption>FIG. 2. Elimination of the three-dimensional system. Blue cells mark the pivot currently used for elimination, and gray cells mark entries already eliminated; the final orange cell is <span class="math" data-tex="t-3">t-3</span>. Whether it vanishes decides whether the third row determines <span class="math" data-tex="z">z</span>. <span class="math" data-tex="R_i">R_i</span> denotes row <span class="math" data-tex="i">i</span>, and each arrow is labeled with its row operations.</figcaption></figure>
+<p id="en-block-35">Now solve from the last row upward; this process is called <strong>back substitution</strong>.</p>
+<ul class="post-list"><li id="en-item-36-0"><p id="en-item-36-0-block-0"><strong>When <span class="math" data-tex="t\ne3">t\ne3</span>:</strong> the third row gives <span class="math" data-tex="z=0">z=0</span>, then the second row gives <span class="math" data-tex="y=0">y=0</span> and the first row gives <span class="math" data-tex="x=0">x=0</span>. All three pivots are nonzero, and only the zero solution exists.</p></li><li id="en-item-36-1"><p id="en-item-36-1-block-0"><strong>When <span class="math" data-tex="t=3">t=3</span>:</strong> the third row becomes <span class="math" data-tex="0=0">0=0</span> and no longer constrains <span class="math" data-tex="z">z</span>. We may therefore choose <span class="math" data-tex="z=s">z=s</span> freely; the second row gives <span class="math" data-tex="y=-2s">y=-2s</span>, and the first row gives <span class="math" data-tex="x=s">x=s</span>. All solutions are</p><div class="math-display" id="en-item-36-1-block-1" data-tex="v=s\begin{bmatrix}1\\-2\\1\end{bmatrix},\qquad s\in\mathbb R.">v=s\begin{bmatrix}1\\-2\\1\end{bmatrix},\qquad s\in\mathbb R.</div><p id="en-item-36-1-block-2">Any <span class="math" data-tex="s\ne0">s\ne0</span> gives a nonzero solution. Here <span class="math" data-tex="z">z</span> is called a <strong>free variable</strong>; these solutions form a line through the origin, the <strong>null space</strong> of <span class="math" data-tex="M_3">M_3</span>. In general, the null space of a matrix <span class="math" data-tex="M">M</span> is the set of all vectors satisfying <span class="math" data-tex="Mv=0">Mv=0</span>.</p></li></ul>
+<p id="en-block-37">Figure 3 shows the null space for <span class="math" data-tex="t=3">t=3</span>. Taking <span class="math" data-tex="s=-1,0,1">s=-1,0,1</span> gives <span class="math" data-tex="(-1,2,-1)^{\mathsf T}">(-1,2,-1)^{\mathsf T}</span>, <span class="math" data-tex="(0,0,0)^{\mathsf T}">(0,0,0)^{\mathsf T}</span>, and <span class="math" data-tex="(1,-2,1)^{\mathsf T}">(1,-2,1)^{\mathsf T}</span>. Letting <span class="math" data-tex="s">s</span> vary continuously traces out the whole line. Every point on the line is an input vector that <span class="math" data-tex="M_3">M_3</span> sends to the zero vector.</p>
+<figure id="en-block-38"><a href="../assets/blog/eigen-nullspace-pivots.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-nullspace-pivots.svg" alt="Fig. 3 The null space of the matrix M₃" width="2000" height="1939"></a><figcaption>FIG. 3. The null space of <span class="math" data-tex="M_3">M_3</span> is the line <span class="math" data-tex="v=s(1,-2,1)^{\mathsf T}">v=s(1,-2,1)^{\mathsf T}</span>. The three points correspond to <span class="math" data-tex="s=-1,0,1">s=-1,0,1</span>; each is an input vector satisfying <span class="math" data-tex="M_3v=0">M_3v=0</span>. Only a segment of the line is drawn, and the arrows at its ends indicate that it continues.</figcaption></figure>
+<p id="en-block-39">The nonzero solutions above appear when the last pivot <span class="math" data-tex="t-3">t-3</span> vanishes. This condition can also be expressed through the determinant. The operation used here, subtracting a multiple of one row from another, leaves the determinant unchanged, so</p>
+<div class="math-display" id="en-block-40" data-tex="\begin{aligned}
+\det M_t=\det T_t
+&amp;=\begin{vmatrix}1&amp;1&amp;1\\0&amp;1&amp;2\\0&amp;0&amp;t-3\end{vmatrix}\\
+&amp;=1\begin{vmatrix}1&amp;2\\0&amp;t-3\end{vmatrix}
+=1\times1\times(t-3).
+\end{aligned}">\begin{aligned}
+\det M_t=\det T_t
+&amp;=\begin{vmatrix}1&amp;1&amp;1\\0&amp;1&amp;2\\0&amp;0&amp;t-3\end{vmatrix}\\
+&amp;=1\begin{vmatrix}1&amp;2\\0&amp;t-3\end{vmatrix}
+=1\times1\times(t-3).
+\end{aligned}</div>
+<p id="en-block-41">Here we expand along the first column, where two terms drop out because their coefficients are zero; expanding the remaining two-dimensional determinant gives the product of the three diagonal entries. Expanding column by column in the same way gives this result for any upper-triangular matrix.</p>
+<p id="en-block-42">Why row operations preserve the determinant can also be written out directly. When the second row is replaced by <span class="math" data-tex="R_2-2R_1">R_2-2R_1</span>, linearity of the determinant in the second row gives</p>
+<div class="math-display" id="en-block-43" data-tex="\begin{aligned}
+\det(R_1,R_2-2R_1,R_3)
+&amp;=\det(R_1,R_2,R_3)-2\det(R_1,R_1,R_3)\\
+&amp;=\det(R_1,R_2,R_3).
+\end{aligned}">\begin{aligned}
+\det(R_1,R_2-2R_1,R_3)
+&amp;=\det(R_1,R_2,R_3)-2\det(R_1,R_1,R_3)\\
+&amp;=\det(R_1,R_2,R_3).
+\end{aligned}</div>
+<p id="en-block-44">The last step uses the fact that a determinant with two equal rows is zero: swapping those two rows leaves the matrix unchanged but flips the sign of the determinant, so the determinant must be zero.</p>
+<p id="en-block-45">Thus <span class="math" data-tex="t=3">t=3</span> means, all at once, that the last pivot vanishes, that the equations have nonzero solutions, and that <span class="math" data-tex="\det M_t=0">\det M_t=0</span>. The determinant turns this solvability condition into an equation for the parameter <span class="math" data-tex="t">t</span>.</p>
+<p id="en-block-46">For an <span class="math" data-tex="n\times n">n\times n</span> square matrix, elimination still proceeds column by column. If the current pivot position holds a zero but some entry below it is nonzero, swapping two rows lets elimination continue; a swap changes only the sign of the determinant, not whether it is zero. If the column is zero in all remaining rows, move on to the following columns to look for a pivot. After elimination, every nonzero row has a pivot, representing one independent constraint. The total number of pivots is called the <strong>rank</strong> of the matrix, written <span class="math" data-tex="r=\operatorname{rank}(M)">r=\operatorname{rank}(M)</span>; it also equals the largest number of linearly independent columns. For an <span class="math" data-tex="n\times n">n\times n</span> square matrix, <span class="math" data-tex="r=n">r=n</span> is called <strong>full rank</strong> and <span class="math" data-tex="r&lt;n">r&lt;n</span> <strong>rank deficient</strong>. In the example above there are three pivots when <span class="math" data-tex="t\ne3">t\ne3</span>, so <span class="math" data-tex="\operatorname{rank}(M_t)=3">\operatorname{rank}(M_t)=3</span>; when <span class="math" data-tex="t=3">t=3</span> there are only two, so <span class="math" data-tex="\operatorname{rank}(M_3)=2">\operatorname{rank}(M_3)=2</span>. The two echelon structures are shown in Fig. 4 <span class="citation-group">[<a class="citation" href="#en-ref-2" aria-label="Reference 2">2</a>, §3.2]</span>:</p>
+<figure id="en-block-47"><a href="../assets/blog/eigen-rank-cases.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-rank-cases.svg" alt="Fig. 4 Echelon structures with a full set of pivots and with free variables" width="2000" height="991"></a><figcaption>FIG. 4. The two cases for a general <span class="math" data-tex="n\times n">n\times n</span> square matrix, illustrated with a <span class="math" data-tex="5\times5">5\times5</span> matrix. Blue dots are nonzero pivots, and asterisks may take any value, including zero. (a) Every column has a pivot, and back substitution forces every component to zero. (b) The example has <span class="math" data-tex="r=3">r=3</span> pivots; the orange columns 2 and 4 have no pivot and correspond to the free variables <span class="math" data-tex="v_2,v_4">v_2,v_4</span>, and <span class="math" data-tex="n-r=2">n-r=2</span> zero rows sit at the bottom. Free-variable columns may lie between pivot columns. The particular values of the asterisks do not change the number of pivots shown.</figcaption></figure>
+<ul class="post-list"><li id="en-item-48-0"><p id="en-item-48-0-block-0"><strong><span class="math" data-tex="n">n</span> pivots:</strong> the diagonal entries of the echelon matrix are all nonzero, so the determinant is nonzero. Back substitution from the last row upward fixes each component to zero in turn. One can also scale each pivot to <span class="math" data-tex="1">1</span> and, starting from the last pivot, eliminate the entries above it, reducing the whole matrix step by step to the identity matrix <span class="math" data-tex="I">I</span>.</p></li><li id="en-item-48-1"><p id="en-item-48-1-block-0"><strong>Only <span class="math" data-tex="r&lt;n">r&lt;n</span> pivots:</strong> the last <span class="math" data-tex="n-r">n-r</span> rows are zero rows reading <span class="math" data-tex="0=0">0=0</span>, so the determinant is zero. There are also <span class="math" data-tex="n-r">n-r</span> free variables; setting one of them to <span class="math" data-tex="1">1</span> and the others to <span class="math" data-tex="0">0</span>, then back-substituting for the pivot components, gives a nonzero solution. The dimension of the null space is <span class="math" data-tex="n-r">n-r</span>; Fig. 3 is the one-dimensional case with <span class="math" data-tex="n=3">n=3</span> and <span class="math" data-tex="r=2">r=2</span>. The nonzero solution already shows that the original matrix is not invertible.</p></li></ul>
+<p id="en-block-49">Writing <span class="math" data-tex="\ker M">\ker M</span> for the null space, the relation between the number of pivots and the number of free variables reads</p>
+<div class="math-display" id="en-block-50" data-tex="\underbrace{\operatorname{rank}(M)}_{\text{pivots}}+
+\underbrace{\dim\ker M}_{\text{free variables}}=n.">\underbrace{\operatorname{rank}(M)}_{\text{pivots}}+
+\underbrace{\dim\ker M}_{\text{free variables}}=n.</div>
+<p id="en-block-51">At full rank, let <span class="math" data-tex="E">E</span> denote the combined effect of all the invertible row operations that reduce <span class="math" data-tex="M">M</span> to <span class="math" data-tex="I">I</span>, so that <span class="math" data-tex="EM=I">EM=I</span>; from <span class="math" data-tex="M=E^{-1}">M=E^{-1}</span> it follows that <span class="math" data-tex="M^{-1}=E">M^{-1}=E</span>. Together with the nonzero-solution and determinant conditions above, this gives, for a finite square matrix,</p>
+<div class="math-display" id="en-block-52" data-tex="Mv=0\text{ has a nonzero solution}
+\quad\Longleftrightarrow\quad M\text{ is not invertible}
+\quad\Longleftrightarrow\quad\det M=0.">Mv=0\text{ has a nonzero solution}
+\quad\Longleftrightarrow\quad M\text{ is not invertible}
+\quad\Longleftrightarrow\quad\det M=0.</div>
+<h3 id="en-block-53">2.3 Back to the Eigenvalue Equation</h3>
+<p id="en-block-54">With <span class="math" data-tex="M=A-\lambda I">M=A-\lambda I</span>, the condition for a nonzero eigenvector becomes</p>
+<div class="math-display" id="en-block-55" data-tex="\det(A-\lambda I)=0.\tag{3}">\det(A-\lambda I)=0.\tag{3}</div>
+<p id="en-block-56">For <span class="math" data-tex="A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}">A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}</span>, subtract <span class="math" data-tex="\lambda">\lambda</span> from the diagonal and expand:</p>
+<div class="math-display" id="en-block-57" data-tex="\det\begin{bmatrix}1-\lambda&amp;1\\0&amp;2-\lambda\end{bmatrix}=(1-\lambda)(2-\lambda)-1\cdot0=(1-\lambda)(2-\lambda).">\det\begin{bmatrix}1-\lambda&amp;1\\0&amp;2-\lambda\end{bmatrix}=(1-\lambda)(2-\lambda)-1\cdot0=(1-\lambda)(2-\lambda).</div>
+<p id="en-block-58">Setting this to zero gives the two roots</p>
+<div class="math-display" id="en-block-59" data-tex="\lambda_1=1,\qquad \lambda_2=2.">\lambda_1=1,\qquad \lambda_2=2.</div>
+<p id="en-block-60">This agrees with the result of solving the equations directly in Section 2.1. The corresponding eigenvectors are chosen as</p>
+<div class="math-display" id="en-block-61" data-tex="x_1=\begin{bmatrix}1\\0\end{bmatrix},\qquad
+x_2=\begin{bmatrix}1\\1\end{bmatrix},\qquad
+Ax_1=x_1,\quad Ax_2=2x_2.">x_1=\begin{bmatrix}1\\0\end{bmatrix},\qquad
+x_2=\begin{bmatrix}1\\1\end{bmatrix},\qquad
+Ax_1=x_1,\quad Ax_2=2x_2.</div>
+<h2 id="en-block-62">3. Eigendecomposition and Change of Basis</h2>
+<h3 id="en-block-63">3.1 Decomposing a Vector Along the Eigendirections</h3>
+<p id="en-block-64">Once the action of <span class="math" data-tex="A">A</span> on its eigenvectors is known, any vector can be decomposed along the eigenbasis, each component multiplied by its eigenvalue, and the pieces recombined. In Section 1, <span class="math" data-tex="e_2=(0,1)^{\mathsf T}">e_2=(0,1)^{\mathsf T}</span> changed direction under <span class="math" data-tex="A">A</span>. Using the two eigenvectors found above, <span class="math" data-tex="x_1=(1,0)^{\mathsf T}">x_1=(1,0)^{\mathsf T}</span> and <span class="math" data-tex="x_2=(1,1)^{\mathsf T}">x_2=(1,1)^{\mathsf T}</span>, we can split it as</p>
+<div class="math-display" id="en-block-65" data-tex="e_2=c_1x_1+c_2x_2.">e_2=c_1x_1+c_2x_2.</div>
+<p id="en-block-66">Substituting the vectors and comparing coordinates one by one gives</p>
+<div class="math-display" id="en-block-67" data-tex="\begin{bmatrix}0\\1\end{bmatrix}
+=c_1\begin{bmatrix}1\\0\end{bmatrix}
++c_2\begin{bmatrix}1\\1\end{bmatrix}
+=\begin{bmatrix}c_1+c_2\\c_2\end{bmatrix}
+\quad\Longrightarrow\quad
+\begin{cases}c_1+c_2=0,\\c_2=1.\end{cases}">\begin{bmatrix}0\\1\end{bmatrix}
+=c_1\begin{bmatrix}1\\0\end{bmatrix}
++c_2\begin{bmatrix}1\\1\end{bmatrix}
+=\begin{bmatrix}c_1+c_2\\c_2\end{bmatrix}
+\quad\Longrightarrow\quad
+\begin{cases}c_1+c_2=0,\\c_2=1.\end{cases}</div>
+<p id="en-block-68">So <span class="math" data-tex="c_1=-1">c_1=-1</span> and <span class="math" data-tex="c_2=1">c_2=1</span>, that is, <span class="math" data-tex="e_2=-x_1+x_2">e_2=-x_1+x_2</span>. When the matrix acts on this sum, it can act on the two components separately. Since <span class="math" data-tex="Ax_1=x_1">Ax_1=x_1</span> and <span class="math" data-tex="Ax_2=2x_2">Ax_2=2x_2</span>,</p>
+<div class="math-display" id="en-block-69" data-tex="\begin{aligned}
+Ae_2&amp;=A(-x_1+x_2)=-Ax_1+Ax_2\\
+&amp;=-x_1+2x_2
+=\begin{bmatrix}-1\\0\end{bmatrix}+\begin{bmatrix}2\\2\end{bmatrix}
+=\begin{bmatrix}1\\2\end{bmatrix}.
+\end{aligned}">\begin{aligned}
+Ae_2&amp;=A(-x_1+x_2)=-Ax_1+Ax_2\\
+&amp;=-x_1+2x_2
+=\begin{bmatrix}-1\\0\end{bmatrix}+\begin{bmatrix}2\\2\end{bmatrix}
+=\begin{bmatrix}1\\2\end{bmatrix}.
+\end{aligned}</div>
+<p id="en-block-70">This agrees with direct multiplication. In Fig. 5, the component along <span class="math" data-tex="x_1">x_1</span> stays the same and the component along <span class="math" data-tex="x_2">x_2</span> doubles; when the two are added, the direction of the whole vector changes with them.</p>
+<figure id="en-block-71"><a href="../assets/blog/eigen-eigen-directions.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-eigen-directions.svg" alt="Fig. 5 Decomposition and stretching in eigencoordinates" width="2000" height="1435"></a><figcaption>FIG. 5. <span class="math" data-tex="e_2=-x_1+x_2">e_2=-x_1+x_2</span>: starting from the origin, go <span class="math" data-tex="-x_1">-x_1</span> along the blue arrow, then <span class="math" data-tex="x_2">x_2</span> along the dashed orange arrow, to reach <span class="math" data-tex="e_2">e_2</span>. After applying <span class="math" data-tex="A">A</span>, the component along <span class="math" data-tex="x_1">x_1</span> is unchanged and the component along <span class="math" data-tex="x_2">x_2</span> doubles; one more <span class="math" data-tex="x_2">x_2</span> along the solid orange arrow reaches <span class="math" data-tex="Ae_2">Ae_2</span>. Black arrows show the two resultant vectors, and dotted lines mark the eigendirections.</figcaption></figure>
+<h3 id="en-block-72">3.2 Writing the Three Steps as an Eigendecomposition</h3>
+<p id="en-block-73">Arrange the two eigenvectors as the columns of a matrix, and write the decomposition coefficients as a column vector <span class="math" data-tex="c">c</span>:</p>
+<div class="math-display" id="en-block-74" data-tex="X=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix},\qquad
+c=\begin{bmatrix}c_1\\c_2\end{bmatrix},\qquad
+v=c_1x_1+c_2x_2=Xc.">X=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix},\qquad
+c=\begin{bmatrix}c_1\\c_2\end{bmatrix},\qquad
+v=c_1x_1+c_2x_2=Xc.</div>
+<p id="en-block-75">In this example</p>
+<div class="math-display" id="en-block-76" data-tex="X^{-1}=\begin{bmatrix}1&amp;-1\\0&amp;1\end{bmatrix},\qquad
+XX^{-1}=X^{-1}X=I.">X^{-1}=\begin{bmatrix}1&amp;-1\\0&amp;1\end{bmatrix},\qquad
+XX^{-1}=X^{-1}X=I.</div>
+<p id="en-block-77">Hence, for any vector <span class="math" data-tex="v">v</span>, the three steps above can be written as follows.</p>
+<ul class="post-list"><li id="en-item-78-0"><p id="en-item-78-0-block-0"><strong>Find the coefficients:</strong> <span class="math" data-tex="c=X^{-1}v">c=X^{-1}v</span>.</p></li><li id="en-item-78-1"><p id="en-item-78-1-block-0"><strong>Multiply each coefficient by its eigenvalue:</strong> <span class="math" data-tex="c&#x27;=\Lambda c">c&#x27;=\Lambda c</span>, where <span class="math" data-tex="\Lambda=\operatorname{diag}(1,2)">\Lambda=\operatorname{diag}(1,2)</span>.</p></li><li id="en-item-78-2"><p id="en-item-78-2-block-0"><strong>Recombine:</strong> <span class="math" data-tex="Av=c_1\lambda_1x_1+c_2\lambda_2x_2=Xc&#x27;">Av=c_1\lambda_1x_1+c_2\lambda_2x_2=Xc&#x27;</span>.</p></li></ul>
+<p id="en-block-79">Chaining the three steps gives</p>
+<div class="math-display" id="en-block-80" data-tex="Av=Xc&#x27;=X\Lambda c=X\Lambda X^{-1}v.\tag{4}">Av=Xc&#x27;=X\Lambda c=X\Lambda X^{-1}v.\tag{4}</div>
+<p id="en-block-81">This holds for every vector <span class="math" data-tex="v">v</span>, which yields the <strong>eigendecomposition</strong> <span class="citation-group">[<a class="citation" href="#en-ref-1" aria-label="Reference 1">1</a>, §6.2]</span>:</p>
+<div class="math-display" id="en-block-82" data-tex="A=X\Lambda X^{-1}.\tag{5}">A=X\Lambda X^{-1}.\tag{5}</div>
+<p id="en-block-83">Matrix multiplication acts from right to left: <span class="math" data-tex="X^{-1}">X^{-1}</span> finds the coefficients, <span class="math" data-tex="\Lambda">\Lambda</span> scales each one, and <span class="math" data-tex="X">X</span> recombines the vector. A short check with the eigenvalue equation agrees: the two columns of <span class="math" data-tex="AX">AX</span> are <span class="math" data-tex="Ax_1=x_1">Ax_1=x_1</span> and <span class="math" data-tex="Ax_2=2x_2">Ax_2=2x_2</span>, so <span class="math" data-tex="AX=X\Lambda">AX=X\Lambda</span>, consistent with Eq. (5).</p>
+<p id="en-block-84">Multiplying Eq. (5) by <span class="math" data-tex="X^{-1}">X^{-1}</span> on the left and by <span class="math" data-tex="X">X</span> on the right gives <span class="math" data-tex="X^{-1}AX=\Lambda">X^{-1}AX=\Lambda</span>. This says that the same transformation is represented by a diagonal matrix in the eigenbasis, with each coordinate stretched independently; the process is called <strong>diagonalization</strong>.</p>
+<h2 id="en-block-85">4. When an Eigendecomposition Exists</h2>
+<h3 id="en-block-86">4.1 Eigendirections That Can Serve as Coordinates</h3>
+<p id="en-block-87">Section 3 built <span class="math" data-tex="Av=X\Lambda X^{-1}v">Av=X\Lambda X^{-1}v</span> on using <span class="math" data-tex="X^{-1}">X^{-1}</span> to find the coefficients. The two columns of <span class="math" data-tex="X">X</span> are eigenvectors, and whether <span class="math" data-tex="X">X</span> has an inverse depends on whether these two directions span the whole plane.</p>
+<p id="en-block-88">From <span class="math" data-tex="c=X^{-1}v">c=X^{-1}v</span> in Section 3.2, for <span class="math" data-tex="v=(a,b)^{\mathsf T}">v=(a,b)^{\mathsf T}</span> we have <span class="math" data-tex="c=(a-b,b)^{\mathsf T}">c=(a-b,b)^{\mathsf T}</span>, so</p>
+<div class="math-display" id="en-block-89" data-tex="v=(a-b)x_1+bx_2,\qquad x_1=\begin{bmatrix}1\\0\end{bmatrix},\quad x_2=\begin{bmatrix}1\\1\end{bmatrix}.">v=(a-b)x_1+bx_2,\qquad x_1=\begin{bmatrix}1\\0\end{bmatrix},\quad x_2=\begin{bmatrix}1\\1\end{bmatrix}.</div>
+<p id="en-block-90">For arbitrary <span class="math" data-tex="a,b">a,b</span> the coefficients <span class="math" data-tex="a-b">a-b</span> and <span class="math" data-tex="b">b</span> are also arbitrary, so combinations of <span class="math" data-tex="x_1,x_2">x_1,x_2</span> reach every point of the plane. They do not coincide, and together they form a <strong>basis</strong> of the plane.</p>
+<p id="en-block-91">For contrast, take two collinear directions:</p>
+<div class="math-display" id="en-block-92" data-tex="y_1=\begin{bmatrix}1\\0\end{bmatrix},\qquad y_2=\begin{bmatrix}2\\0\end{bmatrix}=2y_1.">y_1=\begin{bmatrix}1\\0\end{bmatrix},\qquad y_2=\begin{bmatrix}2\\0\end{bmatrix}=2y_1.</div>
+<p id="en-block-93">Any combination <span class="math" data-tex="c_1y_1+c_2y_2=(c_1+2c_2,0)^{\mathsf T}">c_1y_1+c_2y_2=(c_1+2c_2,0)^{\mathsf T}</span> has second coordinate always zero, so no choice of <span class="math" data-tex="c_1,c_2">c_1,c_2</span> reaches <span class="math" data-tex="e_2=(0,1)^{\mathsf T}">e_2=(0,1)^{\mathsf T}</span>. These two directions span only the <span class="math" data-tex="x">x</span>-axis: two vectors in number, but only one direction.</p>
+<p id="en-block-94">The difference can also be written as an equation for the coefficients. If</p>
+<div class="math-display" id="en-block-95" data-tex="c_1x_1+c_2x_2=\begin{bmatrix}c_1+c_2\\c_2\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix},">c_1x_1+c_2x_2=\begin{bmatrix}c_1+c_2\\c_2\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix},</div>
+<p id="en-block-96">the second component first gives <span class="math" data-tex="c_2=0">c_2=0</span>, and substituting back into the first gives <span class="math" data-tex="c_1=0">c_1=0</span>. Only the all-zero coefficients combine to the zero vector; such <span class="math" data-tex="x_1,x_2">x_1,x_2</span> are called <strong>linearly independent</strong>. For <span class="math" data-tex="y_1,y_2">y_1,y_2</span>, the equation</p>
+<div class="math-display" id="en-block-97" data-tex="c_1y_1+c_2y_2=(c_1+2c_2,0)^{\mathsf T}=(0,0)^{\mathsf T}">c_1y_1+c_2y_2=(c_1+2c_2,0)^{\mathsf T}=(0,0)^{\mathsf T}</div>
+<p id="en-block-98">has a nonzero solution: taking <span class="math" data-tex="c_2=1">c_2=1</span> gives <span class="math" data-tex="c_1=-2">c_1=-2</span>, so they are <strong>linearly dependent</strong>.</p>
+<p id="en-block-99">Arrange the eigenvectors of this example as columns,</p>
+<div class="math-display" id="en-block-100" data-tex="X=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix},">X=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix},</div>
+<p id="en-block-101">and linear independence is exactly the condition for this square matrix to be invertible. Section 2.2 defined the rank as the number of pivots, that is, the largest number of linearly independent columns; here the two columns are independent, so <span class="math" data-tex="\operatorname{rank}X=2">\operatorname{rank}X=2</span>. In two dimensions the determinant also has a meaning as area: <span class="math" data-tex="|\det X|">|\det X|</span> is the area of the parallelogram with the two columns as sides, and here <span class="math" data-tex="\det X=1">\det X=1</span>; when the two columns are collinear the parallelogram degenerates to a segment, its area is zero, and the matrix is not invertible. So, for an <span class="math" data-tex="n\times n">n\times n</span> square matrix, the following four statements are equivalent:</p>
+<div class="math-display" id="en-block-102" data-tex="n\text{ independent eigenvectors}\;\Longleftrightarrow\;\operatorname{rank}X=n\;\Longleftrightarrow\;\det X\ne0\;\Longleftrightarrow\;X\text{ invertible}.">n\text{ independent eigenvectors}\;\Longleftrightarrow\;\operatorname{rank}X=n\;\Longleftrightarrow\;\det X\ne0\;\Longleftrightarrow\;X\text{ invertible}.</div>
+<p id="en-block-103">As long as <span class="math" data-tex="X">X</span> is invertible, the form in Eq. (5) holds. Figure 6 compares the two cases.</p>
+<figure id="en-block-104"><a href="../assets/blog/eigen-eigenbasis.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-eigenbasis.svg" alt="Fig. 6 Independent versus collinear directions" width="2000" height="914"></a><figcaption>FIG. 6. (a) <span class="math" data-tex="x_1=(1,0)^{\mathsf T}">x_1=(1,0)^{\mathsf T}</span> and <span class="math" data-tex="x_2=(1,1)^{\mathsf T}">x_2=(1,1)^{\mathsf T}</span> are not collinear, so any <span class="math" data-tex="v">v</span> can be written as <span class="math" data-tex="v=c_1x_1+c_2x_2">v=c_1x_1+c_2x_2</span>; the light parallelogram indicates the range of combinations of the two directions, with <span class="math" data-tex="v">v</span> as the black arrow and its components along <span class="math" data-tex="x_1">x_1</span> and <span class="math" data-tex="x_2">x_2</span> as dashed lines. (b) <span class="math" data-tex="y_1=(1,0)^{\mathsf T}">y_1=(1,0)^{\mathsf T}</span> and <span class="math" data-tex="y_2=2y_1">y_2=2y_1</span> lie on the same line, so combinations can only stay on the <span class="math" data-tex="x">x</span>-axis; the gray dashed arrow <span class="math" data-tex="e_2">e_2</span> is not among them.</figcaption></figure>
+<h3 id="en-block-105">4.2 Eigenvectors for Distinct Eigenvalues Are Independent</h3>
+<p id="en-block-106">When can we be sure of getting <span class="math" data-tex="n">n</span> independent eigenvectors? If the <span class="math" data-tex="n">n</span> eigenvalues of <span class="math" data-tex="A">A</span> are all distinct, the answer is always yes.</p>
+<p id="en-block-107">Start with two eigenvectors. Let</p>
+<div class="math-display" id="en-block-108" data-tex="Ax_1=\lambda_1x_1,\qquad Ax_2=\lambda_2x_2,\qquad \lambda_1\ne\lambda_2,\qquad x_1\ne0,\ x_2\ne0.">Ax_1=\lambda_1x_1,\qquad Ax_2=\lambda_2x_2,\qquad \lambda_1\ne\lambda_2,\qquad x_1\ne0,\ x_2\ne0.</div>
+<p id="en-block-109">Suppose some combination of them equals zero:</p>
+<div class="math-display" id="en-block-110" data-tex="c_1x_1+c_2x_2=0.\tag{6}">c_1x_1+c_2x_2=0.\tag{6}</div>
+<p id="en-block-111">Multiply both sides on the left by <span class="math" data-tex="A">A</span>, using the eigenvalue equation to replace <span class="math" data-tex="Ax_i">Ax_i</span> by <span class="math" data-tex="\lambda_ix_i">\lambda_ix_i</span>:</p>
+<div class="math-display" id="en-block-112" data-tex="c_1\lambda_1x_1+c_2\lambda_2x_2=0.">c_1\lambda_1x_1+c_2\lambda_2x_2=0.</div>
+<p id="en-block-113">Now multiply Eq. (6) by <span class="math" data-tex="\lambda_1">\lambda_1</span>:</p>
+<div class="math-display" id="en-block-114" data-tex="c_1\lambda_1x_1+c_2\lambda_1x_2=0.">c_1\lambda_1x_1+c_2\lambda_1x_2=0.</div>
+<p id="en-block-115">Subtracting, the <span class="math" data-tex="x_1">x_1</span> terms cancel:</p>
+<div class="math-display" id="en-block-116" data-tex="c_2(\lambda_1-\lambda_2)x_2=0.">c_2(\lambda_1-\lambda_2)x_2=0.</div>
+<p id="en-block-117">Since <span class="math" data-tex="\lambda_1\ne\lambda_2">\lambda_1\ne\lambda_2</span> and <span class="math" data-tex="x_2\ne0">x_2\ne0</span>, only <span class="math" data-tex="c_2=0">c_2=0</span> is possible. Substituting back into Eq. (6) gives <span class="math" data-tex="c_1x_1=0">c_1x_1=0</span>, and <span class="math" data-tex="x_1\ne0">x_1\ne0</span> then gives <span class="math" data-tex="c_1=0">c_1=0</span>. So <span class="math" data-tex="x_1,x_2">x_1,x_2</span> are linearly independent.</p>
+<p id="en-block-118">For <span class="math" data-tex="n">n</span> vectors the same subtraction works by induction. Let <span class="math" data-tex="\lambda_1,\dots,\lambda_n">\lambda_1,\dots,\lambda_n</span> be pairwise distinct, and suppose <span class="math" data-tex="c_1x_1+\cdots+c_nx_n=0">c_1x_1+\cdots+c_nx_n=0</span>. Multiply both sides on the left by <span class="math" data-tex="A">A</span>, and multiply the original equation by <span class="math" data-tex="\lambda_n">\lambda_n</span>:</p>
+<div class="math-display" id="en-block-119" data-tex="\sum_{i=1}^n c_i\lambda_ix_i=0,\qquad \sum_{i=1}^n c_i\lambda_nx_i=0.">\sum_{i=1}^n c_i\lambda_ix_i=0,\qquad \sum_{i=1}^n c_i\lambda_nx_i=0.</div>
+<p id="en-block-120">After subtraction the term containing <span class="math" data-tex="x_n">x_n</span> vanishes:</p>
+<div class="math-display" id="en-block-121" data-tex="\sum_{i=1}^{n-1} c_i(\lambda_i-\lambda_n)x_i=0.\tag{7}">\sum_{i=1}^{n-1} c_i(\lambda_i-\lambda_n)x_i=0.\tag{7}</div>
+<p id="en-block-122">Equation (7) is a zero combination of the first <span class="math" data-tex="n-1">n-1</span> vectors, whose eigenvalues are still pairwise distinct. Induct on <span class="math" data-tex="n">n</span>:</p>
+<ul class="post-list"><li id="en-item-123-0"><p id="en-item-123-0-block-0"><strong>Base case:</strong> for <span class="math" data-tex="n=1">n=1</span>, <span class="math" data-tex="c_1x_1=0">c_1x_1=0</span> with <span class="math" data-tex="x_1\ne0">x_1\ne0</span> gives <span class="math" data-tex="c_1=0">c_1=0</span>, so a single nonzero vector is linearly independent.</p></li><li id="en-item-123-1"><p id="en-item-123-1-block-0"><strong>Induction hypothesis:</strong> assume that eigenvectors for any <span class="math" data-tex="n-1">n-1</span> distinct eigenvalues are linearly independent.</p></li><li id="en-item-123-2"><p id="en-item-123-2-block-0"><strong>Applying it to Eq. (7):</strong> the first <span class="math" data-tex="n-1">n-1</span> vectors are linearly independent, so every coefficient in their zero combination must vanish:</p><div class="math-display" id="en-item-123-2-block-1" data-tex="c_i(\lambda_i-\lambda_n)=0,\qquad i=1,\ldots,n-1.">c_i(\lambda_i-\lambda_n)=0,\qquad i=1,\ldots,n-1.</div><p id="en-item-123-2-block-2">Since <span class="math" data-tex="\lambda_i\ne\lambda_n">\lambda_i\ne\lambda_n</span>, this gives <span class="math" data-tex="c_1=\cdots=c_{n-1}=0">c_1=\cdots=c_{n-1}=0</span>.</p></li><li id="en-item-123-3"><p id="en-item-123-3-block-0"><strong>The last coefficient:</strong> substituting these results back into the original equation leaves only <span class="math" data-tex="c_nx_n=0">c_nx_n=0</span>. Since <span class="math" data-tex="x_n\ne0">x_n\ne0</span>, <span class="math" data-tex="c_n=0">c_n=0</span>.</p></li></ul>
+<p id="en-block-124">Therefore the combination of these <span class="math" data-tex="n">n</span> vectors is zero only when all coefficients are zero. They are linearly independent, and the square matrix <span class="math" data-tex="X">X</span> they form is invertible <span class="citation-group">[<a class="citation" href="#en-ref-1" aria-label="Reference 1">1</a>, §6.2]</span><span class="citation-group">[<a class="citation" href="#en-ref-2" aria-label="Reference 2">2</a>, §7.1.1]</span>.</p>
+<p id="en-block-125">Distinct eigenvalues are only a sufficient condition. When eigenvalues repeat, some matrices can still be diagonalized.</p>
+<h3 id="en-block-126">4.3 When Eigenvalues Repeat, Are There Still Enough Eigenvectors?</h3>
+<p id="en-block-127">Consider two matrices:</p>
+<div class="math-display" id="en-block-128" data-tex="I_2=\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix},\qquad
+J=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix}.">I_2=\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix},\qquad
+J=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix}.</div>
+<p id="en-block-129">They have the same characteristic polynomial:</p>
+<div class="math-display" id="en-block-130" data-tex="\begin{aligned}
+\det(I_2-\lambda I_2)&amp;=(1-\lambda)^2,\\
+\det(J-\lambda I_2)&amp;=\begin{vmatrix}1-\lambda&amp;1\\0&amp;1-\lambda\end{vmatrix}=(1-\lambda)^2.
+\end{aligned}">\begin{aligned}
+\det(I_2-\lambda I_2)&amp;=(1-\lambda)^2,\\
+\det(J-\lambda I_2)&amp;=\begin{vmatrix}1-\lambda&amp;1\\0&amp;1-\lambda\end{vmatrix}=(1-\lambda)^2.
+\end{aligned}</div>
+<p id="en-block-131">Both have only the eigenvalue <span class="math" data-tex="\lambda=1">\lambda=1</span>, a root repeated twice. Whether they can be diagonalized depends on whether two independent eigenvectors can be found. Let <span class="math" data-tex="v=(x,y)^{\mathsf T}">v=(x,y)^{\mathsf T}</span> and substitute <span class="math" data-tex="\lambda=1">\lambda=1</span> into the eigenvalue equation for each matrix:</p>
+<ul class="post-list"><li id="en-item-132-0"><p id="en-item-132-0-block-0"><strong>For <span class="math" data-tex="I_2">I_2</span>:</strong></p><div class="math-display" id="en-item-132-0-block-1" data-tex="(I_2-I_2)v=\begin{bmatrix}0&amp;0\\0&amp;0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=0.">(I_2-I_2)v=\begin{bmatrix}0&amp;0\\0&amp;0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=0.</div><p id="en-item-132-0-block-2">Neither <span class="math" data-tex="x">x</span> nor <span class="math" data-tex="y">y</span> is constrained, and the null space is the whole plane. Every nonzero vector is an eigenvector, and <span class="math" data-tex="e_1,e_2">e_1,e_2</span> can be chosen as a basis. Here <span class="math" data-tex="X=I_2">X=I_2</span> and <span class="math" data-tex="\Lambda=I_2">\Lambda=I_2</span>, so the eigendecomposition holds.</p></li></ul>
+<ul class="post-list"><li id="en-item-133-0"><p id="en-item-133-0-block-0"><strong>For <span class="math" data-tex="J">J</span>:</strong></p><div class="math-display" id="en-item-133-0-block-1" data-tex="(J-I_2)v=\begin{bmatrix}0&amp;1\\0&amp;0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}y\\0\end{bmatrix}=0.">(J-I_2)v=\begin{bmatrix}0&amp;1\\0&amp;0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}y\\0\end{bmatrix}=0.</div><p id="en-item-133-0-block-2">The equation requires <span class="math" data-tex="y=0">y=0</span> with <span class="math" data-tex="x">x</span> free, so the null space is the single horizontal line. All eigenvectors are collinear, and two independent vectors cannot be chosen to form a basis of the plane, so <span class="math" data-tex="J">J</span> cannot be diagonalized.</p></li></ul>
+<p id="en-block-134">Here “cannot be diagonalized” means that <span class="math" data-tex="J">J</span> cannot be written as <span class="math" data-tex="X\Lambda X^{-1}">X\Lambda X^{-1}</span>; it does not mean that no eigenvalues or eigenvectors can be found. We have already found <span class="math" data-tex="\lambda=1">\lambda=1</span>, with eigenvectors <span class="math" data-tex="v=t(1,0)^{\mathsf T}">v=t(1,0)^{\mathsf T}</span> (<span class="math" data-tex="t\ne0">t\ne0</span>). There are infinitely many of them but only one independent direction, which is not enough to form a basis of the two-dimensional space.</p>
+<p id="en-block-135">So <strong>a repeated eigenvalue does not in itself prevent diagonalization; what matters is still whether a full eigenbasis can be assembled.</strong></p>
+<p id="en-block-136">The number of times a root is repeated in the characteristic polynomial is called its <strong>algebraic multiplicity</strong>; here <span class="math" data-tex="\lambda=1">\lambda=1</span> has algebraic multiplicity <span class="math" data-tex="2">2</span> for both matrices. The dimension of the corresponding eigenspace is called the <strong>geometric multiplicity</strong>: it is <span class="math" data-tex="2">2</span> for <span class="math" data-tex="I_2">I_2</span> and <span class="math" data-tex="1">1</span> for <span class="math" data-tex="J">J</span> <span class="citation-group">[<a class="citation" href="#en-ref-2" aria-label="Reference 2">2</a>, §7.1.4]</span>.</p>
+<h3 id="en-block-137">4.4 Summary: Which Matrix Needs to Be Invertible?</h3>
+<p id="en-block-138">Finding eigenvalues and carrying out an eigendecomposition involve three different matrices:</p>
+<ul class="post-list"><li id="en-item-139-0"><p id="en-item-139-0-block-0"><strong><span class="math" data-tex="A-\lambda I">A-\lambda I</span> must be non-invertible for <span class="math" data-tex="\lambda">\lambda</span> to be an eigenvalue.</strong> The eigenvalue equation <span class="math" data-tex="(A-\lambda I)v=0">(A-\lambda I)v=0</span> needs a nonzero solution. If <span class="math" data-tex="A-\lambda I">A-\lambda I</span> were invertible, multiplying by its inverse on the left would give only <span class="math" data-tex="v=0">v=0</span>.</p></li><li id="en-item-139-1"><p id="en-item-139-1-block-0"><strong>The matrix <span class="math" data-tex="X">X</span> of eigenvectors must be invertible for the eigendecomposition to be carried out with it.</strong> We need <span class="math" data-tex="c=X^{-1}v">c=X^{-1}v</span> to obtain the unique coordinates of any vector in the eigenbasis. What must be invertible is the matrix <span class="math" data-tex="X">X</span> formed by the columns; a single eigenvector has no invertibility to speak of.</p></li><li id="en-item-139-2"><p id="en-item-139-2-block-0"><strong>The original matrix <span class="math" data-tex="A">A</span> need not be invertible.</strong> An eigenvalue may be zero, which merely squeezes the corresponding component to zero and does not prevent decomposing along the eigenbasis, scaling, and recombining. For example, <span class="math" data-tex="K=\operatorname{diag}(1,0)">K=\operatorname{diag}(1,0)</span> satisfies <span class="math" data-tex="Ke_1=e_1">Ke_1=e_1</span> and <span class="math" data-tex="Ke_2=0">Ke_2=0</span>, and still has the full eigenbasis <span class="math" data-tex="e_1,e_2">e_1,e_2</span>.</p></li></ul>
+<p id="en-block-140">Thus <span class="math" data-tex="J">J</span> has determinant <span class="math" data-tex="1">1</span> and is invertible but cannot be diagonalized, while <span class="math" data-tex="K=\operatorname{diag}(1,0)">K=\operatorname{diag}(1,0)</span> has determinant <span class="math" data-tex="0">0</span> and is not invertible but is already diagonal.</p><section class="references" aria-labelledby="en-references"><h2 id="en-references">References</h2><ol><li id="en-ref-1">G. Strang, <em>Introduction to Linear Algebra</em>, 6th ed. (Wellesley–Cambridge Press, 2023).</li><li id="en-ref-2">G. H. Golub and C. F. Van Loan, <em>Matrix Computations</em>, 3rd ed. (Johns Hopkins University Press, 1996).</li></ol></section>
+</article></div>
+<div class="post-layout lang-zh"><aside class="post-toc" aria-label="目录"><details open><summary>目录</summary><div class="toc-body"><div class="read-progress" role="slider" tabindex="0" hidden aria-orientation="vertical" aria-label="阅读进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="read-thumb"></span></div><ol><li><a href="#zh-block-0">1. 本征值与本征向量：定义与几何意义</a></li><li><a href="#zh-block-11">2. 本征方程的求解</a></li><li><a href="#zh-block-62">3. 本征分解与换基</a></li><li><a href="#zh-block-85">4. 本征分解的存在条件</a></li></ol><p class="read-percent" aria-hidden="true"></p></div></details></aside><article class="post lang-zh" lang="zh-CN">
+<a class="back-link" href="index.html?lang=zh">← 所有博文</a>
+<header><p class="post-dates"><span><span class="lang-en" lang="en">Created</span><span class="lang-zh" lang="zh-CN">创建</span> <time datetime="2026-10-07">2026-10-07</time></span><span><span class="lang-en" lang="en">Updated</span><span class="lang-zh" lang="zh-CN">最后更新</span> <time datetime="2026-10-07">2026-10-07</time></span></p><p class="eyebrow">矩阵分解 · 01</p><h1>本征分解：寻找不变方向</h1><p class="post-meta" title="统计正文与图注，不含标题和参考文献；汉字逐字计数，英文和数字按词计。按每分钟300字估算。">3,769 字 · 预计阅读 13 分钟</p><ul class="post-tags"><li><a href="index.html?tag=linear-algebra">线性代数</a></li></ul></header>
+<h2 id="zh-block-0">1. 本征值与本征向量：定义与几何意义</h2>
+<p id="zh-block-1">平面上的矩阵</p>
+<div class="math-display" id="zh-block-2" data-tex="A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}">A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}</div>
+<p id="zh-block-3">作用于平面上的向量。先看三个向量：<span class="math" data-tex="e_1=(1,0)^{\mathsf T}">e_1=(1,0)^{\mathsf T}</span>、<span class="math" data-tex="e_2=(0,1)^{\mathsf T}">e_2=(0,1)^{\mathsf T}</span>、<span class="math" data-tex="e_3=(1,1)^{\mathsf T}">e_3=(1,1)^{\mathsf T}</span>。这里下标按三个例子编号。分别左乘 <span class="math" data-tex="A">A</span>：</p>
+<div class="math-display" id="zh-block-4" data-tex="\begin{aligned}
+Ae_1&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}1\\0\end{bmatrix}=\begin{bmatrix}1\\0\end{bmatrix}=e_1,\\[6pt]
+Ae_2&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}1\\2\end{bmatrix},\\[6pt]
+Ae_3&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}1\\1\end{bmatrix}=\begin{bmatrix}2\\2\end{bmatrix}=2e_3.
+\end{aligned}">\begin{aligned}
+Ae_1&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}1\\0\end{bmatrix}=\begin{bmatrix}1\\0\end{bmatrix}=e_1,\\[6pt]
+Ae_2&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}0\\1\end{bmatrix}=\begin{bmatrix}1\\2\end{bmatrix},\\[6pt]
+Ae_3&amp;=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}1\\1\end{bmatrix}=\begin{bmatrix}2\\2\end{bmatrix}=2e_3.
+\end{aligned}</div>
+<p id="zh-block-5">如图1所示，<span class="math" data-tex="e_1">e_1</span> 保持不动，<span class="math" data-tex="e_2">e_2</span> 的长度和方向都发生变化，<span class="math" data-tex="e_3">e_3</span> 沿原方向拉长两倍。</p>
+<figure id="zh-block-6"><a href="../assets/blog/eigen-three-vectors.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-three-vectors.svg" alt="图1　三种向量经过同一个矩阵的变化" width="2000" height="702"></a><figcaption>图1　蓝色虚线箭头表示输入，橙色实线箭头表示输出，三图尺度相同。(a) <span class="math" data-tex="Ae_1=e_1">Ae_1=e_1</span>，两箭头重合；(b) <span class="math" data-tex="Ae_2=(1,2)^{\mathsf T}">Ae_2=(1,2)^{\mathsf T}</span>，方向改变；(c) <span class="math" data-tex="Ae_3=2e_3">Ae_3=2e_3</span>，沿原方向伸长。</figcaption></figure>
+<p id="zh-block-7">凡是有非零向量 <span class="math" data-tex="v">v</span> 和数 <span class="math" data-tex="\lambda">\lambda</span> 满足</p>
+<div class="math-display" id="zh-block-8" data-tex="Av=\lambda v,\tag{1}">Av=\lambda v,\tag{1}</div>
+<p id="zh-block-9">就称 <span class="math" data-tex="\lambda">\lambda</span> 是 <span class="math" data-tex="A">A</span> 的<strong>本征值</strong>，<span class="math" data-tex="v">v</span> 是对应的<strong>本征向量</strong><span class="citation-group">[<a class="citation" href="#zh-ref-1" aria-label="Reference 1">1</a>, §6.1]</span>。本篇暂时只讨论实矩阵且本征值为实的情形。这里 <span class="math" data-tex="e_1">e_1</span>、<span class="math" data-tex="e_3">e_3</span> 分别对应 <span class="math" data-tex="\lambda=1,2">\lambda=1,2</span>。本征值的绝对值 <span class="math" data-tex="|\lambda|">|\lambda|</span> 给出长度倍数；<span class="math" data-tex="\lambda&lt;0">\lambda&lt;0</span> 时还会反向，<span class="math" data-tex="\lambda=0">\lambda=0</span> 时压到原点。本征向量乘任意非零常数后仍满足式 (1)，因此长度可以自由选择。两条本征方向 <span class="math" data-tex="e_1">e_1</span> 和 <span class="math" data-tex="e_3">e_3</span> 的夹角为 <span class="math" data-tex="45^\circ">45^\circ</span>。它们沿各自方向独立伸缩，无须彼此垂直。</p>
+<p id="zh-block-10">上面通过直接相乘找到了两个本征方向。对于给定矩阵，怎样系统地求出本征值和本征向量？</p>
+<h2 id="zh-block-11">2. 本征方程的求解</h2>
+<h3 id="zh-block-12">2.1 从二维方程到有限维方阵</h3>
+<p id="zh-block-13">方程 (1) 里 <span class="math" data-tex="\lambda">\lambda</span> 和 <span class="math" data-tex="v">v</span> 都不知道。设 <span class="math" data-tex="v=(x,y)^{\mathsf T}">v=(x,y)^{\mathsf T}</span>，先把矩阵乘法逐行展开：</p>
+<div class="math-display" id="zh-block-14" data-tex="\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}
+=\lambda\begin{bmatrix}x\\y\end{bmatrix}
+\quad\Longrightarrow\quad
+\begin{cases}x+y=\lambda x,\\2y=\lambda y.\end{cases}">\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}
+=\lambda\begin{bmatrix}x\\y\end{bmatrix}
+\quad\Longrightarrow\quad
+\begin{cases}x+y=\lambda x,\\2y=\lambda y.\end{cases}</div>
+<p id="zh-block-15">把右边移到左边，得到</p>
+<div class="math-display" id="zh-block-16" data-tex="\begin{cases}(1-\lambda)x+y=0,\\(2-\lambda)y=0.\end{cases}">\begin{cases}(1-\lambda)x+y=0,\\(2-\lambda)y=0.\end{cases}</div>
+<p id="zh-block-17">第二条方程要求 <span class="math" data-tex="(2-\lambda)y=0">(2-\lambda)y=0</span>，据此分两种情况。</p>
+<ul class="post-list"><li id="zh-item-18-0"><p id="zh-item-18-0-block-0"><strong>若 <span class="math" data-tex="y=0">y=0</span>：</strong> 第一条变成 <span class="math" data-tex="(1-\lambda)x=0">(1-\lambda)x=0</span>。本征向量要求 <span class="math" data-tex="(x,y)\ne(0,0)">(x,y)\ne(0,0)</span>，所以此时 <span class="math" data-tex="x\ne0">x\ne0</span>，只能有 <span class="math" data-tex="\lambda=1">\lambda=1</span>。取 <span class="math" data-tex="x=1">x=1</span>，得到 <span class="math" data-tex="v=(1,0)^{\mathsf T}">v=(1,0)^{\mathsf T}</span>。</p></li><li id="zh-item-18-1"><p id="zh-item-18-1-block-0"><strong>若 <span class="math" data-tex="y\ne0">y\ne0</span>：</strong> 第二条要求 <span class="math" data-tex="2-\lambda=0">2-\lambda=0</span>，所以 <span class="math" data-tex="\lambda=2">\lambda=2</span>。代入第一条，得到 <span class="math" data-tex="-x+y=0">-x+y=0</span>，即 <span class="math" data-tex="x=y">x=y</span>。取 <span class="math" data-tex="x=y=1">x=y=1</span>，得到 <span class="math" data-tex="v=(1,1)^{\mathsf T}">v=(1,1)^{\mathsf T}</span>。</p></li></ul>
+<p id="zh-block-19">这两种情况包括了所有可能。只有 <span class="math" data-tex="\lambda=1">\lambda=1</span> 或 <span class="math" data-tex="\lambda=2">\lambda=2</span> 时，才能找到非零解；若 <span class="math" data-tex="\lambda">\lambda</span> 与这两个值都不同，第二条先迫使 <span class="math" data-tex="y=0">y=0</span>，第一条随后迫使 <span class="math" data-tex="x=0">x=0</span>。</p>
+<p id="zh-block-20">对于更多分量，可以把移项后的方程统一写成</p>
+<div class="math-display" id="zh-block-21" data-tex="(A-\lambda I)v=0.\tag{2}">(A-\lambda I)v=0.\tag{2}</div>
+<p id="zh-block-22">记 <span class="math" data-tex="M=A-\lambda I">M=A-\lambda I</span>。所谓 <span class="math" data-tex="M">M</span> 可逆，就是存在一个矩阵 <span class="math" data-tex="M^{-1}">M^{-1}</span>，能撤销 <span class="math" data-tex="M">M</span> 的作用，满足 <span class="math" data-tex="M^{-1}M=MM^{-1}=I">M^{-1}M=MM^{-1}=I</span>。如果这样的逆存在，在 <span class="math" data-tex="Mv=0">Mv=0</span> 两边左乘它，就有</p>
+<div class="math-display" id="zh-block-23" data-tex="v=M^{-1}Mv=M^{-1}0=0.">v=M^{-1}Mv=M^{-1}0=0.</div>
+<p id="zh-block-24">这个反证只用了逆矩阵的定义，对任意有限 <span class="math" data-tex="n\times n">n\times n</span> 方阵都成立：要让 <span class="math" data-tex="Mv=0">Mv=0</span> 有非零解，<span class="math" data-tex="M">M</span> 必须不可逆。</p>
+<h3 id="zh-block-25">2.2 高斯消元与行列式</h3>
+<p id="zh-block-26">求解含有 <span class="math" data-tex="n">n</span> 个未知分量的方程组 <span class="math" data-tex="Mv=0">Mv=0</span>，可以用高斯消元法。若两条方程都含有 <span class="math" data-tex="x">x</span>，可以用第二条减去第一条的适当倍数，使第二条中的 <span class="math" data-tex="x">x</span> 消失。例如，考虑带参数 <span class="math" data-tex="t">t</span> 的三维方程组：</p>
+<div class="math-display" id="zh-block-27" data-tex="M_t\begin{bmatrix}x\\y\\z\end{bmatrix}=0,\qquad
+M_t=\begin{bmatrix}1&amp;1&amp;1\\2&amp;3&amp;4\\1&amp;2&amp;t\end{bmatrix},
+\qquad
+\begin{cases}x+y+z=0,\\2x+3y+4z=0,\\x+2y+tz=0.\end{cases}">M_t\begin{bmatrix}x\\y\\z\end{bmatrix}=0,\qquad
+M_t=\begin{bmatrix}1&amp;1&amp;1\\2&amp;3&amp;4\\1&amp;2&amp;t\end{bmatrix},
+\qquad
+\begin{cases}x+y+z=0,\\2x+3y+4z=0,\\x+2y+tz=0.\end{cases}</div>
+<p id="zh-block-28">用 <span class="math" data-tex="R_i">R_i</span> 表示第 <span class="math" data-tex="i">i</span> 行方程。先保留第一行，以其中 <span class="math" data-tex="x">x</span> 的系数 <span class="math" data-tex="1">1</span> 为<strong>主元</strong>，消去下面两行的 <span class="math" data-tex="x">x</span>：</p>
+<div class="math-display" id="zh-block-29" data-tex="\begin{aligned}
+R_2&amp;\leftarrow R_2-2R_1:
+&amp;&amp;(2x+3y+4z)-2(x+y+z)=y+2z=0,\\
+R_3&amp;\leftarrow R_3-R_1:
+&amp;&amp;(x+2y+tz)-(x+y+z)=y+(t-1)z=0.
+\end{aligned}">\begin{aligned}
+R_2&amp;\leftarrow R_2-2R_1:
+&amp;&amp;(2x+3y+4z)-2(x+y+z)=y+2z=0,\\
+R_3&amp;\leftarrow R_3-R_1:
+&amp;&amp;(x+2y+tz)-(x+y+z)=y+(t-1)z=0.
+\end{aligned}</div>
+<p id="zh-block-30">再保留第二行，以 <span class="math" data-tex="y">y</span> 的系数 <span class="math" data-tex="1">1</span> 为主元，消去第三行的 <span class="math" data-tex="y">y</span>：</p>
+<div class="math-display" id="zh-block-31" data-tex="R_3\leftarrow R_3-R_2:
+\quad [y+(t-1)z]-(y+2z)=(t-3)z=0.">R_3\leftarrow R_3-R_2:
+\quad [y+(t-1)z]-(y+2z)=(t-3)z=0.</div>
+<p id="zh-block-32">每一步都可以撤销。例如把第二行减去的 <span class="math" data-tex="2R_1">2R_1</span> 加回去，就恢复原方程。因此消元前后解集相同。最终得到上三角方程组：</p>
+<div class="math-display" id="zh-block-33" data-tex="T_t\begin{bmatrix}x\\y\\z\end{bmatrix}=0,\qquad
+T_t=\begin{bmatrix}1&amp;1&amp;1\\0&amp;1&amp;2\\0&amp;0&amp;t-3\end{bmatrix},
+\qquad
+\begin{cases}x+y+z=0,\\y+2z=0,\\(t-3)z=0.\end{cases}">T_t\begin{bmatrix}x\\y\\z\end{bmatrix}=0,\qquad
+T_t=\begin{bmatrix}1&amp;1&amp;1\\0&amp;1&amp;2\\0&amp;0&amp;t-3\end{bmatrix},
+\qquad
+\begin{cases}x+y+z=0,\\y+2z=0,\\(t-3)z=0.\end{cases}</div>
+<figure id="zh-block-34"><a href="../assets/blog/eigen-gaussian-elimination.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-gaussian-elimination.svg" alt="图2　逐列消元与最后一个主元" width="2000" height="582"></a><figcaption>图2　三维方程组的消元过程。蓝色格子标出当前用于消元的主元，灰色格子标出已经消去的元素；最后的橙色格子为 <span class="math" data-tex="t-3">t-3</span>。它是否为零，决定第三行能否确定 <span class="math" data-tex="z">z</span>。图中 <span class="math" data-tex="R_i">R_i</span> 表示第 <span class="math" data-tex="i">i</span> 行，箭头上给出对应行操作。</figcaption></figure>
+<p id="zh-block-35">现在从最后一行向上求解，这个过程称为<strong>回代</strong>。</p>
+<ul class="post-list"><li id="zh-item-36-0"><p id="zh-item-36-0-block-0"><strong>当 <span class="math" data-tex="t\ne3">t\ne3</span> 时：</strong> 第三行给出 <span class="math" data-tex="z=0">z=0</span>，第二行随后给出 <span class="math" data-tex="y=0">y=0</span>，第一行给出 <span class="math" data-tex="x=0">x=0</span>。三个主元都非零，只有零解。</p></li><li id="zh-item-36-1"><p id="zh-item-36-1-block-0"><strong>当 <span class="math" data-tex="t=3">t=3</span> 时：</strong> 第三行变成 <span class="math" data-tex="0=0">0=0</span>，不再约束 <span class="math" data-tex="z">z</span>。于是可以任选 <span class="math" data-tex="z=s">z=s</span>，第二行给出 <span class="math" data-tex="y=-2s">y=-2s</span>，第一行给出 <span class="math" data-tex="x=s">x=s</span>。全部解为</p><div class="math-display" id="zh-item-36-1-block-1" data-tex="v=s\begin{bmatrix}1\\-2\\1\end{bmatrix},\qquad s\in\mathbb R.">v=s\begin{bmatrix}1\\-2\\1\end{bmatrix},\qquad s\in\mathbb R.</div><p id="zh-item-36-1-block-2">其中 <span class="math" data-tex="s\ne0">s\ne0</span> 就给出非零解。这里 <span class="math" data-tex="z">z</span> 称为<strong>自由变量</strong>；这些解组成一条过原点的直线，即 <span class="math" data-tex="M_3">M_3</span> 的<strong>零空间</strong>。一般地，矩阵 <span class="math" data-tex="M">M</span> 的零空间就是所有满足 <span class="math" data-tex="Mv=0">Mv=0</span> 的向量的集合。</p></li></ul>
+<p id="zh-block-37">图3画出 <span class="math" data-tex="t=3">t=3</span> 时的零空间。取 <span class="math" data-tex="s=-1,0,1">s=-1,0,1</span> 分别得到 <span class="math" data-tex="(-1,2,-1)^{\mathsf T}">(-1,2,-1)^{\mathsf T}</span>、<span class="math" data-tex="(0,0,0)^{\mathsf T}">(0,0,0)^{\mathsf T}</span>、<span class="math" data-tex="(1,-2,1)^{\mathsf T}">(1,-2,1)^{\mathsf T}</span>。让 <span class="math" data-tex="s">s</span> 连续变化，就得到整条直线。直线上的点都是输入向量，它们经过 <span class="math" data-tex="M_3">M_3</span> 后全部变成零向量。</p>
+<figure id="zh-block-38"><a href="../assets/blog/eigen-nullspace-pivots.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-nullspace-pivots.svg" alt="图3　矩阵M₃的零空间" width="2000" height="1939"></a><figcaption>图3　<span class="math" data-tex="M_3">M_3</span> 的零空间为直线 <span class="math" data-tex="v=s(1,-2,1)^{\mathsf T}">v=s(1,-2,1)^{\mathsf T}</span>。三个点对应 <span class="math" data-tex="s=-1,0,1">s=-1,0,1</span>，每个点表示一个满足 <span class="math" data-tex="M_3v=0">M_3v=0</span> 的输入向量。图中仅画直线的一段，端部箭头表示继续延伸。</figcaption></figure>
+<p id="zh-block-39">上面的非零解出现在最后一个主元 <span class="math" data-tex="t-3">t-3</span> 消失时。这个条件也可以通过行列式表达。本例使用的“一行减去另一行的倍数”保持行列式不变，因此</p>
+<div class="math-display" id="zh-block-40" data-tex="\begin{aligned}
+\det M_t=\det T_t
+&amp;=\begin{vmatrix}1&amp;1&amp;1\\0&amp;1&amp;2\\0&amp;0&amp;t-3\end{vmatrix}\\
+&amp;=1\begin{vmatrix}1&amp;2\\0&amp;t-3\end{vmatrix}
+=1\times1\times(t-3).
+\end{aligned}">\begin{aligned}
+\det M_t=\det T_t
+&amp;=\begin{vmatrix}1&amp;1&amp;1\\0&amp;1&amp;2\\0&amp;0&amp;t-3\end{vmatrix}\\
+&amp;=1\begin{vmatrix}1&amp;2\\0&amp;t-3\end{vmatrix}
+=1\times1\times(t-3).
+\end{aligned}</div>
+<p id="zh-block-41">这里沿第一列展开，两项因系数为零而消失；继续展开剩下的二维行列式，就得到三个对角元的乘积。对任意上三角矩阵，同样逐列展开即可得到这一结果。</p>
+<p id="zh-block-42">行操作保持行列式的原因也可以直接写出。用 <span class="math" data-tex="R_2-2R_1">R_2-2R_1</span> 替换第二行时，行列式对第二行的线性性给出</p>
+<div class="math-display" id="zh-block-43" data-tex="\begin{aligned}
+\det(R_1,R_2-2R_1,R_3)
+&amp;=\det(R_1,R_2,R_3)-2\det(R_1,R_1,R_3)\\
+&amp;=\det(R_1,R_2,R_3).
+\end{aligned}">\begin{aligned}
+\det(R_1,R_2-2R_1,R_3)
+&amp;=\det(R_1,R_2,R_3)-2\det(R_1,R_1,R_3)\\
+&amp;=\det(R_1,R_2,R_3).
+\end{aligned}</div>
+<p id="zh-block-44">最后一步用了“两行相同的行列式为零”：交换这两行既不改变矩阵，又使行列式变号，所以它只能等于零。</p>
+<p id="zh-block-45">于是，<span class="math" data-tex="t=3">t=3</span> 同时意味着最后一个主元消失、方程出现非零解，以及 <span class="math" data-tex="\det M_t=0">\det M_t=0</span>。行列式把这个求解条件写成了一个关于参数 <span class="math" data-tex="t">t</span> 的方程。</p>
+<p id="zh-block-46">对 <span class="math" data-tex="n\times n">n\times n</span> 方阵，消元仍然逐列进行。当前主元位置为零而下面有非零元素时，交换两行就能继续；交换只改变行列式的符号，不改变它是否为零。如果这一列在剩余行中全部为零，就继续到后面的列寻找主元。消元后，每个非零行都有一个主元，代表一条独立的方程约束。主元的总数称为矩阵的<strong>秩</strong>，记作 <span class="math" data-tex="r=\operatorname{rank}(M)">r=\operatorname{rank}(M)</span>；它也等于矩阵中线性无关列向量的最大个数。对 <span class="math" data-tex="n\times n">n\times n</span> 方阵，<span class="math" data-tex="r=n">r=n</span> 称为<strong>满秩</strong>，<span class="math" data-tex="r&lt;n">r&lt;n</span> 称为<strong>秩亏</strong>。在刚才的例子中，<span class="math" data-tex="t\ne3">t\ne3</span> 时有三个主元，<span class="math" data-tex="\operatorname{rank}(M_t)=3">\operatorname{rank}(M_t)=3</span>；<span class="math" data-tex="t=3">t=3</span> 时只有两个主元，<span class="math" data-tex="\operatorname{rank}(M_3)=2">\operatorname{rank}(M_3)=2</span>。两种阶梯形结构如图4所示<span class="citation-group">[<a class="citation" href="#zh-ref-2" aria-label="Reference 2">2</a>, §3.2]</span>：</p>
+<figure id="zh-block-47"><a href="../assets/blog/eigen-rank-cases.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-rank-cases.svg" alt="图4　主元齐全与存在自由变量的阶梯形结构" width="2000" height="991"></a><figcaption>图4　用五阶矩阵示意一般 <span class="math" data-tex="n">n</span> 阶方阵的两种情形。蓝色圆点为非零主元，星号可取任意值，包括零。(a) 每列都有主元，回代确定所有分量为零。(b) 示例有 <span class="math" data-tex="r=3">r=3</span> 个主元，橙色的第2、4列没有主元，对应自由变量 <span class="math" data-tex="v_2,v_4">v_2,v_4</span>；底部有 <span class="math" data-tex="n-r=2">n-r=2</span> 条零行。自由变量列可以穿插在主元列之间。两图中具体星号取值不影响标出的主元数。</figcaption></figure>
+<ul class="post-list"><li id="zh-item-48-0"><p id="zh-item-48-0-block-0"><strong>有 <span class="math" data-tex="n">n</span> 个主元：</strong> 阶梯形方阵的对角元全部非零，行列式非零。从最后一行往上回代，每个分量依次被确定为零。还可以把各主元除成 <span class="math" data-tex="1">1</span>，从最后一个主元开始消去其上方的元素，逐步将整个矩阵化成单位矩阵 <span class="math" data-tex="I">I</span>。</p></li><li id="zh-item-48-1"><p id="zh-item-48-1-block-0"><strong>只有 <span class="math" data-tex="r&lt;n">r&lt;n</span> 个主元：</strong> 最后有 <span class="math" data-tex="n-r">n-r</span> 条 <span class="math" data-tex="0=0">0=0</span> 的零行，因此行列式为零。还有 <span class="math" data-tex="n-r">n-r</span> 个自由变量，可以给其中一个取值 <span class="math" data-tex="1">1</span>、其余自由变量取值 <span class="math" data-tex="0">0</span>，再回代确定主元对应的分量，得到非零解。零空间的维数就是 <span class="math" data-tex="n-r">n-r</span>；图3是 <span class="math" data-tex="n=3,r=2">n=3,r=2</span> 的一维情形。非零解已说明原矩阵不可逆。</p></li></ul>
+<p id="zh-block-49">用 <span class="math" data-tex="\ker M">\ker M</span> 表示零空间，主元数与自由变量数的关系可以写成</p>
+<div class="math-display" id="zh-block-50" data-tex="\underbrace{\operatorname{rank}(M)}_{\text{主元数}}+
+\underbrace{\dim\ker M}_{\text{自由变量数}}=n.">\underbrace{\operatorname{rank}(M)}_{\text{主元数}}+
+\underbrace{\dim\ker M}_{\text{自由变量数}}=n.</div>
+<p id="zh-block-51">满秩时，把 <span class="math" data-tex="M">M</span> 化成 <span class="math" data-tex="I">I</span> 的全部可逆行操作合记为 <span class="math" data-tex="E">E</span>，便有 <span class="math" data-tex="EM=I">EM=I</span>；由 <span class="math" data-tex="M=E^{-1}">M=E^{-1}</span> 得到 <span class="math" data-tex="M^{-1}=E">M^{-1}=E</span>。因此，结合前面的非零解与行列式条件，对有限维方阵有</p>
+<div class="math-display" id="zh-block-52" data-tex="Mv=0\text{ 有非零解}
+\quad\Longleftrightarrow\quad M\text{ 不可逆}
+\quad\Longleftrightarrow\quad\det M=0.">Mv=0\text{ 有非零解}
+\quad\Longleftrightarrow\quad M\text{ 不可逆}
+\quad\Longleftrightarrow\quad\det M=0.</div>
+<h3 id="zh-block-53">2.3 回到最初的本征方程</h3>
+<p id="zh-block-54">令 <span class="math" data-tex="M=A-\lambda I">M=A-\lambda I</span>，寻找非零本征向量的条件便是</p>
+<div class="math-display" id="zh-block-55" data-tex="\det(A-\lambda I)=0.\tag{3}">\det(A-\lambda I)=0.\tag{3}</div>
+<p id="zh-block-56">对 <span class="math" data-tex="A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}">A=\begin{bmatrix}1&amp;1\\0&amp;2\end{bmatrix}</span>，把 <span class="math" data-tex="\lambda">\lambda</span> 从对角线上减掉再展开：</p>
+<div class="math-display" id="zh-block-57" data-tex="\det\begin{bmatrix}1-\lambda&amp;1\\0&amp;2-\lambda\end{bmatrix}=(1-\lambda)(2-\lambda)-1\cdot0=(1-\lambda)(2-\lambda).">\det\begin{bmatrix}1-\lambda&amp;1\\0&amp;2-\lambda\end{bmatrix}=(1-\lambda)(2-\lambda)-1\cdot0=(1-\lambda)(2-\lambda).</div>
+<p id="zh-block-58">令它为零，得到两个根</p>
+<div class="math-display" id="zh-block-59" data-tex="\lambda_1=1,\qquad \lambda_2=2.">\lambda_1=1,\qquad \lambda_2=2.</div>
+<p id="zh-block-60">这与2.1节直接解方程得到的结果一致。对应的本征向量取为</p>
+<div class="math-display" id="zh-block-61" data-tex="x_1=\begin{bmatrix}1\\0\end{bmatrix},\qquad
+x_2=\begin{bmatrix}1\\1\end{bmatrix},\qquad
+Ax_1=x_1,\quad Ax_2=2x_2.">x_1=\begin{bmatrix}1\\0\end{bmatrix},\qquad
+x_2=\begin{bmatrix}1\\1\end{bmatrix},\qquad
+Ax_1=x_1,\quad Ax_2=2x_2.</div>
+<h2 id="zh-block-62">3. 本征分解与换基</h2>
+<h3 id="zh-block-63">3.1 沿本征方向分解向量</h3>
+<p id="zh-block-64">已知 <span class="math" data-tex="A">A</span> 对本征向量的作用，就可以沿本征基分解一个向量，将各分量乘以对应本征值，再组合回来。第一节中的 <span class="math" data-tex="e_2=(0,1)^{\mathsf T}">e_2=(0,1)^{\mathsf T}</span> 经过 <span class="math" data-tex="A">A</span> 后改变了方向。用已求出的两个本征向量 <span class="math" data-tex="x_1=(1,0)^{\mathsf T}">x_1=(1,0)^{\mathsf T}</span>、<span class="math" data-tex="x_2=(1,1)^{\mathsf T}">x_2=(1,1)^{\mathsf T}</span>，可以把它拆成</p>
+<div class="math-display" id="zh-block-65" data-tex="e_2=c_1x_1+c_2x_2.">e_2=c_1x_1+c_2x_2.</div>
+<p id="zh-block-66">代入各向量，逐个比较坐标：</p>
+<div class="math-display" id="zh-block-67" data-tex="\begin{bmatrix}0\\1\end{bmatrix}
+=c_1\begin{bmatrix}1\\0\end{bmatrix}
++c_2\begin{bmatrix}1\\1\end{bmatrix}
+=\begin{bmatrix}c_1+c_2\\c_2\end{bmatrix}
+\quad\Longrightarrow\quad
+\begin{cases}c_1+c_2=0,\\c_2=1.\end{cases}">\begin{bmatrix}0\\1\end{bmatrix}
+=c_1\begin{bmatrix}1\\0\end{bmatrix}
++c_2\begin{bmatrix}1\\1\end{bmatrix}
+=\begin{bmatrix}c_1+c_2\\c_2\end{bmatrix}
+\quad\Longrightarrow\quad
+\begin{cases}c_1+c_2=0,\\c_2=1.\end{cases}</div>
+<p id="zh-block-68">所以 <span class="math" data-tex="c_1=-1,c_2=1">c_1=-1,c_2=1</span>，即 <span class="math" data-tex="e_2=-x_1+x_2">e_2=-x_1+x_2</span>。矩阵作用于这个和时，可以分别作用于两个分量。由于 <span class="math" data-tex="Ax_1=x_1">Ax_1=x_1</span>、<span class="math" data-tex="Ax_2=2x_2">Ax_2=2x_2</span>，</p>
+<div class="math-display" id="zh-block-69" data-tex="\begin{aligned}
+Ae_2&amp;=A(-x_1+x_2)=-Ax_1+Ax_2\\
+&amp;=-x_1+2x_2
+=\begin{bmatrix}-1\\0\end{bmatrix}+\begin{bmatrix}2\\2\end{bmatrix}
+=\begin{bmatrix}1\\2\end{bmatrix}.
+\end{aligned}">\begin{aligned}
+Ae_2&amp;=A(-x_1+x_2)=-Ax_1+Ax_2\\
+&amp;=-x_1+2x_2
+=\begin{bmatrix}-1\\0\end{bmatrix}+\begin{bmatrix}2\\2\end{bmatrix}
+=\begin{bmatrix}1\\2\end{bmatrix}.
+\end{aligned}</div>
+<p id="zh-block-70">结果与直接相乘相同。图5中，沿 <span class="math" data-tex="x_1">x_1</span> 的分量保持不变，沿 <span class="math" data-tex="x_2">x_2</span> 的分量加倍；两个分量相加后，整个向量的方向随之改变。</p>
+<figure id="zh-block-71"><a href="../assets/blog/eigen-eigen-directions.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-eigen-directions.svg" alt="图5　本征坐标下的向量分解与伸缩" width="2000" height="1435"></a><figcaption>图5　<span class="math" data-tex="e_2=-x_1+x_2">e_2=-x_1+x_2</span>：从原点沿蓝色箭头走 <span class="math" data-tex="-x_1">-x_1</span>，再沿橙色虚线箭头走 <span class="math" data-tex="x_2">x_2</span>，到达 <span class="math" data-tex="e_2">e_2</span>。作用 <span class="math" data-tex="A">A</span> 后，沿 <span class="math" data-tex="x_1">x_1</span> 的分量不变，沿 <span class="math" data-tex="x_2">x_2</span> 的分量加倍，沿橙色实线箭头再走一个 <span class="math" data-tex="x_2">x_2</span>，到达 <span class="math" data-tex="Ae_2">Ae_2</span>。黑色箭头表示两个合成向量，点线标出本征方向。</figcaption></figure>
+<h3 id="zh-block-72">3.2 将三个步骤写成本征分解</h3>
+<p id="zh-block-73">把两个本征向量排成矩阵的列，并把分解系数记为列向量 <span class="math" data-tex="c">c</span>：</p>
+<div class="math-display" id="zh-block-74" data-tex="X=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix},\qquad
+c=\begin{bmatrix}c_1\\c_2\end{bmatrix},\qquad
+v=c_1x_1+c_2x_2=Xc.">X=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix},\qquad
+c=\begin{bmatrix}c_1\\c_2\end{bmatrix},\qquad
+v=c_1x_1+c_2x_2=Xc.</div>
+<p id="zh-block-75">本例中</p>
+<div class="math-display" id="zh-block-76" data-tex="X^{-1}=\begin{bmatrix}1&amp;-1\\0&amp;1\end{bmatrix},\qquad
+XX^{-1}=X^{-1}X=I.">X^{-1}=\begin{bmatrix}1&amp;-1\\0&amp;1\end{bmatrix},\qquad
+XX^{-1}=X^{-1}X=I.</div>
+<p id="zh-block-77">因此，对任意向量 <span class="math" data-tex="v">v</span>，前面的三个步骤可以写成：</p>
+<ul class="post-list"><li id="zh-item-78-0"><p id="zh-item-78-0-block-0"><strong>求分解系数：</strong> <span class="math" data-tex="c=X^{-1}v">c=X^{-1}v</span>。</p></li><li id="zh-item-78-1"><p id="zh-item-78-1-block-0"><strong>各系数乘以本征值：</strong> <span class="math" data-tex="c&#x27;=\Lambda c">c&#x27;=\Lambda c</span>，其中 <span class="math" data-tex="\Lambda=\operatorname{diag}(1,2)">\Lambda=\operatorname{diag}(1,2)</span>。</p></li><li id="zh-item-78-2"><p id="zh-item-78-2-block-0"><strong>组合回来：</strong> <span class="math" data-tex="Av=c_1\lambda_1x_1+c_2\lambda_2x_2=Xc&#x27;">Av=c_1\lambda_1x_1+c_2\lambda_2x_2=Xc&#x27;</span>。</p></li></ul>
+<p id="zh-block-79">把三步连起来，就有</p>
+<div class="math-display" id="zh-block-80" data-tex="Av=Xc&#x27;=X\Lambda c=X\Lambda X^{-1}v.\tag{4}">Av=Xc&#x27;=X\Lambda c=X\Lambda X^{-1}v.\tag{4}</div>
+<p id="zh-block-81">这个等式对任意向量 <span class="math" data-tex="v">v</span> 都成立，因此得到<strong>本征分解</strong><span class="citation-group">[<a class="citation" href="#zh-ref-1" aria-label="Reference 1">1</a>, §6.2]</span>：</p>
+<div class="math-display" id="zh-block-82" data-tex="A=X\Lambda X^{-1}.\tag{5}">A=X\Lambda X^{-1}.\tag{5}</div>
+<p id="zh-block-83">矩阵乘法从右向左作用：<span class="math" data-tex="X^{-1}">X^{-1}</span> 求系数，<span class="math" data-tex="\Lambda">\Lambda</span> 分别缩放，<span class="math" data-tex="X">X</span> 组合向量。也可以用本征方程作一个简短核对：<span class="math" data-tex="AX">AX</span> 的两列是 <span class="math" data-tex="Ax_1=x_1">Ax_1=x_1</span>、<span class="math" data-tex="Ax_2=2x_2">Ax_2=2x_2</span>，因此 <span class="math" data-tex="AX=X\Lambda">AX=X\Lambda</span>，与式 (5) 一致。</p>
+<p id="zh-block-84">将式 (5) 左乘 <span class="math" data-tex="X^{-1}">X^{-1}</span>、右乘 <span class="math" data-tex="X">X</span>，得到 <span class="math" data-tex="X^{-1}AX=\Lambda">X^{-1}AX=\Lambda</span>。这说明同一个变换在本征基下由对角矩阵表示，各坐标独立伸缩；这个过程称为<strong>对角化</strong>。</p>
+<h2 id="zh-block-85">4. 本征分解的存在条件</h2>
+<h3 id="zh-block-86">4.1 一组能当坐标的本征方向</h3>
+<p id="zh-block-87">第3节把 <span class="math" data-tex="Av=X\Lambda X^{-1}v">Av=X\Lambda X^{-1}v</span> 建立在使用 <span class="math" data-tex="X^{-1}">X^{-1}</span> 求系数之上。<span class="math" data-tex="X">X</span> 的两列是本征向量，它有没有逆矩阵，取决于这两个方向能否张成整个平面。</p>
+<p id="zh-block-88">由3.2节的 <span class="math" data-tex="c=X^{-1}v">c=X^{-1}v</span>，对 <span class="math" data-tex="v=(a,b)^{\mathsf T}">v=(a,b)^{\mathsf T}</span> 有 <span class="math" data-tex="c=(a-b,b)^{\mathsf T}">c=(a-b,b)^{\mathsf T}</span>，因此</p>
+<div class="math-display" id="zh-block-89" data-tex="v=(a-b)x_1+bx_2,\qquad x_1=\begin{bmatrix}1\\0\end{bmatrix},\quad x_2=\begin{bmatrix}1\\1\end{bmatrix}.">v=(a-b)x_1+bx_2,\qquad x_1=\begin{bmatrix}1\\0\end{bmatrix},\quad x_2=\begin{bmatrix}1\\1\end{bmatrix}.</div>
+<p id="zh-block-90"><span class="math" data-tex="a,b">a,b</span> 任意时系数 <span class="math" data-tex="a-b">a-b</span> 与 <span class="math" data-tex="b">b</span> 也任意，所以 <span class="math" data-tex="x_1,x_2">x_1,x_2</span> 的组合能到达平面上每一个点。它们不重合，合起来是平面的<strong>一组基</strong>。</p>
+<p id="zh-block-91">换两个共线的方向作对照：</p>
+<div class="math-display" id="zh-block-92" data-tex="y_1=\begin{bmatrix}1\\0\end{bmatrix},\qquad y_2=\begin{bmatrix}2\\0\end{bmatrix}=2y_1.">y_1=\begin{bmatrix}1\\0\end{bmatrix},\qquad y_2=\begin{bmatrix}2\\0\end{bmatrix}=2y_1.</div>
+<p id="zh-block-93">任意组合 <span class="math" data-tex="c_1y_1+c_2y_2=(c_1+2c_2,0)^{\mathsf T}">c_1y_1+c_2y_2=(c_1+2c_2,0)^{\mathsf T}</span> 的第二坐标始终为零，无论 <span class="math" data-tex="c_1,c_2">c_1,c_2</span> 怎样选都到不了 <span class="math" data-tex="e_2=(0,1)^{\mathsf T}">e_2=(0,1)^{\mathsf T}</span>。这两个方向只张成 <span class="math" data-tex="x">x</span> 轴，数量上是两个向量，方向上只有一个。</p>
+<p id="zh-block-94">区别也能写成系数方程。若</p>
+<div class="math-display" id="zh-block-95" data-tex="c_1x_1+c_2x_2=\begin{bmatrix}c_1+c_2\\c_2\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix},">c_1x_1+c_2x_2=\begin{bmatrix}c_1+c_2\\c_2\end{bmatrix}=\begin{bmatrix}0\\0\end{bmatrix},</div>
+<p id="zh-block-96">第二个分量先给出 <span class="math" data-tex="c_2=0">c_2=0</span>，代回第一个分量得 <span class="math" data-tex="c_1=0">c_1=0</span>。只有全零系数才能组合出零向量，这样的 <span class="math" data-tex="x_1,x_2">x_1,x_2</span> 称为<strong>线性无关</strong>。对 <span class="math" data-tex="y_1,y_2">y_1,y_2</span>，方程</p>
+<div class="math-display" id="zh-block-97" data-tex="c_1y_1+c_2y_2=(c_1+2c_2,0)^{\mathsf T}=(0,0)^{\mathsf T}">c_1y_1+c_2y_2=(c_1+2c_2,0)^{\mathsf T}=(0,0)^{\mathsf T}</div>
+<p id="zh-block-98">有非零解：取 <span class="math" data-tex="c_2=1">c_2=1</span> 便有 <span class="math" data-tex="c_1=-2">c_1=-2</span>，所以它们是<strong>线性相关</strong>的。</p>
+<p id="zh-block-99">把本例的本征向量按列排成</p>
+<div class="math-display" id="zh-block-100" data-tex="X=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix},">X=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix},</div>
+<p id="zh-block-101">线性无关正是这个方阵可逆的条件。2.2节把秩定义为主元数，也就是线性无关列向量的最大个数；这里两列无关，<span class="math" data-tex="\operatorname{rank}X=2">\operatorname{rank}X=2</span>。二维时行列式还有面积的含义：<span class="math" data-tex="|\det X|">|\det X|</span> 是以两列为边的平行四边形面积，本例 <span class="math" data-tex="\det X=1">\det X=1</span>；两列共线时平行四边形退化成线段，面积为零，矩阵不可逆。于是对 <span class="math" data-tex="n\times n">n\times n</span> 方阵，下面四个说法互相等价：</p>
+<div class="math-display" id="zh-block-102" data-tex="n\text{ 个独立本征向量}\quad\Longleftrightarrow\quad \operatorname{rank}X=n\quad\Longleftrightarrow\quad \det X\ne0\quad\Longleftrightarrow\quad X\text{ 可逆}.">n\text{ 个独立本征向量}\quad\Longleftrightarrow\quad \operatorname{rank}X=n\quad\Longleftrightarrow\quad \det X\ne0\quad\Longleftrightarrow\quad X\text{ 可逆}.</div>
+<p id="zh-block-103">只要 <span class="math" data-tex="X">X</span> 可逆，式 (5) 的写法就成立。图6对比了这两种情形。</p>
+<figure id="zh-block-104"><a href="../assets/blog/eigen-eigenbasis.svg" target="_blank" rel="noopener" class="figure-link"><img src="../assets/blog/eigen-eigenbasis.svg" alt="图6　独立方向与共线方向的对比" width="2000" height="914"></a><figcaption>图6　(a) <span class="math" data-tex="x_1=(1,0)^{\mathsf T}">x_1=(1,0)^{\mathsf T}</span>、<span class="math" data-tex="x_2=(1,1)^{\mathsf T}">x_2=(1,1)^{\mathsf T}</span> 不共线，任意 <span class="math" data-tex="v">v</span> 都能写成 <span class="math" data-tex="v=c_1x_1+c_2x_2">v=c_1x_1+c_2x_2</span>，浅色平行四边形示意两方向的组合范围，<span class="math" data-tex="v">v</span> 的黑色箭头与沿 <span class="math" data-tex="x_1">x_1</span>、<span class="math" data-tex="x_2">x_2</span> 的虚线分量。(b) <span class="math" data-tex="y_1=(1,0)^{\mathsf T}">y_1=(1,0)^{\mathsf T}</span>、<span class="math" data-tex="y_2=2y_1">y_2=2y_1</span> 落在同一条直线上，组合只能停在 <span class="math" data-tex="x">x</span> 轴，灰色虚箭头 <span class="math" data-tex="e_2">e_2</span> 不在其中。</figcaption></figure>
+<h3 id="zh-block-105">4.2 不同本征值给出的本征向量独立</h3>
+<p id="zh-block-106">什么时候能保证凑够 <span class="math" data-tex="n">n</span> 个独立本征向量？如果 <span class="math" data-tex="A">A</span> 的 <span class="math" data-tex="n">n</span> 个本征值互不相同，答案总是肯定的。</p>
+<p id="zh-block-107">先看两个本征向量。设</p>
+<div class="math-display" id="zh-block-108" data-tex="Ax_1=\lambda_1x_1,\qquad Ax_2=\lambda_2x_2,\qquad \lambda_1\ne\lambda_2,\qquad x_1\ne0,\ x_2\ne0.">Ax_1=\lambda_1x_1,\qquad Ax_2=\lambda_2x_2,\qquad \lambda_1\ne\lambda_2,\qquad x_1\ne0,\ x_2\ne0.</div>
+<p id="zh-block-109">假设它们有一个等于零的组合</p>
+<div class="math-display" id="zh-block-110" data-tex="c_1x_1+c_2x_2=0.\tag{6}">c_1x_1+c_2x_2=0.\tag{6}</div>
+<p id="zh-block-111">两边左乘 <span class="math" data-tex="A">A</span>，用本征方程把 <span class="math" data-tex="Ax_i">Ax_i</span> 换成 <span class="math" data-tex="\lambda_ix_i">\lambda_ix_i</span>：</p>
+<div class="math-display" id="zh-block-112" data-tex="c_1\lambda_1x_1+c_2\lambda_2x_2=0.">c_1\lambda_1x_1+c_2\lambda_2x_2=0.</div>
+<p id="zh-block-113">再把式 (6) 乘 <span class="math" data-tex="\lambda_1">\lambda_1</span>：</p>
+<div class="math-display" id="zh-block-114" data-tex="c_1\lambda_1x_1+c_2\lambda_1x_2=0.">c_1\lambda_1x_1+c_2\lambda_1x_2=0.</div>
+<p id="zh-block-115">两式相减，<span class="math" data-tex="x_1">x_1</span> 项抵消：</p>
+<div class="math-display" id="zh-block-116" data-tex="c_2(\lambda_1-\lambda_2)x_2=0.">c_2(\lambda_1-\lambda_2)x_2=0.</div>
+<p id="zh-block-117">因 <span class="math" data-tex="\lambda_1\ne\lambda_2">\lambda_1\ne\lambda_2</span> 且 <span class="math" data-tex="x_2\ne0">x_2\ne0</span>，只有 <span class="math" data-tex="c_2=0">c_2=0</span>。代回式 (6) 得 <span class="math" data-tex="c_1x_1=0">c_1x_1=0</span>，再由 <span class="math" data-tex="x_1\ne0">x_1\ne0</span> 得 <span class="math" data-tex="c_1=0">c_1=0</span>。所以 <span class="math" data-tex="x_1,x_2">x_1,x_2</span> 线性无关。</p>
+<p id="zh-block-118"><span class="math" data-tex="n">n</span> 个向量可以用同样的相减作法归纳。设 <span class="math" data-tex="\lambda_1,\dots,\lambda_n">\lambda_1,\dots,\lambda_n</span> 两两不同，且 <span class="math" data-tex="c_1x_1+\cdots+c_nx_n=0">c_1x_1+\cdots+c_nx_n=0</span>。两边左乘 <span class="math" data-tex="A">A</span>，并把原式乘 <span class="math" data-tex="\lambda_n">\lambda_n</span>：</p>
+<div class="math-display" id="zh-block-119" data-tex="\sum_{i=1}^n c_i\lambda_ix_i=0,\qquad \sum_{i=1}^n c_i\lambda_nx_i=0.">\sum_{i=1}^n c_i\lambda_ix_i=0,\qquad \sum_{i=1}^n c_i\lambda_nx_i=0.</div>
+<p id="zh-block-120">相减后含 <span class="math" data-tex="x_n">x_n</span> 的项为零：</p>
+<div class="math-display" id="zh-block-121" data-tex="\sum_{i=1}^{n-1} c_i(\lambda_i-\lambda_n)x_i=0.\tag{7}">\sum_{i=1}^{n-1} c_i(\lambda_i-\lambda_n)x_i=0.\tag{7}</div>
+<p id="zh-block-122">式 (7) 是前 <span class="math" data-tex="n-1">n-1</span> 个向量的零组合，对应的本征值仍两两不同。对 <span class="math" data-tex="n">n</span> 作归纳：</p>
+<ul class="post-list"><li id="zh-item-123-0"><p id="zh-item-123-0-block-0"><strong>起点：</strong> <span class="math" data-tex="n=1">n=1</span> 时，<span class="math" data-tex="c_1x_1=0">c_1x_1=0</span> 且 <span class="math" data-tex="x_1\ne0">x_1\ne0</span>，所以 <span class="math" data-tex="c_1=0">c_1=0</span>，单个非零向量线性无关。</p></li><li id="zh-item-123-1"><p id="zh-item-123-1-block-0"><strong>归纳假设：</strong> 假设任意 <span class="math" data-tex="n-1">n-1</span> 个互异本征值对应的本征向量线性无关。</p></li><li id="zh-item-123-2"><p id="zh-item-123-2-block-0"><strong>应用到式 (7)：</strong> 前 <span class="math" data-tex="n-1">n-1</span> 个向量线性无关，因此它们在零组合中的每个系数都必须为零：</p><div class="math-display" id="zh-item-123-2-block-1" data-tex="c_i(\lambda_i-\lambda_n)=0,\qquad i=1,\ldots,n-1.">c_i(\lambda_i-\lambda_n)=0,\qquad i=1,\ldots,n-1.</div><p id="zh-item-123-2-block-2">由于 <span class="math" data-tex="\lambda_i\ne\lambda_n">\lambda_i\ne\lambda_n</span>，得到 <span class="math" data-tex="c_1=\cdots=c_{n-1}=0">c_1=\cdots=c_{n-1}=0</span>。</p></li><li id="zh-item-123-3"><p id="zh-item-123-3-block-0"><strong>求最后一个系数：</strong> 将这些结果代回原式，只剩 <span class="math" data-tex="c_nx_n=0">c_nx_n=0</span>。由 <span class="math" data-tex="x_n\ne0">x_n\ne0</span> 得到 <span class="math" data-tex="c_n=0">c_n=0</span>。</p></li></ul>
+<p id="zh-block-124">因此，只有全部系数为零时，这 <span class="math" data-tex="n">n</span> 个向量的组合才为零。它们线性无关，组成的方阵 <span class="math" data-tex="X">X</span> 可逆<span class="citation-group">[<a class="citation" href="#zh-ref-1" aria-label="Reference 1">1</a>, §6.2]</span><span class="citation-group">[<a class="citation" href="#zh-ref-2" aria-label="Reference 2">2</a>, §7.1.1]</span>。</p>
+<p id="zh-block-125">本征值互不相同只是充分条件。本征值出现重复时，仍有矩阵可以对角化。</p>
+<h3 id="zh-block-126">4.3 本征值重复时，本征向量还够吗？</h3>
+<p id="zh-block-127">考虑两个矩阵：</p>
+<div class="math-display" id="zh-block-128" data-tex="I_2=\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix},\qquad
+J=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix}.">I_2=\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix},\qquad
+J=\begin{bmatrix}1&amp;1\\0&amp;1\end{bmatrix}.</div>
+<p id="zh-block-129">它们的特征多项式相同：</p>
+<div class="math-display" id="zh-block-130" data-tex="\begin{aligned}
+\det(I_2-\lambda I_2)&amp;=(1-\lambda)^2,\\
+\det(J-\lambda I_2)&amp;=\begin{vmatrix}1-\lambda&amp;1\\0&amp;1-\lambda\end{vmatrix}=(1-\lambda)^2.
+\end{aligned}">\begin{aligned}
+\det(I_2-\lambda I_2)&amp;=(1-\lambda)^2,\\
+\det(J-\lambda I_2)&amp;=\begin{vmatrix}1-\lambda&amp;1\\0&amp;1-\lambda\end{vmatrix}=(1-\lambda)^2.
+\end{aligned}</div>
+<p id="zh-block-131">两者都只有本征值 <span class="math" data-tex="\lambda=1">\lambda=1</span>，这个根重复两次。能否对角化，还要看能否找到两个独立本征向量。令 <span class="math" data-tex="v=(x,y)^{\mathsf T}">v=(x,y)^{\mathsf T}</span>，将 <span class="math" data-tex="\lambda=1">\lambda=1</span> 分别代回本征方程：</p>
+<ul class="post-list"><li id="zh-item-132-0"><p id="zh-item-132-0-block-0"><strong>对 <span class="math" data-tex="I_2">I_2</span>：</strong></p><div class="math-display" id="zh-item-132-0-block-1" data-tex="(I_2-I_2)v=\begin{bmatrix}0&amp;0\\0&amp;0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=0.">(I_2-I_2)v=\begin{bmatrix}0&amp;0\\0&amp;0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=0.</div><p id="zh-item-132-0-block-2"><span class="math" data-tex="x,y">x,y</span> 都不受限制，零空间是整个平面。任意非零向量都是本征向量，可以选 <span class="math" data-tex="e_1,e_2">e_1,e_2</span> 组成一组基。这时 <span class="math" data-tex="X=I_2">X=I_2</span>，<span class="math" data-tex="\Lambda=I_2">\Lambda=I_2</span>，本征分解成立。</p></li></ul>
+<ul class="post-list"><li id="zh-item-133-0"><p id="zh-item-133-0-block-0"><strong>对 <span class="math" data-tex="J">J</span>：</strong></p><div class="math-display" id="zh-item-133-0-block-1" data-tex="(J-I_2)v=\begin{bmatrix}0&amp;1\\0&amp;0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}y\\0\end{bmatrix}=0.">(J-I_2)v=\begin{bmatrix}0&amp;1\\0&amp;0\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}=\begin{bmatrix}y\\0\end{bmatrix}=0.</div><p id="zh-item-133-0-block-2">方程要求 <span class="math" data-tex="y=0">y=0</span>，<span class="math" data-tex="x">x</span> 自由，零空间只有横轴这一条直线。所有本征向量都共线，无法选出两个独立向量组成平面的基，因此 <span class="math" data-tex="J">J</span> 不能对角化。</p></li></ul>
+<p id="zh-block-134">这里的“不可对角化”意味着不能写成 <span class="math" data-tex="J=X\Lambda X^{-1}">J=X\Lambda X^{-1}</span>，并不意味着求不出本征值和本征向量：上面已经求得 <span class="math" data-tex="\lambda=1">\lambda=1</span>，对应的本征向量为 <span class="math" data-tex="v=t(1,0)^{\mathsf T}">v=t(1,0)^{\mathsf T}</span>（<span class="math" data-tex="t\ne0">t\ne0</span>）。它们有无穷多个，却只有一个独立方向，不足以组成二维空间的基。</p>
+<p id="zh-block-135">所以，<strong>重复本征值本身不妨碍对角化，关键仍是能否凑齐一组本征基。</strong></p>
+<p id="zh-block-136">根在特征多项式中重复的次数称为<strong>代数重数</strong>，这里两个矩阵的 <span class="math" data-tex="\lambda=1">\lambda=1</span> 都有代数重数 <span class="math" data-tex="2">2</span>。对应本征空间的维数称为<strong>几何重数</strong>，对 <span class="math" data-tex="I_2">I_2</span> 是 <span class="math" data-tex="2">2</span>，对 <span class="math" data-tex="J">J</span> 是 <span class="math" data-tex="1">1</span><span class="citation-group">[<a class="citation" href="#zh-ref-2" aria-label="Reference 2">2</a>, §7.1.4]</span>。</p>
+<h3 id="zh-block-137">4.4 总结：到底哪个矩阵要可逆？</h3>
+<p id="zh-block-138">求本征值与作本征分解时，涉及三个不同的矩阵：</p>
+<ul class="post-list"><li id="zh-item-139-0"><p id="zh-item-139-0-block-0"><strong><span class="math" data-tex="A-\lambda I">A-\lambda I</span> 必须不可逆，<span class="math" data-tex="\lambda">\lambda</span> 才是本征值。</strong> 因为本征方程 <span class="math" data-tex="(A-\lambda I)v=0">(A-\lambda I)v=0</span> 需要非零解。若 <span class="math" data-tex="A-\lambda I">A-\lambda I</span> 可逆，左乘它的逆只会得到 <span class="math" data-tex="v=0">v=0</span>。</p></li><li id="zh-item-139-1"><p id="zh-item-139-1-block-0"><strong>本征向量组成的方阵 <span class="math" data-tex="X">X</span> 必须可逆，才能用它完成本征分解。</strong> 因为我们需要通过 <span class="math" data-tex="c=X^{-1}v">c=X^{-1}v</span>，求出任意向量在本征基下的唯一坐标。要求可逆的是列向量组成的矩阵 <span class="math" data-tex="X">X</span>，单个本征向量不谈可逆。</p></li><li id="zh-item-139-2"><p id="zh-item-139-2-block-0"><strong>原矩阵 <span class="math" data-tex="A">A</span> 不要求可逆。</strong> 本征值可以为零，这只会把对应的分量压成零，不妨碍先沿本征基分解、再缩放和组合。例如 <span class="math" data-tex="K=\operatorname{diag}(1,0)">K=\operatorname{diag}(1,0)</span> 满足 <span class="math" data-tex="Ke_1=e_1">Ke_1=e_1</span>、<span class="math" data-tex="Ke_2=0">Ke_2=0</span>，仍有完整本征基 <span class="math" data-tex="e_1,e_2">e_1,e_2</span>。</p></li></ul>
+<p id="zh-block-140">因此，<span class="math" data-tex="J">J</span> 的行列式为 <span class="math" data-tex="1">1</span>，可逆却不能对角化；<span class="math" data-tex="K=\operatorname{diag}(1,0)">K=\operatorname{diag}(1,0)</span> 的行列式为 <span class="math" data-tex="0">0</span>，不可逆，却已经是对角矩阵。</p><section class="references" aria-labelledby="zh-references"><h2 id="zh-references">参考文献</h2><ol><li id="zh-ref-1">G. Strang, <em>Introduction to Linear Algebra</em>, 6th ed. (Wellesley–Cambridge Press, 2023).</li><li id="zh-ref-2">G. H. Golub and C. F. Van Loan, <em>Matrix Computations</em>, 3rd ed. (Johns Hopkins University Press, 1996).</li></ol></section>
+</article></div>
+</main>
+<footer><p>&copy; 2026 Wen Chen.</p></footer>
+</body>
+</html>

@@ -94,7 +94,7 @@ def texts(post: dict, lang: str, headings: bool = False) -> list[str]:
             kind = block['type']
             if kind == 'paragraph':
                 result.append(block['text'][lang])
-            elif kind == 'heading':
+            elif kind in ('heading', 'subheading'):
                 if headings:
                     result.append(block['text'][lang])
             elif kind == 'list':
@@ -160,8 +160,8 @@ def content(post: dict, lang: str) -> str:
                 continue
             kind = block['type']
             block_id = f'{lang}-block-{prefix}' if top else f'{prefix}-block-{index}'
-            if kind in ('paragraph', 'heading'):
-                tag = 'h2' if kind == 'heading' else 'p'
+            if kind in ('paragraph', 'heading', 'subheading'):
+                tag = {'heading': 'h2', 'subheading': 'h3'}.get(kind, 'p')
                 rendered.append(f'<{tag} id="{block_id}">{inline(block["text"][lang], lang, nrefs)}</{tag}>')
             elif kind == 'math':
                 # `tex` is a string, or a {zh, en} pair when the equation carries words (labels, units).
@@ -279,14 +279,70 @@ def dates(post: dict) -> str:
                             ('updated', {'en': 'Updated', 'zh': '最后更新'})]) + '</p>'
 
 
+def tag_links(post: dict, vocabulary: dict, lang: str | None = None) -> str:
+    """Each tag links to the index filtered by that tag; `lang` picks one label, otherwise both are emitted."""
+    items = ''.join(f'<li><a href="index.html?tag={tag}">{esc(vocabulary[tag][lang]) if lang else bilingual(vocabulary[tag])}</a></li>'
+                    for tag in post['tags'])
+    return f'<ul class="post-tags">{items}</ul>'
+
+
+def validate_tags(posts: list[dict], vocabulary: dict) -> None:
+    for key in vocabulary:
+        if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', key):
+            raise ValueError(f'Invalid tag key: {key}')
+    for post in posts:
+        tags = post.get('tags')
+        if not isinstance(tags, list) or not 1 <= len(tags) <= 4 or len(set(tags)) != len(tags):
+            raise ValueError(f'{post["slug"]}: tags must list 1–4 distinct keys')
+        unknown = [tag for tag in tags if tag not in vocabulary]
+        if unknown:
+            raise ValueError(f'{post["slug"]}: tags not in data/blog-index.json: {unknown}')
+
+
 def search_text(post: dict) -> str:
     return esc(' '.join(post[field][lang] for field in ('title', 'description', 'series') for lang in LANGS)
                + ' ' + ' '.join(plain(text) for lang in LANGS for text in texts(post, lang, headings=True)))
 
 
-def listing_page(posts: list[dict]) -> str:
-    config = json.loads((ROOT / 'data/blog-index.json').read_text())
-    validate_languages(config)
+SUBSCRIPT = str.maketrans('0123456789', '₀₁₂₃₄₅₆₇₈₉')
+SUPERSCRIPT = str.maketrans('0123456789T', '⁰¹²³⁴⁵⁶⁷⁸⁹ᵀ')
+GREEK = {'alpha': 'α', 'beta': 'β', 'gamma': 'γ', 'delta': 'δ', 'epsilon': 'ε', 'theta': 'θ', 'lambda': 'λ',
+         'mu': 'μ', 'nu': 'ν', 'pi': 'π', 'sigma': 'σ', 'tau': 'τ', 'phi': 'φ', 'omega': 'ω', 'circ': '°'}
+
+
+def tex_text(tex: str) -> str:
+    """Simple inline TeX as plain characters for card excerpts (the index loads no KaTeX)."""
+    tex = re.sub(r'\\math(?:sf|rm|bf)\s*\{?\s*([A-Za-z])\s*\}?', r'\1', tex)
+    tex = re.sub(r'\\([A-Za-z]+)', lambda m: GREEK.get(m[1], ''), tex)
+    tex = re.sub(r'_\{?(\d+)\}?', lambda m: m[1].translate(SUBSCRIPT), tex)
+    tex = re.sub(r'\^\{?([\dT]+|°)\}?', lambda m: m[1].translate(SUPERSCRIPT), tex)
+    return re.sub(r'[{}]', '', tex)
+
+
+def excerpt(post: dict, lang: str) -> str:
+    """The opening text of the article: leading paragraphs joined across short lead-ins to display equations,
+    ending before the first equation once there is enough text to fill the card."""
+    parts = []
+    for block in post['blocks']:
+        if parts and (block['type'] == 'heading' or (block['type'] == 'math' and sum(map(len, parts)) >= 60)):
+            break
+        if block['type'] != 'paragraph' or not available(block, lang):
+            continue
+        text = CITATION.sub('', block['text'][lang])
+        text = MATH.sub(lambda m: tex_text(m[1]), text)
+        parts.append(re.sub(r'\*\*(.+?)\*\*|\*([^*]+)\*', lambda m: m[1] or m[2], text).strip())
+        if sum(map(len, parts)) >= 160:
+            break
+    joined = re.sub(r'\s+', ' ', ('' if lang == 'zh' else ' ').join(parts)).strip()
+    joined = re.sub(r'\s+([.,;:])', r'\1', joined)  # space left where a citation was removed
+    # A sentence cut off before its equation ends in an ellipsis rather than a dangling colon.
+    if joined and not re.search(r'[。.!?！？]$', joined):
+        joined = re.sub(r'[：:，,]$', '', joined) + '…'
+    return joined or post['description'][lang]
+
+
+def listing_page(posts: list[dict], config: dict) -> str:
+    vocabulary = config['tags']
     limit = config['recent_limit']
     if type(limit) is not int or limit < 1:
         raise ValueError('recent_limit must be a positive integer')
@@ -300,14 +356,15 @@ def listing_page(posts: list[dict]) -> str:
         cards.append(f'''<li class="blog-card" data-search="{search_text(post)}">
 <div class="card-copy"><p class="eyebrow">{bilingual(post['series'])}</p>
 <h3><a href="{slug}.html">{bilingual(post['title'])}</a></h3>
-<p class="card-excerpt">{bilingual({lang: plain(next((block['text'][lang] for block in post['blocks'] if block['type'] == 'paragraph' and available(block, lang)), post['description'][lang])) for lang in LANGS})}</p>
-<div class="card-metadata">{dates(post)}{''.join(f'<div class="lang-{lang}">{metadata(post, lang)}</div>' for lang in LANGS)}</div></div>{thumbnail}</li>''')
+<p class="card-excerpt">{bilingual({lang: excerpt(post, lang) for lang in LANGS})}</p>
+<div class="card-metadata">{dates(post)}{''.join(f'<div class="lang-{lang}">{metadata(post, lang)}</div>' for lang in LANGS)}</div>{tag_links(post, vocabulary)}</div>{thumbnail}</li>''')
     results = []
     for post in sorted(posts, key=lambda p: (p['created'], p['slug']), reverse=True):
         search_fields = ' '.join(
             f'data-text-{lang}="{esc(" ".join([post["title"][lang], post["description"][lang], post["series"][lang], *map(plain, texts(post, lang, headings=True))]))}"'
             for lang in LANGS)
-        results.append(f'<li class="search-result" {search_fields}>'
+        descriptions = ' '.join(f'data-desc-{lang}="{esc(post["description"][lang])}"' for lang in LANGS)
+        results.append(f'<li class="search-result" data-tags="{" ".join(post["tags"])}" {descriptions} {search_fields}>'
                        f'<h3><a href="{post["slug"]}.html">{bilingual(post["title"])}</a></h3>'
                        f'{dates(post)}<p class="search-snippet"></p></li>')
     groups, assigned = [], []
@@ -328,12 +385,16 @@ def listing_page(posts: list[dict]) -> str:
         groups.append(f'<section class="archive-group"><h3>{bilingual(directory["title"])}</h3><ul>{"".join(entries)}</ul></section>')
     if set(assigned) != set(by_slug):
         raise ValueError('Every post must be placed in data/blog-index.json directories')
+    used = {tag for post in posts for tag in post['tags']}
+    chips = ''.join(f'<button type="button" class="tag-chip" data-tag="{tag}" aria-pressed="false">{bilingual(label)}</button>'
+                    for tag, label in vocabulary.items() if tag in used)
     return f'''<div class="blog-index">
 <div class="index-toolbar">
+<div class="tag-filter" role="group" aria-label="Filter by tag / 按标签筛选">{chips}</div>
 <label class="blog-search"><span>{bilingual({'en': 'Search', 'zh': '搜索'})}</span><input id="blog-search" type="search" aria-label="Search posts / 搜索博文" autocomplete="off"></label></div>
 <section id="recent" aria-labelledby="recent-title"><h2 id="recent-title" class="index-heading">Recent</h2>
 <ul class="blog-posts">{''.join(cards)}</ul></section>
-<section id="archived" aria-labelledby="archived-title"><h2 id="archived-title" class="index-heading">Archived</h2>{''.join(groups)}</section>
+<section id="archived" aria-labelledby="archived-title"><h2 id="archived-title" class="index-heading">Series</h2>{''.join(groups)}</section>
 <section id="search-results" aria-labelledby="results-title" hidden>
 <h2 id="results-title" class="index-heading">{bilingual({'en': 'Search results', 'zh': '搜索结果'})}<span id="results-count"></span></h2>
 <ul class="search-results-list">{''.join(results)}</ul></section>
@@ -344,6 +405,9 @@ def listing_page(posts: list[dict]) -> str:
 
 def build_pages() -> dict[Path, str]:
     posts = [json.loads(path.read_text()) for path in sorted((ROOT / 'data/blog').glob('*.json'))]
+    config = json.loads((ROOT / 'data/blog-index.json').read_text())
+    validate_languages(config)
+    validate_tags(posts, config['tags'])
     pages = {}
     for post in posts:
         validate_languages(post)
@@ -365,12 +429,12 @@ def build_pages() -> dict[Path, str]:
             validate_contents_targets(post, lang, article_content)
             versions.append(f'''<div class="post-layout lang-{lang}">{contents(post, lang)}<article class="post lang-{lang}" lang="{'zh-CN' if lang == 'zh' else 'en'}">
 <a class="back-link" href="index.html?lang={lang}">{back}</a>
-<header>{dates(post)}<p class="eyebrow">{esc(post['series'][lang])}</p><h1>{esc(post['title'][lang])}</h1>{metadata(post, lang)}</header>
+<header>{dates(post)}<p class="eyebrow">{esc(post['series'][lang])}</p><h1>{esc(post['title'][lang])}</h1>{metadata(post, lang)}{tag_links(post, config['tags'], lang)}</header>
 {article_content}
 </article></div>''')
         pages[path] = page('\n'.join(versions), {lang: post['title'][lang] + ' | Wen Chen' for lang in LANGS}, post['description'])
     title = {'en': 'Blog | Wen Chen', 'zh': '博客 | 陈文'}
     description = {'en': 'Notes on physics, its history, and the questions behind it.', 'zh': '关于物理、物理史，以及它们背后的问题。'}
-    listing = listing_page(posts)
+    listing = listing_page(posts, config)
     pages[ROOT / 'blog/index.html'] = page(listing, title, description, listing=True)
     return pages

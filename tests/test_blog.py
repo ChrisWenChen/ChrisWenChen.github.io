@@ -162,7 +162,11 @@ class BlogTests(unittest.TestCase):
         self.assertEqual(listing.count('data-search='), 2 * len(posts))
         config = json.loads((ROOT / 'data/blog-index.json').read_text())
         self.assertEqual(config['directories'][0]['posts'][0]['slug'], self.post['slug'])
-        self.assertEqual([d['title']['zh'] for d in config['directories']], ['光学', '量子计算', '量子动力学'])
+        self.assertEqual([d['title']['zh'] for d in config['directories']], ['光学', '矩阵分解'])
+        # Tags filter the result list; every post's tags appear as filter chips and on its card.
+        self.assertIn('data-tag="optics"', listing)
+        self.assertEqual(listing.count('class="search-result" data-tags='), len(posts))
+        self.assertIn('href="index.html?tag=optics"', build_pages()[ROOT / 'blog/early-theories-of-light.html'])
         planned = re.findall(r'<li class="archive-planned">(.*?)</li>', listing)
         planned_expected = sum(1 for d in config['directories'] for e in d['posts']
                                if isinstance(e, dict) and 'slug' not in e)

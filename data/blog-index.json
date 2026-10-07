@@ -1,5 +1,15 @@
 {
   "recent_limit": 4,
+  "tags": {
+    "optics": {
+      "en": "Optics",
+      "zh": "光学"
+    },
+    "linear-algebra": {
+      "en": "Linear Algebra",
+      "zh": "线性代数"
+    }
+  },
   "directories": [
     {
       "title": {
@@ -37,17 +47,48 @@
     },
     {
       "title": {
-        "en": "Quantum Computing",
-        "zh": "量子计算"
+        "en": "Matrix Decompositions",
+        "zh": "矩阵分解"
       },
-      "posts": []
-    },
-    {
-      "title": {
-        "en": "Quantum Dynamics",
-        "zh": "量子动力学"
-      },
-      "posts": []
+      "posts": [
+        {
+          "slug": "eigendecomposition",
+          "title": {
+            "zh": "本征分解：寻找不变方向",
+            "en": "Eigendecomposition: Finding Invariant Directions"
+          }
+        },
+        {
+          "title": {
+            "zh": "从正交方向到矩阵结构",
+            "en": "From Orthogonal Directions to Matrix Structure"
+          }
+        },
+        {
+          "title": {
+            "zh": "奇异值分解：寻找主伸缩方向",
+            "en": "Singular Value Decomposition: Finding Principal Stretching Directions"
+          }
+        },
+        {
+          "title": {
+            "zh": "极分解：分离伸缩与转动",
+            "en": "Polar Decomposition: Separating Stretch and Rotation"
+          }
+        },
+        {
+          "title": {
+            "zh": "QR 与 Schur：正交化与三角化",
+            "en": "QR and Schur: Orthogonalization and Triangularization"
+          }
+        },
+        {
+          "title": {
+            "zh": "消元、线性求解与实际计算",
+            "en": "Elimination, Linear Solvers, and Practical Computation"
+          }
+        }
+      ]
     }
   ]
 }

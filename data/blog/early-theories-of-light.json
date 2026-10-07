@@ -2,6 +2,21 @@
   "slug": "early-theories-of-light",
   "created": "2026-10-03",
   "updated": "2026-10-05",
+  "title": {
+    "zh": "光的早期理论",
+    "en": "Early Theories of Light"
+  },
+  "description": {
+    "zh": "从古代视觉与光学器物出发，经微粒说、波动说与费马原理，到杨氏干涉、菲涅耳衍射与偏振，追踪光的理论如何从光线走向波动。",
+    "en": "From ancient vision and optical devices through corpuscular, wave, and Fermatian accounts to Young’s interference, Fresnel’s diffraction, and polarization, tracing how the theory of light moved from rays to waves."
+  },
+  "series": {
+    "zh": "光学 · 01",
+    "en": "Optics · 01"
+  },
+  "tags": [
+    "optics"
+  ],
   "contents": [
     {
       "target": "block-0",
@@ -32,18 +47,6 @@
       }
     }
   ],
-  "title": {
-    "zh": "光的早期理论",
-    "en": "Early Theories of Light"
-  },
-  "series": {
-    "zh": "光学 · 01",
-    "en": "Optics · 01"
-  },
-  "description": {
-    "zh": "从古代视觉与光学器物出发，经微粒说、波动说与费马原理，到杨氏干涉、菲涅耳衍射与偏振，追踪光的理论如何从光线走向波动。",
-    "en": "From ancient vision and optical devices through corpuscular, wave, and Fermatian accounts to Young’s interference, Fresnel’s diffraction, and polarization, tracing how the theory of light moved from rays to waves."
-  },
   "blocks": [
     {
       "type": "heading",

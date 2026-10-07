@@ -1,0 +1,1195 @@
+{
+  "slug": "eigendecomposition",
+  "created": "2026-10-07",
+  "updated": "2026-10-07",
+  "title": {
+    "zh": "本征分解：寻找不变方向",
+    "en": "Eigendecomposition: Finding Invariant Directions"
+  },
+  "description": {
+    "zh": "从一个二阶矩阵出发，看哪些向量在矩阵作用下保持原方向，并由此定义本征值与本征向量。",
+    "en": "Starting from a 2×2 matrix, we look for the vectors that keep their direction under it and use them to define eigenvalues and eigenvectors."
+  },
+  "series": {
+    "zh": "矩阵分解 · 01",
+    "en": "Matrix Decompositions · 01"
+  },
+  "tags": [
+    "linear-algebra"
+  ],
+  "contents": [
+    {
+      "target": "block-0",
+      "label": {
+        "zh": "1. 本征值与本征向量：定义与几何意义",
+        "en": "1. Eigenvalues and Eigenvectors: Definition and Geometric Meaning"
+      }
+    },
+    {
+      "target": "block-11",
+      "label": {
+        "zh": "2. 本征方程的求解",
+        "en": "2. Solving the Eigenvalue Equation"
+      }
+    },
+    {
+      "target": "block-62",
+      "label": {
+        "zh": "3. 本征分解与换基",
+        "en": "3. Eigendecomposition and Change of Basis"
+      }
+    },
+    {
+      "target": "block-85",
+      "label": {
+        "zh": "4. 本征分解的存在条件",
+        "en": "4. When an Eigendecomposition Exists"
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "text": {
+        "zh": "1. 本征值与本征向量：定义与几何意义",
+        "en": "1. Eigenvalues and Eigenvectors: Definition and Geometric Meaning"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "平面上的矩阵",
+        "en": "Consider the matrix"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "A=\\begin{bmatrix}1&1\\\\0&2\\end{bmatrix}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "作用于平面上的向量。先看三个向量：$e_1=(1,0)^{\\mathsf T}$、$e_2=(0,1)^{\\mathsf T}$、$e_3=(1,1)^{\\mathsf T}$。这里下标按三个例子编号。分别左乘 $A$：",
+        "en": "acting on vectors in the plane. Take three vectors: $e_1=(1,0)^{\\mathsf T}$, $e_2=(0,1)^{\\mathsf T}$, and $e_3=(1,1)^{\\mathsf T}$; the subscripts simply number the three examples. Multiplying each on the left by $A$ gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nAe_1&=\\begin{bmatrix}1&1\\\\0&2\\end{bmatrix}\\begin{bmatrix}1\\\\0\\end{bmatrix}=\\begin{bmatrix}1\\\\0\\end{bmatrix}=e_1,\\\\[6pt]\nAe_2&=\\begin{bmatrix}1&1\\\\0&2\\end{bmatrix}\\begin{bmatrix}0\\\\1\\end{bmatrix}=\\begin{bmatrix}1\\\\2\\end{bmatrix},\\\\[6pt]\nAe_3&=\\begin{bmatrix}1&1\\\\0&2\\end{bmatrix}\\begin{bmatrix}1\\\\1\\end{bmatrix}=\\begin{bmatrix}2\\\\2\\end{bmatrix}=2e_3.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "如图1所示，$e_1$ 保持不动，$e_2$ 的长度和方向都发生变化，$e_3$ 沿原方向拉长两倍。",
+        "en": "As Fig. 1 shows, $e_1$ stays where it is, $e_2$ changes both its length and its direction, and $e_3$ is stretched by a factor of two along its original direction."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/eigen-three-vectors.svg",
+      "alt": {
+        "zh": "图1　三种向量经过同一个矩阵的变化",
+        "en": "Fig. 1 Three vectors under the same matrix"
+      },
+      "caption": {
+        "zh": "图1　蓝色虚线箭头表示输入，橙色实线箭头表示输出，三图尺度相同。(a) $Ae_1=e_1$，两箭头重合；(b) $Ae_2=(1,2)^{\\mathsf T}$，方向改变；(c) $Ae_3=2e_3$，沿原方向伸长。",
+        "en": "FIG. 1. Dashed blue arrows are inputs and solid orange arrows are outputs; all three panels share the same scale. (a) $Ae_1=e_1$: the two arrows coincide. (b) $Ae_2=(1,2)^{\\mathsf T}$: the direction changes. (c) $Ae_3=2e_3$: the vector is stretched along its original direction."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "凡是有非零向量 $v$ 和数 $\\lambda$ 满足",
+        "en": "Whenever a nonzero vector $v$ and a number $\\lambda$ satisfy"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "Av=\\lambda v,\\tag{1}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "就称 $\\lambda$ 是 $A$ 的**本征值**，$v$ 是对应的**本征向量**[<a href=\"#ref-1\">1</a>, §6.1]。本篇暂时只讨论实矩阵且本征值为实的情形。这里 $e_1$、$e_3$ 分别对应 $\\lambda=1,2$。本征值的绝对值 $|\\lambda|$ 给出长度倍数；$\\lambda<0$ 时还会反向，$\\lambda=0$ 时压到原点。本征向量乘任意非零常数后仍满足式 (1)，因此长度可以自由选择。两条本征方向 $e_1$ 和 $e_3$ 的夹角为 $45^\\circ$。它们沿各自方向独立伸缩，无须彼此垂直。",
+        "en": "we call $\\lambda$ an **eigenvalue** of $A$ and $v$ a corresponding **eigenvector** [<a href=\"#ref-1\">1</a>, §6.1]. For now, this article considers only real matrices with real eigenvalues. Here $e_1$ and $e_3$ correspond to $\\lambda=1$ and $\\lambda=2$. The absolute value $|\\lambda|$ gives the factor by which the length changes; for $\\lambda<0$ the vector is also reversed, and for $\\lambda=0$ it collapses to the origin. Any nonzero multiple of an eigenvector still satisfies Eq. (1), so its length can be chosen freely. The two eigendirections $e_1$ and $e_3$ make an angle of $45^\\circ$. Each is stretched independently along its own direction, and they need not be perpendicular."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "上面通过直接相乘找到了两个本征方向。对于给定矩阵，怎样系统地求出本征值和本征向量？",
+        "en": "Above, two eigendirections were found by direct multiplication. For a given matrix, how can the eigenvalues and eigenvectors be found systematically?"
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "2. 本征方程的求解",
+        "en": "2. Solving the Eigenvalue Equation"
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "2.1 从二维方程到有限维方阵",
+        "en": "2.1 From a Two-Dimensional Equation to Finite Square Matrices"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "方程 (1) 里 $\\lambda$ 和 $v$ 都不知道。设 $v=(x,y)^{\\mathsf T}$，先把矩阵乘法逐行展开：",
+        "en": "In Eq. (1) both $\\lambda$ and $v$ are unknown. Let $v=(x,y)^{\\mathsf T}$ and first expand the matrix product row by row:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{bmatrix}1&1\\\\0&2\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}\n=\\lambda\\begin{bmatrix}x\\\\y\\end{bmatrix}\n\\quad\\Longrightarrow\\quad\n\\begin{cases}x+y=\\lambda x,\\\\2y=\\lambda y.\\end{cases}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把右边移到左边，得到",
+        "en": "Moving the right-hand side to the left gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{cases}(1-\\lambda)x+y=0,\\\\(2-\\lambda)y=0.\\end{cases}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "第二条方程要求 $(2-\\lambda)y=0$，据此分两种情况。",
+        "en": "The second equation requires $(2-\\lambda)y=0$, which splits into two cases."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**若 $y=0$：** 第一条变成 $(1-\\lambda)x=0$。本征向量要求 $(x,y)\\ne(0,0)$，所以此时 $x\\ne0$，只能有 $\\lambda=1$。取 $x=1$，得到 $v=(1,0)^{\\mathsf T}$。",
+                "en": "**If $y=0$:** the first equation becomes $(1-\\lambda)x=0$. An eigenvector must satisfy $(x,y)\\ne(0,0)$, so here $x\\ne0$, and the only possibility is $\\lambda=1$. Taking $x=1$ gives $v=(1,0)^{\\mathsf T}$."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**若 $y\\ne0$：** 第二条要求 $2-\\lambda=0$，所以 $\\lambda=2$。代入第一条，得到 $-x+y=0$，即 $x=y$。取 $x=y=1$，得到 $v=(1,1)^{\\mathsf T}$。",
+                "en": "**If $y\\ne0$:** the second equation requires $2-\\lambda=0$, so $\\lambda=2$. Substituting into the first gives $-x+y=0$, that is, $x=y$. Taking $x=y=1$ gives $v=(1,1)^{\\mathsf T}$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这两种情况包括了所有可能。只有 $\\lambda=1$ 或 $\\lambda=2$ 时，才能找到非零解；若 $\\lambda$ 与这两个值都不同，第二条先迫使 $y=0$，第一条随后迫使 $x=0$。",
+        "en": "These two cases cover every possibility. Nonzero solutions exist only for $\\lambda=1$ or $\\lambda=2$; for any other $\\lambda$, the second equation first forces $y=0$, and the first then forces $x=0$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "对于更多分量，可以把移项后的方程统一写成",
+        "en": "With more components, the rearranged equations can be written uniformly as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "(A-\\lambda I)v=0.\\tag{2}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "记 $M=A-\\lambda I$。所谓 $M$ 可逆，就是存在一个矩阵 $M^{-1}$，能撤销 $M$ 的作用，满足 $M^{-1}M=MM^{-1}=I$。如果这样的逆存在，在 $Mv=0$ 两边左乘它，就有",
+        "en": "Write $M=A-\\lambda I$. To say that $M$ is invertible means that there is a matrix $M^{-1}$ that undoes the action of $M$, with $M^{-1}M=MM^{-1}=I$. If such an inverse exists, multiplying both sides of $Mv=0$ on the left by it gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "v=M^{-1}Mv=M^{-1}0=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这个反证只用了逆矩阵的定义，对任意有限 $n\\times n$ 方阵都成立：要让 $Mv=0$ 有非零解，$M$ 必须不可逆。",
+        "en": "This argument by contradiction uses only the definition of the inverse, so it holds for any finite $n\\times n$ square matrix: for $Mv=0$ to have a nonzero solution, $M$ cannot be invertible."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "2.2 高斯消元与行列式",
+        "en": "2.2 Gaussian Elimination and the Determinant"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "求解含有 $n$ 个未知分量的方程组 $Mv=0$，可以用高斯消元法。若两条方程都含有 $x$，可以用第二条减去第一条的适当倍数，使第二条中的 $x$ 消失。例如，考虑带参数 $t$ 的三维方程组：",
+        "en": "A system $Mv=0$ in $n$ unknown components can be solved by Gaussian elimination. If two equations both contain $x$, subtracting a suitable multiple of the first from the second removes $x$ from the second. As an example, consider the three-dimensional system with a parameter $t$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "M_t\\begin{bmatrix}x\\\\y\\\\z\\end{bmatrix}=0,\\qquad\nM_t=\\begin{bmatrix}1&1&1\\\\2&3&4\\\\1&2&t\\end{bmatrix},\n\\qquad\n\\begin{cases}x+y+z=0,\\\\2x+3y+4z=0,\\\\x+2y+tz=0.\\end{cases}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "用 $R_i$ 表示第 $i$ 行方程。先保留第一行，以其中 $x$ 的系数 $1$ 为**主元**，消去下面两行的 $x$：",
+        "en": "Let $R_i$ denote the equation in row $i$. Keep the first row and use its coefficient of $x$, which is $1$, as the **pivot** to eliminate $x$ from the two rows below:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nR_2&\\leftarrow R_2-2R_1:\n&&(2x+3y+4z)-2(x+y+z)=y+2z=0,\\\\\nR_3&\\leftarrow R_3-R_1:\n&&(x+2y+tz)-(x+y+z)=y+(t-1)z=0.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "再保留第二行，以 $y$ 的系数 $1$ 为主元，消去第三行的 $y$：",
+        "en": "Then keep the second row and use its coefficient of $y$, again $1$, as the pivot to eliminate $y$ from the third row:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "R_3\\leftarrow R_3-R_2:\n\\quad [y+(t-1)z]-(y+2z)=(t-3)z=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "每一步都可以撤销。例如把第二行减去的 $2R_1$ 加回去，就恢复原方程。因此消元前后解集相同。最终得到上三角方程组：",
+        "en": "Every step can be undone. For example, adding back the $2R_1$ subtracted from the second row restores the original equation. The solution set is therefore the same before and after elimination. The result is an upper-triangular system:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "T_t\\begin{bmatrix}x\\\\y\\\\z\\end{bmatrix}=0,\\qquad\nT_t=\\begin{bmatrix}1&1&1\\\\0&1&2\\\\0&0&t-3\\end{bmatrix},\n\\qquad\n\\begin{cases}x+y+z=0,\\\\y+2z=0,\\\\(t-3)z=0.\\end{cases}"
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/eigen-gaussian-elimination.svg",
+      "alt": {
+        "zh": "图2　逐列消元与最后一个主元",
+        "en": "Fig. 2 Column-by-column elimination and the last pivot"
+      },
+      "caption": {
+        "zh": "图2　三维方程组的消元过程。蓝色格子标出当前用于消元的主元，灰色格子标出已经消去的元素；最后的橙色格子为 $t-3$。它是否为零，决定第三行能否确定 $z$。图中 $R_i$ 表示第 $i$ 行，箭头上给出对应行操作。",
+        "en": "FIG. 2. Elimination of the three-dimensional system. Blue cells mark the pivot currently used for elimination, and gray cells mark entries already eliminated; the final orange cell is $t-3$. Whether it vanishes decides whether the third row determines $z$. $R_i$ denotes row $i$, and each arrow is labeled with its row operations."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "现在从最后一行向上求解，这个过程称为**回代**。",
+        "en": "Now solve from the last row upward; this process is called **back substitution**."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**当 $t\\ne3$ 时：** 第三行给出 $z=0$，第二行随后给出 $y=0$，第一行给出 $x=0$。三个主元都非零，只有零解。",
+                "en": "**When $t\\ne3$:** the third row gives $z=0$, then the second row gives $y=0$ and the first row gives $x=0$. All three pivots are nonzero, and only the zero solution exists."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**当 $t=3$ 时：** 第三行变成 $0=0$，不再约束 $z$。于是可以任选 $z=s$，第二行给出 $y=-2s$，第一行给出 $x=s$。全部解为",
+                "en": "**When $t=3$:** the third row becomes $0=0$ and no longer constrains $z$. We may therefore choose $z=s$ freely; the second row gives $y=-2s$, and the first row gives $x=s$. All solutions are"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "v=s\\begin{bmatrix}1\\\\-2\\\\1\\end{bmatrix},\\qquad s\\in\\mathbb R."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "其中 $s\\ne0$ 就给出非零解。这里 $z$ 称为**自由变量**；这些解组成一条过原点的直线，即 $M_3$ 的**零空间**。一般地，矩阵 $M$ 的零空间就是所有满足 $Mv=0$ 的向量的集合。",
+                "en": "Any $s\\ne0$ gives a nonzero solution. Here $z$ is called a **free variable**; these solutions form a line through the origin, the **null space** of $M_3$. In general, the null space of a matrix $M$ is the set of all vectors satisfying $Mv=0$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "图3画出 $t=3$ 时的零空间。取 $s=-1,0,1$ 分别得到 $(-1,2,-1)^{\\mathsf T}$、$(0,0,0)^{\\mathsf T}$、$(1,-2,1)^{\\mathsf T}$。让 $s$ 连续变化，就得到整条直线。直线上的点都是输入向量，它们经过 $M_3$ 后全部变成零向量。",
+        "en": "Figure 3 shows the null space for $t=3$. Taking $s=-1,0,1$ gives $(-1,2,-1)^{\\mathsf T}$, $(0,0,0)^{\\mathsf T}$, and $(1,-2,1)^{\\mathsf T}$. Letting $s$ vary continuously traces out the whole line. Every point on the line is an input vector that $M_3$ sends to the zero vector."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/eigen-nullspace-pivots.svg",
+      "alt": {
+        "zh": "图3　矩阵M₃的零空间",
+        "en": "Fig. 3 The null space of the matrix M₃"
+      },
+      "caption": {
+        "zh": "图3　$M_3$ 的零空间为直线 $v=s(1,-2,1)^{\\mathsf T}$。三个点对应 $s=-1,0,1$，每个点表示一个满足 $M_3v=0$ 的输入向量。图中仅画直线的一段，端部箭头表示继续延伸。",
+        "en": "FIG. 3. The null space of $M_3$ is the line $v=s(1,-2,1)^{\\mathsf T}$. The three points correspond to $s=-1,0,1$; each is an input vector satisfying $M_3v=0$. Only a segment of the line is drawn, and the arrows at its ends indicate that it continues."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "上面的非零解出现在最后一个主元 $t-3$ 消失时。这个条件也可以通过行列式表达。本例使用的“一行减去另一行的倍数”保持行列式不变，因此",
+        "en": "The nonzero solutions above appear when the last pivot $t-3$ vanishes. This condition can also be expressed through the determinant. The operation used here, subtracting a multiple of one row from another, leaves the determinant unchanged, so"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\det M_t=\\det T_t\n&=\\begin{vmatrix}1&1&1\\\\0&1&2\\\\0&0&t-3\\end{vmatrix}\\\\\n&=1\\begin{vmatrix}1&2\\\\0&t-3\\end{vmatrix}\n=1\\times1\\times(t-3).\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这里沿第一列展开，两项因系数为零而消失；继续展开剩下的二维行列式，就得到三个对角元的乘积。对任意上三角矩阵，同样逐列展开即可得到这一结果。",
+        "en": "Here we expand along the first column, where two terms drop out because their coefficients are zero; expanding the remaining two-dimensional determinant gives the product of the three diagonal entries. Expanding column by column in the same way gives this result for any upper-triangular matrix."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "行操作保持行列式的原因也可以直接写出。用 $R_2-2R_1$ 替换第二行时，行列式对第二行的线性性给出",
+        "en": "Why row operations preserve the determinant can also be written out directly. When the second row is replaced by $R_2-2R_1$, linearity of the determinant in the second row gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\det(R_1,R_2-2R_1,R_3)\n&=\\det(R_1,R_2,R_3)-2\\det(R_1,R_1,R_3)\\\\\n&=\\det(R_1,R_2,R_3).\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "最后一步用了“两行相同的行列式为零”：交换这两行既不改变矩阵，又使行列式变号，所以它只能等于零。",
+        "en": "The last step uses the fact that a determinant with two equal rows is zero: swapping those two rows leaves the matrix unchanged but flips the sign of the determinant, so the determinant must be zero."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "于是，$t=3$ 同时意味着最后一个主元消失、方程出现非零解，以及 $\\det M_t=0$。行列式把这个求解条件写成了一个关于参数 $t$ 的方程。",
+        "en": "Thus $t=3$ means, all at once, that the last pivot vanishes, that the equations have nonzero solutions, and that $\\det M_t=0$. The determinant turns this solvability condition into an equation for the parameter $t$."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "对 $n\\times n$ 方阵，消元仍然逐列进行。当前主元位置为零而下面有非零元素时，交换两行就能继续；交换只改变行列式的符号，不改变它是否为零。如果这一列在剩余行中全部为零，就继续到后面的列寻找主元。消元后，每个非零行都有一个主元，代表一条独立的方程约束。主元的总数称为矩阵的**秩**，记作 $r=\\operatorname{rank}(M)$；它也等于矩阵中线性无关列向量的最大个数。对 $n\\times n$ 方阵，$r=n$ 称为**满秩**，$r<n$ 称为**秩亏**。在刚才的例子中，$t\\ne3$ 时有三个主元，$\\operatorname{rank}(M_t)=3$；$t=3$ 时只有两个主元，$\\operatorname{rank}(M_3)=2$。两种阶梯形结构如图4所示[<a href=\"#ref-2\">2</a>, §3.2]：",
+        "en": "For an $n\\times n$ square matrix, elimination still proceeds column by column. If the current pivot position holds a zero but some entry below it is nonzero, swapping two rows lets elimination continue; a swap changes only the sign of the determinant, not whether it is zero. If the column is zero in all remaining rows, move on to the following columns to look for a pivot. After elimination, every nonzero row has a pivot, representing one independent constraint. The total number of pivots is called the **rank** of the matrix, written $r=\\operatorname{rank}(M)$; it also equals the largest number of linearly independent columns. For an $n\\times n$ square matrix, $r=n$ is called **full rank** and $r<n$ **rank deficient**. In the example above there are three pivots when $t\\ne3$, so $\\operatorname{rank}(M_t)=3$; when $t=3$ there are only two, so $\\operatorname{rank}(M_3)=2$. The two echelon structures are shown in Fig. 4 [<a href=\"#ref-2\">2</a>, §3.2]:"
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/eigen-rank-cases.svg",
+      "alt": {
+        "zh": "图4　主元齐全与存在自由变量的阶梯形结构",
+        "en": "Fig. 4 Echelon structures with a full set of pivots and with free variables"
+      },
+      "caption": {
+        "zh": "图4　用五阶矩阵示意一般 $n$ 阶方阵的两种情形。蓝色圆点为非零主元，星号可取任意值，包括零。(a) 每列都有主元，回代确定所有分量为零。(b) 示例有 $r=3$ 个主元，橙色的第2、4列没有主元，对应自由变量 $v_2,v_4$；底部有 $n-r=2$ 条零行。自由变量列可以穿插在主元列之间。两图中具体星号取值不影响标出的主元数。",
+        "en": "FIG. 4. The two cases for a general $n\\times n$ square matrix, illustrated with a $5\\times5$ matrix. Blue dots are nonzero pivots, and asterisks may take any value, including zero. (a) Every column has a pivot, and back substitution forces every component to zero. (b) The example has $r=3$ pivots; the orange columns 2 and 4 have no pivot and correspond to the free variables $v_2,v_4$, and $n-r=2$ zero rows sit at the bottom. Free-variable columns may lie between pivot columns. The particular values of the asterisks do not change the number of pivots shown."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**有 $n$ 个主元：** 阶梯形方阵的对角元全部非零，行列式非零。从最后一行往上回代，每个分量依次被确定为零。还可以把各主元除成 $1$，从最后一个主元开始消去其上方的元素，逐步将整个矩阵化成单位矩阵 $I$。",
+                "en": "**$n$ pivots:** the diagonal entries of the echelon matrix are all nonzero, so the determinant is nonzero. Back substitution from the last row upward fixes each component to zero in turn. One can also scale each pivot to $1$ and, starting from the last pivot, eliminate the entries above it, reducing the whole matrix step by step to the identity matrix $I$."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**只有 $r<n$ 个主元：** 最后有 $n-r$ 条 $0=0$ 的零行，因此行列式为零。还有 $n-r$ 个自由变量，可以给其中一个取值 $1$、其余自由变量取值 $0$，再回代确定主元对应的分量，得到非零解。零空间的维数就是 $n-r$；图3是 $n=3,r=2$ 的一维情形。非零解已说明原矩阵不可逆。",
+                "en": "**Only $r<n$ pivots:** the last $n-r$ rows are zero rows reading $0=0$, so the determinant is zero. There are also $n-r$ free variables; setting one of them to $1$ and the others to $0$, then back-substituting for the pivot components, gives a nonzero solution. The dimension of the null space is $n-r$; Fig. 3 is the one-dimensional case with $n=3$ and $r=2$. The nonzero solution already shows that the original matrix is not invertible."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "用 $\\ker M$ 表示零空间，主元数与自由变量数的关系可以写成",
+        "en": "Writing $\\ker M$ for the null space, the relation between the number of pivots and the number of free variables reads"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "\\underbrace{\\operatorname{rank}(M)}_{\\text{主元数}}+\n\\underbrace{\\dim\\ker M}_{\\text{自由变量数}}=n.",
+        "en": "\\underbrace{\\operatorname{rank}(M)}_{\\text{pivots}}+\n\\underbrace{\\dim\\ker M}_{\\text{free variables}}=n."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "满秩时，把 $M$ 化成 $I$ 的全部可逆行操作合记为 $E$，便有 $EM=I$；由 $M=E^{-1}$ 得到 $M^{-1}=E$。因此，结合前面的非零解与行列式条件，对有限维方阵有",
+        "en": "At full rank, let $E$ denote the combined effect of all the invertible row operations that reduce $M$ to $I$, so that $EM=I$; from $M=E^{-1}$ it follows that $M^{-1}=E$. Together with the nonzero-solution and determinant conditions above, this gives, for a finite square matrix,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "Mv=0\\text{ 有非零解}\n\\quad\\Longleftrightarrow\\quad M\\text{ 不可逆}\n\\quad\\Longleftrightarrow\\quad\\det M=0.",
+        "en": "Mv=0\\text{ has a nonzero solution}\n\\quad\\Longleftrightarrow\\quad M\\text{ is not invertible}\n\\quad\\Longleftrightarrow\\quad\\det M=0."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "2.3 回到最初的本征方程",
+        "en": "2.3 Back to the Eigenvalue Equation"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "令 $M=A-\\lambda I$，寻找非零本征向量的条件便是",
+        "en": "With $M=A-\\lambda I$, the condition for a nonzero eigenvector becomes"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\det(A-\\lambda I)=0.\\tag{3}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "对 $A=\\begin{bmatrix}1&1\\\\0&2\\end{bmatrix}$，把 $\\lambda$ 从对角线上减掉再展开：",
+        "en": "For $A=\\begin{bmatrix}1&1\\\\0&2\\end{bmatrix}$, subtract $\\lambda$ from the diagonal and expand:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\det\\begin{bmatrix}1-\\lambda&1\\\\0&2-\\lambda\\end{bmatrix}=(1-\\lambda)(2-\\lambda)-1\\cdot0=(1-\\lambda)(2-\\lambda)."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "令它为零，得到两个根",
+        "en": "Setting this to zero gives the two roots"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\lambda_1=1,\\qquad \\lambda_2=2."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这与2.1节直接解方程得到的结果一致。对应的本征向量取为",
+        "en": "This agrees with the result of solving the equations directly in Section 2.1. The corresponding eigenvectors are chosen as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "x_1=\\begin{bmatrix}1\\\\0\\end{bmatrix},\\qquad\nx_2=\\begin{bmatrix}1\\\\1\\end{bmatrix},\\qquad\nAx_1=x_1,\\quad Ax_2=2x_2."
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "3. 本征分解与换基",
+        "en": "3. Eigendecomposition and Change of Basis"
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "3.1 沿本征方向分解向量",
+        "en": "3.1 Decomposing a Vector Along the Eigendirections"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "已知 $A$ 对本征向量的作用，就可以沿本征基分解一个向量，将各分量乘以对应本征值，再组合回来。第一节中的 $e_2=(0,1)^{\\mathsf T}$ 经过 $A$ 后改变了方向。用已求出的两个本征向量 $x_1=(1,0)^{\\mathsf T}$、$x_2=(1,1)^{\\mathsf T}$，可以把它拆成",
+        "en": "Once the action of $A$ on its eigenvectors is known, any vector can be decomposed along the eigenbasis, each component multiplied by its eigenvalue, and the pieces recombined. In Section 1, $e_2=(0,1)^{\\mathsf T}$ changed direction under $A$. Using the two eigenvectors found above, $x_1=(1,0)^{\\mathsf T}$ and $x_2=(1,1)^{\\mathsf T}$, we can split it as"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "e_2=c_1x_1+c_2x_2."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "代入各向量，逐个比较坐标：",
+        "en": "Substituting the vectors and comparing coordinates one by one gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{bmatrix}0\\\\1\\end{bmatrix}\n=c_1\\begin{bmatrix}1\\\\0\\end{bmatrix}\n+c_2\\begin{bmatrix}1\\\\1\\end{bmatrix}\n=\\begin{bmatrix}c_1+c_2\\\\c_2\\end{bmatrix}\n\\quad\\Longrightarrow\\quad\n\\begin{cases}c_1+c_2=0,\\\\c_2=1.\\end{cases}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "所以 $c_1=-1,c_2=1$，即 $e_2=-x_1+x_2$。矩阵作用于这个和时，可以分别作用于两个分量。由于 $Ax_1=x_1$、$Ax_2=2x_2$，",
+        "en": "So $c_1=-1$ and $c_2=1$, that is, $e_2=-x_1+x_2$. When the matrix acts on this sum, it can act on the two components separately. Since $Ax_1=x_1$ and $Ax_2=2x_2$,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\nAe_2&=A(-x_1+x_2)=-Ax_1+Ax_2\\\\\n&=-x_1+2x_2\n=\\begin{bmatrix}-1\\\\0\\end{bmatrix}+\\begin{bmatrix}2\\\\2\\end{bmatrix}\n=\\begin{bmatrix}1\\\\2\\end{bmatrix}.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "结果与直接相乘相同。图5中，沿 $x_1$ 的分量保持不变，沿 $x_2$ 的分量加倍；两个分量相加后，整个向量的方向随之改变。",
+        "en": "This agrees with direct multiplication. In Fig. 5, the component along $x_1$ stays the same and the component along $x_2$ doubles; when the two are added, the direction of the whole vector changes with them."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/eigen-eigen-directions.svg",
+      "alt": {
+        "zh": "图5　本征坐标下的向量分解与伸缩",
+        "en": "Fig. 5 Decomposition and stretching in eigencoordinates"
+      },
+      "caption": {
+        "zh": "图5　$e_2=-x_1+x_2$：从原点沿蓝色箭头走 $-x_1$，再沿橙色虚线箭头走 $x_2$，到达 $e_2$。作用 $A$ 后，沿 $x_1$ 的分量不变，沿 $x_2$ 的分量加倍，沿橙色实线箭头再走一个 $x_2$，到达 $Ae_2$。黑色箭头表示两个合成向量，点线标出本征方向。",
+        "en": "FIG. 5. $e_2=-x_1+x_2$: starting from the origin, go $-x_1$ along the blue arrow, then $x_2$ along the dashed orange arrow, to reach $e_2$. After applying $A$, the component along $x_1$ is unchanged and the component along $x_2$ doubles; one more $x_2$ along the solid orange arrow reaches $Ae_2$. Black arrows show the two resultant vectors, and dotted lines mark the eigendirections."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "3.2 将三个步骤写成本征分解",
+        "en": "3.2 Writing the Three Steps as an Eigendecomposition"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把两个本征向量排成矩阵的列，并把分解系数记为列向量 $c$：",
+        "en": "Arrange the two eigenvectors as the columns of a matrix, and write the decomposition coefficients as a column vector $c$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "X=\\begin{bmatrix}1&1\\\\0&1\\end{bmatrix},\\qquad\nc=\\begin{bmatrix}c_1\\\\c_2\\end{bmatrix},\\qquad\nv=c_1x_1+c_2x_2=Xc."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "本例中",
+        "en": "In this example"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "X^{-1}=\\begin{bmatrix}1&-1\\\\0&1\\end{bmatrix},\\qquad\nXX^{-1}=X^{-1}X=I."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因此，对任意向量 $v$，前面的三个步骤可以写成：",
+        "en": "Hence, for any vector $v$, the three steps above can be written as follows."
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**求分解系数：** $c=X^{-1}v$。",
+                "en": "**Find the coefficients:** $c=X^{-1}v$."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**各系数乘以本征值：** $c'=\\Lambda c$，其中 $\\Lambda=\\operatorname{diag}(1,2)$。",
+                "en": "**Multiply each coefficient by its eigenvalue:** $c'=\\Lambda c$, where $\\Lambda=\\operatorname{diag}(1,2)$."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**组合回来：** $Av=c_1\\lambda_1x_1+c_2\\lambda_2x_2=Xc'$。",
+                "en": "**Recombine:** $Av=c_1\\lambda_1x_1+c_2\\lambda_2x_2=Xc'$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把三步连起来，就有",
+        "en": "Chaining the three steps gives"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "Av=Xc'=X\\Lambda c=X\\Lambda X^{-1}v.\\tag{4}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这个等式对任意向量 $v$ 都成立，因此得到**本征分解**[<a href=\"#ref-1\">1</a>, §6.2]：",
+        "en": "This holds for every vector $v$, which yields the **eigendecomposition** [<a href=\"#ref-1\">1</a>, §6.2]:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "A=X\\Lambda X^{-1}.\\tag{5}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "矩阵乘法从右向左作用：$X^{-1}$ 求系数，$\\Lambda$ 分别缩放，$X$ 组合向量。也可以用本征方程作一个简短核对：$AX$ 的两列是 $Ax_1=x_1$、$Ax_2=2x_2$，因此 $AX=X\\Lambda$，与式 (5) 一致。",
+        "en": "Matrix multiplication acts from right to left: $X^{-1}$ finds the coefficients, $\\Lambda$ scales each one, and $X$ recombines the vector. A short check with the eigenvalue equation agrees: the two columns of $AX$ are $Ax_1=x_1$ and $Ax_2=2x_2$, so $AX=X\\Lambda$, consistent with Eq. (5)."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "将式 (5) 左乘 $X^{-1}$、右乘 $X$，得到 $X^{-1}AX=\\Lambda$。这说明同一个变换在本征基下由对角矩阵表示，各坐标独立伸缩；这个过程称为**对角化**。",
+        "en": "Multiplying Eq. (5) by $X^{-1}$ on the left and by $X$ on the right gives $X^{-1}AX=\\Lambda$. This says that the same transformation is represented by a diagonal matrix in the eigenbasis, with each coordinate stretched independently; the process is called **diagonalization**."
+      }
+    },
+    {
+      "type": "heading",
+      "text": {
+        "zh": "4. 本征分解的存在条件",
+        "en": "4. When an Eigendecomposition Exists"
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "4.1 一组能当坐标的本征方向",
+        "en": "4.1 Eigendirections That Can Serve as Coordinates"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "第3节把 $Av=X\\Lambda X^{-1}v$ 建立在使用 $X^{-1}$ 求系数之上。$X$ 的两列是本征向量，它有没有逆矩阵，取决于这两个方向能否张成整个平面。",
+        "en": "Section 3 built $Av=X\\Lambda X^{-1}v$ on using $X^{-1}$ to find the coefficients. The two columns of $X$ are eigenvectors, and whether $X$ has an inverse depends on whether these two directions span the whole plane."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "由3.2节的 $c=X^{-1}v$，对 $v=(a,b)^{\\mathsf T}$ 有 $c=(a-b,b)^{\\mathsf T}$，因此",
+        "en": "From $c=X^{-1}v$ in Section 3.2, for $v=(a,b)^{\\mathsf T}$ we have $c=(a-b,b)^{\\mathsf T}$, so"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "v=(a-b)x_1+bx_2,\\qquad x_1=\\begin{bmatrix}1\\\\0\\end{bmatrix},\\quad x_2=\\begin{bmatrix}1\\\\1\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$a,b$ 任意时系数 $a-b$ 与 $b$ 也任意，所以 $x_1,x_2$ 的组合能到达平面上每一个点。它们不重合，合起来是平面的**一组基**。",
+        "en": "For arbitrary $a,b$ the coefficients $a-b$ and $b$ are also arbitrary, so combinations of $x_1,x_2$ reach every point of the plane. They do not coincide, and together they form a **basis** of the plane."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "换两个共线的方向作对照：",
+        "en": "For contrast, take two collinear directions:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "y_1=\\begin{bmatrix}1\\\\0\\end{bmatrix},\\qquad y_2=\\begin{bmatrix}2\\\\0\\end{bmatrix}=2y_1."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "任意组合 $c_1y_1+c_2y_2=(c_1+2c_2,0)^{\\mathsf T}$ 的第二坐标始终为零，无论 $c_1,c_2$ 怎样选都到不了 $e_2=(0,1)^{\\mathsf T}$。这两个方向只张成 $x$ 轴，数量上是两个向量，方向上只有一个。",
+        "en": "Any combination $c_1y_1+c_2y_2=(c_1+2c_2,0)^{\\mathsf T}$ has second coordinate always zero, so no choice of $c_1,c_2$ reaches $e_2=(0,1)^{\\mathsf T}$. These two directions span only the $x$-axis: two vectors in number, but only one direction."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "区别也能写成系数方程。若",
+        "en": "The difference can also be written as an equation for the coefficients. If"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "c_1x_1+c_2x_2=\\begin{bmatrix}c_1+c_2\\\\c_2\\end{bmatrix}=\\begin{bmatrix}0\\\\0\\end{bmatrix},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "第二个分量先给出 $c_2=0$，代回第一个分量得 $c_1=0$。只有全零系数才能组合出零向量，这样的 $x_1,x_2$ 称为**线性无关**。对 $y_1,y_2$，方程",
+        "en": "the second component first gives $c_2=0$, and substituting back into the first gives $c_1=0$. Only the all-zero coefficients combine to the zero vector; such $x_1,x_2$ are called **linearly independent**. For $y_1,y_2$, the equation"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "c_1y_1+c_2y_2=(c_1+2c_2,0)^{\\mathsf T}=(0,0)^{\\mathsf T}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "有非零解：取 $c_2=1$ 便有 $c_1=-2$，所以它们是**线性相关**的。",
+        "en": "has a nonzero solution: taking $c_2=1$ gives $c_1=-2$, so they are **linearly dependent**."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "把本例的本征向量按列排成",
+        "en": "Arrange the eigenvectors of this example as columns,"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "X=\\begin{bmatrix}1&1\\\\0&1\\end{bmatrix},"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "线性无关正是这个方阵可逆的条件。2.2节把秩定义为主元数，也就是线性无关列向量的最大个数；这里两列无关，$\\operatorname{rank}X=2$。二维时行列式还有面积的含义：$|\\det X|$ 是以两列为边的平行四边形面积，本例 $\\det X=1$；两列共线时平行四边形退化成线段，面积为零，矩阵不可逆。于是对 $n\\times n$ 方阵，下面四个说法互相等价：",
+        "en": "and linear independence is exactly the condition for this square matrix to be invertible. Section 2.2 defined the rank as the number of pivots, that is, the largest number of linearly independent columns; here the two columns are independent, so $\\operatorname{rank}X=2$. In two dimensions the determinant also has a meaning as area: $|\\det X|$ is the area of the parallelogram with the two columns as sides, and here $\\det X=1$; when the two columns are collinear the parallelogram degenerates to a segment, its area is zero, and the matrix is not invertible. So, for an $n\\times n$ square matrix, the following four statements are equivalent:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": {
+        "zh": "n\\text{ 个独立本征向量}\\quad\\Longleftrightarrow\\quad \\operatorname{rank}X=n\\quad\\Longleftrightarrow\\quad \\det X\\ne0\\quad\\Longleftrightarrow\\quad X\\text{ 可逆}.",
+        "en": "n\\text{ independent eigenvectors}\\;\\Longleftrightarrow\\;\\operatorname{rank}X=n\\;\\Longleftrightarrow\\;\\det X\\ne0\\;\\Longleftrightarrow\\;X\\text{ invertible}."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "只要 $X$ 可逆，式 (5) 的写法就成立。图6对比了这两种情形。",
+        "en": "As long as $X$ is invertible, the form in Eq. (5) holds. Figure 6 compares the two cases."
+      }
+    },
+    {
+      "type": "figure",
+      "src": "../assets/blog/eigen-eigenbasis.svg",
+      "alt": {
+        "zh": "图6　独立方向与共线方向的对比",
+        "en": "Fig. 6 Independent versus collinear directions"
+      },
+      "caption": {
+        "zh": "图6　(a) $x_1=(1,0)^{\\mathsf T}$、$x_2=(1,1)^{\\mathsf T}$ 不共线，任意 $v$ 都能写成 $v=c_1x_1+c_2x_2$，浅色平行四边形示意两方向的组合范围，$v$ 的黑色箭头与沿 $x_1$、$x_2$ 的虚线分量。(b) $y_1=(1,0)^{\\mathsf T}$、$y_2=2y_1$ 落在同一条直线上，组合只能停在 $x$ 轴，灰色虚箭头 $e_2$ 不在其中。",
+        "en": "FIG. 6. (a) $x_1=(1,0)^{\\mathsf T}$ and $x_2=(1,1)^{\\mathsf T}$ are not collinear, so any $v$ can be written as $v=c_1x_1+c_2x_2$; the light parallelogram indicates the range of combinations of the two directions, with $v$ as the black arrow and its components along $x_1$ and $x_2$ as dashed lines. (b) $y_1=(1,0)^{\\mathsf T}$ and $y_2=2y_1$ lie on the same line, so combinations can only stay on the $x$-axis; the gray dashed arrow $e_2$ is not among them."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "4.2 不同本征值给出的本征向量独立",
+        "en": "4.2 Eigenvectors for Distinct Eigenvalues Are Independent"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "什么时候能保证凑够 $n$ 个独立本征向量？如果 $A$ 的 $n$ 个本征值互不相同，答案总是肯定的。",
+        "en": "When can we be sure of getting $n$ independent eigenvectors? If the $n$ eigenvalues of $A$ are all distinct, the answer is always yes."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "先看两个本征向量。设",
+        "en": "Start with two eigenvectors. Let"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "Ax_1=\\lambda_1x_1,\\qquad Ax_2=\\lambda_2x_2,\\qquad \\lambda_1\\ne\\lambda_2,\\qquad x_1\\ne0,\\ x_2\\ne0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "假设它们有一个等于零的组合",
+        "en": "Suppose some combination of them equals zero:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "c_1x_1+c_2x_2=0.\\tag{6}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两边左乘 $A$，用本征方程把 $Ax_i$ 换成 $\\lambda_ix_i$：",
+        "en": "Multiply both sides on the left by $A$, using the eigenvalue equation to replace $Ax_i$ by $\\lambda_ix_i$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "c_1\\lambda_1x_1+c_2\\lambda_2x_2=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "再把式 (6) 乘 $\\lambda_1$：",
+        "en": "Now multiply Eq. (6) by $\\lambda_1$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "c_1\\lambda_1x_1+c_2\\lambda_1x_2=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两式相减，$x_1$ 项抵消：",
+        "en": "Subtracting, the $x_1$ terms cancel:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "c_2(\\lambda_1-\\lambda_2)x_2=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因 $\\lambda_1\\ne\\lambda_2$ 且 $x_2\\ne0$，只有 $c_2=0$。代回式 (6) 得 $c_1x_1=0$，再由 $x_1\\ne0$ 得 $c_1=0$。所以 $x_1,x_2$ 线性无关。",
+        "en": "Since $\\lambda_1\\ne\\lambda_2$ and $x_2\\ne0$, only $c_2=0$ is possible. Substituting back into Eq. (6) gives $c_1x_1=0$, and $x_1\\ne0$ then gives $c_1=0$. So $x_1,x_2$ are linearly independent."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "$n$ 个向量可以用同样的相减作法归纳。设 $\\lambda_1,\\dots,\\lambda_n$ 两两不同，且 $c_1x_1+\\cdots+c_nx_n=0$。两边左乘 $A$，并把原式乘 $\\lambda_n$：",
+        "en": "For $n$ vectors the same subtraction works by induction. Let $\\lambda_1,\\dots,\\lambda_n$ be pairwise distinct, and suppose $c_1x_1+\\cdots+c_nx_n=0$. Multiply both sides on the left by $A$, and multiply the original equation by $\\lambda_n$:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\sum_{i=1}^n c_i\\lambda_ix_i=0,\\qquad \\sum_{i=1}^n c_i\\lambda_nx_i=0."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "相减后含 $x_n$ 的项为零：",
+        "en": "After subtraction the term containing $x_n$ vanishes:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\sum_{i=1}^{n-1} c_i(\\lambda_i-\\lambda_n)x_i=0.\\tag{7}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "式 (7) 是前 $n-1$ 个向量的零组合，对应的本征值仍两两不同。对 $n$ 作归纳：",
+        "en": "Equation (7) is a zero combination of the first $n-1$ vectors, whose eigenvalues are still pairwise distinct. Induct on $n$:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**起点：** $n=1$ 时，$c_1x_1=0$ 且 $x_1\\ne0$，所以 $c_1=0$，单个非零向量线性无关。",
+                "en": "**Base case:** for $n=1$, $c_1x_1=0$ with $x_1\\ne0$ gives $c_1=0$, so a single nonzero vector is linearly independent."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**归纳假设：** 假设任意 $n-1$ 个互异本征值对应的本征向量线性无关。",
+                "en": "**Induction hypothesis:** assume that eigenvectors for any $n-1$ distinct eigenvalues are linearly independent."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**应用到式 (7)：** 前 $n-1$ 个向量线性无关，因此它们在零组合中的每个系数都必须为零：",
+                "en": "**Applying it to Eq. (7):** the first $n-1$ vectors are linearly independent, so every coefficient in their zero combination must vanish:"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "c_i(\\lambda_i-\\lambda_n)=0,\\qquad i=1,\\ldots,n-1."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "由于 $\\lambda_i\\ne\\lambda_n$，得到 $c_1=\\cdots=c_{n-1}=0$。",
+                "en": "Since $\\lambda_i\\ne\\lambda_n$, this gives $c_1=\\cdots=c_{n-1}=0$."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**求最后一个系数：** 将这些结果代回原式，只剩 $c_nx_n=0$。由 $x_n\\ne0$ 得到 $c_n=0$。",
+                "en": "**The last coefficient:** substituting these results back into the original equation leaves only $c_nx_n=0$. Since $x_n\\ne0$, $c_n=0$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因此，只有全部系数为零时，这 $n$ 个向量的组合才为零。它们线性无关，组成的方阵 $X$ 可逆[<a href=\"#ref-1\">1</a>, §6.2][<a href=\"#ref-2\">2</a>, §7.1.1]。",
+        "en": "Therefore the combination of these $n$ vectors is zero only when all coefficients are zero. They are linearly independent, and the square matrix $X$ they form is invertible [<a href=\"#ref-1\">1</a>, §6.2][<a href=\"#ref-2\">2</a>, §7.1.1]."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "本征值互不相同只是充分条件。本征值出现重复时，仍有矩阵可以对角化。",
+        "en": "Distinct eigenvalues are only a sufficient condition. When eigenvalues repeat, some matrices can still be diagonalized."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "4.3 本征值重复时，本征向量还够吗？",
+        "en": "4.3 When Eigenvalues Repeat, Are There Still Enough Eigenvectors?"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "考虑两个矩阵：",
+        "en": "Consider two matrices:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "I_2=\\begin{bmatrix}1&0\\\\0&1\\end{bmatrix},\\qquad\nJ=\\begin{bmatrix}1&1\\\\0&1\\end{bmatrix}."
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "它们的特征多项式相同：",
+        "en": "They have the same characteristic polynomial:"
+      }
+    },
+    {
+      "type": "math",
+      "tex": "\\begin{aligned}\n\\det(I_2-\\lambda I_2)&=(1-\\lambda)^2,\\\\\n\\det(J-\\lambda I_2)&=\\begin{vmatrix}1-\\lambda&1\\\\0&1-\\lambda\\end{vmatrix}=(1-\\lambda)^2.\n\\end{aligned}"
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "两者都只有本征值 $\\lambda=1$，这个根重复两次。能否对角化，还要看能否找到两个独立本征向量。令 $v=(x,y)^{\\mathsf T}$，将 $\\lambda=1$ 分别代回本征方程：",
+        "en": "Both have only the eigenvalue $\\lambda=1$, a root repeated twice. Whether they can be diagonalized depends on whether two independent eigenvectors can be found. Let $v=(x,y)^{\\mathsf T}$ and substitute $\\lambda=1$ into the eigenvalue equation for each matrix:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**对 $I_2$：**",
+                "en": "**For $I_2$:**"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "(I_2-I_2)v=\\begin{bmatrix}0&0\\\\0&0\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}=0."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "$x,y$ 都不受限制，零空间是整个平面。任意非零向量都是本征向量，可以选 $e_1,e_2$ 组成一组基。这时 $X=I_2$，$\\Lambda=I_2$，本征分解成立。",
+                "en": "Neither $x$ nor $y$ is constrained, and the null space is the whole plane. Every nonzero vector is an eigenvector, and $e_1,e_2$ can be chosen as a basis. Here $X=I_2$ and $\\Lambda=I_2$, so the eigendecomposition holds."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**对 $J$：**",
+                "en": "**For $J$:**"
+              }
+            },
+            {
+              "type": "math",
+              "tex": "(J-I_2)v=\\begin{bmatrix}0&1\\\\0&0\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}=\\begin{bmatrix}y\\\\0\\end{bmatrix}=0."
+            },
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "方程要求 $y=0$，$x$ 自由，零空间只有横轴这一条直线。所有本征向量都共线，无法选出两个独立向量组成平面的基，因此 $J$ 不能对角化。",
+                "en": "The equation requires $y=0$ with $x$ free, so the null space is the single horizontal line. All eigenvectors are collinear, and two independent vectors cannot be chosen to form a basis of the plane, so $J$ cannot be diagonalized."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "这里的“不可对角化”意味着不能写成 $J=X\\Lambda X^{-1}$，并不意味着求不出本征值和本征向量：上面已经求得 $\\lambda=1$，对应的本征向量为 $v=t(1,0)^{\\mathsf T}$（$t\\ne0$）。它们有无穷多个，却只有一个独立方向，不足以组成二维空间的基。",
+        "en": "Here “cannot be diagonalized” means that $J$ cannot be written as $X\\Lambda X^{-1}$; it does not mean that no eigenvalues or eigenvectors can be found. We have already found $\\lambda=1$, with eigenvectors $v=t(1,0)^{\\mathsf T}$ ($t\\ne0$). There are infinitely many of them but only one independent direction, which is not enough to form a basis of the two-dimensional space."
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "所以，**重复本征值本身不妨碍对角化，关键仍是能否凑齐一组本征基。**",
+        "en": "So **a repeated eigenvalue does not in itself prevent diagonalization; what matters is still whether a full eigenbasis can be assembled.**"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "根在特征多项式中重复的次数称为**代数重数**，这里两个矩阵的 $\\lambda=1$ 都有代数重数 $2$。对应本征空间的维数称为**几何重数**，对 $I_2$ 是 $2$，对 $J$ 是 $1$[<a href=\"#ref-2\">2</a>, §7.1.4]。",
+        "en": "The number of times a root is repeated in the characteristic polynomial is called its **algebraic multiplicity**; here $\\lambda=1$ has algebraic multiplicity $2$ for both matrices. The dimension of the corresponding eigenspace is called the **geometric multiplicity**: it is $2$ for $I_2$ and $1$ for $J$ [<a href=\"#ref-2\">2</a>, §7.1.4]."
+      }
+    },
+    {
+      "type": "subheading",
+      "text": {
+        "zh": "4.4 总结：到底哪个矩阵要可逆？",
+        "en": "4.4 Summary: Which Matrix Needs to Be Invertible?"
+      }
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "求本征值与作本征分解时，涉及三个不同的矩阵：",
+        "en": "Finding eigenvalues and carrying out an eigendecomposition involve three different matrices:"
+      }
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**$A-\\lambda I$ 必须不可逆，$\\lambda$ 才是本征值。** 因为本征方程 $(A-\\lambda I)v=0$ 需要非零解。若 $A-\\lambda I$ 可逆，左乘它的逆只会得到 $v=0$。",
+                "en": "**$A-\\lambda I$ must be non-invertible for $\\lambda$ to be an eigenvalue.** The eigenvalue equation $(A-\\lambda I)v=0$ needs a nonzero solution. If $A-\\lambda I$ were invertible, multiplying by its inverse on the left would give only $v=0$."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**本征向量组成的方阵 $X$ 必须可逆，才能用它完成本征分解。** 因为我们需要通过 $c=X^{-1}v$，求出任意向量在本征基下的唯一坐标。要求可逆的是列向量组成的矩阵 $X$，单个本征向量不谈可逆。",
+                "en": "**The matrix $X$ of eigenvectors must be invertible for the eigendecomposition to be carried out with it.** We need $c=X^{-1}v$ to obtain the unique coordinates of any vector in the eigenbasis. What must be invertible is the matrix $X$ formed by the columns; a single eigenvector has no invertibility to speak of."
+              }
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "zh": "**原矩阵 $A$ 不要求可逆。** 本征值可以为零，这只会把对应的分量压成零，不妨碍先沿本征基分解、再缩放和组合。例如 $K=\\operatorname{diag}(1,0)$ 满足 $Ke_1=e_1$、$Ke_2=0$，仍有完整本征基 $e_1,e_2$。",
+                "en": "**The original matrix $A$ need not be invertible.** An eigenvalue may be zero, which merely squeezes the corresponding component to zero and does not prevent decomposing along the eigenbasis, scaling, and recombining. For example, $K=\\operatorname{diag}(1,0)$ satisfies $Ke_1=e_1$ and $Ke_2=0$, and still has the full eigenbasis $e_1,e_2$."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": {
+        "zh": "因此，$J$ 的行列式为 $1$，可逆却不能对角化；$K=\\operatorname{diag}(1,0)$ 的行列式为 $0$，不可逆，却已经是对角矩阵。",
+        "en": "Thus $J$ has determinant $1$ and is invertible but cannot be diagonalized, while $K=\\operatorname{diag}(1,0)$ has determinant $0$ and is not invertible but is already diagonal."
+      }
+    }
+  ],
+  "references": [
+    {
+      "text": {
+        "zh": "G. Strang, *Introduction to Linear Algebra*, 6th ed. (Wellesley–Cambridge Press, 2023).",
+        "en": "G. Strang, *Introduction to Linear Algebra*, 6th ed. (Wellesley–Cambridge Press, 2023)."
+      }
+    },
+    {
+      "text": {
+        "zh": "G. H. Golub and C. F. Van Loan, *Matrix Computations*, 3rd ed. (Johns Hopkins University Press, 1996).",
+        "en": "G. H. Golub and C. F. Van Loan, *Matrix Computations*, 3rd ed. (Johns Hopkins University Press, 1996)."
+      }
+    }
+  ]
+}
