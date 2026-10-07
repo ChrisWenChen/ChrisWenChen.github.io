@@ -47,7 +47,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .blog-search input { width: 180px; min-width: 0; border: 0; outline: none; background: transparent; color: var(--primary); }
 .blog-search:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
 .index-heading { display: flex; align-items: baseline; gap: 1rem; color: var(--primary); font-size: 1.65rem; font-weight: 650; letter-spacing: -.03em; margin-bottom: 2rem; }
-.index-heading > span { font-size: .82rem; font-weight: 400; color: var(--text-light); letter-spacing: 0; }
+.index-heading > #results-count { font-size: .82rem; font-weight: 400; color: var(--text-light); letter-spacing: 0; }
 .blog-card { display: flex; align-items: center; gap: 2.5rem; padding: 0 0 2.8rem; }
 .card-copy { flex: 1; min-width: 0; }
 .blog-card h3 { font-size: 1.45rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.5; margin-bottom: .7rem; text-wrap: balance; }

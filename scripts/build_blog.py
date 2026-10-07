@@ -392,9 +392,9 @@ def listing_page(posts: list[dict], config: dict) -> str:
 <div class="index-toolbar">
 <div class="tag-filter" role="group" aria-label="Filter by tag / 按标签筛选">{chips}</div>
 <label class="blog-search"><span>{bilingual({'en': 'Search', 'zh': '搜索'})}</span><input id="blog-search" type="search" aria-label="Search posts / 搜索博文" autocomplete="off"></label></div>
-<section id="recent" aria-labelledby="recent-title"><h2 id="recent-title" class="index-heading">Recent</h2>
+<section id="recent" aria-labelledby="recent-title"><h2 id="recent-title" class="index-heading">{bilingual({'en': 'Recent', 'zh': '最近'})}</h2>
 <ul class="blog-posts">{''.join(cards)}</ul></section>
-<section id="archived" aria-labelledby="archived-title"><h2 id="archived-title" class="index-heading">Series</h2>{''.join(groups)}</section>
+<section id="archived" aria-labelledby="archived-title"><h2 id="archived-title" class="index-heading">{bilingual({'en': 'Series', 'zh': '系列'})}</h2>{''.join(groups)}</section>
 <section id="search-results" aria-labelledby="results-title" hidden>
 <h2 id="results-title" class="index-heading">{bilingual({'en': 'Search results', 'zh': '搜索结果'})}<span id="results-count"></span></h2>
 <ul class="search-results-list">{''.join(results)}</ul></section>
