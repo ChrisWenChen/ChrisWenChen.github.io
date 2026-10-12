@@ -10,8 +10,6 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-from build_blog import build_pages
-
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "site.json"
@@ -247,17 +245,17 @@ def build() -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="Check whether the homepage and blog pages are up to date")
+    parser.add_argument("--check", action="store_true", help="Check whether the homepage is up to date")
     args = parser.parse_args()
 
-    pages = {OUTPUT_PATH: build(), **build_pages()}
+    pages = {OUTPUT_PATH: build()}
     if args.check:
         stale = [path.relative_to(ROOT) for path, generated in pages.items()
                  if not path.exists() or path.read_text(encoding="utf-8") != generated]
         if stale:
             print("Out of date: " + ", ".join(map(str, stale)) + "; run scripts/build.py")
             return 1
-        print("Homepage and blog pages are up to date")
+        print("Homepage is up to date")
         return 0
 
     for path, generated in pages.items():
